@@ -1,139 +1,139 @@
-@font-face {
-  font-family: "Noto Sans";
-  font-style: normal;
-  font-weight: normal;
-  font-stretch: semi-condensed;
-  font-display: block;
-  src:
-    /*local('Noto Sans Display')*/
-    ,url('/_/fonts/NotoSansDisplay.ttf') format('truetype')
-    ,url('../../../../tools/boostlook/NotoSansDisplay.ttf') format('truetype')
-    ,url("https://cppalliance.org/fonts/NotoSansDisplay.ttf") format('truetype')
-    ;
-}
+/*@font-face {*/
+/*  font-family: "Noto Sans";*/
+/*  font-style: normal;*/
+/*  font-weight: normal;*/
+/*  font-stretch: semi-condensed;*/
+/*  font-display: block;*/
+/*  src:*/
+/*    !*local('Noto Sans Display')*!*/
+/*    ,url('/_/fonts/NotoSansDisplay.ttf') format('truetype')*/
+/*    ,url('../../../../tools/boostlook/NotoSansDisplay.ttf') format('truetype')*/
+/*    ,url("https://cppalliance.org/fonts/NotoSansDisplay.ttf") format('truetype')*/
+/*    ;*/
+/*}*/
 
-@font-face {
-  font-family: "Noto Sans";
-  font-style: italic;
-  font-weight: normal;
-  font-stretch: semi-condensed;
-  font-display: block;
-  src:
-    /*local('Noto Sans Display Italic')*/
-    ,url("/font/NotoSansDisplay-Italic.ttf") format("truetype")
-    ,url("../../../../tools/boostlook/NotoSansDisplay-Italic.ttf") format("truetype")
-    ,url("https://cppalliance.org/fonts/NotoSansDisplayItalic.ttf") format('truetype')
-    ;
-}
+/*@font-face {*/
+/*  font-family: "Noto Sans";*/
+/*  font-style: italic;*/
+/*  font-weight: normal;*/
+/*  font-stretch: semi-condensed;*/
+/*  font-display: block;*/
+/*  src:*/
+/*    !*local('Noto Sans Display Italic')*!*/
+/*    ,url("/font/NotoSansDisplay-Italic.ttf") format("truetype")*/
+/*    ,url("../../../../tools/boostlook/NotoSansDisplay-Italic.ttf") format("truetype")*/
+/*    ,url("https://cppalliance.org/fonts/NotoSansDisplayItalic.ttf") format('truetype')*/
+/*    ;*/
+/*}*/
 
-@font-face {
-  font-family: "Noto Sans Mono";
-  font-style: normal;
-  font-weight: normal;
-  font-stretch: condensed;
-  font-display: block;
-  src:
-    /*local('Noto sans Mono')*/
-    ,url("/_/boostlook/NotoSansMono.ttf") format("truetype")
-    ,url("../../../../tools/boostlook/NotoSansMono.ttf") format("truetype")
-    ,url("https://cppalliance.org/fonts/NotoSansMono.ttf") format('truetype')
-    ;
-}
+/*@font-face {*/
+/*  font-family: "Noto Sans Mono";*/
+/*  font-style: normal;*/
+/*  font-weight: normal;*/
+/*  font-stretch: condensed;*/
+/*  font-display: block;*/
+/*  src:*/
+/*    !*local('Noto sans Mono')*!*/
+/*    ,url("/_/boostlook/NotoSansMono.ttf") format("truetype")*/
+/*    ,url("../../../../tools/boostlook/NotoSansMono.ttf") format("truetype")*/
+/*    ,url("https://cppalliance.org/fonts/NotoSansMono.ttf") format('truetype')*/
+/*    ;*/
+/*}*/
 
-/* css reset */
-*, *::before, *::after {
-box-sizing: border-box;
-}
-* {
-margin: 0;
-}
-body {
-line-height: 1.5;
--webkit-font-smoothing: antialiased;
-}
-img, picture, video, canvas, svg {
-display: block;
-max-width: 100%;
-}
-input, button, textarea, select {
-font: inherit;
-}
-p, h1, h2, h3, h4, h5, h6 {
-overflow-wrap: break-word;
-}
-#root, #__next {
-isolation: isolate;
-}
+/*!* css reset *!*/
+/**, *::before, *::after {*/
+/*box-sizing: border-box;*/
+/*}*/
+/** {*/
+/*margin: 0;*/
+/*}*/
+/*body {*/
+/*line-height: 1.5;*/
+/*-webkit-font-smoothing: antialiased;*/
+/*}*/
+/*img, picture, video, canvas, svg {*/
+/*display: block;*/
+/*max-width: 100%;*/
+/*}*/
+/*input, button, textarea, select {*/
+/*font: inherit;*/
+/*}*/
+/*p, h1, h2, h3, h4, h5, h6 {*/
+/*overflow-wrap: break-word;*/
+/*}*/
+/*#root, #__next {*/
+/*isolation: isolate;*/
+/*}*/
 
-/*----*/
+/*!*----*!*/
 
-:root {
---color-cyan: rgb(0, 90, 156);
-}
+/*:root {*/
+/*--color-cyan: rgb(0, 90, 156);*/
+/*}*/
 
-.doc {
-font-family: "Noto Sans", sans-serif;
-}
+/*.doc {*/
+/*font-family: "Noto Sans", sans-serif;*/
+/*}*/
 
-.doc h1,
-.doc h2,
-.doc h3,
-.doc h4,
-.doc h5,
-.doc h6 {
-display: block;
-line-height: 1;
-margin-top: 1em;
-margin-bottom: 1em;
-font-weight: 500;
-}
+/*.doc h1,*/
+/*.doc h2,*/
+/*.doc h3,*/
+/*.doc h4,*/
+/*.doc h5,*/
+/*.doc h6 {*/
+/*display: block;*/
+/*line-height: 1;*/
+/*margin-top: 1em;*/
+/*margin-bottom: 1em;*/
+/*font-weight: 500;*/
+/*}*/
 
-.doc h1 { font-size: 1.75em; }
-.doc h2 { font-size: 1.5em; }
-.doc h3 { font-size: 1.375em; }
-.doc h4 { font-size: 1.25em; }
-.doc h5 { font-size: 1.125em; }
-.doc h6 { font-size: 1em; }
-.doc p { margin: 1em 0em; }
-.doc a {
-color: var(--color-cyan);
-text-decoration: none;
-}
-.doc a:hover {
-text-decoration: underline;
-}
-.doc code {
-font-family: "Noto Sans Mono", monospace;
-}
-.doc pre {
-font-family: "Noto Sans Mono", monospace;
-background-color: #f8f8f8;
-margin: 1em;
-padding: 1em;
-border: 1px solid #e8e8e8;
-}
-.doc h6:has(+table)
-{
-margin-left: 1em;
-}
-.doc table {
-border-collapse: collapse;
-border: 1px solid #e8e8e8;
-margin: 1em;
-}
-.doc th {
-background-color: #f8f8f8;
-text-align: left;
-padding: 0.25em 0.55em;
-font-weight: 550;
-}
-.doc td {
-border: 1px solid #e8e8e8;
-padding: 0.25em 0.55em;
-}
+/*.doc h1 { font-size: 1.75em; }*/
+/*.doc h2 { font-size: 1.5em; }*/
+/*.doc h3 { font-size: 1.375em; }*/
+/*.doc h4 { font-size: 1.25em; }*/
+/*.doc h5 { font-size: 1.125em; }*/
+/*.doc h6 { font-size: 1em; }*/
+/*.doc p { margin: 1em 0em; }*/
+/*.doc a {*/
+/*color: var(--color-cyan);*/
+/*text-decoration: none;*/
+/*}*/
+/*.doc a:hover {*/
+/*text-decoration: underline;*/
+/*}*/
+/*.doc code {*/
+/*font-family: "Noto Sans Mono", monospace;*/
+/*}*/
+/*.doc pre {*/
+/*font-family: "Noto Sans Mono", monospace;*/
+/*background-color: #f8f8f8;*/
+/*margin: 1em;*/
+/*padding: 1em;*/
+/*border: 1px solid #e8e8e8;*/
+/*}*/
+/*.doc h6:has(+table)*/
+/*{*/
+/*margin-left: 1em;*/
+/*}*/
+/*.doc table {*/
+/*border-collapse: collapse;*/
+/*border: 1px solid #e8e8e8;*/
+/*margin: 1em;*/
+/*}*/
+/*.doc th {*/
+/*background-color: #f8f8f8;*/
+/*text-align: left;*/
+/*padding: 0.25em 0.55em;*/
+/*font-weight: 550;*/
+/*}*/
+/*.doc td {*/
+/*border: 1px solid #e8e8e8;*/
+/*padding: 0.25em 0.55em;*/
+/*}*/
 
-/*----------------------------------------------*/
+/*!*----------------------------------------------*!*/
 
-:root {
---color-pasteboard: rgb(209, 213, 219);
-}
+/*:root {*/
+/*--color-pasteboard: rgb(209, 213, 219);*/
+/*}*/
