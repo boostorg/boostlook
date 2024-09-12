@@ -46,6 +46,7 @@
   --light-bl-quote-background: rgb(255, 255, 255);
   --light-bl-code-background: rgb(255, 255, 255);
   --light-bl-code-border-color: rgb(220 220 220);
+  --light-bl-code-text-color: inherit;
   --dark-bl-quote-background: rgb(11, 59, 82);
   --dark-bl-border-color: rgb(209, 228, 242);
   --dark-bl-text-color: rgb(209, 228, 242);
@@ -59,6 +60,7 @@
   --dark-bl-pagination-color: rgb(200, 200, 200);
   --dark-bl-code-background: rgb(20, 20, 20);
   --dark-bl-code-border-color: transparent;
+  --dark-bl-code-text-color: rgb(255, 255, 255);
 }
 
 /*----------------- Root Variables - End -----------------*/
@@ -79,6 +81,7 @@ html {
   --bl-background: var(--light-bl-background);
   --bl-card-background-color: var(--light-bl-card-background-color);
   --bl-link-color: var(--light-bl-cyan-color);
+  --bl-code-text-color: var(--light-bl-code-text-color);
 }
 
 html.dark {
@@ -95,6 +98,7 @@ html.dark {
   --bl-hljs-section-color: var(--dark-bl-hljs-section-color);
   --bl-hljs-attribute-color: var(--dark-bl-hljs-attribute-color);
   --bl-pagination-color: var(--dark-bl-pagination-color);
+  --bl-code-text-color: var(--dark-bl-code-text-color);
 }
 
 /*----------------- HTML Variables - End -----------------*/
@@ -120,7 +124,7 @@ html.dark {
   font-display: block;
   src: url("/font/NotoSansDisplay-Italic.ttf") format("truetype"),
        url("../../../../tools/boostlook/NotoSansDisplay-Italic.ttf") format("truetype"),
-       url("https://cppalliance.org/fonts/NotoSansDisplayItalic.ttf") format('truetype');
+       url("https://cppalliance.org/fonts/NotoSansDisplay-Italic.ttf") format('truetype');
 }
 
 @font-face {
@@ -223,7 +227,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .boostlook p code,
 .boostlook .colist > table code {
-  color: var(--color-white) !important;
+  color: var(--bl-code-text-color) !important;
 }
 
 .boostlook .quoteblock, 
@@ -347,11 +351,11 @@ p, h1, h2, h3, h4, h5, h6 {
 .boostlook #toc ul li a {
   font-size: 1rem;
 }
-
+ 
 .boostlook:not(:has(.doc)),
 .boostlook #toc.toc2 {
   background-color: var(--bl-card-background-color);
-  padding: 1rem;
+  padding: 1rem 1.5rem;
 }
 
 .boostlook #toc.toc2 {
@@ -366,6 +370,10 @@ p, h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
+.boostlook #content .sect3:has(.tableblock) {
+  overflow-x: auto;
+}
+
 @media screen and (min-width: 768px) {
   .article.toc2.toc-left {
     padding: 1rem;
@@ -378,7 +386,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
   .boostlook #toc.toc2 {
     position: fixed;
-    width: 16rem;
+    width: 17rem;
     left: max(1rem, calc(50% - 39rem));
     top: 1rem;
     overflow-y: auto;
@@ -395,48 +403,49 @@ p, h1, h2, h3, h4, h5, h6 {
   .boostlook #toggle-toc {
     display: block;
     position: fixed;
-    top: 1rem;
-    left: calc(max(1rem, calc(50% - 39rem)) + 16rem);
-    background-color: transparent;
+    top: 2.375rem;
+    left: calc(max(1rem, calc(50% - 39rem)) + 14rem);
+    background-color: rgb(255, 255, 255); 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border: 0;
     padding: 0;
     cursor: pointer;
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
-    background-color: rgb(241 242 244);
-    background-image: url("data:image/svg+xml,%3Csvg width='8' height='14' viewBox='0 0 8 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 3V11L0 7L4 3Z' fill='%236B7280'/%3E%3Crect x='6' width='2' height='14' fill='%236B7280'/%3E%3C/svg%3E");
-    background-size: 0.75rem;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%235f6368"><path d="m680-280-56-56 103-104H520v-80h207L624-624l56-56 200 200-200 200Zm-400 0L80-480l200-200 56 56-103 104h207v80H233l103 104-56 56Z"/></svg>');
     background-repeat: no-repeat;
     background-position: center;
-    height: calc(100vh - 2rem);
-    width: 1.5rem;
+    border-radius: 0.3125rem;
+    width: 2rem;
     text-indent: -9999px;
     z-index: 1001; 
   }
-  
-  .boostlook.toc-hidden #toggle-toc {
-    background-image: url("data:image/svg+xml,%3Csvg width='8' height='14' viewBox='0 0 8 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 3V11L8 7L4 3Z' fill='%236B7280'/%3E%3Crect x='0' width='2' height='14' fill='%236B7280'/%3E%3C/svg%3E");
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
-    left: calc(max(1rem, calc(50% - 39rem)));
-  }
-  
-  .boostlook #toc.toc2 {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  
-  .boostlook.toc-hidden {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+
+  .boostlook #toggle-toc:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 
-  .boostlook.toc-hidden {
-    margin-left: 1.5rem;
+  .boostlook #toggle-toc:active {
+    background-color: #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  html.toc-hidden .boostlook #toggle-toc {
+    left: calc(max(1rem, calc(50% - 39rem)) - 1rem);
   }
 }
+
+html:not(.toc-hidden) .boostlook #toc {
+  display: block;
+}
+
+html.toc-hidden .boostlook #toc {
+  display: none;
+}
+
+html.toc-hidden .boostlook:not(:has(.doc)) {
+  margin-left: 0;
+}
+
 
 /*----------------- Styles specific to AsciiDoctor content end -----------------*/
 
@@ -460,10 +469,6 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .boostlook .breadcrumbs ul li {
   font-size: 0.875rem !important;
-}
-
-.boostlook #toc #toctitle {
-  font-size: 1.5rem;
 }
 
 .boostlook .doc .content pre code {

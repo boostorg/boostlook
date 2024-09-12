@@ -4,37 +4,48 @@ Asciidoctor::Extensions.register do
       output = output.sub(/<body(.*?)>/, '<body\\1><div class="boostlook">')
       output = output.sub(/<\/body>/, "</div></body>")
 
-      output = output.sub(/(<div id="toc".*?>)/, '<button id="toggle-toc" aria-expanded="true" aria-controls="toc">Toggle TOC</button>\\1')
-      output = output.sub(/(<\/div>)\s*(<div id="footer")/, '\\1</div>\\2')
+      output = output.sub(/(<div id="toc".*?>)/, '<button id="toggle-toc" title="Toggle Table of Contents" aria-expanded="true" aria-controls="toc">Toggle TOC</button>\\1')
+      output = output.sub(/(<div id="footer".*?>)/, '</div>\\1')
+
+      inline_script = <<~SCRIPT
+        <script>
+        (function() {
+          if (localStorage.getItem('tocVisible') === 'false') {
+            document.documentElement.classList.add('toc-hidden');
+          }
+        })();
+        </script>
+      SCRIPT
+      output = output.sub(/<\/head>/, "#{inline_script}</head>")
 
       script = <<~SCRIPT
         <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
+          document.addEventListener('DOMContentLoaded', (event) => {
           const tocButton = document.getElementById('toggle-toc');
           const toc = document.getElementById('toc');
-          const boostlook = document.querySelector('.boostlook');
+          const html = document.documentElement;
           
-          if (tocButton && toc && boostlook) {
-            const tocVisible = localStorage.getItem('tocVisible') !== 'false';
+          if (tocButton && toc) {
+            const tocVisible = !html.classList.contains('toc-hidden');
             updateTocVisibility(tocVisible);
             
             tocButton.addEventListener('click', () => {
-              const newState = toc.style.display === 'none';
+              const newState = html.classList.contains('toc-hidden');
               updateTocVisibility(newState);
               localStorage.setItem('tocVisible', newState);
             });
           }
           
           function updateTocVisibility(visible) {
+            html.classList.toggle('toc-hidden', !visible);
             toc.style.display = visible ? 'block' : 'none';
             tocButton.setAttribute('aria-expanded', visible);
             tocButton.textContent = visible ? 'Hide TOC' : 'Show TOC';
-            boostlook.classList.toggle('toc-hidden', !visible);
+            tocButton.setAttribute('title', visible ? 'Hide Table of Contents' : 'Show Table of Contents');
           }
         });
         </script>
       SCRIPT
-
       output = output.sub(/<\/body>/, "#{script}</body>")
 
       output
