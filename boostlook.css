@@ -415,7 +415,9 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .boostlook #toggle-toc {
-  display: none;
+  visibility: hidden;
+  height: 0;
+  width: 0;
 }
 
 .boostlook #content .sect3:has(.tableblock) {
@@ -423,6 +425,12 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 @media screen and (min-width: 768px) {
+  .boostlook #toggle-toc {
+    visibility: visible;
+    height: auto;
+    width: auto;
+  }
+
   .article.toc2.toc-left {
     padding: 1rem;
   }
@@ -435,7 +443,7 @@ p, h1, h2, h3, h4, h5, h6 {
   .boostlook #toc.toc2 {
     position: fixed;
     width: 17rem;
-    left: max(1rem, calc(50% - 39rem));
+    left: max(1rem, 50% - 39rem);
     top: 1rem;
     z-index: 1000;
     height: calc(100vh - 2rem);
@@ -448,19 +456,19 @@ p, h1, h2, h3, h4, h5, h6 {
   }
 
   .boostlook #toggle-toc {
-    display: block;
     position: fixed;
-    top: 2.375rem;
-    left: calc(max(1rem, calc(50% - 39rem)) + 14rem);
+    top: 1.875rem;
+    left: max(1rem, 50% - 39rem - 1rem);
     background-color: rgb(255, 255, 255); 
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border: 0;
     padding: 0;
     cursor: pointer;
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%235f6368"><path d="m680-280-56-56 103-104H520v-80h207L624-624l56-56 200 200-200 200Zm-400 0L80-480l200-200 56 56-103 104h207v80H233l103 104-56 56Z"/></svg>');
+    background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20height%3D%2224px%22%20viewBox%3D%220%20-960%20960%20960%22%20width%3D%2224px%22%20fill%3D%22%235f6368%22%3E%3Cpath%20d%3D%22M120-280v-80h560v80H120Zm0-160v-80h560v80H120Zm0-160v-80h560v80H120Zm680%20320q-17%200-28.5-11.5T760-320q0-17%2011.5-28.5T800-360q17%200%2028.5%2011.5T840-320q0%2017-11.5%2028.5T800-280Zm0-160q-17%200-28.5-11.5T760-480q0-17%2011.5-28.5T800-520q17%200%2028.5%2011.5T840-480q0%2017-11.5%2028.5T800-440Zm0-160q-17%200-28.5-11.5T760-640q0-17%2011.5-28.5T800-680q17%200%2028.5%2011.5T840-640q0%2017-11.5%2028.5T800-600Z%22/%3E%3C/svg%3E');
     background-repeat: no-repeat;
     background-position: center;
     border-radius: 0.3125rem;
+    height: 2rem;
     width: 2rem;
     text-indent: -9999px;
     z-index: 1001; 
@@ -475,23 +483,50 @@ p, h1, h2, h3, h4, h5, h6 {
     background-color: #e0e0e0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
-  
+}
+
+@media screen and (min-width: 768px) {
+  html.toc-hidden .boostlook {
+    margin-left: 0;
+  }
+
   html.toc-hidden .boostlook #toggle-toc {
-    left: calc(max(1rem, calc(50% - 39rem)) - 1rem);
+    left: max(0rem, 50% - 39rem - 1rem);
+  }
+
+  html.toc-visible .boostlook #toggle-toc {
+    left: max(0rem, 50% - 39rem - 1rem)
+  }
+
+  html.toc-visible .boostlook {
+    margin-left: 0;
+    transition: all 0.3s ease;
+  }
+
+  html.toc-hidden .boostlook #toc.toc2 {
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: width 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  html.toc-visible #toc.toc2 {
+    opacity: 1;
+    visibility: visible;
+    width: 250px;
+    box-shadow: 4px 0 12px 0px rgba(0, 0, 0, 0.10);
+    padding-left: 2rem;
   }
 }
 
-html:not(.toc-hidden) .boostlook #toc {
-  display: block;
+html.toc-visible.toc-pinned .boostlook {
+  margin-left: 17rem;
+  transition: width 0.3s ease;
 }
 
-html.toc-hidden .boostlook #toc {
-  display: none;
-}
-
-html.toc-hidden .boostlook {
+/* html.toc-visible:not(.toc-pinned) .boostlook {
   margin-left: 0;
-}
+} */
 
 
 /*----------------- Styles specific to AsciiDoctor content end -----------------*/
