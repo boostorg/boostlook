@@ -63,6 +63,7 @@
 
   /* Light Theme Variables */
   --light-bl-background: rgb(255, 255, 255);
+  --light-bl-border-color: rgb(209, 209, 209);
   --light-bl-breadcrumbs-svg-color: rgb(0, 0, 0);
   --light-bl-caret-svg: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20height='24px'%20viewBox='0%20-960%20960%20960'%20width='24px'%20fill='%23000000'%3E%3Cpath%20d='M320-200v-560l440%20280-440%20280Z'/%3E%3C/svg%3E");
   --light-bl-card-background-color: rgb(255, 255, 255);
@@ -91,6 +92,7 @@
   --light-bl-text-color: rgb(51, 65, 85);
 
   /* Dark Theme Variables */
+  --dark-bl-background: rgb(5, 26, 38);
   --dark-bl-border-color: rgb(209, 228, 242);
   --dark-bl-breadcrumbs-svg-color: rgb(255, 255, 255);
   --dark-bl-caret-svg: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20height='24px'%20viewBox='0%20-960%20960%20960'%20width='24px'%20fill='%23ccc'%3E%3Cpath%20d='M320-200v-560l440%20280-440%20280Z'/%3E%3C/svg%3E");
@@ -127,6 +129,7 @@
 
 html {
   --bl-background: var(--light-bl-background);
+  --bl-border-color: var(--light-bl-border-color);
   --bl-breadcrumbs-svg-color: var(--light-bl-breadcrumbs-svg-color);
   --bl-caret-svg: var(--light-bl-caret-svg);
   --bl-card-background-color: var(--light-bl-card-background-color);
@@ -156,6 +159,7 @@ html {
 }
 
 html.dark {
+  --bl-background: var(--dark-bl-background);
   --bl-border-color: var(--dark-bl-border-color);
   --bl-breadcrumbs-svg-color: var(--dark-bl-breadcrumbs-svg-color);
   --bl-caret-svg: var(--dark-bl-caret-svg);
@@ -371,6 +375,10 @@ p, h1, h2, h3, h4, h5, h6 {
   padding: 0;
   font-weight: 600;
   color: var(--bl-code-text-color) !important;
+}
+
+.boostlook a code {
+  color: var(--bl-link-color) !important;
 }
 
 
@@ -844,3 +852,85 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 /*----------------- Styles specific to Antora Templates end -----------------*/
+
+/* ---------------- Legacy docs styling from boostbookV2.css ----------------*/
+
+#boost-legacy-docs-wrapper {
+  margin-top: 0 !important;
+  border-radius: 0;
+}
+
+/* general elements */
+#boost-legacy-docs-wrapper > hr {
+  display: none;
+}
+
+#boost-legacy-docs-wrapper ol {
+  padding-left: 1em;
+}
+
+#boost-legacy-docs-wrapper ol li {
+  list-style-type: decimal;
+}
+
+#boost-legacy-docs-wrapper pre {
+  background-color: var(--bl-code-background);
+  border-color: var(--bl-code-border-color);
+  color: var(--bl-code-text-color);
+  border-radius: 8px;
+  padding: 1.2em .8em
+}
+
+/* spirit nav */
+#boost-legacy-docs-wrapper .spirit-nav {
+  position: absolute;
+  top: 0.2rem;
+  right: calc(((100% - 77rem) / 2));
+  text-align: right;
+  margin: 0.75rem;
+  max-width: 80rem;
+  display: flex;
+}
+#boost-legacy-docs-wrapper .spirit-nav a {
+  color: var(--secondary-color);
+  padding-left: 0.5em;
+}
+
+#boost-legacy-docs-wrapper .spirit-nav img {
+  border-width: 0px;
+}
+
+.dark #boost-legacy-docs-wrapper .spirit-nav img {
+  -webkit-filter: invert(100%); /* Safari/Chrome */
+  filter: invert(100%);
+}
+
+/* TOC */
+#boost-legacy-docs-wrapper div.toc {
+  margin: 1pc 4% 0pc 4%;
+  padding: 1em;
+  font-size: 80%;
+  line-height: 1.15;
+  color: var(--text-color);
+  border: 1px solid var(--bl-border-color);
+  border-radius: 8px;
+}
+
+#boost-legacy-docs-wrapper #toc ul {
+  list-style: none !important;
+  margin: 0.5rem 0 !important;
+}
+
+#boost-legacy-docs-wrapper .boost-toc {
+  float: right;
+  padding: 0.5pc;
+}
+
+/* Code on toc */
+#boost-legacy-docs-wrapper .toc .computeroutput {
+  font-size: 120%
+}
+
+#boost-legacy-docs-wrapper .toc dl dl {
+  margin: 0;
+}
