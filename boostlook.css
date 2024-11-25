@@ -459,7 +459,6 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .boostlook #content {
   padding-top: 1.25rem;
-  overflow-y: auto;
 }
 
 .boostlook #footer {
@@ -553,7 +552,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .boostlook #toc.toc2 {
-  position: static;
+  position: fixed;
 }
 
 .boostlook #toc.toc2 > ul {
