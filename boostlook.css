@@ -377,14 +377,10 @@ p, h1, h2, h3, h4, h5, h6 {
   color: var(--bl-code-text-color) !important;
 }
 
-<<<<<<< HEAD
-=======
 .boostlook a code {
   color: var(--bl-link-color) !important;
 }
 
-
->>>>>>> 3720c69 (styles for #boost-legacy-docs-wrapper when boostbookV2 is removed)
 .boostlook .quoteblock,
 .boostlook .verseblock {
   background: var(--bl-quote-background);
@@ -774,6 +770,10 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .boostlook #toc.toc2.nav-container {
   position: fixed;
+}
+
+.boostlook #toc.toc2.nav-container.is-active {
+  position: static;
 }
 
 .boostlook #header .nav-container.is-active {
