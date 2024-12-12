@@ -207,7 +207,7 @@ html.dark {
 @font-face {
   font-family: "Noto Sans Display";
   font-style: normal;
-  font-weight: 550;
+  font-weight: 100 900;
   font-stretch: semi-condensed;
   font-display: block;
   src: url('/_/fonts/NotoSansDisplay.ttf') format('truetype'),
@@ -1131,8 +1131,7 @@ html:has(.boostlook)::-webkit-scrollbar {
 }
 
 .boostlook dl.toc > dt {
-  font-weight: 550;
-  font-feature-settings: normal;
+  font-variation-settings: "wght" 550;
 }
 
 .boostlook dl.toc dd {
