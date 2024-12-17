@@ -456,7 +456,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .boostlook ul.itemizedlist,
-#boost-legacy-docs-wrapper ul {
+#boost-legacy-docs-wrapper .ulist ul {
   padding: 0 0 0 15px;
   margin: 0;
 }
@@ -1018,7 +1018,8 @@ html::-webkit-scrollbar-thumb:hover {
   background-color: var(--bl-pre-background);
   border-color: var(--bl-code-border-color);
   color: var(--bl-code-text-color);
-  padding: 1.2em .8em
+  padding: 1.2em .8em;
+  border-radius: 0;
 }
 
 .boostlook .doc pre {
@@ -1073,6 +1074,7 @@ html::-webkit-scrollbar-thumb:hover {
   display: block;
   overflow-x: auto;
   margin-bottom: 1.5rem;
+  margin-top: 1rem;
 }
 .boostlook .doc table.tableblock tr th {
   background-color: var(--bl-table-head-background);
@@ -1125,7 +1127,6 @@ html::-webkit-scrollbar-thumb:hover {
 
 .boostlook#libraryReadMe pre code {
   background-color: var(--bl-code-background);
-  border: 1px solid var(--bl-code-border-color);
   margin-bottom: 0;
 }
 
@@ -1360,6 +1361,7 @@ body[bgcolor="white"]:has(.boostlook):not(:has(.doc)) {
 /* general elements */
 .boostlook:not(:has(.doc)) h1,
 .boostlook:not(:has(.doc)) h2,
+.boostlook:not(:has(.doc)) h2:first-of-type,
 .boostlook:not(:has(.doc)) h3,
 .boostlook:not(:has(.doc)) h4,
 .boostlook:not(:has(.doc)) h5,
@@ -1383,6 +1385,9 @@ body[bgcolor="white"]:has(.boostlook):not(:has(.doc)) {
 .boostlook:not(:has(.doc)) p {
   padding: 1em 0 !important;
 }
+.boostlook:not(:has(.doc)) li p {
+  padding: 0 !important;
+}
 
 .boostlook:not(:has(.doc)) > hr {
   display: none;
@@ -1399,8 +1404,12 @@ body[bgcolor="white"]:has(.boostlook):not(:has(.doc)) {
 .boostlook:not(:has(.doc)) pre {
   background-color: var(--bl-pre-background);
   border: 1px solid var(--bl-code-border-color);
-  border-radius: 8px;
-  padding: 1.2em .8em
+  padding: 1.2em .8em;
+  margin: 0;
+}
+
+.boostlook:not(:has(.doc)) pre code {
+  border: none;
 }
 
 .boostlook:not(:has(.doc)) :not(.highlight) pre {
