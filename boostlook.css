@@ -1342,6 +1342,15 @@ html:has(#docsiframe) {
   color: var(--bl-text-color);
 }
 
+@media screen and (max-width: 768px) {
+  .boostlook .toolbar {
+    width: calc(100% - 2.5rem);
+    position: fixed;
+    top: 0;
+    padding-top: 10px;
+  }
+}
+
 /* Responsive Design */
 @media screen and (min-width: 768px) {
   .boostlook #content:has(> article.doc) {
