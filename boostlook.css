@@ -974,7 +974,7 @@ html:has(#docsiframe)::-webkit-scrollbar {
 }
 
 .boostlook #toc .sectlevel1 > li > a {
-  font-variation-settings: "wght" 750;
+  font-variation-settings: "wght" 550;
 }
 
 .boostlook #toc #toctitle {
