@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="author" content="Matt Borland">
+<title>CharConv: An Implementation of &lt;charconv&gt; in C&#43;&#43;11</title>
+<style>
 /**
  * Boost Look CSS Framework
  * Version: 1.0.0
@@ -3917,3 +3927,1792 @@ html.is-clipped--nav:has(.boostlook) div#content {
 }
 
 /*----------------- Library README Styles end -----------------*/
+
+</style>
+</head>
+</div><body class="article toc2 toc-left"><div class="boostlook">
+<div id="header">
+<h1>CharConv: An Implementation of &lt;charconv&gt; in C&#43;&#43;11</h1>
+<div class="details">
+<span id="author" class="author">Matt Borland</span><br>
+</div>
+<div id="toc" class="toc2"><button id="toggle-toc" title="Show Table of Contents" aria-expanded="false" aria-controls="toc">☰</button>
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#overview">Overview</a>
+<ul class="sectlevel2">
+<li><a href="#overview_description">Description</a></li>
+<li><a href="#overview_supported_compilers_os">Supported Compilers / OS</a></li>
+</ul>
+</li>
+<li><a href="#overview_getting_started">Getting Started</a>
+<ul class="sectlevel2">
+<li><a href="#build_b2">B2</a></li>
+<li><a href="#build_float128_and_stdfloat128_t_support"><code>__float128</code> and <code>std::float128_t</code> Support</a></li>
+<li><a href="#build_dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li><a href="#basic_usage">Basic Usage Examples</a>
+<ul class="sectlevel2">
+<li><a href="#basic_usage_usage_examples">Usage Examples</a></li>
+</ul>
+</li>
+<li><a href="#api_reference">API Reference</a>
+<ul class="sectlevel2">
+<li><a href="#api_ref_functions">Functions</a></li>
+<li><a href="#api_ref_structures">Structures</a></li>
+<li><a href="#api_ref_enums">Enums</a></li>
+<li><a href="#api_ref_constants">Constants</a></li>
+<li><a href="#api_ref_macros">Macros</a></li>
+</ul>
+</li>
+<li><a href="#api_ref_from_chars">from_chars</a>
+<ul class="sectlevel2">
+<li><a href="#from_chars_from_chars_overview">from_chars overview</a></li>
+<li><a href="#from_chars_definitions">Definitions</a></li>
+<li><a href="#from_chars_from_chars_parameters">from_chars parameters</a></li>
+<li><a href="#from_chars_from_chars_result">from_chars_result</a></li>
+<li><a href="#from_chars_usage_notes">Usage Notes</a>
+<ul class="sectlevel3">
+<li><a href="#from_chars_usage_notes_for_from_chars_for_integral_types">Usage notes for from_chars for integral types</a></li>
+<li><a href="#from_chars_usage_notes_for_from_chars_for_floating_point_types">Usage notes for from_chars for floating point types</a></li>
+</ul>
+</li>
+<li><a href="#from_chars_examples">Examples</a>
+<ul class="sectlevel3">
+<li><a href="#from_chars_basic_usage">Basic usage</a>
+<ul class="sectlevel4">
+<li><a href="#from_chars_integral">Integral</a></li>
+<li><a href="#from_chars_floating_point">Floating Point</a></li>
+</ul>
+</li>
+<li><a href="#from_chars_hexadecimal">Hexadecimal</a>
+<ul class="sectlevel4">
+<li><a href="#from_chars_integral_2">Integral</a></li>
+<li><a href="#from_chars_floating_point_2">Floating Point</a></li>
+</ul>
+</li>
+<li><a href="#from_chars_stderrcinvalid_argument">std::errc::invalid_argument</a></li>
+<li><a href="#from_chars_stderrcresult_out_of_range">std::errc::result_out_of_range</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#from_chars_to_chars">to_chars</a>
+<ul class="sectlevel2">
+<li><a href="#to_chars_to_chars_overview">to_chars overview</a></li>
+<li><a href="#to_chars_definitions">Definitions</a></li>
+<li><a href="#to_chars_to_chars_parameters">to_chars parameters</a></li>
+<li><a href="#to_chars_to_chars_result">to_chars_result</a></li>
+<li><a href="#to_chars_usage_notes">Usage Notes</a>
+<ul class="sectlevel3">
+<li><a href="#to_chars_usage_notes_for_to_chars_for_integral_types">Usage notes for to_chars for integral types</a></li>
+<li><a href="#to_chars_usage_notes_for_to_chars_for_floating_point_types">Usage notes for to_chars for floating point types</a></li>
+</ul>
+</li>
+<li><a href="#to_chars_examples">Examples</a>
+<ul class="sectlevel3">
+<li><a href="#to_chars_basic_usage">Basic Usage</a>
+<ul class="sectlevel4">
+<li><a href="#to_chars_integral">Integral</a></li>
+<li><a href="#to_chars_floating_point">Floating Point</a></li>
+</ul>
+</li>
+<li><a href="#to_chars_hexadecimal">Hexadecimal</a>
+<ul class="sectlevel4">
+<li><a href="#to_chars_integral_2">Integral</a></li>
+<li><a href="#to_chars_floating_point_2">Floating Point</a></li>
+</ul>
+</li>
+<li><a href="#to_chars_stderrcvalue_too_large">std::errc::value_too_large</a>
+<ul class="sectlevel4">
+<li><a href="#to_chars_integral_3">Integral</a></li>
+<li><a href="#to_chars_floating_point_3">Floating Point</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#to_chars_chars_format">chars_format</a>
+<ul class="sectlevel2">
+<li><a href="#chars_format_chars_format_overview">chars_format overview</a></li>
+<li><a href="#chars_format_definition">Definition</a></li>
+<li><a href="#chars_format_formats">Formats</a>
+<ul class="sectlevel3">
+<li><a href="#chars_format_scientific_format">Scientific Format</a></li>
+<li><a href="#chars_format_fixed_format">Fixed Format</a></li>
+<li><a href="#chars_format_hex_format">Hex Format</a>
+<ul class="sectlevel4">
+<li><a href="#chars_format_hexfloat_use_cases">Hexfloat Use Cases</a></li>
+</ul>
+</li>
+<li><a href="#chars_format_general">General</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#chars_format_limits">Limits</a>
+<ul class="sectlevel2">
+<li><a href="#limits_limits_overview">Limits overview</a></li>
+<li><a href="#limits_definitions">Definitions</a>
+<ul class="sectlevel3">
+<li><a href="#limits_max_chars10">max_chars10</a></li>
+<li><a href="#limits_max_chars">max_chars</a></li>
+</ul>
+</li>
+<li><a href="#limits_examples">Examples</a></li>
+</ul>
+</li>
+<li><a href="#limits_benchmarks">Benchmarks</a>
+<ul class="sectlevel2">
+<li><a href="#benchmarkshow_to_run_the_benchmarks">How to run the Benchmarks</a></li>
+<li><a href="#benchmarksresults">Results</a>
+<ul class="sectlevel3">
+<li><a href="#benchmark_results_">x86_64 Linux</a>
+<ul class="sectlevel4">
+<li><a href="#benchmarksfloating_point">Floating Point</a></li>
+<li><a href="#benchmarksintegral">Integral</a></li>
+</ul>
+</li>
+<li><a href="#benchmarksx86_64_windows">x86_64 Windows</a>
+<ul class="sectlevel4">
+<li><a href="#benchmarksfloating_point_2">Floating Point</a></li>
+<li><a href="#benchmarksintegral_2">Integral</a></li>
+</ul>
+</li>
+<li><a href="#benchmarksarm_macos">ARM MacOS</a>
+<ul class="sectlevel4">
+<li><a href="#benchmarksfloating_point_3">Floating Point</a></li>
+<li><a href="#benchmarksintegral_3">Integral</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sources">Sources</a></li>
+<li><a href="#acknowledgments">Acknowledgments</a></li>
+<li><a href="#copyright">Copyright and License</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="overview">Overview</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="overview_description">Description</h3>
+<div class="paragraph">
+<p>Boost.Charconv converts character buffers to numbers, and numbers to character buffers.
+It is a small library of two overloaded functions to do the heavy lifting, plus several supporting enums, structures, templates, and constants, with a particular focus on performance and consistency
+across the supported development environments.</p>
+</div>
+<div class="paragraph">
+<p>Why should I be interested in this Library? Charconv is locale-independent, non-allocating<sup>1</sup>, non-throwing and only requires a minimum of C++ 11.
+It provides functionality similar to that found in <code>std::printf</code> or <code>std::strtod</code> with <a href="#benchmark_results_">substantial performance increases</a>.
+This library can also be used in place of the standard library <code>&lt;charconv&gt;</code> if unavailable with your toolchain.
+Currently only <a href="https://en.cppreference.com/w/cpp/compiler_support/17.html">GCC 11+ and MSVC 19.24+</a> support both integer and floating-point conversions in their implementation of <code>&lt;charconv&gt;</code>.<br>
+If you are using either of those compilers, Boost.Charconv is at least as performant as <code>&lt;charconv&gt;</code>, and can be up to several times faster.
+See: <a href="#limits_benchmarks">Benchmarks</a></p>
+</div>
+<div class="paragraph">
+<p><sup>1</sup> The one edge case where allocation may occur is you are parsing a string to an 80 or 128-bit <code>long double</code> or <code>__float128</code>, and the string is over 1024 bytes long.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="overview_supported_compilers_os">Supported Compilers / OS</h3>
+<div class="paragraph">
+<p>Boost.Charconv is tested on Ubuntu, macOS, and Windows with the following compilers:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>GCC 5 or later</p>
+</li>
+<li>
+<p>Clang 3.8 or later</p>
+</li>
+<li>
+<p>Visual Studio 2015 (14.0) or later</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Tested on <a href="https://github.com/boostorg/charconv/actions">GitHub Actions</a> and <a href="https://drone.cpp.al/boostorg/charconv">Drone</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview_getting_started">Getting Started</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="build_b2">B2</h3>
+<div class="paragraph">
+<p>Run the following commands to clone the latest versions of Boost and Charconv, prepare the Boost.Build system for use, and build the libraries with C++11 as the default standard:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">git clone https://github.com/boostorg/boost
+cd boost
+git submodule update --init
+cd ..
+./bootstrap
+./b2 cxxstd=11</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To install the development environment, run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">sudo ./b2 install cxxstd=11</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The value of cxxstd must be at least 11. <a href="https://www.boost.org/doc/libs/1_84_0/tools/build/doc/html/index.html">See the b2 documentation</a> under <code>cxxstd</code> for all valid values.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="build_float128_and_stdfloat128_t_support"><code>__float128</code> and <code>std::float128_t</code> Support</h3>
+<div class="paragraph">
+<p>If using B2 or CMake the build system will automatically define <code>BOOST_CHARCONV_HAS_QUADMATH</code> and link against it if the build system can successfully run a small test case.
+If you are using another build system and you want support for these types you will have to define <code>BOOST_CHARCONV_HAS_QUADMATH</code>, and link against <a href="https://gcc.gnu.org/onlinedocs/libquadmath/">libquadmath</a>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+libquadmath is only available on supported platforms (e.g. Linux with x86, x86_64, PPC64, and IA64).
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="build_dependencies">Dependencies</h3>
+<div class="paragraph">
+<p>This library depends on: Boost.Assert, Boost.Config, Boost.Core, and optionally libquadmath (see above).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="basic_usage">Basic Usage Examples</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="basic_usage_usage_examples">Usage Examples</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">#include &lt;boost/charconv.hpp&gt;
+
+const char* buffer = "42";
+int v = 0;
+boost::charconv::from_chars_result r = boost::charconv::from_chars(buffer, buffer + std::strlen(buffer), v);
+assert(r.ec == std::errc());
+assert(v == 42);
+
+char buffer[64];
+int v = 123456;
+boost::charconv::to_chars_result r = boost::charconv::to_chars(buffer, buffer + sizeof(buffer), v);
+assert(r.ec == std::errc());
+assert(!strncmp(buffer, "123456", 6)); // Strncmp returns 0 on match</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="api_reference">API Reference</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="api_ref_functions">Functions</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#from_chars_definitions_"><code>boost::charconv::from_chars</code></a></p>
+</li>
+<li>
+<p><a href="#from_chars_definitions_"><code>boost::charconv::from_chars_erange</code></a></p>
+</li>
+<li>
+<p><a href="#to_chars_definitions_"><code>boost::charconv::to_chars</code></a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="api_ref_structures">Structures</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#from_chars_definitions_"><code>boost::charconv::from_chars_result</code></a></p>
+</li>
+<li>
+<p><a href="#to_chars_definitions_"><code>boost::charconv::to_chars_result</code></a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="api_ref_enums">Enums</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#chars_format_defintion_"><code>boost::charconv::chars_format</code></a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="api_ref_constants">Constants</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#limits_definitions_"><code>boost::charconv::limits::digits</code></a></p>
+</li>
+<li>
+<p><a href="#limits_definitions_"><code>boost::charconv::limits::digits10</code></a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="api_ref_macros">Macros</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#integral_usage_notes_"><code>BOOST_CHARCONV_CONSTEXPR</code></a></p>
+</li>
+<li>
+<p><a href="#run_benchmarks_"><code>BOOST_CHARCONV_RUN_BENCHMARKS</code></a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="api_ref_from_chars">from_chars</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="from_chars_from_chars_overview">from_chars overview</h3>
+<div class="paragraph">
+<p><code>from_chars</code> is a set of functions that parse a string from <code>[first, last)</code> in an attempt to convert the string into <code>value</code> according to the <code>chars_format</code> specified (if applicable).
+The parsing of number is locale-independent (e.g. equivalent to the "C" locale).
+The result of <code>from_chars</code> is <code>from_chars_result</code> which on success returns <code>ptr == last</code> and <code>ec == std::errc()</code>, and on failure returns <code>ptr</code> equal to the last valid character parsed or <code>last</code> on underflow/overflow, and <code>ec == std::errc::invalid_argument</code> or <code>std::errc::result_out_of_range</code> respectively. <code>from_chars</code> does not require the character sequence to be null terminated.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="from_chars_definitions">Definitions</h3>
+<div id="from_chars_definitions_" class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">namespace boost { namespace charconv {
+
+struct from_chars_result
+{
+    const char* ptr;
+    std::errc ec;
+
+    friend constexpr bool operator==(const from_chars_result&amp; lhs, const from_chars_result&amp; rhs) noexcept = default;
+    constexpr explicit operator bool() const noexcept { return ec == std::errc{}; }
+}
+
+template &lt;typename Integral&gt;
+BOOST_CXX14_CONSTEXPR from_chars_result from_chars(const char* first, const char* last, Integral&amp; value, int base = 10) noexcept;
+
+template &lt;typename Integral&gt;
+BOOST_CXX14_CONSTEXPR from_chars_result from_chars(boost::core::string_view sv, Integral&amp; value, int base = 10) noexcept;
+
+BOOST_CXX14_CONSTEXPR from_chars_result from_chars&lt;bool&gt;(const char* first, const char* last, bool&amp; value, int base) = delete;
+
+template &lt;typename Real&gt;
+from_chars_result from_chars(const char* first, const char* last, Real&amp; value, chars_format fmt = chars_format::general) noexcept;
+
+template &lt;typename Real&gt;
+from_chars_result from_chars(boost::core::string_view sv, Real&amp; value, chars_format fmt = chars_format::general) noexcept;
+
+// See note below Usage notes for from_chars for floating point types
+
+template &lt;typename Real&gt;
+from_chars_result from_chars_erange(const char* first, const char* last, Real&amp; value, chars_format fmt = chars_format::general) noexcept;
+
+template &lt;typename Real&gt;
+from_chars_result from_chars_erange(boost::core::string_view sv, Real&amp; value, chars_format fmt = chars_format::general) noexcept;
+
+}} // Namespace boost::charconv</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="from_chars_from_chars_parameters">from_chars parameters</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>first</code>, <code>last</code> - pointers to a valid range to parse</p>
+</li>
+<li>
+<p><code>sv</code> - string view of a valid range to parse.
+Compatible with boost::core::string_view, std::string, and std::string_view</p>
+</li>
+<li>
+<p><code>value</code> - where the output is stored upon successful parsing</p>
+</li>
+<li>
+<p><code>base</code> (integer only) - the integer base to use. Must be between 2 and 36 inclusive</p>
+</li>
+<li>
+<p><code>fmt</code> (floating point only) - The format of the buffer. See <a href="#chars_format_chars_format_overview">chars_format overview</a> for description.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="from_chars_from_chars_result">from_chars_result</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ptr</code> - On return from <code>from_chars</code> it is a pointer to the first character not matching the pattern, or pointer to <code>last</code> if all characters are successfully parsed.</p>
+</li>
+<li>
+<p><code>ec</code> - <a href="https://en.cppreference.com/w/cpp/error/errc">the error code</a>. Values returned by <code>from_chars</code> are:</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return Value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>std::errc()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Successful Parsing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>std::errc::invalid_argument</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1) Parsing a negative into an unsigned type</p>
+<p class="tableblock">2) Leading <code>+</code> sign</p>
+<p class="tableblock">3) Leading space</p>
+<p class="tableblock">4) Incompatible formatting (e.g. exponent on <code>chars_format::fixed</code>, or p as exponent on value that is not <code>chars_format::hex</code>) See <a href="#chars_format_chars_format_overview">chars_format overview</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>std::errc::result_out_of_range</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1) Overflow</p>
+<p class="tableblock">2) Underflow</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p><code>operator==</code> - compares the values of ptr and ec for equality</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="from_chars_usage_notes">Usage Notes</h3>
+<div class="sect3">
+<h4 id="from_chars_usage_notes_for_from_chars_for_integral_types">Usage notes for from_chars for integral types</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>All built-in integral types are allowed except bool which is deleted</p>
+</li>
+<li>
+<p>These functions have been tested to support <code>__int128</code> and <code>unsigned __int128</code></p>
+</li>
+<li>
+<p>from_chars for integral types is constexpr when compiled using <code>-std=c++14</code> or newer</p>
+<div class="ulist">
+<ul>
+<li>
+<p>One known exception is GCC 5 which does not support constexpr comparison of <code>const char*</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>A valid string must only contain the characters for numbers. Leading spaces are not ignored, and will return <code>std::errc::invalid_argument</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="from_chars_usage_notes_for_from_chars_for_floating_point_types">Usage notes for from_chars for floating point types</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>On <code>std::errc::result_out_of_range</code> we return ±0 for small values (e.g. 1.0e-99999) or ±HUGE_VAL for large values (e.g. 1.0e+99999) to match the handling of <code>std::strtod</code>.
+This is a divergence from the standard which states we should return the <code>value</code> argument unmodified.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>from_chars</code> has an open issue with LWG here: <a href="https://cplusplus.github.io/LWG/lwg-active.html#3081" class="bare">https://cplusplus.github.io/LWG/lwg-active.html#3081</a>.
+The standard for &lt;charconv&gt; does not distinguish between underflow and overflow like strtod does.
+Let&#8217;s say you are writing a JSON library, and you replace <code>std::strtod</code> with <code>boost::charconv::from_chars</code> for performance reasons.
+Charconv returns std::errc::result_out_of_range on some conversion.
+You would then have to parse the string again yourself to figure out which of the four possible reasons you got <code>std::errc::result_out_of_range</code>.
+Charconv can give you that information by using <code>boost::charconv::from_chars_erange</code> instead of <code>boost::charconv::from_chars</code> throughout the code base.
+By implementing the resolution to the LWG issue that matches the established strtod behavior I think we are providing the correct behavior without waiting on the committee&#8217;s decision.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>These functions have been tested to support all built-in floating-point types and those from C++23&#8217;s <code>&lt;stdfloat&gt;</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Long doubles can be 64, 80, or 128-bit, but must be IEEE 754 compliant. An example of a non-compliant, and therefore unsupported, format is <code>__ibm128</code>.</p>
+</li>
+<li>
+<p>Use of <code>__float128</code> or <code>std::float128_t</code> requires compiling with <code>-std=gnu++xx</code> and linking GCC&#8217;s <code>libquadmath</code>.
+This is done automatically when building with CMake.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="from_chars_examples">Examples</h3>
+<div class="sect3">
+<h4 id="from_chars_basic_usage">Basic usage</h4>
+<div class="sect4">
+<h5 id="from_chars_integral">Integral</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">const char* buffer = "42";
+int v = 0;
+from_chars_result r = boost::charconv::from_chars(buffer, buffer + std::strlen(buffer), v);
+assert(r.ec == std::errc());
+assert(r); // Same as above but less verbose. Added in C++26.
+assert(v == 42);
+
+std::string str_buffer (buffer);
+boost::core::string_view sv(str_buffer);
+int v2;
+auto r2 = boost::charconv::from_chars(sv, v2);
+assert(r);
+assert(v2 == v);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="from_chars_floating_point">Floating Point</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">const char* buffer = "1.2345"
+double v = 0;
+auto r = boost::charconv::from_chars(buffer, buffer + std::strlen(buffer), v);
+assert(r.ec == std::errc());
+assert(r); // Same as above but less verbose. Added in C++26.
+assert(v == 1.2345);
+
+std::string str_buffer(buffer);
+double v2;
+auto r2 = boost::charconv::from_chars(buffer, v2);
+assert(r2);
+assert(v == v2);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="from_chars_hexadecimal">Hexadecimal</h4>
+<div class="sect4">
+<h5 id="from_chars_integral_2">Integral</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">const char* buffer = "2a";
+unsigned v = 0;
+auto r = boost::charconv::from_chars(buffer, buffer + std::strlen(buffer), v, 16);
+assert(r.ec == std::errc());
+assert(r); // Same as above but less verbose. Added in C++26.
+assert(v == 42);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="from_chars_floating_point_2">Floating Point</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">const char* buffer = "1.3a2bp-10";
+double v = 0;
+auto r = boost::charconv::from_chars(buffer, buffer + std::strlen(buffer), v, boost::charconv::chars_format::hex);
+assert(r.ec == std::errc());
+assert(r); // Same as above but less verbose. Added in C++26.
+assert(v == 8.0427e-18);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="from_chars_stderrcinvalid_argument">std::errc::invalid_argument</h4>
+<div class="paragraph">
+<p>The below is invalid because a negative value is being parsed into an unsigned integer.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">const char* buffer = "-123";
+unsigned v = 0;
+auto r = boost::charconv::from_chars(buffer, buffer + std::strlen(buffer), v);
+assert(r.ec == std::errc::invalid_argument);
+assert(!r); // Same as above but less verbose. Added in C++26.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The below is invalid because a fixed format floating-point value can not have an exponent.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">const char* buffer = "-1.573e-3";
+double v = 0;
+auto r = boost::charconv::from_chars(buffer, buffer + std::strlen(buffer), v, boost::charconv::chars_format::fixed);
+assert(r.ec == std::errc::invalid_argument);
+assert(!r); // Same as above but less verbose. Added in C++26.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note: In the event of <code>std::errc::invalid_argument</code>, v is not modified by <code>from_chars</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="from_chars_stderrcresult_out_of_range">std::errc::result_out_of_range</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">const char* buffer = "1234";
+unsigned char v = 0;
+auto r = boost::charconv::from_chars(buffer, buffer + std::strlen(buffer), v);
+assert(r.ec == std::errc::result_out_of_range);
+assert(!r); // Same as above but less verbose. Added in C++26.
+assert(v == 0)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note: In the event of <code>std::errc::result_out_of_range</code>, v is not modified by <code>from_chars</code></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="from_chars_to_chars">to_chars</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="to_chars_to_chars_overview">to_chars overview</h3>
+<div class="paragraph">
+<p><code>to_chars</code> is a set of functions that attempts to convert <code>value</code> into a character buffer specified by <code>[first, last)</code>.
+The result of <code>to_chars</code> is <code>to_chars_result</code> which on success returns <code>ptr</code> equal to one-past-the-end of the characters written and <code>ec == std::errc()</code> and on failure returns <code>std::errc::value_too_large</code> and <code>ptr == last</code>.
+<code>to_chars</code> does not null-terminate the returned characters.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="to_chars_definitions">Definitions</h3>
+<div id="to_chars_definitions_" class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">namespace boost { namespace charconv {
+
+struct to_chars_result
+{
+    char* ptr;
+    std::errc ec;
+
+    friend constexpr bool operator==(const to_chars_result&amp; lhs, const to_chars_result&amp; rhs) noexcept; = default;
+    constexpr explicit operator bool() const noexcept { return ec == std::errc{}; }
+};
+
+template &lt;typename Integral&gt;
+BOOST_CHARCONV_CONSTEXPR to_chars_result to_chars(char* first, char* last, Integral value, int base = 10) noexcept;
+
+template &lt;typename Integral&gt;
+BOOST_CHARCONV_CONSTEXPR to_chars_result to_chars&lt;bool&gt;(char* first, char* last, Integral value, int base) noexcept = delete;
+
+template &lt;typename Real&gt;
+to_chars_result to_chars(char* first, char* last, Real value, chars_format fmt = chars_format::general, int precision) noexcept;
+
+}} // Namespace boost::charconv</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="to_chars_to_chars_parameters">to_chars parameters</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>first, last</code> - pointers to the beginning and end of the character buffer</p>
+</li>
+<li>
+<p><code>value</code> - the value to be parsed into the buffer</p>
+</li>
+<li>
+<p><code>base</code> (integer only) - the integer base to use. Must be between 2 and 36 inclusive</p>
+</li>
+<li>
+<p><code>fmt</code> (float only) - the floating point format to use.
+See <a href="#chars_format_chars_format_overview">chars_format overview</a> for description.</p>
+</li>
+<li>
+<p><code>precision</code> (float only) - the number of decimal places required</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="to_chars_to_chars_result">to_chars_result</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ptr</code> - On return from <code>to_chars</code> points to one-past-the-end of the characters written on success or <code>last</code> on failure</p>
+</li>
+<li>
+<p><code>ec</code> - <a href="https://en.cppreference.com/w/cpp/error/errc">the error code</a>. Values returned by <code>to_chars</code> are:</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return Value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>std::errc()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Successful Parsing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>std::errc::value_too_large</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1) Overflow</p>
+<p class="tableblock">2) Underflow</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p><code>operator==</code> - compares the value of ptr and ec for equality</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="to_chars_usage_notes">Usage Notes</h3>
+<div class="sect3">
+<h4 id="to_chars_usage_notes_for_to_chars_for_integral_types">Usage notes for to_chars for integral types</h4>
+<div id="integral_usage_notes_" class="ulist">
+<ul>
+<li>
+<p>All built-in integral types are allowed except bool which is deleted</p>
+</li>
+<li>
+<p>from_chars for integral type is constexpr (BOOST_CHARCONV_CONSTEXPR is defined) when:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>compiled using <code>-std=c++14</code> or newer</p>
+</li>
+<li>
+<p>using a compiler with <code>__builtin_ is_constant_evaluated</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>These functions have been tested to support <code>__int128</code> and <code>unsigned __int128</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="to_chars_usage_notes_for_to_chars_for_floating_point_types">Usage notes for to_chars for floating point types</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The following will be returned when handling different values of <code>NaN</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>qNaN</code> returns "nan"</p>
+</li>
+<li>
+<p><code>-qNaN</code> returns "-nan(ind)"</p>
+</li>
+<li>
+<p><code>sNaN</code> returns "nan(snan)"</p>
+</li>
+<li>
+<p><code>-sNaN</code> returns "-nan(snan)"</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>These functions have been tested to support all built-in floating-point types and those from C++23&#8217;s <code>&lt;stdfloat&gt;</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Long doubles can be 64, 80, or 128-bit, but must be IEEE 754 compliant. An example of a non-compliant, and therefore unsupported, format is <code>ibm128</code>.</p>
+</li>
+<li>
+<p>Use of <code>__float128</code> or <code>std::float128_t</code> requires compiling with <code>-std=gnu++xx</code> and linking GCC&#8217;s <code>libquadmath</code>.
+This is done automatically when building with CMake.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="to_chars_examples">Examples</h3>
+<div class="sect3">
+<h4 id="to_chars_basic_usage">Basic Usage</h4>
+<div class="sect4">
+<h5 id="to_chars_integral">Integral</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">char buffer[64] {};
+int v = 42;
+to_chars_result r = boost::charconv::to_chars(buffer, buffer + sizeof(buffer) - 1, v);
+assert(r.ec == std::errc());
+assert(!strcmp(buffer, "42")); // strcmp returns 0 on match</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="to_chars_floating_point">Floating Point</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">char buffer[64] {};
+double v = 1e300;
+to_chars_result r = boost::charconv::to_chars(buffer, buffer + sizeof(buffer) - 1, v);
+assert(r.ec == std::errc());
+assert(r); // Same as above but less verbose. Added in C++26.
+assert(!strcmp(buffer, "1e+300"));</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="to_chars_hexadecimal">Hexadecimal</h4>
+<div class="sect4">
+<h5 id="to_chars_integral_2">Integral</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">char buffer[64] {};
+int v = 42;
+to_chars_result r = boost::charconv::to_chars(buffer, buffer + sizeof(buffer) - 1, v, 16);
+assert(r.ec == std::errc());
+assert(r); // Same as above but less verbose. Added in C++26.
+assert(!strcmp(buffer, "2a")); // strcmp returns 0 on match</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="to_chars_floating_point_2">Floating Point</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">char buffer_u[64] {};
+double u = -1.08260383390082950e+20;
+
+char buffer_v[64] {};
+double v = -1.08260383390082946e+20;
+
+to_chars(buffer_u, buffer_u + sizeof(buffer_u) - 1, u, chars_format::hex);
+to_chars(buffer_v, buffer_v + sizeof(buffer_v) - 1, v, chars_format::hex);
+
+std::cout &lt;&lt; "U: " &lt;&lt; buffer_u &lt;&lt; "\nV: " &lt;&lt; buffer_v &lt;&lt; std::endl;
+
+// U: -1.779a8946bb5fap+66
+// V: -1.779a8946bb5f9p+66
+//
+// With hexfloats we can see the ULP distance between U and V is a - 9 == 1.</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="to_chars_stderrcvalue_too_large">std::errc::value_too_large</h4>
+<div class="sect4">
+<h5 id="to_chars_integral_3">Integral</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">char buffer[3] {};
+int v = -1234;
+to_chars_result r = boost::charconv::to_chars(buffer, buffer + sizeof(buffer) - 1, v, 16);
+assert(r.ec == std::errc::value_too_large);
+assert(!r); // Same as above but less verbose. Added in C++26.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="to_chars_floating_point_3">Floating Point</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">char buffer[3] {};
+double v = 1.2345;
+auto r = boost::charconv::to_chars(buffer, buffer + sizeof(buffer) - 1, v);
+assert(r.ec == std::errc::value_too_large);
+assert(!r); // Same as above but less verbose. Added in C++26.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the event of <code>std::errc::value_too_large</code>, to_chars_result.ptr is equal to <code>last</code></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="to_chars_chars_format">chars_format</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="chars_format_chars_format_overview">chars_format overview</h3>
+<div class="paragraph">
+<p><code>boost::charconv::chars_format</code> is an <code>enum class</code> used to define the format of floating point types with <code>from_chars</code> and <code>to_chars</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="chars_format_definition">Definition</h3>
+<div id="chars_format_defintion_" class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">namespace boost { namespace charconv {
+
+enum class chars_format : unsigned
+{
+    scientific = 1 &lt;&lt; 0,
+    fixed = 1 &lt;&lt; 1,
+    hex = 1 &lt;&lt; 2,
+    general = fixed | scientific
+};
+
+}} // Namespace boost::charconv</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="chars_format_formats">Formats</h3>
+<div class="sect3">
+<h4 id="chars_format_scientific_format">Scientific Format</h4>
+<div class="paragraph">
+<p>Scientific format will be of the form <code>1.3e+03</code>.
+The integer part will be between 0 and 9 inclusive. The fraction and exponent will always appear.
+The exponent will always have a minimum of 2 digits.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="chars_format_fixed_format">Fixed Format</h4>
+<div class="paragraph">
+<p>Fixed format will be of the form <code>2.30</code> or <code>3090</code>. An exponent will not appear with this format.
+If the precision of <code>to_chars</code> exceeds that of the type (e.g. <code>std::numeric_limits&lt;double&gt;::chars10</code>), 0s will be appended to the end of the significant digits.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="chars_format_hex_format">Hex Format</h4>
+<div class="paragraph">
+<p>Hex format will be of the form <code>1.0cp+05</code>. The integer part will always be 0 or 1.
+The exponent will be with a p instead of an e as used with base 10 formats, because e is a valid hex value.
+<strong>Note: Every binary floating-point number has a unique representation as a hexfloat, but not every hexfloat has a unique representation as a binary floating-point number.</strong>
+This is due to the fact that the number of bits in the significand of an IEEE754 binary32 and binary64 are not divisible by 4.</p>
+</div>
+<div class="sect4">
+<h5 id="chars_format_hexfloat_use_cases">Hexfloat Use Cases</h5>
+<div class="paragraph">
+<p>For those unfamiliar with hexfloats, they are valuable in specific instances:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Precision control: Hexfloats can offer finer control over the precision of floating-point values.
+In hexadecimal notation, each digit represents four bits (one hexit), allowing you to directly manipulate the precision of the number by specifying a certain number of hexadecimal digits.
+This can be useful when you need to precisely control the level of accuracy required for your calculations.</p>
+</li>
+<li>
+<p>Bit-level representation: Hexfloats provide a direct representation of the underlying bits of a floating-point number.
+Each hexadecimal digit corresponds to a specific group of bits, making it easier to visualize and understand the internal structure of the floating-point value.
+This can be helpful for debugging or analyzing floating-point arithmetic operations (e.g. Computing <a href="https://en.wikipedia.org/wiki/Unit_in_the_last_place">ULP</a> distances).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="chars_format_general">General</h4>
+<div class="paragraph">
+<p>General format will be the shortest representation of a number in either fixed or general format (e.g. <code>1234</code> instead of <code>1.234e+03</code>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="chars_format_limits">Limits</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="limits_limits_overview">Limits overview</h3>
+<div class="paragraph">
+<p>The contents of <code>&lt;boost/charconv/limits.hpp&gt;</code> are designed to help the user optimize the size of the buffer required for <code>to_chars</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="limits_definitions">Definitions</h3>
+<div id="limits_definitions_" class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">namespace boost { namespace charconv {
+
+template &lt;typename T&gt;
+constexpr int limits&lt;T&gt;::max_chars10;
+
+template &lt;typename T&gt;
+constexpr int limits&lt;T&gt;::max_chars;
+
+}} // Namespace boost::charconv</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="limits_max_chars10">max_chars10</h4>
+<div class="paragraph">
+<p>The minimum size of the buffer that needs to be
+passed to <code>to_chars</code> to guarantee successful conversion for all values of type T, when either no base is passed, or base 10 is passed.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="limits_max_chars">max_chars</h4>
+<div class="paragraph">
+<p>The minimum size of the buffer that needs to be  passed to <code>to_chars</code> to guarantee successful conversion for all values of type T, for any value of base.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="limits_examples">Examples</h3>
+<div class="paragraph">
+<p>The following two examples are for <code>max_chars10</code> to optimize the buffer size with <code>to_chars</code> for an integral type and a floating-point type respectively.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">char buffer [boost::charconv::limits&lt;std::int32_t&gt;::max_chars10;
+auto r = boost::charconv::to_chars(buffer, buffer + sizeof(buffer), std::numeric_limits&lt;std::int32_t&gt;::max());
+
+assert(r.ec == std::errc());
+assert(r); // Same as above but less verbose. Added in C++26.
+assert(!strcmp(buffer, "2147483647")); // strcmp returns 0 on match</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">char buffer [boost::charconv::limits&lt;float&gt;::max_chars10;
+auto r = boost::charconv::to_chars(buffer, buffer + sizeof(buffer), std::numeric_limits&lt;float&gt;::max());
+
+assert(r.ec == std::errc());
+assert(r); // Same as above but less verbose. Added in C++26.
+assert(!strcmp(buffer, "3.40282347e+38")); // strcmp returns 0 on match</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following example is a usage of <code>max_chars</code> when used to serialize an integer in binary (base = 2).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c++">char buffer [boost::charconv::limits&lt;std::uint16_t&gt;::max_chars;
+auto r = boost::charconv::to_chars(buffer, buffer + sizeof(buffer), std::numeric_limits&lt;std::uint16_t&gt;::max(), 2);
+
+assert(r.ec == std::errc());
+assert(r); // Same as above but less verbose. Added in C++26.
+assert(!strcmp(buffer, "1111111111111111")); // strcmp returns 0 on match</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="limits_benchmarks">Benchmarks</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes a range of performance benchmarks that have been run comparing this library with the standard library, and how to run your own benchmarks if required.</p>
+</div>
+<div class="paragraph">
+<p>The values are relative to the performance of <code>std::printf</code> and <code>std::strtoX</code>.
+Larger numbers are more performant (e.g. 2.00 means twice as fast, and 0.50 means it takes twice as long).
+<code>std::printf</code> and <code>std::strtoX</code> are always listed first as they will be the reference value.</p>
+</div>
+<div class="sect2">
+<h3 id="benchmarkshow_to_run_the_benchmarks">How to run the Benchmarks</h3>
+<div id="run_benchmarks_" class="paragraph">
+<p>To run the benchmarks yourself, navigate to the test folder and define <code>BOOST_CHARCONV_RUN_BENCHMARKS</code> when running the tests.
+An example on Linux with b2: <code>../../../b2 cxxstd=20 toolset=gcc-13 define=BOOST_CHARCONV_RUN_BENCHMARKS STL_benchmark linkflags="-lfmt" -a release</code> .</p>
+</div>
+<div class="paragraph">
+<p>Additionally, you will need the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A compiler with full <code>&lt;charconv&gt;</code> support:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>GCC 11 or newer</p>
+</li>
+<li>
+<p>MSVC 19.24 or newer</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="https://github.com/google/double-conversion">libdouble-conversion</a></p>
+</li>
+<li>
+<p><a href="https://github.com/fmtlib/fmt">{fmt}</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="benchmarksresults">Results</h3>
+<div class="sect3">
+<h4 id="benchmark_results_">x86_64 Linux</h4>
+<div class="paragraph">
+<p>Data in tables 1 - 4 were run on Ubuntu 23.04 with x86_64 architecture using GCC 13.1.0 with libstdc++.</p>
+</div>
+<div class="sect4">
+<h5 id="benchmarksfloating_point">Floating Point</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. to_chars floating point with the shortest representation</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (float / double)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::printf</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.56 / 0.49</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.karma</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.70 / 2.62</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.01 / 6.03</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.46 / 6.20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Google double-conversion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.26 / 1.91</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">{fmt}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.52 / 3.63</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. from_chars floating point with scientific formatting</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (float / double)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::strto(f/d)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.33 / 0.42</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.qi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.17 / 4.65</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.23 / 5.77</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.28 / 5.75</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Google double-conversion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.16 / 1.30</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="benchmarksintegral">Integral</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. to_chars base 10 integers</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (uint32_t / uint64_t)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::printf</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.80 / 1.38</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.karma</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.81 / 1.62</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.06 / 2.45</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.13 / 2.48</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">{fmt}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.88 / 2.21</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. from_chars base 10 integers</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (uint32_t / uint64_t)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::strto(ul,ull)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.53 / 0.52</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.qi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.24 / 1.49</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.97 / 1.68</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.54 / 1.78</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="benchmarksx86_64_windows">x86_64 Windows</h4>
+<div class="paragraph">
+<p>Data in tables 5 - 8 were run on Windows 11 with x86_64 architecture using MSVC 14.3 (V17.7.0).</p>
+</div>
+<div class="sect4">
+<h5 id="benchmarksfloating_point_2">Floating Point</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. to_chars floating point with the shortest representation</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (float / double)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::printf</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.50 / 0.70</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.karma</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.23 / 7.58</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.58 / 15.77</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.62 / 15.26</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. from_chars floating point with scientific formatting</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (float / double)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::strto(f/d)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.14 / 0.20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.qi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.03 / 4.58</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.01 / 1.23</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.06 / 5.21</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="benchmarksintegral_2">Integral</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. to_chars base 10 integers</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (uint32_t / uint64_t)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::printf</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.68 / 0.68</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.karma</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.75 / 1.67</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.75 / 2.10</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.75 / 2.06</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. from_chars base 10 integers</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (uint32_t / uint64_t)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::strto(ul,ull)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.46 / 0.39</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.qi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.94 / 1.63</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.43 / 2.18</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.68 / 2.27</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="benchmarksarm_macos">ARM MacOS</h4>
+<div class="paragraph">
+<p>Data in tables 9-12 were run on MacOS Ventura 13.5.2 with M1 Pro architecture using Homebrew GCC 13.2.0 with libstdc++.</p>
+</div>
+<div class="sect4">
+<h5 id="benchmarksfloating_point_3">Floating Point</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. to_chars floating point with the shortest representation</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (float / double)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::printf</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.58 / 0.16</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.karma</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.39 / 1.22</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6.78 / 6.47</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7.25 / 6.86</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Google double-conversion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.26 / 2.16</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">{fmt}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.78 / 3.38</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. from_chars floating point with scientific formatting</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (float / double)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::strto(f/d)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.06 / 0.06</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.qi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.12 / 1.06</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.32 / 1.65</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.28 / 1.63</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Google double-conversion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.45 / 0.32</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="benchmarksintegral_3">Integral</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. to_chars base 10 integers</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (uint32_t / uint64_t)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::printf</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.08 / 1.75</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.karma</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.17 / 2.06</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6.25 / 4.12</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.to_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6.25 / 4.12</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">{fmt}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.29 / 3.47</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. from_chars base 10 integers</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Relative Performance (uint32_t / uint64_t)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::strto(ul,ull)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.00 / 1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.lexical_cast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.56 / 0.54</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.spirit.qi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.39 / 1.33</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">std::from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.92 / 1.65</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Charconv.from_chars</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.27 / 1.65</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sources">Sources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following papers and blog posts serve as the basis for the algorithms used in the library:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>J.R. Parker <a href="https://dl.acm.org/doi/abs/10.1002/spe.4380150804"><em>A General Character to Integer Conversion Method</em></a>, Software: Practice and Experience 15 (8), 1985.</p>
+</li>
+<li>
+<p>Junekey Jeon, <a href="https://jk-jeon.github.io/posts/2022/02/jeaiii-algorithm/"><em>Faster integer formatting - James Anhalt (jeaiii)’s algorithm</em></a></p>
+</li>
+<li>
+<p>Junekey Jeon, <a href="https://github.com/jk-jeon/dragonbox/blob/master/other_files/Dragonbox.pdf"><em>Dragonbox: A New Floating-Point Binary-to-Decimal Conversion Algorithm</em></a></p>
+</li>
+<li>
+<p>Junekey Jeon, <a href="https://jk-jeon.github.io/posts/2022/12/fixed-precision-formatting/"><em>Fixed-precision formatting of floating-point numbers</em></a></p>
+</li>
+<li>
+<p>William D. Clinger, <a href="https://dl.acm.org/doi/pdf/10.1145/93542.93557"><em>How to Read Floating Point Numbers Accurately</em></a>, 1990</p>
+</li>
+<li>
+<p>Daniel Lemire, <a href="https://arxiv.org/abs/2101.11408"><em>Number Parsing at a Gigabyte per Second</em></a>, Software: Practice and Experience 51 (8), 2021.</p>
+</li>
+<li>
+<p>Noble Mushtak, Daniel Lemire, <a href="https://arxiv.org/abs/2212.06644"><em>Fast Number Parsing Without Fallback</em></a>, Software: Practice and Experience (to appear)</p>
+</li>
+<li>
+<p>Ulf Adams, <a href="https://dl.acm.org/doi/10.1145/3360595"><em>Ryū revisited: printf floating point conversion</em></a>, Proceedings of the ACM on Programming Languages Volume 3, 2019</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="acknowledgments">Acknowledgments</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Special thanks to the following people (non-inclusive list):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Peter Dimov for providing technical guidance and contributing to the library throughout development.</p>
+</li>
+<li>
+<p>Junekey Jeon for developing and answering my questions about his integer-formatting, Dragonbox, and Floff.</p>
+</li>
+<li>
+<p>Chris Kormanyos for serving as the library review manager.</p>
+</li>
+<li>
+<p>Stephan T. Lavavej for providing the basis for the benchmarks.</p>
+</li>
+<li>
+<p>All that reviewed the library and provided feedback to make it better.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="copyright">Copyright and License</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This documentation is copyright 2022-2023 Peter Dimov and Matt Borland and is distributed under
+the <a href="http://www.boost.org/LICENSE_1_0.txt">Boost Software License, Version 1.0</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-02-11 16:24:26 +0200
+</div>
+</div>
+<style>
+
+*:not(pre)>code { background: none; }
+:not(pre):not([class^=L])>code { background: none; }
+
+</style>
+</div><script>
+(function() {
+  const html = document.documentElement;
+  const isPinned = localStorage.getItem('tocPinned') === 'true';
+
+  html.classList.add('toc-hidden');
+  if (isPinned) {
+    html.classList.add('toc-pinned');
+    html.classList.add('toc-visible');
+    html.classList.remove('toc-hidden');
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const tocButton = document.getElementById("toggle-toc");
+    const toc = document.getElementById("toc");
+
+    if (!tocButton || !toc) return;
+
+    let isPinned = localStorage.getItem('tocPinned') === 'true';
+
+    function updateTocVisibility(visible) {
+      html.classList.toggle("toc-visible", visible);
+      html.classList.toggle("toc-hidden", !visible);
+      tocButton.setAttribute("aria-expanded", visible);
+      tocButton.textContent = visible ? "×" : "☰";
+      tocButton.setAttribute("title", visible ? "Hide Table of Contents" : "Show Table of Contents");
+    }
+
+    tocButton.addEventListener("click", () => {
+      isPinned = !isPinned;
+      localStorage.setItem('tocPinned', isPinned);
+      html.classList.toggle('toc-pinned', isPinned);
+      updateTocVisibility(isPinned);
+    });
+
+    tocButton.addEventListener("mouseenter", () => {
+      if (!isPinned) {
+        updateTocVisibility(true);
+      }
+    });
+
+    toc.addEventListener("mouseleave", () => {
+      if (!isPinned) {
+        updateTocVisibility(false);
+      }
+    });
+
+    updateTocVisibility(isPinned);
+  });
+})();
+</script>
+</body>
+</html>
