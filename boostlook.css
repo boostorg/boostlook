@@ -1607,6 +1607,7 @@ body > .chapter,
   padding-left: 10px;
   max-width: 80rem;
   display: flex;
+  z-index: 5;
 }
 
 .boostlook:not(:has(.doc)) .spirit-nav a,
