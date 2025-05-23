@@ -4,6 +4,13 @@ This is a set of stylesheets, templates, and code for Asciidoctor and
 Antora rendered documentation to give it a uniform look and feel
 befitting the quality of Boost.
 
+## Documentation
+
+- **[DEVELOPMENT.md](DEVELOPMENT.md)** - Complete guide for developers working on `boostlook.css`
+- **[Live Preview Setup](#live-preview-for-asciidoc-documentation)** - Quick start for AsciiDoc preview
+
+## Integration
+
 Example of integration into a doc Jamfile:
 ```
 html mp11.html : mp11.adoc

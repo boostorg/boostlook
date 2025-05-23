@@ -1,0 +1,3 @@
+[submodule "doc/antora_specimen/content"]
+	path = doc/antora_specimen/content
+	url = https://github.com/julioest/antora-specimen.git
