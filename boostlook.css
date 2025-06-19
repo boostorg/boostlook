@@ -1321,7 +1321,7 @@ html.dark .boostlook .doc .literalblock pre {
 .boostlook .content:has(> pre),
 .boostlook .content:has(> pre.highlight) {
   border-radius: 0;
-  border: 1px solid var(--border-border-secondary, #d5d7d9);
+  /*border: 1px solid var(--border-border-secondary, #d5d7d9);*/
   background: var(--surface-background-main-surface-secondary, #e4e7ea);
 }
 
@@ -1375,6 +1375,7 @@ html.dark .boostlook .doc .literalblock pre {
   line-height: var(--typography-line-height-sm, 1rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
   z-index: 1;
+  display: none;
 }
 
 .boostlook .doc .listingblock:has(.source-toolbox) .title:not(:has(a, span, p, code, pre))::before,
@@ -1405,10 +1406,17 @@ html.dark .boostlook .doc .literalblock pre {
 .boostlook#libraryReadMe > pre:not(:is(dd pre, td pre)),
 .boostlook#libraryReadMe .literalblock:has(pre):not(:is(dd pre, td pre)),
 .boostlook#libraryReadMe div.highlight:has(> pre):not(:is(dd pre, td pre)) {
-  margin-left: var(--spacing-size-xl);
-  border: 1px solid var(--border-border-secondary, #d5d7d9);
+  /*margin-left: var(--spacing-size-xl);*/
+  /*border: 1px solid var(--border-border-secondary, #d5d7d9);*/
   background: var(--atom-one-light-bg, #fafafa);
   margin-top: var(--padding-padding-xs, 0.75rem);
+}
+.boostlook .olist.arabic > ol > li .listingblock:has(> .content > pre):not(:is(dd pre, td pre)),
+.boostlook:not(:has(.doc)) .orderedlist > ol > li .listingblock:has(> .content > pre.highlight):not(:is(dd pre, td pre)) {
+  margin-left: 0;
+}
+.boostlook .listingblock:has(> .content > pre):not(:is(dd pre, td pre)), .boostlook .listingblock:has(> .content > pre.highlight):not(:is(dd pre, td pre)) {
+  margin-left: var(--spacing-size-xl);
 }
 
 .boostlook .listingblock:has(> .content > pre):not(:is(dd pre, td pre)):has(.title) {
@@ -1430,8 +1438,11 @@ html.dark .boostlook .doc .literalblock pre {
   flex-direction: column-reverse;
 }
 
+.boostlook .content:has(> pre):has(> .source-toolbox) pre.highlight {
+  border: 1px solid var(--border-border-secondary, #d5d7d9);
+}
 .boostlook .content:has(> pre):has(> .source-toolbox) pre {
-  border-top: 1px solid var(--border-border-secondary, #d5d7d9);
+  /*border: 1px solid var(--border-border-secondary, #d5d7d9);*/
   /*border-radius: var(--spacing-size-2xs, 0.5rem);*/
 }
 
@@ -1446,7 +1457,12 @@ html.dark .boostlook .doc .literalblock pre {
   font-family: inherit;
   z-index: 1;
   padding: var(--article-article-compressing-from-12-8--, 0.5rem) var(--spacing-size-sm, 1rem);
-  min-height: 2rem;
+  /*min-height: 2rem;*/
+  height: 0;
+  max-height: 0;
+  min-height: 0;
+  padding: 0;
+  /*margin-top: -1px;*/
 }
 
 .boostlook .content:has(> pre):has(> .source-toolbox):not(:has(.source-lang)) .source-toolbox  {
@@ -1469,6 +1485,7 @@ html.dark .boostlook .doc .literalblock pre {
   letter-spacing: var(--spacing-size-size-0, 0rem);
   text-transform: uppercase;
   margin-left: auto;
+  display: none;
 }
 .boostlook .content:has(> pre):has(> .source-toolbox) .source-lang::after {
   content: none;
@@ -2227,6 +2244,10 @@ html.dark .boostlook .hljs-code {
   color: var(--text-states-text-warning, #FF9442);
   cursor: pointer;
 }
+.boostlook #content .olist.arabic > ol > li table.tableblock:not(:first-child),
+.boostlook #content  .olist.arabic > ol > li .dlist:not(:first-child):not(.dlist .dlist) {
+  /*margin-left: var(--spacing-size-xl);*/
+}
 .boostlook #content .dlist:not(:first-child):not(.dlist .dlist):has(.hdlist1) dd  a {
   color: var(--text-main-text-link-blue, #026a9f);
   text-decoration: none;
@@ -2506,7 +2527,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 .boostlook .olist.arabic > ol > li,
 .boostlook:not(:has(.doc)) .orderedlist > ol > li {
   position: relative;
-  padding-left: 3rem;
+  padding-left: 2rem;
   counter-increment: list-counter;
 }
 
@@ -2586,9 +2607,10 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   /*background: var(--surface-background-main-surface-secondary, #e4e7ea);*/
 }
 .boostlook .doc code .conum[data-value] {
-  background: var(--surface-background-main-surface-secondary, #e4e7ea);
+  background: transparent;
   width: 24px;
   height: 24px;
+  float: left;
 }
 
 .boostlook .doc .conum[data-value]::after {
@@ -2621,7 +2643,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 .boostlook .colist.arabic > table > tbody > tr > :first-child,
 .boostlook .colist.arabic > table > tr > :first-child {
   padding-left: 0;
-  padding-right: var(--padding-padding-sm, 1rem);
+  padding-right: 0;
   vertical-align: top;
   /* to make first column fit its content  */
   width: 1%;
@@ -2880,6 +2902,10 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   display: inline-block;
   vertical-align: text-bottom;
   line-height: 0;
+}
+
+.doc ul.checklist p>i.fa-check-square-o:first-child, .doc ul.checklist p>i.fa-square-o:first-child {
+  display: none;
 }
 
 /*----------------- Global Styles for .boostlook end -----------------*/
