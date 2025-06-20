@@ -3286,9 +3286,6 @@ html.is-clipped--nav:has(.boostlook) div#content {
     padding: 1rem 1.5rem 1rem 2.2rem;
   }
 
-  .toc2 .boostlook {
-    margin-left: var(--main-max-width-leftbar);
-  }
 
   /* TOC Toggle Button */
   .boostlook #toggle-toc {
@@ -4439,8 +4436,11 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(> .boostlook)) > #cont
 /* === Large Screens: Maintain Offset Layout (1280px+) === */
 @media screen and (min-width: 1280px) {
   .article.toc2.toc-left {
-    margin-left: var(--main-max-width-leftbar) !important;
     max-width: none !important;
+  }
+  html:not(.toc-hidden, .toc-visible) .article.toc2.toc-left,
+  .toc-visible.toc-pinned .article.toc2.toc-left {
+    margin-left: var(--main-max-width-leftbar) !important;
   }
 }
 
