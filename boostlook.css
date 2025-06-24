@@ -4434,7 +4434,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(> .boostlook)) > #cont
 }
 
 /* === Large Screens: Maintain Offset Layout (1280px+) === */
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 768px) {
   .article.toc2.toc-left {
     max-width: none !important;
   }
