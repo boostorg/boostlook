@@ -1251,8 +1251,9 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 /* Emphasis within code */
 .boostlook em,
 .boostlook code em {
-  font-family: "Noto Sans Mono";
+  font-family: inherit;
   font-size: inherit;
+  font-style: italic;
 }
 
 /* Text Emphasis */
