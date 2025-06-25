@@ -2541,7 +2541,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 
 .boostlook .olist.arabic > ol > li::before,
 .boostlook:not(:has(.doc)) .orderedlist > ol > li::before {
-  content: counter(list-counter);
+  content: counter(list-counter)".";
   position: absolute;
   left: 0;
   top: -4px;
@@ -2551,7 +2551,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   align-items: center;
   justify-content: center;
   color: var(--text-main-text-primary, #18191b);
-  font-size: var(--typography-font-size-2xs, 0.75rem);
+  font-size: var(--typography-font-size-sm, 1rem);
   line-height: var(--typography-line-height-sm, 1rem); /* 133.333% */
 }
 
