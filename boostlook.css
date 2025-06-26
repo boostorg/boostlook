@@ -2621,7 +2621,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   font-style: normal;
   font-variation-settings: "wght" 500, "wdth" 80;
   line-height: var(--typography-line-height-sm, 1rem);
-  font-size: var(--typography-font-size-2xs, 0.75rem);
+  font-size: var(--typography-font-size-sm, 1rem);
   text-align: center;
   width: 32px;
   height: 32px;
@@ -2639,7 +2639,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 }
 
 .boostlook .doc .conum[data-value]::after {
-  content: attr(data-value);
+  content: attr(data-value)".";
   font: inherit;
 }
 .boostlook .doc .conum[data-value] + b {
