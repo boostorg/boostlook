@@ -2917,6 +2917,12 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   display: none;
 }
 
+.boostlook .doc .imageblock .content:has(img) {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 /*----------------- Global Styles for .boostlook end -----------------*/
 
 /* ----------- Scrollbars Styles Start ------------- */
