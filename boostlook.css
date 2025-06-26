@@ -1450,6 +1450,11 @@ html.dark .boostlook .doc .literalblock pre {
   flex-direction: column-reverse;
 }
 
+.boostlook#libraryReadMe > pre:not(:is(dd pre, td pre)) {
+  padding: var(--spacing-size-xs, 0.75rem) var(--spacing-size-sm, 1rem);
+  border: 1px solid var(--border-border-secondary, #d5d7d9);
+}
+
 .boostlook .highlight pre,
 .boostlook .content:has(> pre) pre.highlight {
   border: 1px solid var(--border-border-secondary, #d5d7d9);
