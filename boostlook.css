@@ -1297,6 +1297,13 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   border: none;
 }
 
+.boostlook pre code .conum[data-value]::after,
+.boostlook pre code.hljs .conum[data-value]::after,
+.boostlook .doc .content pre code .conum[data-value]::after,
+.boostlook .doc pre.highlight code .conum[data-value]::after {
+  content: "("attr(data-value)")";
+}
+
 .boostlook pre:not(:has(> code)),
 .boostlook pre:not(:has(> code)):has(p, span) {
   font-size: var(--typography-font-size-xs, 0.875rem);
@@ -2638,15 +2645,19 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 }
 .boostlook .doc code .conum[data-value] {
   background: transparent;
-  width: 24px;
-  height: 24px;
-  float: left;
+  width: auto;
+  height: auto;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  color: var(--text-main-text-primary, #18191b);
 }
 
 .boostlook .doc .conum[data-value]::after {
   content: attr(data-value)".";
   font: inherit;
 }
+
 .boostlook .doc .conum[data-value] + b {
   display: none;
 }
