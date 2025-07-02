@@ -348,6 +348,7 @@
   --padding-padding-xs: var(--spacing-size-xs);
   --padding-padding-2xs: var(--spacing-size-2xs);
   --padding-padding-3xs: var(--spacing-size-3xs);
+  --padding-padding-xl: var(--spacing-size-xl);
   --leftbar-paddings-leftbar-padding-4xs: var(--spacing-size-4xs);
   --leftbar-paddings-leftbar-padding-2xs: var(--spacing-size-2xs);
   --leftbar-paddings-leftbar-padding-3xs: var(--spacing-size-3xs);
@@ -922,7 +923,7 @@ body :not(pre):not([class^="L"]) > code {
   color: var(--text-main-text-primary, #18191b);
   display: block;
   line-height: var(--typography-line-height-xl, 1.75rem);
-  margin-top: var(--padding-padding-2sm, 1.3rem);
+  margin-top: var(--padding-padding-xl, 2rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
   margin-bottom: 0.5rem;
   font-variation-settings: "wght" 500, "wdth" 80;
@@ -3880,22 +3881,29 @@ html.dark .boostlook pre.rouge .cm {
   border-bottom: 1px solid var(--border-border-primary, #e4e7ea);
 }
 
+.boostlook .tablist > ul[role="tablist"] {
+  background-color: var(--colors-neutral-250, #f9f9f9);
+}
+.dark .boostlook .tablist > ul[role="tablist"] {
+  background-color: var(--colors-neutral-750, #1c1c1c);
+}
 .boostlook .tablist > ul .tab {
   position: relative;
   display: flex;
   padding: var(--padding-padding-2xs, 0.5rem) var(--padding-padding-md, 1.125rem);
   justify-content: center;
   align-items: center;
-  color: var(--colors-neutral-750, #1c1c1c);
+  color: var(--text-main-text-body-tetriary, #62676b);
+  /*color: var(--colors-neutral-750, #1c1c1c);*/
   font-size: var(--typography-font-size-xs, 0.875rem);
   line-height: var(--typography-line-height-md, 1.25rem); /* 142.857% */
   cursor: pointer;
   border: none;
   background: transparent;
 }
-.dark .boostlook .tablist > ul .tab {
-  color: var(--colors-neutral-250, #f9f9f9);
-}
+/*.dark .boostlook .tablist > ul .tab {*/
+/*  color: var(--colors-neutral-250, #f9f9f9);*/
+/*}*/
 
 .boostlook .tabs.is-loading .tablist li:first-child::after,
 .boostlook .tabs:not(.is-loading) .tablist li.is-selected::after {
