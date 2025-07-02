@@ -130,6 +130,7 @@
   --colors-neutral-50: #f5f6f8;
   --colors-neutral-100: #e4e7ea;
   --colors-neutral-200: #c7cccf;
+  --colors-neutral-250: #f9f9f9;
   --colors-neutral-300: #afb3b6;
   --colors-neutral-400: #949a9e;
   --colors-neutral-500: #798086;
@@ -252,6 +253,7 @@
   /* Colors Other */
   --colors-neutral-150: #d5d7d9;
   --colors-neutral-850: #2a2c30;
+  --colors-neutral-750: #1c1c1c;
   --colors-overlay-overlay-white-40: rgba(255 255 255 / 0.4);
   --colors-overlay-overlay-black-40: rgba(13 14 15 / 0.4);
   --colors-overlay-overlay-white-64: rgba(255 255 255 / 0.64);
@@ -267,6 +269,7 @@
   --spacing-size-xs: 0.75rem;
   --spacing-size-sm: 1rem;
   --spacing-size-md: 1.125rem;
+  --spacing-size-2md: 1.3rem;
   --spacing-size-lg: 1.5rem;
   --spacing-size-xl: 2rem;
   --spacing-size-2xl: 2.5rem;
@@ -338,6 +341,7 @@
   --leftbar-paddings-leftbar-padding-lg: var(--spacing-size-lg);
   --padding-padding-lg: var(--spacing-size-md);
   --padding-padding-sm: var(--spacing-size-xs);
+  --padding-padding-2sm: var(--spacing-size-2md);
   --padding-padding-xs: var(--spacing-size-xs);
   --padding-padding-2xs: var(--spacing-size-2xs);
   --padding-padding-3xs: var(--spacing-size-3xs);
@@ -892,7 +896,7 @@ body :not(pre):not([class^="L"]) > code {
 /* Base Container */
 .boostlook {
   font-family: var(--font-family-body, "Noto Sans") !important;
-  font-variation-settings: "wght" 400, "wdth" 80;
+  font-variation-settings: "wght" 350, "wdth" 80;
   background: var(--surface-background-main-base-primary, #fff);
 }
 
@@ -915,7 +919,7 @@ body :not(pre):not([class^="L"]) > code {
   color: var(--text-main-text-primary, #18191b);
   display: block;
   line-height: var(--typography-line-height-xl, 1.75rem);
-  margin-top: var(--padding-padding-md, 1.125rem);
+  margin-top: var(--padding-padding-2sm, 1.3rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
   margin-bottom: 0.5rem;
   font-variation-settings: "wght" 500, "wdth" 80;
@@ -1144,7 +1148,10 @@ body :not(pre):not([class^="L"]) > code {
 }
 
 /* Components margins */
-.boostlook .paragraph + .paragraph,
+.boostlook .paragraph + .paragraph {
+  margin-top: var(--padding-padding-md, 1rem);
+}
+
 .boostlook:not(:has(.doc)) .section > p + p,
 .boostlook:not(:has(.doc)) .chapter > p + p,
 .boostlook div.blockquote blockquote p + p,
@@ -1155,12 +1162,14 @@ body :not(pre):not([class^="L"]) > code {
 div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #content > p + p {
   margin-top: var(--padding-padding-3xs, 0.25rem);
 }
+.boostlook #content .admonitionblock + .tabs,
+.boostlook .paragraph + .tabs {
+  margin-top: var(--spacing-size-2md, 1.3rem);
+}
 
-.boostlook .paragraph + .tabs,
 .boostlook #content .paragraph + .admonitionblock,
 .boostlook #content .tabs + .paragraph,
 .boostlook #content .colist + .paragraph,
-.boostlook #content .admonitionblock + .tabs,
 .boostlook #content .admonitionblock + .admonitionblock,
 .boostlook #content .olist + .admonitionblock,
 .boostlook #content .olist + .paragraph,
@@ -1210,7 +1219,10 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 .boostlook h5 + .tabs,
 .boostlook .doc h5 + .tabs,
 .boostlook h5 + .tabs,
-.boostlook .doc h6 + .tabs,
+.boostlook .doc h6 + .tabs {
+  margin-top: var(--padding-padding-sm, 0.75rem);
+}
+
 .boostlook #content .sectionbody .olist:first-child,
 .boostlook:not(:has(.doc)) .section div.orderedlist:first-child {
   margin-top: var(--padding-padding-3xs, 0.25rem);
@@ -2178,7 +2190,7 @@ html.dark .boostlook .hljs-code {
 .boostlook #content .admonitionblock.note,
 .boostlook:not(:has(.doc)) div.note,
 .boostlook:not(:has(.doc)) .notices.note {
-  border-color: var(--border-border-blue-primary, #c2e2f4);
+  border-color: transparent; /* var(--border-border-blue-primary, #c2e2f4) */
   background-color: var(--surface-background-main-surface-blue-primary, #ebf4f9);
 }
 
@@ -2259,7 +2271,7 @@ html.dark .boostlook .hljs-code {
 
 .boostlook #content .dlist:not(:first-child):not(.dlist .dlist):has(.hdlist1) {
   background-color: var(--surface-background-main-surface-blue-primary, #ebf4f9);
-  border: 1px solid var(--border-border-blue-primary, #c2e2f4);
+  border: 1px solid transparent; /* var(--border-border-blue-primary, #c2e2f4) */
   padding: var(--padding-padding-xs, 0.75rem) var(--padding-padding-md, 1.125rem);
   margin-left: var(--spacing-size-xl);
 }
@@ -3871,12 +3883,15 @@ html.dark .boostlook pre.rouge .cm {
   padding: var(--padding-padding-2xs, 0.5rem) var(--padding-padding-md, 1.125rem);
   justify-content: center;
   align-items: center;
-  color: var(--text-main-text-body-tetriary, #62676b);
+  color: var(--colors-neutral-750, #1c1c1c);
   font-size: var(--typography-font-size-xs, 0.875rem);
   line-height: var(--typography-line-height-md, 1.25rem); /* 142.857% */
   cursor: pointer;
   border: none;
   background: transparent;
+}
+.dark .boostlook .tablist > ul .tab {
+  color: var(--colors-neutral-250, #f9f9f9);
 }
 
 .boostlook .tabs.is-loading .tablist li:first-child::after,
