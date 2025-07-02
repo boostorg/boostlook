@@ -3894,16 +3894,12 @@ html.dark .boostlook pre.rouge .cm {
   justify-content: center;
   align-items: center;
   color: var(--text-main-text-body-tetriary, #62676b);
-  /*color: var(--colors-neutral-750, #1c1c1c);*/
   font-size: var(--typography-font-size-xs, 0.875rem);
   line-height: var(--typography-line-height-md, 1.25rem); /* 142.857% */
   cursor: pointer;
   border: none;
   background: transparent;
 }
-/*.dark .boostlook .tablist > ul .tab {*/
-/*  color: var(--colors-neutral-250, #f9f9f9);*/
-/*}*/
 
 .boostlook .tabs.is-loading .tablist li:first-child::after,
 .boostlook .tabs:not(.is-loading) .tablist li.is-selected::after {
