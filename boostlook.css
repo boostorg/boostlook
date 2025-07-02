@@ -167,6 +167,7 @@
   --colors-negative-950: #1d0408;
 
   /* Colors Positive Shades */
+  --colors-positive-0: #f8fefb;
   --colors-positive-50: #f0fef7ff;
   --colors-positive-100: #def7eb;
   --colors-positive-200: #bdeed6;
@@ -181,6 +182,7 @@
   --colors-positive-950: #0a1b13;
 
   /* Colors Warning Shades */
+  --colors-warning-0: rgba(255, 248, 243, 0.5);
   --colors-warning-50: #fff8f3ff;
   --colors-warning-100: #ffefe2;
   --colors-warning-200: #ffd4b3;
@@ -194,6 +196,7 @@
   --colors-warning-950: #1f0e01;
 
   /* Colors Blue Shades */
+  --colors-blue-0: #f6fafd;
   --colors-blue-25: #ebf4f9;
   --colors-blue-50: #daeef9;
   --colors-blue-100: #c2e2f4;
@@ -517,7 +520,7 @@ html {
   --surface-background-main-surface-primary: var(--colors-neutral-50);
   --surface-background-main-surface-secondary: var(--colors-neutral-100);
   --surface-background-main-surface-tetriary: var(--colors-neutral-150);
-  --surface-background-main-surface-blue-primary: var(--colors-blue-25);
+  --surface-background-main-surface-blue-primary: var(--colors-blue-0);
   --surface-background-main-surface-blue-secondary: var(--colors-blue-50);
   --surface-background-main-surface-blue-tetriary: var(--colors-blue-100);
   --surface-background-main-surface-blue-quaternary: var(--colors-blue-200);
@@ -525,7 +528,7 @@ html {
   --surface-background-main-surface-transparent-inverse: var(--colors-overlay-overlay-black-40);
   --surface-background-main-surface-transparent-secondary: var(--colors-overlay-overlay-white-88);
 
-  --surface-background-states-surface-warning-primary: var(--colors-warning-50);
+  --surface-background-states-surface-warning-primary: var(--colors-warning-0);
   --surface-background-states-surface-warning-secondary: var(--colors-warning-100);
   --surface-background-states-surface-warning-tetriary: var(--colors-warning-200);
   --surface-background-states-surface-warning-quaternary: var(--colors-warning-300);
@@ -2190,8 +2193,8 @@ html.dark .boostlook .hljs-code {
 .boostlook #content .admonitionblock.note,
 .boostlook:not(:has(.doc)) div.note,
 .boostlook:not(:has(.doc)) .notices.note {
-  border-color: transparent; /* var(--border-border-blue-primary, #c2e2f4) */
-  background-color: var(--surface-background-main-surface-blue-primary, #ebf4f9);
+  border-color: var(--border-border-blue-primary, #c2e2f4); /* var(--border-border-blue-primary, #c2e2f4) */
+  background-color: var(--surface-background-main-surface-blue-primary, #f6fafd);
 }
 
 .boostlook #content .admonitionblock.note > table tr td.icon > *,
@@ -2204,8 +2207,8 @@ html.dark .boostlook .hljs-code {
 .boostlook #content .admonitionblock.tip,
 .boostlook:not(:has(.doc)) div.tip,
 .boostlook:not(:has(.doc)) .notices.tip {
-  border-color: var(--border-border-positive, #bdeed6);
-  background-color: var(--surface-background-states-surface-positive-primary, #f0fef7);
+  border-color: var(--border-border-positive, #f8fefb);
+  background-color: var(--colors-positive-0, rgba(240, 254, 247, 0.5));
 }
 /* .boostlook #content .admonitionblock.tip > table tr td.icon,
 .boostlook:not(:has(.doc)) div.tip > table tr:first-child th,
@@ -2225,7 +2228,7 @@ html.dark .boostlook .hljs-code {
 .boostlook:not(:has(.doc)) div.caution,
 .boostlook:not(:has(.doc)) .notices.important {
   border-color: var(--border-border-brand-orange, #ffd897);
-  background-color: var(--surface-background-states-surface-warning-primary, #fff8f3);
+  background-color: var(--surface-background-states-surface-warning-primary, #fefcf9);
 }
 /* .boostlook #content .admonitionblock.important > table tr td.icon,
 .boostlook #content .admonitionblock.caution > table tr td.icon,
