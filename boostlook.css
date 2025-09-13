@@ -742,9 +742,9 @@ html:has(.boostlook) {
   font-variation-settings: "wght" 400, "wdth" 62.5;
   font-display: block;
   /* Prevents FOIT */
-  src: url("/static/font/notosans_mono_ext.woff") format("woff"),
-  url("../../../../tools/boostlook/notosans_mono_ext.woff") format("woff"),
-  url("https://cppalliance.org/fonts/NotoSansMono.ttf") format("truetype");
+  src: url("/static/font/notosans_ext.woff2") format("woff2"),
+  url("../../../../tools/boostlook/notosans_ext.woff2") format("woff2"),
+  url("https://cppalliance.org/fonts/NotoSansDisplay-Italic.ttf") format("truetype");
 }
 
 /* Noto Sans Mono - Variable Weight */
