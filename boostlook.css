@@ -726,7 +726,8 @@ html:has(.boostlook) {
   /* Variable font weight range */
   font-variation-settings: "wght" 400, "wdth" 62.5;
   font-display: swap;
-  src: url("/static/font/notosans.woff2") format("woff2"),
+  src: url("../font/NotoSansDisplay.ttf") format("truetype"),
+  url("/static/font/notosans.woff2") format("woff2"),
   url("../../../../tools/boostlook/notosans.woff2") format("woff2"),
   url("https://cppalliance.org/fonts/NotoSansDisplay.ttf") format("truetype");
   /* Metric overrides to reduce CLS on swap */
@@ -745,7 +746,8 @@ html:has(.boostlook) {
   /* Variable font weight range */
   font-variation-settings: "wght" 400, "wdth" 62.5;
   font-display: swap;
-  src: url("/static/font/notosans_ext.woff2") format("woff2"),
+  src: url("../font/NotoSansDisplay-Italic.ttf") format("truetype"),
+  url("/static/font/notosans_ext.woff2") format("woff2"),
   url("../../../../tools/boostlook/notosans_ext.woff2") format("woff2"),
   url("https://cppalliance.org/fonts/NotoSansDisplay-Italic.ttf") format("truetype");
   /* Metric overrides to reduce CLS on swap */
@@ -764,7 +766,8 @@ html:has(.boostlook) {
   /* Variable font weight range */
   font-variation-settings: "wght" 400, "wdth" 62.5;
   font-display: swap;
-  src: url("/static/font/notosans_mono.woff") format("woff"),
+  src: url("../font/NotoSansMono.ttf") format("truetype"),
+  url("/static/font/notosans_mono.woff") format("woff"),
   url("../../../../tools/boostlook/notosans_mono.woff") format("woff"),
   url("https://cppalliance.org/fonts/NotoSansMono.ttf") format("truetype");
   /* Metric overrides to reduce CLS on swap */
@@ -782,7 +785,8 @@ html:has(.boostlook) {
   /* Fixed weight for specific use cases */
   font-stretch: 62.5% 100%;
   font-display: swap;
-  src: url("/static/font/notosans_mono.woff") format("woff"),
+  src: url("../font/NotoSansMono.ttf") format("truetype"),
+  url("/static/font/notosans_mono.woff") format("woff"),
   url("../../../../tools/boostlook/notosans_mono.woff") format("woff"),
   url("https://cppalliance.org/fonts/NotoSansMono.ttf") format("truetype");
   /* Metric overrides to reduce CLS on swap */
