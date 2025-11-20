@@ -18,6 +18,15 @@ jobs:
       - name: Checkout current repository
         uses: actions/checkout@v4
 
+      - name: Verify token exists
+        run: |
+          if [ -z "${{ secrets.WEBSITE_V2_PAT }}" ]; then
+            echo "ERROR: Token is empty!"
+            exit 1
+          fi
+          echo "Token exists (checking length...)"
+          echo "${{ secrets.WEBSITE_V2_PAT }}" | wc -c
+
       - name: Checkout website-v2 repository
         uses: actions/checkout@v4
         with:
@@ -25,6 +34,8 @@ jobs:
           ref: develop
           path: website-v2
           token: ${{ secrets.WEBSITE_V2_PAT }}
+          fetch-depth: 1
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v4
