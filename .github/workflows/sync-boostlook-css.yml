@@ -63,10 +63,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.WEBSITE_V2_PAT }}
         run: |
+          echo "$GH_TOKEN" | gh auth login --with-token
           gh workflow run ui-release.yml --repo boostorg/website-v2-docs --ref develop
       - name: Trigger website-v2-docs publish workflow
         if: success()
         env:
           GH_TOKEN: ${{ secrets.WEBSITE_V2_PAT }}
         run: |
+          echo "$GH_TOKEN" | gh auth login --with-token
           gh workflow run publish.yml --repo boostorg/website-v2-docs --ref develop
