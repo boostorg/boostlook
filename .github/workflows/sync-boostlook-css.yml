@@ -27,6 +27,12 @@ jobs:
           echo "Token exists (checking length...)"
           echo "${{ secrets.WEBSITE_V2_PAT }}" | wc -c
 
+      - name: Configure git credentials
+        run: |
+          git config --global credential.helper store
+          echo "https://${{ secrets.WEBSITE_V2_PAT }}:x-oauth-basic@github.com" > ~/.git-credentials
+          git config --global url."https://${{ secrets.WEBSITE_V2_PAT }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+
       - name: Checkout website-v2 repository
         uses: actions/checkout@v4
         with:
