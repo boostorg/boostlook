@@ -16,10 +16,10 @@ jobs:
     if: github.repository == 'boostorg/boostlook'
     steps:
       - name: Checkout current repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Checkout website-v2 repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: boostorg/website-v2
           ref: develop
@@ -60,11 +60,13 @@ jobs:
           fi
       - name: Trigger website-v2-docs ui-release workflow
         if: success()
+        env:
+          GH_TOKEN: ${{ secrets.WEBSITE_V2_PAT }}
         run: |
-          echo "${{ secrets.WEBSITE_V2_PAT }}" | gh auth login --with-token
           gh workflow run ui-release.yml --repo boostorg/website-v2-docs --ref develop
       - name: Trigger website-v2-docs publish workflow
         if: success()
+        env:
+          GH_TOKEN: ${{ secrets.WEBSITE_V2_PAT }}
         run: |
-          echo "${{ secrets.WEBSITE_V2_PAT }}" | gh auth login --with-token
           gh workflow run publish.yml --repo boostorg/website-v2-docs --ref develop
