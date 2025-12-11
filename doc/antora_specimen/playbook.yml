@@ -1,0 +1,18 @@
+site:
+  title: Boostlook Antora Specimen
+  url: /
+  start_page: url::index.adoc
+
+content:
+  sources:
+    - url: https://github.com/boostorg/url.git
+      branches: develop
+      start_path: doc
+
+ui:
+  bundle:
+    url: https://github.com/boostorg/website-v2-docs/releases/download/ui-master/ui-bundle.zip
+    snapshot: true
+
+output:
+  dir: ./build/site
