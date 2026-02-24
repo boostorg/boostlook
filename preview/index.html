@@ -66,6 +66,24 @@
     a:hover { text-decoration: underline; }
     .tag { font-size: 0.75rem; color: var(--muted); }
     .desc { font-size: 0.8125rem; color: var(--muted); }
+    .changelog-wrap { position: relative; }
+    .changelog {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 0.5rem; padding: 1rem 1.25rem;
+      display: flex; flex-direction: column; gap: 0.75rem;
+      max-height: 30rem; overflow-y: auto;
+    }
+    .changelog-wrap::after {
+      content: ""; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2.5rem; border-radius: 0 0 0.5rem 0.5rem; pointer-events: none;
+      background: linear-gradient(transparent, var(--card-bg));
+    }
+    .changelog-item { display: flex; flex-direction: column; gap: 0.25rem; }
+    .changelog-item:not(:last-child) { padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+    .changelog-date { font-size: 0.6875rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+    .changelog-text { font-size: 0.8125rem; color: var(--fg); line-height: 1.5; }
+    .changelog-text ul { list-style: none; padding: 0; margin: 0; }
+    .changelog-text li::before { content: "\2022\00a0"; color: var(--muted); }
     hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
     footer { font-size: 0.8125rem; color: var(--muted); }
     footer a { color: var(--muted); }
@@ -114,6 +132,58 @@
     <div class="link-row">
       <a href="formal-reviews/">Formal Reviews</a>
       <span class="tag">Antora</span>
+    </div>
+  </div>
+
+  <h2>Changelog</h2>
+  <div class="changelog-wrap">
+    <div class="changelog">
+      <div class="changelog-item">
+        <span class="changelog-date">Feb 24</span>
+        <div class="changelog-text"><ul>
+          <li>New color tokens for note-style admonitions</li>
+          <li>Fixed spacing after paragraphs before code blocks and lists</li>
+          <li>Math expressions now render inline as SVGs</li>
+        </ul></div>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Feb 24</span>
+        <div class="changelog-text"><ul>
+          <li>Spacing now matches Figma designs</li>
+          <li>Added style guide with colors, typography, and component demos</li>
+          <li>Added this preview landing page</li>
+          <li>Color naming now matches Figma</li>
+          <li>Replaced hardcoded colors with design tokens</li>
+          <li>Removed unused styles</li>
+        </ul></div>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Feb 23</span>
+        <div class="changelog-text"><ul>
+          <li>Created the Boostlook v3 preview site</li>
+          <li>Set up Netlify preview deployment</li>
+          <li>Rebuilt CSS from updated sources</li>
+          <li>Refined typography, code blocks, and doc styles</li>
+          <li>Body text sizing now matches Figma</li>
+          <li>Fixed font weight rendering for variable fonts</li>
+          <li>Updated style guide to use correct font files</li>
+        </ul></div>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Feb 19</span>
+        <div class="changelog-text"><ul>
+          <li>Typography refinements across the site</li>
+        </ul></div>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Feb 17</span>
+        <div class="changelog-text"><ul>
+          <li>Set up modular v3 CSS source files and build script</li>
+          <li>Initial boostlook-v3.css development build</li>
+          <li>Cleaned up dead code and commented-out CSS</li>
+          <li>Removed unused local font files</li>
+        </ul></div>
+      </div>
     </div>
   </div>
 
