@@ -362,12 +362,15 @@
 
   /* New Look Responsive Mobile First */
   /* Spacing — Metalab 2.0 (mobile) */
-  /* xs: 2/2, s: 4/4, default: 8/6, medium: 12/8, large: 16/12, xl: 24/16, xxl: 32/20 */
+  /* xs: 2/2, s: 4/4, default: 8/6, medium: 12/8, large: 24/16, xl: 32/20, xxl: 60/48, avatar: 48/40 */
+  --spacing-xs: 0.125rem;
+  --spacing-s: 0.25rem;
   --spacing-default: 0.375rem;
   --spacing-medium: 0.5rem;
-  --spacing-large: 0.75rem;
-  --spacing-xl: 1rem;
-  --spacing-xxl: 1.25rem;
+  --spacing-large: 1rem;
+  --spacing-xl: 1.25rem;
+  --spacing-xxl: 3rem;
+  --spacing-avatar: 2.5rem;
 
   /* Corner Radius — Metalab 2.0 (mobile) */
   --radius-xs: var(--corner-radius-xs);
@@ -435,11 +438,14 @@
 @media (min-width: 768px) {
   :root {
     /* Spacing — Metalab 2.0 (desktop) */
+    --spacing-xs: 0.125rem;
+    --spacing-s: 0.25rem;
     --spacing-default: var(--spacing-size-2xs);
     --spacing-medium: var(--spacing-size-xs);
-    --spacing-large: var(--spacing-size-sm);
-    --spacing-xl: var(--spacing-size-lg);
-    --spacing-xxl: var(--spacing-size-xl);
+    --spacing-large: var(--spacing-size-lg);
+    --spacing-xl: var(--spacing-size-xl);
+    --spacing-xxl: 3.75rem;
+    --spacing-avatar: var(--spacing-size-3xl);
 
     /* Corner Radius — Metalab 2.0 (desktop) */
     --radius-xs: var(--corner-radius-xs);
