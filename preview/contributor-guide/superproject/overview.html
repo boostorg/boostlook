@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Super-Project Layout :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/superproject/overview.html">
+    <link rel="prev" href="../testing/fuzzing.html">
+    <link rel="next" href="getting-started.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>The Super-Project</li>
+    <li><a href="overview.html">Layout</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="../testing/fuzzing.html">
+      <span class="material-symbols-outlined" title="Previous: Fuzzing">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="getting-started.html">
+      <span class="material-symbols-outlined" title="Next: Getting Started">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Super-Project Layout</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section covers the organization of the Boost C++ Libraries into separate, independently developable modules, each residing in its own repository, to facilitate development, integration, and selective inclusion of individual libraries.</p>
+</div>
+<div class="paragraph">
+<p>This section provides an overview of how the Super-project is organized.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overall_organization"><a class="anchor" href="#_overall_organization"></a>Overall Organization</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Boost Super-project consists of separate projects for each individual library. In terms of Git, the Super-project treats the individual libraries as <em>submodules</em>.</p>
+</div>
+<div class="paragraph">
+<p>All public repositories are hosted at <a href="https://github.com/boostorg">GitHub boostorg</a>.</p>
+</div>
+<div class="paragraph">
+<p>Releases of individual libraries occur asynchronously from releases of the Super-project.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_repositories"><a class="anchor" href="#_repositories"></a>Repositories</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>The Super-project has its own public repository within <code>boostorg</code>. It treats each individual library as a submodule, i.e. a link to a particular release in the library&#8217;s public GitHub repository. The Super-project is maintained by the Boost release managers, and most library developers do not have write access.</p>
+</li>
+<li>
+<p>Each individual library has its own public repository within <code>boostorg</code>. For example, <a href="https://www.boost.org/libs/config">Boost.Config</a> has a public repository here. The maintainer of a library decides who has write access to the public repository. Release managers and their helpers also have write access for administrative purposes.</p>
+</li>
+<li>
+<p>As with any Git project, a library&#8217;s developers do day-to-day work using private repositories on their local machines. When they push changes from these local private repositories up to the library&#8217;s public repository is up to them, as is when the library issues releases. As usual with Git, the local repositories may have private branches that are never pushed to the public repository.</p>
+</li>
+<li>
+<p>Libraries are required to follow certain naming conventions for branches and directories, so that both humans and automatic test and management tools know where to find commonly referenced components. But beyond those requirements, each library is free to use whatever branch and directory strategies they wish.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_branches"><a class="anchor" href="#_branches"></a>Branches</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost requires all libraries have at least the two branches <code>master</code> and <code>develop</code>.</p>
+</div>
+<div class="paragraph">
+<p>Releases for both the Super-project and individual libraries are always on branch <code>master</code>. <code>master</code> in the library&#8217;s <code>boostorg</code> public repo should be stable at all times, so should only be pushed to the library&#8217;s public repository when it is stable and ready to ship.</p>
+</div>
+<div class="paragraph">
+<p>Branch <code>develop</code> is the main development branch. Whether or not <code>develop</code> is stable in the library&#8217;s public <code>boostorg</code> repository is up to the library maintainer.</p>
+</div>
+<div class="paragraph">
+<p>Additional branches, if any, are up to the library maintainer. See <a href="#_git_flow_for_workflow">Git Flow for Workflow</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_directory_structure"><a class="anchor" href="#_directory_structure"></a>Directory Structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Your library&#8217;s directory structure conforms to Boost directory structure conventions, so both users and automatic processes can find header files, test files, build configurations, and the like. Beyond the conventions, your library&#8217;s directory structure is up to you.</p>
+</div>
+<div class="paragraph">
+<p>The Super-project header files are placed in an <code>include/boost</code> directory hierarchy within the library&#8217;s top-level directory. Here is what a very simple header-only library named <code>simple</code> would look like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">     simple
+       include
+         boost
+           simple
+             twice.hpp
+       test
+         twice_test.cpp
+         Jamfile.v2
+       index.html</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The sub-directory hierarchy <code>include/boost/&#8230;&#8203;</code> (where <code>&#8230;&#8203;</code> represents the library&#8217;s directories and header files) ensures that the library is entirely self-contained within the top-level directory.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>A real library would also have additional sub-directories such as <code>doc</code>, <code>example</code>, and <code>src</code>, as described in the directory conventions, but they are left out of simple for the sake of brevity.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_git_flow_for_workflow"><a class="anchor" href="#_git_flow_for_workflow"></a>Git Flow for Workflow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost recommends, but does not require, the approach to library workflow that has come to be known as Git Flow. For more about how this applies to Boost libraries, see <a href="library-workflow.html" class="xref page">Super-Project Library Workflow</a>.</p>
+</div>
+<div class="paragraph">
+<p>Refer also to <a href="../best-practices.html#githubstrategies" class="xref page">Best Practices: GitHub Strategies</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="getting-started.html" class="xref page">Getting Started with the Super-Project</a></p>
+</li>
+<li>
+<p><a href="https://www.bfgroup.xyz/b2/">B2</a></p>
+</li>
+<li>
+<p><a href="../version-control.html" class="xref page">Version Control</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/superproject/overview.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="../testing/fuzzing.html">Fuzzing</a></span>
+        <span class="next"><a href="getting-started.html">Getting Started</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

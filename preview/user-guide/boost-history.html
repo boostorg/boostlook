@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>History of Boost :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/boost-history.html">
+    <link rel="prev" href="release-process.html">
+    <link rel="next" href="in-memoriam-beman-dawes.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>User Community</li>
+    <li><a href="boost-history.html">History</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="release-process.html">
+      <span class="material-symbols-outlined" title="Previous: Release Process">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="in-memoriam-beman-dawes.html">
+      <span class="material-symbols-outlined" title="Next: In Memoriam: Beman Dawes">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">History of Boost</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This topic provides an overview of the origins, growth, and impact of Boost on the programming community.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost is a highly influential and widely used collection of libraries, designed to extend and complement the functionality provided by the C++ Standard Library. Since its original <a href="https://www.boost.org/users/proposal.pdf">Proposal</a> in 1998, Boost has played a significant role in shaping the evolution of the C++ language and its ecosystem.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_origins"><a class="anchor" href="#_origins"></a>Origins</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The story of Boost began when Robert Klarer and Beman Dawes discussed the idea at the March 1998 meeting of the C++ Standards Committee in Sophia Antipolis, France. Joined by Dave Abrahams, they convened the first Boost mailing list to facilitate discussions on the creation of high-quality, peer-reviewed libraries for the C++ programming language. At the time, the C++ Standard Library was limited in its functionality, and many developers felt the need for additional libraries to support the growing demands of software development. The name "Boost" was chosen to represent the goal of <em>boosting</em> the C++ language and its library ecosystem to new heights.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Dave Abrahams has made extensive contributions to the C++ Standard Library, in particular in the areas of generic programming and standard algorithms, and co-authored <a href="https://www.boost.org/libs/iterator">Boost.Iterator</a> and <a href="https://www.boost.org/libs/python">Boost.Python</a>. He is also one of the authors of the seminal book <a href="https://www.amazon.com/Template-Metaprogramming-Concepts-Techniques-Beyond/dp/0321227255/ref=sr_1_4?crid=HI35B2KK3987&amp;dib=eyJ2IjoiMSJ9.P-3RmVnNdxb3MB2tDB-N2eIrS82rPCnhbuo2xC_81TpfhkAOnvvUYSdtzUiKqqEuMLmO0F77hzV6qzKdtnwVYYT7j8ipwawVE5CSdvMBQa9bx3xkckjeCf9eB5Kg_PVNJY7eYwD_84LyklkNd0RaGinHw48GP9aPm2Wf54pqOuWiXl21YFoJBnMcr4dyYKstByD0NEoTyo0AiT9SuVn5f6gLB4B07u2F6Ub5cJXlPFo.jiv5i6W5MPb51AnZ_vfrgrMvhhVRxQlSVnhgtcRiA9w&amp;dib_tag=se&amp;keywords=c%2B%2B+template+metaprogramming&amp;qid=1736805974&amp;sprefix=C%2B%2B+Template+Met%2Caps%2C167&amp;sr=8-4">C++ Template Metaprogramming</a>, which has inspired many developers to adopt advanced template techniques.</p>
+</li>
+<li>
+<p>The late <a href="in-memoriam-beman-dawes.html" class="xref page">Beman Dawes</a> made significant contributions to the language, particularly in the area of file systems. He was the original author of the <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> library, which provided robust support for cross-platform file handling and later became the foundation for the <code>std::filesystem</code> library in C++17. Dawes emphasized the importance of creating a testing culture within Boost and was pivotal in establishing Boost&#8217;s peer-review process.</p>
+</li>
+<li>
+<p>Robert Klarer is the least publicly documented of the founders, though as an idea&#8217;s man he was particularly involved in discussions around best practices for high-quality library development and was instrumental in helping shape the early vision of Boost as a community-driven project.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_early_development"><a class="anchor" href="#_early_development"></a>Early Development</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The first few libraries that formed the basis of Boost were created by a group of dedicated and talented C++ programmers. Early libraries included the <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> library, which provided support for reference counting and garbage collection, and the <a href="https://www.boost.org/libs/regex">Boost.Regex</a> library, which added regular expression support to the language. The first official release was in the year 1999, and contained 24 libraries. Version numbers were started in December 1999, with version <em>1.10.3</em>.</p>
+</div>
+<div class="paragraph">
+<p>Boost quickly gained traction and attracted more contributors who shared a common vision of improving the C++ language through high-quality, portable, and reusable code.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_peer_review_process"><a class="anchor" href="#_peer_review_process"></a>Peer Review Process</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>One of the defining characteristics of Boost is its strict peer review process. Before a library is accepted into Boost, it must undergo a thorough review by other experienced C++ developers. This process ensures that only high-quality libraries, adhering to the best programming practices, are included in the collection. The peer review process not only maintains the quality of Boost but also fosters a sense of community and encourages collaboration among its contributors.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_influence_on_the_c_language_and_community"><a class="anchor" href="#_influence_on_the_c_language_and_community"></a>Influence on the C++ Language and Community</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost has had a profound impact on the C++ language and its community. Many of the libraries and concepts introduced by Boost have been adopted into the C++ Standard Library, including smart pointers, regular expressions, and the <a href="https://www.boost.org/libs/lambda">Boost.Lambda</a> function syntax. Boost has also been a fertile ground for experimenting with new ideas and techniques, which have later made their way into the C++ language itself, such as <a href="https://www.boost.org/libs/type_traits">Boost.TypeTraits</a> and <a href="https://www.boost.org/libs/mpl">Boost.Mpl</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_developer_conference"><a class="anchor" href="#_developer_conference"></a>Developer Conference</h3>
+<div class="paragraph">
+<p><em>BoostCon</em>, initiated in 2007, was a conference dedicated to the discussion and improvement of both Boost libraries and C++ software development in general. In 2012, <a href="http://boostcon.boost.org/">BoostCon</a> was rebranded as <em>C++ Now</em> (<a href="https://cppnow.org/" class="bare">https://cppnow.org/</a>) to reflect a broader scope. While Boost libraries remained a crucial part of the discussion, the conference expanded to cover popular and advanced C++ techniques.</p>
+</div>
+<div class="paragraph">
+<p>C++ Now featured topics ranging from "Building a Modern C++ HTTP Server with <a href="https://www.boost.org/libs/beast">Boost.Beast</a>" and "Exploring New Functionalities in <a href="https://www.boost.org/libs/geometry">Boost.Geometry</a>", to
+"C++in Game Development: Best Practices" and "Advanced Template Metaprogramming Techniques", among many other presentations.</p>
+</div>
+<div class="paragraph">
+<p>The conference is primarily held in May, in the picturesque and tranquil setting of Aspen, Colorado. The promotion of the location includes the warning "Mild-mannered black bears live in the area. Please close doors behind you in the evenings."</p>
+</div>
+<div class="paragraph">
+<p>Boost maintainers, contributors, and users often participate in the conference, sharing their expertise, discussing best practices, and exploring new directions for Boost libraries. The conference has a reputation for interruptions and comments from the audience - it is very much a collaborative conference!</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_to_git"><a class="anchor" href="#_migration_to_git"></a>Migration to Git</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost libraries transitioned their source code management from <a href="https://subversion.apache.org/">Subversion (SVN)</a>, and issue tracking from <a href="https://trac.edgewall.org/">Trac</a>, to Git, and GitHub Issues, throughout 2013-2014.</p>
+</div>
+<div class="paragraph">
+<p>This migration was in line with broader trends in open-source software development. Git and GitHub appeared to offer a more flexible and collaborative environment, and many open-source projects started adopting them to manage their source code and facilitate community contributions.</p>
+</div>
+<div class="paragraph">
+<p>By transitioning to these platforms, Boost aimed to improve its development workflow, make it easier for new contributors to get involved, and leverage the powerful collaboration features offered by GitHub. However, as with many major changes, there was a lot of discussion on the issues at the time, some favorable and some not so much. For example (from mailing list archives):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://lists.boost.org/Archives/boost//2013/10/208008.php">Switchover schedule proposal</a></p>
+</li>
+<li>
+<p><a href="https://lists.boost.org/Archives/boost//2012/05/193472.php">Revelations at C++ Now</a></p>
+</li>
+<li>
+<p><a href="https://lists.boost.org/Archives/boost//2012/02/190195.php">Neglected issues</a></p>
+</li>
+<li>
+<p><a href="https://lists.boost.org/Archives/boost//2015/04/221780.php">Switch from Trac</a></p>
+</li>
+<li>
+<p><a href="https://lists.boost.org/Archives/boost//2011/02/177137.php">Boost Filesystem now has public GitHub repository</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_timeline_of_boost_exclusivity"><a class="anchor" href="#_a_timeline_of_boost_exclusivity"></a>A Timeline of Boost Exclusivity</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>While many Boost libraries have been incorporated into the <a href="https://en.cppreference.com/w/cpp/standard_library">C++ Standard Library</a>, most others remain exclusive to Boost, and are highly regarded for their capabilities and performance. Some of these noteworthy libraries include:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="https://www.boost.org/libs/graph">Boost.Graph</a> : An extensive library for graph data structures and algorithms, enabling developers to work with graphs and network structures, while providing efficient implementations of popular graph algorithms like Dijkstra&#8217;s, Kruskal&#8217;s, and more.  Developed by Jeremy Siek, Lie-Quan Lee and Andrew Lumsdaine of Indiana University and released in <strong>September 2000</strong>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> : A powerful and flexible parser and generator framework, which uses expression templates and template metaprogramming to create parsers at compile-time. This results in efficient and type-safe parsing code. Developed by Joel de Guzman and Hartmut Kaiser and added to Boost <strong>March 2003</strong>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a> : A cross-platform library for network and low-level I/O programming, offering a consistent asynchronous model that allows developers to write efficient and highly-scalable applications. Developed by Christopher Kohlhoff and added to Boost <strong>March 2008</strong>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/geometry">Boost.Geometry</a> : A library providing a collection of algorithms and data structures for working with geometrical objects, such as points, lines, polygons, and more. It also supports spatial indexing, coordinate system transformations, and various distance calculations. Developed by Barend Gehrels, Bruno Lalande, Mateusz Loskot, Adam Wulkiewicz, Menelaos Karavelas and Vissarion Fisikopoulos and added to Boost <strong>July 2011</strong>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/coroutine">Boost.Coroutine</a> : A library providing templates for generalized subroutines which allow for suspending and resuming execution at certain locations. The idea is to enable <em>cooperative</em> programming. Developed by Oliver Kowalke and added to Boost <strong>February 2013</strong>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/hana">Boost.Hana</a> : A modern metaprogramming library for C++ that employs cutting-edge C++ features to facilitate powerful and expressive metaprogramming techniques, such as heterogeneous containers, compile-time algorithms, and type introspection. Developed by Louis Dionne and added to Boost <strong>May 2016</strong>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> : A metaprogramming library for compile-time manipulation of data structures that contain types, based on template aliases and variadic templates. Developed by Peter Dimov and added to Boost in <strong>December 2017</strong>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/json">Boost.Json</a> : A JSON library for encoding, decoding, and manipulating JSON data. Developed by Vinnie Falco, Krystian Stasiowski and Dmitry Arkhipov and added to Boost in <strong>December 2020</strong>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/describe">Boost.Describe</a> : This reflection library enables authors of user-defined types (enums, structs and classes) to describe their enumerators, base classes, data members and member functions. This information can later be queried by other code portions, possibly written by a different author, using the supplied primitives. Developed by Peter Dimov and added to Boost in <strong>August 2021</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These libraries, among many others, showcase the value and versatility of Boost in providing advanced functionality beyond the scope of the C++ Standard Library. Refer to <a href="https://www.boost.org/users/history/">Boost Version History</a> for a chronology of releases since 1999.</p>
+</div>
+<div class="paragraph">
+<p>As well as the <a href="common-introduction.html" class="xref page">Common</a> and <a href="advanced-introduction.html" class="xref page">Advanced</a> scenarios highlighted in this documentation, Boost libraries are used in highly specialized applications, ranging from probability theory to astronomy to mass spectroscopy. Open source isn&#8217;t just for nerds and researchers. Real world programming challenges, irrespective of whether they are open or closed source, can benefit enormously from the thought and experience that has gone into the libraries.</p>
+</div>
+<div class="paragraph">
+<p>The source code is always distributed as open source, and released under the <a href="bsl.html" class="xref page">Boost Software License</a>, which allows anyone to use, modify, and distribute the libraries for free. The libraries are platform independent and support most popular compilers, as well as many that are less well known.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_current_status"><a class="anchor" href="#_current_status"></a>Current Status</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost has evolved into a widely used and influential <a href="https://www.boost.org/doc/libs/">collection of over 180 libraries</a> since its inception in 1998. Currently, the Boost mission is threefold:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Develop high-quality, expert-reviewed, open-source C++ libraries.</p>
+</li>
+<li>
+<p>Incubate C++ Standard Library enhancements.</p>
+</li>
+<li>
+<p>Advance and disseminate C++ software development best practices. This is accomplished by facilitating C++ community engagement, providing necessary financial/legal support, and breaking rare directional decision-making deadlocks while upholding our shared values of engineering excellence, technocratic leadership, and a federated library authorship model.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The formation of the <a href="https://cppalliance.org/">CppAlliance</a> brought an organizational structure to Boost. It provides legal and financial oversight, manages assets like the Boost trademark, and helps fund the hosting infrastructure.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/get-boost-button.png" alt="get boost button">
+</div>
+</div>
+<div class="paragraph">
+<p><em>The Get Boost download button actually originated by replacing the word ALARMA from a Spanish operational manual photograph.</em></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/highly-respected-quote.png" alt="highly respected quote">
+</div>
+</div>
+<div class="paragraph">
+<p><em>Early praise from well-known C++ gurus in their book: C++ Coding Standards: 101 Rules, Guidelines, and Best Practices, published in 2004".</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_references"><a class="anchor" href="#_references"></a>References</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_proposal"><a class="anchor" href="#_proposal"></a>Proposal</h3>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/users/proposal.pdf">Proposal for a C++ Library Repository Web Site</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_status_reports"><a class="anchor" href="#_status_reports"></a>Status Reports</h3>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://github.com/boostorg/website/blob/master/development/report-jan-2006.rst">Review Wizard Status Report for January 2006</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/website/blob/master/development/report-apr-2006.rst">Review Wizard Status Report for April 2006</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/website/blob/master/development/report-sep-2007.rst">Review Wizard Status Report for September 2007</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/website/blob/master/development/report-nov-2007.rst">Review Wizard Status Report for November 2007</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/website/blob/master/development/report-apr-2008.rst">Review Wizard Status Report for April 2008</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/website/blob/master/development/report-may-2008.rst">Review Wizard Status Report for May 2008</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/website/blob/master/development/report-nov-2008.rst">Review Wizard Status Report for November 2008</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/website/blob/master/development/report-jun-2009.rst">Review Wizard Status Report for June 2009</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/website/blob/master/development/report-dec-2009.rst">Review Wizard Status Report for December 2009</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/CPPAlliance">The C++ Alliance</a> on GitHub</p>
+</li>
+<li>
+<p><a href="../formal-reviews/review-results.html" class="xref page">Formal Review Schedule</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/boost-history.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="release-process.html">Release Process</a></span>
+        <span class="next"><a href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

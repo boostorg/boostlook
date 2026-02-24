@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Getting Started with Super-Project Library Maintenance :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/superproject/library-maintenance.html">
+    <link rel="prev" href="getting-started.html">
+    <link rel="next" href="library-workflow.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>The Super-Project</li>
+    <li><a href="library-maintenance.html">Library Maintenance</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="getting-started.html">
+      <span class="material-symbols-outlined" title="Previous: Getting Started">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="library-workflow.html">
+      <span class="material-symbols-outlined" title="Next: Library Workflow">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Getting Started with Super-Project Library Maintenance</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This page briefly sketches the mechanics of maintaining a Boost library using Git. The intended audience is developers getting started with the maintenance of an existing Super-project library.</p>
+</div>
+<div class="paragraph">
+<p>This page is intended to get you started only; it does not provide in-depth coverage. See links below for that.</p>
+</div>
+<div class="paragraph">
+<p>Illustrations of how to perform various actions are given using the Git command line client.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_big_picture"><a class="anchor" href="#_the_big_picture"></a>The Big Picture</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Library maintenance occurs in the context of how Boost repositories are organized. Study the <a href="overview.html" class="xref page">Super-Project Layout</a> before continuing, since a Boost developer needs to be familiar with how Boost organizes its repositories.</p>
+</div>
+<div class="paragraph">
+<p>The examples given on this page follow Boost recommended workflow practices, but keep workflow discussion simple for this introduction. To better understand workflow recommendations and rationale before continuing, read <a href="library-workflow.html" class="xref page">Super-Project Library Workflow</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A recent release of the Git command line client installed.</p>
+</li>
+<li>
+<p>A <a href="https://github.com/">GitHub</a> account.</p>
+</li>
+<li>
+<p>A C++ compiler and development environment installed and working smoothly.</p>
+</li>
+<li>
+<p>The Super-project installed, as described in <a href="getting-started.html" class="xref page">Getting Started with the Super-Project</a>.</p>
+</li>
+<li>
+<p><code>b2</code> in your path. That allows the command line examples given here to work as shown on both Windows and POSIX-like systems.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_typical_maintenance_tasks"><a class="anchor" href="#_typical_maintenance_tasks"></a>Typical Maintenance Tasks</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_getting_ready_to_work_on_a_library"><a class="anchor" href="#_getting_ready_to_work_on_a_library"></a>Getting Ready to Work on a Library</h3>
+<div class="paragraph">
+<p>The preferred environment library maintenance is to checkout the library&#8217;s <code>develop</code> branch, or some other development branch, while other Boost libraries are as defined by the Super-project <code>master</code> branch. This causes local tests of your library to run against <code>master</code> for other Boost libraries at the point in time referenced by the Super-project.</p>
+</div>
+<div class="paragraph">
+<p>This is a more realistic test environment in than testing against the possibly unstable <code>develop</code> branch of other Boost libraries or against the <code>master</code> branch of other libraries at a different point in time than that referenced by the Super-project. Robert Ramey has advocated this approach to testing for years, and the Super-project makes this approach relatively easy and fast.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The following examples assume you have installed the Super-project to a folder called <code>boost-root</code>.</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd boost-root
+git checkout master
+git pull
+git submodule update</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>git submodule update`</code> will fail if it would result in uncommitted changes being overwritten.</p>
+</div>
+<div class="paragraph">
+<p>The <code>git submodule update</code> may switch submodules back to the detached state, depending on the working copy&#8217;s exact situation.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#_effects_of_git_submodule_update">Effects of <code>git submodule update</code></a> for details.</p>
+</div>
+<div class="paragraph">
+<p>To get more information about a submodule:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd boost-root
+git submodule summary</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If for some reason you wanted to test against the current head of master for all libraries, disregarding the Super-project state, the <code>git submodule update</code> command would be changed to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git submodule foreach --recursive "git checkout master; git pull"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If modules are added, these should be added to your project too, which is not done by the commands above. Run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git submodule update --init</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that if you use the <code>--init</code> option, the already-initialized submodules will not be updated. You might have to run the command without <code>--init</code> afterwards.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_check_out_the_development_branch_of_your_library"><a class="anchor" href="#_check_out_the_development_branch_of_your_library"></a>Check out the Development Branch of your Library</h3>
+<div class="paragraph">
+<p>You can see what branch <code>mylib</code> is currently on like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd boost-root/libs/mylib
+git branch</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then if you need to change the branch to a development branch such as <code>develop</code>, do this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd boost-root/libs/mylib
+git checkout develop</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You only have to do that once; your local repo working copy will sit on the branch until it is explicitly changed by a command you give.</p>
+</div>
+<div class="paragraph">
+<p>Of course, you don&#8217;t have to change the directory before every command, and from here on this tutorial will assume the directory has not been changed since the prior example.</p>
+</div>
+<div class="paragraph">
+<p>If there is any possibility the branch head content in the public upstream repo has changed, you also will want to update content:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd boost-root/libs/mylib
+git pull</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>From this point on, it is assumed you have already done a <code>cd boost-root/libs/mylib</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_locally"><a class="anchor" href="#_testing_locally"></a>Testing Locally</h3>
+<div class="paragraph">
+<p>Unless you are 100% sure of the state of your library&#8217;s regression tests, it is a good idea to run the regression tests before making any changes to the library:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">pushd test
+b2
+popd</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_checking_status"><a class="anchor" href="#_checking_status"></a>Checking Status</h3>
+<div class="paragraph">
+<p>Before making changes, it is a good idea to check status. Here is what that looks like on Windows; the message you get may vary somewhat:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">&gt;git status
+# On branch develop
+nothing to commit, working directory clean</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fix_a_simple_bug_directly_on_develop"><a class="anchor" href="#_fix_a_simple_bug_directly_on_develop"></a>Fix a Simple Bug Directly on <code>develop</code></h3>
+<div class="paragraph">
+<p>For simple bugs, particularly in projects with a single maintainer, it is common practice to fix bugs directly in the <code>develop</code> branch. Creating a test case with your favorite editor, testing the test case, fixing the bug, testing the fix, and then iterating if necessary is no different than with any programming environment.</p>
+</div>
+<div class="paragraph">
+<p>Once the fix is complete, you then commit the fix locally and push from your local repo up to your public <code>boostorg</code> repo on GitHub. These same commands would be used for any Git project, so hopefully you are already somewhat familiar with them:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd boost-root/libs/mylib
+git commit -a -m "my bug fix"
+git push</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are some significant disadvantages to this simple approach:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The fix is now made to <code>develop</code> but you must remember to merge it to a release branch or directly to <code>master</code>. It is very easy to forget to do that merge, particularly if this is a mature library you are not working with very often.</p>
+</li>
+<li>
+<p>Users who need the bug fix right away are forced to jump through hoops to retrieve the fix from <code>develop</code>.
+Putting out a point release solves both of those problems. Read on&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fix_a_bug_using_a_hot_fix_branch"><a class="anchor" href="#_fix_a_bug_using_a_hot_fix_branch"></a>Fix a Bug using a Hot-fix Branch</h3>
+<div class="paragraph">
+<p>Fixing a bug directly on the <code>develop</code> branch is fine, if that&#8217;s the library&#8217;s policy, but if the bug is messy, multiple maintainers are involved, interruptions are expected, or other complexities are present, then it is better practice to work on the bug in a separate branch. And doing that on a hot-fix branch solves the problems mentioned at the end of the prior section.</p>
+</div>
+<div class="paragraph">
+<p>The operational distinction between a bug-fix branch and a hot-fix branch is that a bug-fix branch is branched from <code>develop</code> and then at completion merged back to <code>develop</code>, while a hot-fix branch is branched from <code>master</code> and then at completion is merged to both <code>master</code> and <code>develop</code>. With either approach, the branch is deleted after it has been merged.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git checkout master
+git checkout -b hotfix/complex-boo-boo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This creates the branch <code>hotfix/complex-boo-boo</code>, and switches to it. Incidentally, <code>hotfix/</code> is part of the name, not a directory specifier. The new branch is based on branch <code>master</code> because the working copy was on branch <code>master</code> at the time of the branch.</p>
+</div>
+<div class="paragraph">
+<p>Since the bug is complex, it may take some time to fix and may go through several cycles of fixes, tests, and commits.</p>
+</div>
+<div class="paragraph">
+<p>Once the bug is fixed and a final commit is done, then it is time to merge the <code>hotfix/complex-boo-boo</code> branch into <code>master</code> and <code>develop</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git checkout master
+git merge hotfix/complex-boo-boo
+git push
+git checkout develop
+git merge hotfix/complex-boo-boo
+git push
+git branch -d hotfix/complex-boo-boo</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_start_work_on_a_new_feature"><a class="anchor" href="#_start_work_on_a_new_feature"></a>Start Work on a New Feature</h3>
+<div class="paragraph">
+<p>Developers are encouraged to create a (possibly private) branch to work on new features, even simple ones, since development of new features on the <code>develop</code> branch might leave it unstable for longer that expected. Using the Git Flow convention, the branch will be named <code>feature/add-checksum-option</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git checkout develop
+git checkout -b feature/add-checksum-option</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When you create the branch, or perhaps later, you may decide the branch should be public (i.e. be present in the library&#8217;s public <code>boostorg</code> repo) so that you can share the branch with others or just to back it up. If so, set that up by running:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git push --set-upstream origin feature/add-checksum-option</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Whether or not <code>--set-upstream origin bugfix/complex-boo-boo</code> is actually needed depends on the <code>branch.autosetupmerge</code> configuration variable that isn&#8217;t discussed here. If you don&#8217;t supply <code>--set-upstream origin bugfix/complex-boo-boo</code> on your first push and it turns out to be needed, you will get an error message explaining that.</p>
+</div>
+<div class="paragraph">
+<p>The usual cycle of coding, testing, commits, and pushes (if public) then begins. If other work needs to be done, a stash or commit may be done to save work-in-progress, and the working copy switched to another branch for awhile. If significant fixes or other enhancements have been made to <code>develop</code> over time, it may be useful to merge <code>develop</code> into the feature branch so that the eventual merge back to <code>develop</code> has less conflicts. Here is how to merge from <code>develop</code> to <code>feature/add-checksum-option</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git checkout feature/add-checksum-option
+git merge develop</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lightweight_library_release"><a class="anchor" href="#_lightweight_library_release"></a>Lightweight Library Release</h3>
+<div class="paragraph">
+<p>Small, simple libraries and simple releases just merge the development branch, such as <code>develop</code>, into <code>master</code>, and test like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git checkout master
+git merge --no-ff develop
+pushd test
+b2
+popd</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Warning</dt>
+<dd>
+<p>If there are any test failures, correct the problem, retest, and commit the fixes before proceeding with the release.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>If there are no test failures, tag for release and declare victory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git push                            # push merge results
+git tag -a -m "tag for release" mylib-2014-06-02
+git push origin mylib-2014-06-02    # push specific tag to avoid pushing all local tags</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="library-workflow.html" class="xref page">Super-Project Library Workflow</a> for release tag naming conventions.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_heavyweight_library_release"><a class="anchor" href="#_heavyweight_library_release"></a>Heavyweight Library Release</h3>
+<div class="paragraph">
+<p>Large, complex libraries, particularly those with multiple developers working in parallel, need to use a release procedure that scales up better than the lightweight procedure. The Git Flow approach is recommended. Find out more at <a href="library-workflow.html" class="xref page">Super-Project Library Workflow</a> and be sure to study the examples given in <a href="https://nvie.com/posts/a-successful-git-branching-model/">Vincent Driessen&#8217;s original blog post</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_effects_of_git_submodule_update"><a class="anchor" href="#_effects_of_git_submodule_update"></a>Effects of <code>git submodule update</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following table, based on actual tests run using git version <code>1.8.4.msysgit.0</code>, shows the effects on a submodule of:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">cd boost-root
+git checkout master
+git pull
+git submodule update</code></pre>
+</div>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3335%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Submodule Branch</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Submodule Contents</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Submodule relative to Super-project</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Effects on Submodule</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detached</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unmodified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up-to-date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detached</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unmodified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Behind</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git pull</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detached</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uncommitted change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up-to-date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error: Your local changes to the following files would be overwritten by checkout: &#8230;&#8203; Please, commit your changes or stash them before you can switch branches. Aborting Unable to checkout (SHA&#8230;&#8203;) in submodule path '&#8230;&#8203;'</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detached</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uncommitted change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Behind</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error: Your local changes to the following files would be overwritten by checkout: &#8230;&#8203; Please, commit your changes or stash them before you can switch branches. Aborting Unable to checkout (SHA &#8230;&#8203;) in submodule path '&#8230;&#8203;'</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detached</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Committed change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up-to-date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git checkout --detach</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detached</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Committed change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Behind</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git checkout --detach</code>; <code>git pull</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>master</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unmodified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up-to-date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git checkout --detach</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>master</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unmodified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Behind</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git pull</code> (but no detach)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>master</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uncommitted change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up-to-date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error: Your local changes to the following files would be overwritten by checkout: &#8230;&#8203; Please, commit your changes or stash them before you can switch branches. Aborting Unable to checkout (SHA&#8230;&#8203;) in submodule path '&#8230;&#8203;'</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>master</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uncommitted change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Behind</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error: Your local changes to the following files would be overwritten by checkout: &#8230;&#8203; Please, commit your changes or stash them before you can switch branches. Aborting Unable to checkout (SHA&#8230;&#8203;) in submodule path '&#8230;&#8203;'</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>master</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Committed change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up-to-date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git checkout --detach</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>master</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Committed change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Behind</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git checkout --detach</code>; <code>git pull</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>develop</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unmodified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up-to-date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git checkout --detach</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>develop</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unmodified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Behind</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git checkout --detach</code>; <code>git pull</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>develop</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uncommitted change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up-to-date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error: Your local changes to the following files would be overwritten by checkout: &#8230;&#8203; Please, commit your changes or stash them before you can switch branches. Aborting Unable to checkout (SHA&#8230;&#8203;) in submodule path '&#8230;&#8203;'</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>develop</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uncommitted change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Behind</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error: Your local changes to the following files would be overwritten by checkout: &#8230;&#8203; Please, commit your changes or stash them before you can switch branches. Aborting Unable to checkout (SHA&#8230;&#8203;) in submodule path '&#8230;&#8203;'</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>develop</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Committed change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up-to-date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git checkout --detach</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>develop</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Committed change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Behind</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git checkout --detach</code>; <code>git pull</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Be aware that <code>git checkout --detach;</code> and <code>git pull</code> are used as shorthand to describe the apparent effects. The actual git implementation may differ.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_acknowledgements"><a class="anchor" href="#_acknowledgements"></a>Acknowledgements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Beman Dawes created and maintained this page. The content has been revised many times based on comments and list postings from Andrey Semashev, John Maddock, Daniel James, Michael Cox, Pete Dimov, Edward Diener, Bjørn Roald, Klaim - Joël Lamotte, Peter A. Bigot, and others.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="overview.html" class="xref page">Super-Project Layout</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/superproject/library-maintenance.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="getting-started.html">Getting Started</a></span>
+        <span class="next"><a href="library-workflow.html">Library Workflow</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

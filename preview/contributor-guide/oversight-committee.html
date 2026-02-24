@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>The Fiscal Sponsorship Committee :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/oversight-committee.html">
+    <link rel="prev" href="contributor-community-introduction.html">
+    <link rel="next" href="tweeting.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Contributor Community</li>
+    <li><a href="oversight-committee.html">Fiscal Sponsorship Committee</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="contributor-community-introduction.html">
+      <span class="material-symbols-outlined" title="Previous: Introduction">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="tweeting.html">
+      <span class="material-symbols-outlined" title="Next: Tweeting">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">The Fiscal Sponsorship Committee</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <em>Fiscal Sponsorship Committee</em> plays a custodial and oversight role rather than being actively involved in guiding the technical direction of the Boost C++ Libraries. Its primary function is to look after Boost&#8217;s organizational, legal, and logistical assets, ensuring the community and its resources are well-supported for the long-term sustainability of the project.</p>
+</div>
+<div class="paragraph">
+<p>Boost operates with a decentralized and community-driven development model, where individual contributors and maintainers have the autonomy to drive their libraries' progress. The committee supports this by ensuring the ecosystem remains healthy and sustainable for current and future contributors.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_boost_assets">Boost Assets</a></p>
+</li>
+<li>
+<p><a href="#_contact_information">Contact Information</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boost_assets"><a class="anchor" href="#_boost_assets"></a>Boost Assets</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When referring to Boost "assets", these assets fall into five broad categories:</p>
+</div>
+<div class="sect2">
+<h3 id="_trademark_and_branding"><a class="anchor" href="#_trademark_and_branding"></a>Trademark and Branding</h3>
+<div class="paragraph">
+<p>The Boost name and logo are recognized worldwide within the C++ development community. The committee ensures that these are protected and used appropriately to maintain the reputation of the project. The Boost website, its domain (boost.org), and associated online content are managed to ensure accessibility and credibility.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_intellectual_property"><a class="anchor" href="#_intellectual_property"></a>Intellectual Property</h3>
+<div class="paragraph">
+<p>The libraries themselves represent a significant intellectual asset, as they include contributions from many developers under the <a href="../user-guide/bsl.html" class="xref page">Boost Software License (BSL)</a>, or a similar open-source license. The committee ensures the letter and spirit of the license terms are upheld and remains compatible with Boost&#8217;s goals of being free and open-source. The extensive and detailed documentation accompanying Boost libraries is an important part of the codebase, ensuring that developers can effectively use the libraries.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_infrastructure"><a class="anchor" href="#_infrastructure"></a>Infrastructure</h3>
+<div class="paragraph">
+<p>Boost&#8217;s GitHub repositories are a critical part of its infrastructure. The committee helps ensure these resources are properly maintained and accessible to contributors. Boost&#8217;s <a href="testing/boost-test-matrix.html" class="xref page">Test Matrix</a> and automated build systems, particularly the <a href="testing/continuous-integration.html" class="xref page">Continuous Integration (CI)</a> systems, are essential for quality assurance. The committee supports the infrastructure that allows library authors to ensure compatibility across compilers and platforms, and oversees the mailing lists and communication channels used by the Boost community for development discussions.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_community_and_governance"><a class="anchor" href="#_community_and_governance"></a>Community and Governance</h3>
+<div class="paragraph">
+<p>Boost&#8217;s community of contributors and users is one of its most valuable assets. The committee provides governance to maintain the open, collaborative, and meritocratic culture of the project. This includes a role in the C++ community, including participation in conferences like <a href="https://cppnow.org/">C++ Now</a>, and other events.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_financial_and_legal_responsibilities"><a class="anchor" href="#_financial_and_legal_responsibilities"></a>Financial and Legal Responsibilities</h3>
+<div class="paragraph">
+<p>Boost operates as part of the <a href="https://cppalliance.org/">C++ Alliance</a>, a non-profit organization that ensures proper legal and financial management of Boost resources. The committee collaborates with the Alliance on these matters. If funding or sponsorships are received (for example, for infrastructure or events), the committee helps ensure these are used appropriately.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact_information"><a class="anchor" href="#_contact_information"></a>Contact Information</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Currently, to contact the committee either post on the <code>#boost</code> Slack channel, or email the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost Developers Mailing List</a>, clearly mentioning the "Fiscal Sponsorship Committee" as the intended recipient.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="contributors-faq.html" class="xref page">Contributors Frequently Asked Questions</a></p>
+</li>
+<li>
+<p><a href="getting-involved.html" class="xref page">Getting Involved</a></p>
+</li>
+<li>
+<p><a href="../user-guide/bsl.html" class="xref page">The Boost Software License</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/oversight-committee.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="contributor-community-introduction.html">Introduction</a></span>
+        <span class="next"><a href="tweeting.html">Tweeting</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

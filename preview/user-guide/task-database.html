@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>High-Performance Database Engine :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-database.html">
+    <link rel="prev" href="advanced-introduction.html">
+    <link rel="next" href="task-machine-learning.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Advanced Scenarios</li>
+    <li><a href="task-database.html">Database Engine</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="advanced-introduction.html">
+      <span class="material-symbols-outlined" title="Previous: Introduction">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-machine-learning.html">
+      <span class="material-symbols-outlined" title="Next: Machine Learning">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">High-Performance Database Engine</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Creating a high-performance database application in C++ involves a range of tasks, including efficient data structures, shared and optimized memory management, safe message and network communication, persistent storage, and so much more. This section examines how to get started.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_sample_database_engine_using_containers">Sample Database Engine using Containers</a></p>
+</li>
+<li>
+<p><a href="#_optimize_memory_allocation">Optimize Memory Allocation</a></p>
+</li>
+<li>
+<p><a href="#_use_persistent_shared_memory">Use Persistent Shared Memory</a></p>
+</li>
+<li>
+<p><a href="#_safely_allow_access_from_multiple_processes">Safely Allow Access from Multiple Processes</a></p>
+</li>
+<li>
+<p><a href="#_add_serialization_to_archive_the_database">Add Serialization to Archive the Database</a></p>
+</li>
+<li>
+<p><a href="#_next_steps">Next Steps</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here are some Boost libraries that might be useful when planning and building your database app:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/libs/container">Boost.Container</a> : Provides STL-compatible containers, including stable vector, flat set/map and more. The containers provided by this library can offer performance benefits over their standard library equivalents, making them a good fit for a high-performance database application.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/pool">Boost.Pool</a> : This library is used for simple, fast memory allocation and can improve efficiency in some scenarios by managing memory in chunks.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/interprocess">Boost.Interprocess</a> : This library allows for shared memory communication and synchronization between processes. In a database context, this can be useful for inter-process communication (IPC) and shared memory databases.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/lockfree">Boost.Lockfree</a> : Provides lock-free data structures which could be useful in multi-threaded database applications where you want to avoid locking overhead.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> : If you need to serialize objects for storage, <a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> can be a useful tool. However, be aware that for many database applications, more specialized serialization formats (like Protocol Buffers, Thrift, etc.) might be more appropriate.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a> : Provides a consistent asynchronous model using a modern C++ approach for network and low-level I/O programming. It supports a variety of network protocols, which could be helpful if your database needs to communicate over a network.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/thread">Boost.Thread</a> : Provides a portable interface for multithreading, which can be crucial when creating a high-performance database that can handle multiple queries concurrently.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/fiber">Boost.Fiber</a> : Allows you to write code that works with fibers, which are user-space threads that can be used to write concurrent code. This can be useful in situations where you have many tasks that need to run concurrently but are I/O-bound rather than CPU-bound.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/polygon">Boost.Polygon</a> or <a href="https://www.boost.org/libs/geometry">Boost.Geometry</a> : For storing and querying spatial data, these libraries can provide the necessary data types and algorithms.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> : Provides a portable way of querying and manipulating paths, files, and directories.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sample_database_engine_using_containers"><a class="anchor" href="#_sample_database_engine_using_containers"></a>Sample Database Engine using Containers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A database engine requires efficient data structures for handling indexes, caches, and storage layouts. The <a href="https://www.boost.org/libs/container">Boost.Container</a> library provides drop-in replacements for standard containers like <code>std::vector</code>, <code>std::map</code>, and <code>std::unordered_map</code>, but optimized for memory efficiency and performance.</p>
+</div>
+<div class="paragraph">
+<p>In the following sample code, we will use in-memory indexing as the basis of a database engine. The <a href="https://www.boost.org/libs/container">Boost.Container</a> <code>flat_map</code> feature is used to store a sorted index for quick lookups, and the <code>stable_vector</code> feature to store persistent records with stable pointers. The sample demonstrates inserting and retrieving records efficiently.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/container/flat_map.hpp&gt;
+#include &lt;boost/container/stable_vector.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+// Define a Simple Database Table Structure
+struct Record {
+    int id;             // Primary Key
+    std::string name;   // Represents record data
+
+    Record(int id, std::string name) : id(id), name(std::move(name)) {}
+};
+
+// Implement a Database Table Class
+class DatabaseTable {
+public:
+    using RecordStorage = boost::container::stable_vector&lt;Record&gt;;
+    using IndexMap = boost::container::flat_map&lt;int, size_t&gt;; // Fast lookup
+
+    void insert(int id, const std::string&amp; name) {
+        size_t index = records.size();
+        records.emplace_back(id, name);
+        index_map[id] = index;
+    }
+
+    const Record* find(int id) {
+        auto it = index_map.find(id);
+        if (it != index_map.end()) {
+            return &amp;records[it-&gt;second];
+        }
+        return nullptr;
+    }
+
+    void print_all() const {
+        for (const auto&amp; record : records) {
+            std::cout &lt;&lt; "ID: " &lt;&lt; record.id &lt;&lt; ", Name: " &lt;&lt; record.name &lt;&lt; "\n";
+        }
+    }
+
+private:
+    RecordStorage records;  // Stores records in a stable manner
+    IndexMap index_map;     // Provides fast ID lookups
+};
+
+// Demonstrate Database Operations
+int main() {
+    DatabaseTable db;
+
+    // Insert records
+    db.insert(101, "Alice");
+    db.insert(102, "Bob");
+    db.insert(103, "Charlie");
+
+    // Retrieve a record
+    const Record* record = db.find(102);
+    if (record) {
+        std::cout &lt;&lt; "Found: ID = " &lt;&lt; record-&gt;id &lt;&lt; ", Name = " &lt;&lt; record-&gt;name &lt;&lt; "\n";
+    } else {
+        std::cout &lt;&lt; "Record not found!\n";
+    }
+
+    // Print all records
+    std::cout &lt;&lt; "All records:\n";
+    db.print_all();
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Key features of this sample are that it is memory-efficient (reducing fragmentation and with good performance), <code>stable_vector</code> prevents invalid references when resizing, and <code>flat_map</code> is faster than <code>std::map</code> for heavy use.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Run the program, the output should be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Found: ID = 102, Name = Bob
+All records:
+ID: 101, Name: Alice
+ID: 102, Name: Bob
+ID: 103, Name: Charlie</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_optimize_memory_allocation"><a class="anchor" href="#_optimize_memory_allocation"></a>Optimize Memory Allocation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As we are dealing with frequent allocations of small objects (the database records) we&#8217;ll enhance our database engine by using <a href="https://www.boost.org/libs/pool">Boost.Pool</a>. This library avoids repeated calls to <code>malloc</code>, <code>new</code> and <code>delete</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/container/flat_map.hpp&gt;
+#include &lt;boost/pool/pool.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+struct Record {
+    int id;
+    std::string name;
+
+    Record(int id, std::string name) : id(id), name(std::move(name)) {}
+};
+
+class DatabaseTable {
+public:
+    using IndexMap = boost::container::flat_map&lt;int, Record*&gt;;
+
+    DatabaseTable() : recordPool(sizeof(Record)) {}
+
+    Record* insert(int id, const std::string&amp; name) {
+        void* memory = recordPool.malloc(); // Allocate memory from the pool
+        if (!memory) {
+            throw std::bad_alloc();
+        }
+
+        Record* newRecord = new (memory) Record(id, name); // Placement new
+        index_map[id] = newRecord;
+        return newRecord;
+    }
+
+    void remove(int id) {
+        auto it = index_map.find(id);
+        if (it != index_map.end()) {
+            it-&gt;second-&gt;~Record(); // Call destructor
+            recordPool.free(it-&gt;second); // Free memory back to the pool
+            index_map.erase(it);
+        }
+    }
+
+    Record* find(int id) {
+        auto it = index_map.find(id);
+        return (it != index_map.end()) ? it-&gt;second : nullptr;
+    }
+
+    void print_all() {
+        for (const auto&amp; pair : index_map) {
+            std::cout &lt;&lt; "ID: " &lt;&lt; pair.first &lt;&lt; ", Name: " &lt;&lt; pair.second-&gt;name &lt;&lt; "\n";
+        }
+    }
+
+    ~DatabaseTable() {
+        for (const auto&amp; pair : index_map) {
+            pair.second-&gt;~Record();
+            recordPool.free(pair.second);
+        }
+    }
+
+private:
+    boost::pool&lt;&gt; recordPool;
+    IndexMap index_map;
+};
+
+// Demonstrate Efficient Memory Use
+int main() {
+    DatabaseTable db;
+
+    // Insert records
+    db.insert(101, "Alice");
+    db.insert(102, "Bob");
+    db.insert(103, "Charlie");
+
+    // Retrieve a record
+    Record* record = db.find(102);
+    if (record) {
+        std::cout &lt;&lt; "Found: ID = " &lt;&lt; record-&gt;id &lt;&lt; ", Name = " &lt;&lt; record-&gt;name &lt;&lt; "\n";
+    }
+
+    // Remove a record
+    db.remove(102);
+    if (!db.find(102)) {
+        std::cout &lt;&lt; "Record 102 removed successfully.\n";
+    }
+
+    // Print all records
+    std::cout &lt;&lt; "All records:\n";
+    db.print_all();
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Custom <em>Object Pools</em> can be tuned for your specific object sizes.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The output should be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Found: ID = 102, Name = Bob
+Record 102 removed successfully.
+All records:
+ID: 101, Name: Alice
+ID: 103, Name: Charlie</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_persistent_shared_memory"><a class="anchor" href="#_use_persistent_shared_memory"></a>Use Persistent Shared Memory</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In a realistic database environment, you would probably want to enable a shared-memory database table that multiple processes can access simultaneously. For this, we need the features of <a href="https://www.boost.org/libs/interprocess">Boost.Interprocess</a>. This library enables multiple processes to share the same data faster than inter-process communication (IPC) via files or sockets, and includes mutexes and condition variables.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/interprocess/managed_shared_memory.hpp&gt;
+#include &lt;boost/interprocess/containers/vector.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace bip = boost::interprocess;
+
+const char* SHM_NAME = "SharedDatabase";
+const char* TABLE_NAME = "UserTable";
+const std::size_t MAX_USERS = 10;
+
+struct UserRecord {
+    int id;
+    char name[32];
+};
+
+using ShmemAllocator = bip::allocator&lt;UserRecord, bip::managed_shared_memory::segment_manager&gt;;
+using UserTable = bip::vector&lt;UserRecord, ShmemAllocator&gt;;
+
+void create_table() {
+    bip::shared_memory_object::remove(SHM_NAME);
+
+    bip::managed_shared_memory segment(bip::create_only, SHM_NAME, 65536);
+    const ShmemAllocator alloc_inst(segment.get_segment_manager());
+    UserTable* table = segment.construct&lt;UserTable&gt;(TABLE_NAME)(alloc_inst);
+
+    for (int i = 0; i &lt; 3; ++i) {
+        UserRecord user;
+        user.id = 1 + table-&gt;size();
+        std::snprintf(user.name, sizeof(user.name), "User%d", user.id);
+        table-&gt;push_back(user);
+    }
+
+    std::cout &lt;&lt; "Shared memory table created with 3 initial users.\n";
+}
+
+void show_table() {
+
+    try
+    {
+        bip::managed_shared_memory segment(bip::open_only, SHM_NAME);
+        UserTable* table = segment.find&lt;UserTable&gt;(TABLE_NAME).first;
+
+        if (!table) {
+            std::cerr &lt;&lt; "Table not found.\n";
+            return;
+        }
+
+        std::cout &lt;&lt; "User Table:\n";
+        for (const auto&amp; user : *table) {
+            std::cout &lt;&lt; "  ID: " &lt;&lt; user.id &lt;&lt; ", Name: " &lt;&lt; user.name &lt;&lt; "\n";
+        }
+    }
+    catch (...)
+    {
+        std::cerr &lt;&lt; "Shared Memory error - create a table\n";
+    }
+}
+
+void add_user() {
+
+    try
+    {
+        bip::managed_shared_memory segment(bip::open_only, SHM_NAME);
+        UserTable* table = segment.find&lt;UserTable&gt;(TABLE_NAME).first;
+
+        if (!table) {
+            std::cerr &lt;&lt; "Table not found.\n";
+            return;
+        }
+
+        if (table-&gt;size() &gt;= MAX_USERS) {
+            std::cerr &lt;&lt; "Table is full (max " &lt;&lt; MAX_USERS &lt;&lt; " users).\n";
+            return;
+        }
+
+        std::string name;
+
+        std::cout &lt;&lt; "Enter user name: ";
+        std::getline(std::cin, name);
+
+        UserRecord user;
+        user.id = 1 + table-&gt;size();
+        std::snprintf(user.name, sizeof(user.name) - 1, "%s", name.c_str());
+        user.name[sizeof(user.name) - 1] = '\0';
+
+        table-&gt;push_back(user);
+        std::cout &lt;&lt; "User added.\n";
+    }
+    catch (...)
+    {
+        std::cerr &lt;&lt; "Shared Memory error - create a table\n";
+    }
+}
+
+void print_menu() {
+    std::cout &lt;&lt; "\n=== Shared Memory User Table Menu ===\n";
+    std::cout &lt;&lt; "1. Create table   2. Show table   3. Add user   4. Clear shared memory   5. Exit: ";
+}
+
+int main() {
+    while (true) {
+        print_menu();
+
+        int choice = 0;
+        std::cin &gt;&gt; choice;
+        std::cin.ignore(); // discard newline
+
+        switch (choice) {
+        case 1:
+            create_table();
+            show_table();
+            break;
+        case 2:
+            show_table();
+            break;
+        case 3:
+            add_user();
+            break;
+        case 4:
+            bip::shared_memory_object::remove(SHM_NAME);
+            break;
+        case 5:
+            std::cout &lt;&lt; "Exiting...\n";
+            return 0;
+        default:
+            std::cout &lt;&lt; "Invalid option. Try again.\n";
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Boost shared memory is persistent. Run the program, add some user records, and exit without choosing option <code>4</code>. Then run the program again and note the records you added have persisted.</p>
+</div>
+<div class="paragraph">
+<p>First run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">=== Shared Memory User Table Menu ===
+1. Create table   2. Show table   3. Add user   4. Clear shared memory   5. Exit: 1
+Shared memory table created with 3 initial users.
+User Table:
+  ID: 1, Name: User1
+  ID: 2, Name: User2
+  ID: 3, Name: User3
+
+=== Shared Memory User Table Menu ===
+1. Create table   2. Show table   3. Add user   4. Clear shared memory   5. Exit: 3
+Enter user name: Nigel
+User added.
+
+=== Shared Memory User Table Menu ===
+1. Create table   2. Show table   3. Add user   4. Clear shared memory   5. Exit: 2
+User Table:
+  ID: 1, Name: User1
+  ID: 2, Name: User2
+  ID: 3, Name: User3
+  ID: 4, Name: Nigel
+
+=== Shared Memory User Table Menu ===
+1. Create table   2. Show table   3. Add user   4. Clear shared memory   5. Exit: 5
+Exiting...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Second run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">=== Shared Memory User Table Menu ===
+1. Create table   2. Show table   3. Add user   4. Clear shared memory   5. Exit: 2
+User Table:
+  ID: 1, Name: User1
+  ID: 2, Name: User2
+  ID: 3, Name: User3
+  ID: 4, Name: Nigel</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_safely_allow_access_from_multiple_processes"><a class="anchor" href="#_safely_allow_access_from_multiple_processes"></a>Safely Allow Access from Multiple Processes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To safely allow multiple processes to access and modify shared memory concurrently in your <a href="https://www.boost.org/libs/interprocess">Boost.Interprocess</a> program, you should use interprocess synchronization primitives — like <code>interprocess_mutex</code> to guard critical sections.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/interprocess/managed_shared_memory.hpp&gt;
+#include &lt;boost/interprocess/containers/vector.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace bip = boost::interprocess;
+
+const char* SHM_NAME = "SharedDatabase";
+const std::size_t MAX_USERS = 10;
+
+struct UserRecord {
+    int id;
+    char name[32];
+};
+
+using SegmentManager = bip::managed_shared_memory::segment_manager;
+using ShmemAllocator = bip::allocator&lt;UserRecord, SegmentManager&gt;;
+using UserTable = bip::vector&lt;UserRecord, ShmemAllocator&gt;;
+
+// Wrap the shared data and the mutex
+struct SharedData {
+    bip::interprocess_mutex mutex;
+    UserTable table;
+
+    SharedData(const ShmemAllocator&amp; alloc) : table(alloc) {}
+};
+
+const char* TABLE_NAME = "SharedUserTable";
+
+void create_table() {
+    bip::shared_memory_object::remove(SHM_NAME);
+
+    bip::managed_shared_memory segment(bip::create_only, SHM_NAME, 65536);
+    ShmemAllocator alloc_inst(segment.get_segment_manager());
+
+    // Construct SharedData in shared memory
+    segment.construct&lt;SharedData&gt;(TABLE_NAME)(alloc_inst);
+
+    std::cout &lt;&lt; "Shared memory table created.\n";
+}
+
+void show_table() {
+    try {
+        bip::managed_shared_memory segment(bip::open_only, SHM_NAME);
+        SharedData* data = segment.find&lt;SharedData&gt;(TABLE_NAME).first;
+        if (!data) {
+            std::cerr &lt;&lt; "Table not found.\n";
+            return;
+        }
+
+        bip::scoped_lock&lt;bip::interprocess_mutex&gt; lock(data-&gt;mutex);
+        std::cout &lt;&lt; "User Table:\n";
+        for (const auto&amp; user : data-&gt;table) {
+            std::cout &lt;&lt; "  ID: " &lt;&lt; user.id &lt;&lt; ", Name: " &lt;&lt; user.name &lt;&lt; "\n";
+        }
+    }
+    catch (...) {
+        std::cerr &lt;&lt; "Error accessing shared memory. Is it created?\n";
+    }
+}
+
+void add_user() {
+    try {
+        bip::managed_shared_memory segment(bip::open_only, SHM_NAME);
+        SharedData* data = segment.find&lt;SharedData&gt;(TABLE_NAME).first;
+        if (!data) {
+            std::cerr &lt;&lt; "Table not found.\n";
+            return;
+        }
+
+        bip::scoped_lock&lt;bip::interprocess_mutex&gt; lock(data-&gt;mutex);
+
+        if (data-&gt;table.size() &gt;= MAX_USERS) {
+            std::cerr &lt;&lt; "Table is full (max " &lt;&lt; MAX_USERS &lt;&lt; " users).\n";
+            return;
+        }
+
+        std::string name;
+        std::cout &lt;&lt; "Enter user name: ";
+        std::cin.ignore();
+        std::getline(std::cin, name);
+
+        UserRecord user;
+        user.id = 1 + static_cast&lt;int&gt;(data-&gt;table.size());
+        std::snprintf(user.name, sizeof(user.name) - 1, "%s", name.c_str());
+        user.name[sizeof(user.name) - 1] = '\0';
+
+        data-&gt;table.push_back(user);
+        std::cout &lt;&lt; "User added.\n";
+
+    }
+    catch (...) {
+        std::cerr &lt;&lt; "Error accessing shared memory. Is it created?\n";
+    }
+}
+
+void print_menu() {
+    std::cout &lt;&lt; "\n=== Shared Memory User Table Menu ===\n";
+    std::cout &lt;&lt; "1. Create table   2. Show table   3. Add user   4. Clear shared memory   5. Exit\n";
+    std::cout &lt;&lt; "Choose an option: ";
+}
+
+int main() {
+    while (true) {
+        print_menu();
+
+        int choice = 0;
+        std::cin &gt;&gt; choice;
+
+        switch (choice) {
+        case 1:
+            create_table();
+            show_table();
+            break;
+        case 2:
+            show_table();
+            break;
+        case 3:
+            add_user();
+            break;
+        case 4:
+            bip::shared_memory_object::remove(SHM_NAME);
+            std::cout &lt;&lt; "Shared memory cleared.\n";
+            break;
+        case 5:
+            std::cout &lt;&lt; "Exiting...\n";
+            return 0;
+        default:
+            std::cout &lt;&lt; "Invalid option. Try again.\n";
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now it is safe to run this program from two, or more, terminal sessions.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_serialization_to_archive_the_database"><a class="anchor" href="#_add_serialization_to_archive_the_database"></a>Add Serialization to Archive the Database</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Finally, let&#8217;s add the features of <a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> to allow us to save and restore snapshots of our shared-memory database, making it persistent across program runs even when the shared memory is cleared. We will extend our sample to serialize the records into an archive format.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/interprocess/managed_shared_memory.hpp&gt;   // For managing shared memory segments
+#include &lt;boost/interprocess/containers/vector.hpp&gt;       // STL-like vector that works inside shared memory
+#include &lt;boost/interprocess/sync/named_mutex.hpp&gt;        // Mutex across processes
+#include &lt;boost/serialization/vector.hpp&gt;                 // Serialization support for std::vector
+#include &lt;boost/archive/text_oarchive.hpp&gt;                // For saving serialized data to text files
+#include &lt;boost/archive/text_iarchive.hpp&gt;                // For loading serialized data from text files
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+
+namespace bip = boost::interprocess;
+
+// ---- Global configuration constants ----
+const char* SHM_NAME = "SharedDatabase";                // Name of the shared memory segment
+const char* TABLE_NAME = "UserTable";                   // Name of the container object inside shared memory
+const char* MUTEX_NAME = "SharedTableMutex";            // Name of the interprocess mutex
+const std::size_t MAX_USERS = 10;                       // Maximum number of users allowed in table
+
+// ---- User Record structure, supports Boost.Serialization ----
+struct UserRecord {
+    int id;                 // Unique user ID
+    char name[32];          // Fixed-size character buffer for username
+
+    // Serialization function used by Boost.Archive
+    template&lt;class Archive&gt;
+    void serialize(Archive&amp; ar, const unsigned int) {
+        ar&amp; id;
+
+        // Wrap raw array in make_array so Boost knows how to handle it
+        ar&amp; boost::serialization::make_array(name, sizeof(name));
+    }
+};
+
+// ---- Type aliases for clarity ----
+using ShmemAllocator = bip::allocator&lt;UserRecord, bip::managed_shared_memory::segment_manager&gt;;
+
+// Vector of UserRecords in shared memory
+using UserTable = bip::vector&lt;UserRecord, ShmemAllocator&gt;;
+
+// ---- Create a new table in shared memory ----
+void create_table() {
+
+    // Remove any old shared memory segment and mutex (cleanup)
+    bip::shared_memory_object::remove(SHM_NAME);
+    bip::named_mutex::remove(MUTEX_NAME);
+
+    // Create new shared memory segment of fixed size (64 KB here)
+    bip::managed_shared_memory segment(bip::create_only, SHM_NAME, 65536);
+    ShmemAllocator alloc(segment.get_segment_manager());
+
+    // Construct a UserTable object inside shared memory
+    UserTable* table = segment.construct&lt;UserTable&gt;(TABLE_NAME)(alloc);
+
+    // Pre-populate with three sample users
+    for (int i = 0; i &lt; 3; ++i) {
+        UserRecord user;
+        user.id = 1 + table-&gt;size();
+        std::snprintf(user.name, sizeof(user.name), "User%d", user.id);
+        table-&gt;push_back(user);
+    }
+
+    std::cout &lt;&lt; "Shared memory table created with 3 initial users.\n";
+}
+
+// ---- Display the contents of the table ----
+void show_table() {
+    try {
+        bip::managed_shared_memory segment(bip::open_only, SHM_NAME);
+        bip::named_mutex mutex(bip::open_or_create, MUTEX_NAME);
+
+        // Lock table to prevent concurrent modifications
+        bip::scoped_lock&lt;bip::named_mutex&gt; lock(mutex);
+
+        // Find UserTable in shared memory
+        UserTable* table = segment.find&lt;UserTable&gt;(TABLE_NAME).first;
+        if (!table) {
+            std::cerr &lt;&lt; "Table not found.\n";
+            return;
+        }
+
+        // Print all users
+        std::cout &lt;&lt; "User Table:\n";
+        for (const auto&amp; user : *table) {
+            std::cout &lt;&lt; "  ID: " &lt;&lt; user.id &lt;&lt; ", Name: " &lt;&lt; user.name &lt;&lt; "\n";
+        }
+    }
+    catch (...) {
+        std::cerr &lt;&lt; "Unable to access shared memory.\n";
+    }
+}
+
+// ---- Add a user to the shared memory table ----
+void add_user() {
+    try {
+        bip::managed_shared_memory segment(bip::open_only, SHM_NAME);
+        bip::named_mutex mutex(bip::open_or_create, MUTEX_NAME);
+        bip::scoped_lock&lt;bip::named_mutex&gt; lock(mutex);
+
+        UserTable* table = segment.find&lt;UserTable&gt;(TABLE_NAME).first;
+        if (!table || table-&gt;size() &gt;= MAX_USERS) {
+            std::cerr &lt;&lt; "Table not found or full.\n";
+            return;
+        }
+
+        // Get new user name from console
+        std::string name;
+
+        // Discard leftover newline from previous input
+        std::cin.ignore();
+
+        std::cout &lt;&lt; "Enter user name: ";
+        std::getline(std::cin, name);
+
+        // Create new record and append
+        UserRecord user;
+        user.id = 1 + table-&gt;size();
+        std::snprintf(user.name, sizeof(user.name) - 1, "%s", name.c_str());
+        table-&gt;push_back(user);
+
+        std::cout &lt;&lt; "User added.\n";
+    }
+    catch (...) {
+        std::cerr &lt;&lt; "Failed to add user.\n";
+    }
+}
+
+// ---- Save snapshot of current table to a text file ----
+void save_snapshot(const std::string&amp; filename) {
+    try {
+        bip::managed_shared_memory segment(bip::open_only, SHM_NAME);
+        bip::named_mutex mutex(bip::open_or_create, MUTEX_NAME);
+        bip::scoped_lock&lt;bip::named_mutex&gt; lock(mutex);
+
+        UserTable* table = segment.find&lt;UserTable&gt;(TABLE_NAME).first;
+        if (!table) {
+            std::cerr &lt;&lt; "Table not found.\n";
+            return;
+        }
+
+        // Copy data from shared memory into std::vector (heap memory)
+        std::vector&lt;UserRecord&gt; snapshot(table-&gt;begin(), table-&gt;end());
+
+        // Save serialized snapshot to file
+        std::ofstream ofs(filename);
+        boost::archive::text_oarchive oa(ofs);
+        oa &lt;&lt; snapshot;
+
+        std::cout &lt;&lt; "Snapshot saved to " &lt;&lt; filename &lt;&lt; "\n";
+    }
+    catch (...) {
+        std::cerr &lt;&lt; "Failed to save snapshot.\n";
+    }
+}
+
+// ---- Load snapshot from text file into shared memory ----
+void load_snapshot(const std::string&amp; filename) {
+    try {
+
+        // Open file and load into vector
+        std::ifstream ifs(filename);
+        if (!ifs) {
+            std::cerr &lt;&lt; "Snapshot file not found.\n";
+            return;
+        }
+
+        std::vector&lt;UserRecord&gt; snapshot;
+        boost::archive::text_iarchive ia(ifs);
+        ia &gt;&gt; snapshot;
+
+        // Reset shared memory segment and mutex
+        bip::shared_memory_object::remove(SHM_NAME);
+        bip::managed_shared_memory segment(bip::create_only, SHM_NAME, 65536);
+        bip::named_mutex::remove(MUTEX_NAME);
+        bip::named_mutex mutex(bip::create_only, MUTEX_NAME);
+        bip::scoped_lock&lt;bip::named_mutex&gt; lock(mutex);
+
+        // Recreate UserTable and repopulate
+        ShmemAllocator alloc(segment.get_segment_manager());
+        UserTable* table = segment.construct&lt;UserTable&gt;(TABLE_NAME)(alloc);
+
+        for (const auto&amp; user : snapshot) {
+            table-&gt;push_back(user);
+        }
+
+        std::cout &lt;&lt; "Snapshot loaded from " &lt;&lt; filename &lt;&lt; "\n";
+    }
+    catch (...) {
+        std::cerr &lt;&lt; "Failed to load snapshot.\n";
+    }
+}
+
+// ---- Clear all shared memory resources ----
+void clear_shared_memory() {
+    bip::shared_memory_object::remove(SHM_NAME);
+    bip::named_mutex::remove(MUTEX_NAME);
+    std::cout &lt;&lt; "Shared memory cleared.\n";
+}
+
+// ---- Print the interactive menu ----
+void print_menu() {
+    std::cout &lt;&lt; "\n=== Shared Memory Menu ===\n"
+        &lt;&lt; "1. Create table  2. Show table  3. Add user  4. Save snapshot  5. Load snapshot  6. Clear shared memory  7. Exit:";
+}
+
+// ---- Program entry point ----
+int main() {
+    while (true) {
+        print_menu();
+        int choice;
+        std::cin &gt;&gt; choice;
+
+        switch (choice) {
+        case 1:
+            create_table();
+
+            // Show immediately after creation
+            show_table();
+            break;
+        case 2: show_table(); break;
+        case 3: add_user(); break;
+        case 4: save_snapshot("snapshot.txt"); break;
+        case 5:
+            load_snapshot("snapshot.txt");
+            show_table();
+            break;
+        case 6: clear_shared_memory(); break;
+        case 7: return 0;
+        default: std::cout &lt;&lt; "Invalid choice.\n";
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the sample, and verify that the saved file persists after shared memory has been cleared.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">=== Shared Memory Menu ===
+1. Create table  2. Show table  3. Add user  4. Save snapshot  5. Load snapshot  6. Clear shared memory  7. Exit:1
+Shared memory table created with 3 initial users.
+User Table:
+  ID: 1, Name: User1
+  ID: 2, Name: User2
+  ID: 3, Name: User3
+
+=== Shared Memory Menu ===
+1. Create table  2. Show table  3. Add user  4. Save snapshot  5. Load snapshot  6. Clear shared memory  7. Exit:3
+Enter user name: Nigel
+User added.
+
+=== Shared Memory Menu ===
+1. Create table  2. Show table  3. Add user  4. Save snapshot  5. Load snapshot  6. Clear shared memory  7. Exit:4
+Snapshot saved to snapshot.txt
+
+=== Shared Memory Menu ===
+1. Create table  2. Show table  3. Add user  4. Save snapshot  5. Load snapshot  6. Clear shared memory  7. Exit:6
+Shared memory cleared.
+
+=== Shared Memory Menu ===
+1. Create table  2. Show table  3. Add user  4. Save snapshot  5. Load snapshot  6. Clear shared memory  7. Exit:5
+Snapshot loaded from snapshot.txt
+User Table:
+  ID: 1, Name: User1
+  ID: 2, Name: User2
+  ID: 3, Name: User3
+  ID: 4, Name: Nigel</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the design of a database, consider all the independent processes, and how they might access persistent memory, for example:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/database-persistent-memory.png" alt="database persistent memory">
+</div>
+</div>
+<div class="paragraph">
+<p>Perhaps now consider <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> for file management, and for a heavier duty database engine - integrate <a href="https://www.boost.org/libs/asio">Boost.Asio</a> to handle remote database transactions. Referring to the <a href="task-networking.html" class="xref page">Networking</a> sample would be a good place to start.</p>
+</div>
+<div class="paragraph">
+<p>The Boost libraries have a lot to offer this particular scenario!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Containers">Category: Containers</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Data">Category: Data structures</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Memory">Category: Memory</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-database.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="advanced-introduction.html">Introduction</a></span>
+        <span class="next"><a href="task-machine-learning.html">Machine Learning</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

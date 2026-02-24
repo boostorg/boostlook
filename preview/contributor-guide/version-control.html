@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Version Control :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/version-control.html">
+    <link rel="prev" href="design-guide/borland.html">
+    <link rel="next" href="best-practices.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Development</li>
+    <li><a href="version-control.html">Version Control</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="design-guide/borland.html">
+      <span class="material-symbols-outlined" title="Previous: Borland Portability">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="best-practices.html">
+      <span class="material-symbols-outlined" title="Next: Best Practices">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Version Control</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost uses the Git version control system for its development. This allows multiple contributors to work on the libraries concurrently, while keeping track of the changes that each person makes. Git is a distributed version control system, which means each contributor has their own local copy of the entire project, including its history.</p>
+</div>
+<div class="paragraph">
+<p>This section covers:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_library_repositories">Library Repositories</a></p>
+</li>
+<li>
+<p><a href="#super-project">The Super-project Repository</a></p>
+</li>
+<li>
+<p><a href="#_breaking_changes">Breaking Changes</a></p>
+</li>
+<li>
+<p><a href="#issues-anchor">Issues and Discussions</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_library_repositories"><a class="anchor" href="#_library_repositories"></a>Library Repositories</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Boost libraries are modular, and each library has its own separate repository.  This makes it easier to work with the entire collection of Boost libraries.</p>
+</div>
+<div class="paragraph">
+<p>The official Boost repositories are hosted in GitHub under the <a href="https://github.com/boostorg/" class="bare">https://github.com/boostorg/</a> account. Each library has its own repository under this organization. For example, <a href="https://github.com/boostorg/json" class="bare">https://github.com/boostorg/json</a> for <a href="https://www.boost.org/libs/json">Boost.Json</a>, or <a href="https://github.com/boostorg/date_time/" class="bare">https://github.com/boostorg/date_time/</a> for <a href="https://www.boost.org/libs/date_time">Boost.DateTime</a>.</p>
+</div>
+<div class="paragraph">
+<p>As with any Git-based project, you can clone the repositories, make changes, commit those changes to your local repository, and push your changes back to the server. If you want to contribute changes to the official Boost libraries, refer to <a href="getting-involved.html#contribute" class="xref page">Contribute to an Existing Library</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="super-project"><a class="anchor" href="#super-project"></a>The Super-project Repository</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Boost <a href="https://github.com/boostorg/boost"><strong>Super-project</strong></a> repository includes all the libraries as submodules.</p>
+</div>
+<div class="paragraph">
+<p>In addition to the libraries, you&#8217;ll find many other repositories under <code>boostorg</code> that handle other tasks, for example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/boostorg/boost/tree/master/tools">boost/tools</a> includes B2 sources in <a href="https://github.com/boostorg/build/tree/bc381862203c9de80d552d93539a1168664e0243">build</a>, and <a href="https://github.com/boostorg/cmake">CMake support</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/release-tools">Release tools</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The Super-project has both <strong>master</strong> and <strong>develop</strong> branches, which operate somewhat differently than for individual libraries.</p>
+</div>
+<div class="paragraph">
+<p>New features are added and bugs are fixed in library <strong>develop</strong> branches. When the <strong>develop</strong> branch passes its' merging criteria (<a href="testing/continuous-integration.html" class="xref page">Continuous Integration</a>, projects are built correctly, other test processes run without errors, etc.), it is merged with the library <strong>master</strong> branch.</p>
+</div>
+<div class="paragraph">
+<p>For the Super-project, the <strong>develop</strong> and <strong>master</strong> branches are independent. Both branches track the latest changes in the corresponding library branch, for all libraries. The Super-project branches are never merged, as this strategy prevents merging. In other words, the Super-project <strong>master</strong> branch is created from the library <strong>master</strong> branches, not from the Super-project <strong>develop</strong> branch (which is primarily used for testing).</p>
+</div>
+<div class="paragraph">
+<p>When there is a public release of Boost, it is built from the <strong>master</strong> branch after that branch has been closed to updates (refer to the <a href="release-process.html" class="xref page">Release Process</a>).</p>
+</div>
+<div class="sect2">
+<h3 id="_working_with_the_super_project"><a class="anchor" href="#_working_with_the_super_project"></a>Working with the Super-project</h3>
+<div class="paragraph">
+<p>Usually, a submodule in the Super-project will be created for a library developer by a staff member of Boost.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Recall that, in Git, when a submodule is added to a project, the submodule references a particular commit. This means that, when developers update their sub-projects, the Super-project <em>doesn&#8217;t</em> get immediately updated. For this reason, there is a commit bot that runs every 15 minutes and updates the commit to which each submodule references in the Super-project. This happens for both the <strong>develop</strong> and <strong>master</strong> branches.</p>
+</li>
+<li>
+<p>As you update your library, and the Super-project <strong>develop</strong> branch is updated by the commit bot, you may affect other developers. For example, if a mistake is made to the MySQL library <strong>develop</strong> branch, then it will affect the CMake module, because this module runs tests to verify that you can use MySQL via CMake.</p>
+</li>
+<li>
+<p>As part of Boost testing, <a href="testing/continuous-integration.html" class="xref page">Continuous Integration</a> (CI) usually clones the Super-project and any required submodules.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>When testing any branch that is <em>not</em> <strong>master</strong>, the <strong>develop</strong> branch of the Super-project is cloned.</p>
+</li>
+<li>
+<p>When you&#8217;re testing <strong>master</strong> (which could be for a release), the <strong>master</strong> branch of the Super-project is cloned.</p>
+<div class="paragraph">
+<p>While this cloning process is not a <em>requirement</em>, most libraries follow it.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you need to look at the code for the 1.82.0 release, navigate to the relevant repo, and enter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">git checkout boost-1.82.0</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">NOTE</dt>
+<dd>
+<p>Developers don&#8217;t directly create Tags under repositories, when working with Boost. Tags are created by the release scripts, both in the Super-project and the individual repos, so do not add any of your own. This differs from the usual workflow in other non-Boost projects.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_breaking_changes"><a class="anchor" href="#_breaking_changes"></a>Breaking Changes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost maintains its release versions with <a href="https://github.com/boostorg/boost/tags">Tags</a>, where the tag is always the <code>boost-</code> prefix followed by a <code>major.minor.patch</code> number string that matches the <a href="https://semver.org/">Semantic Versioning</a> string format. The string format is useful because it&#8217;s something many tools understand, and for most users who just want to find a certain Boost version, that&#8217;s enough information. However, there is a unique Boost interpretation of the string.</p>
+</div>
+<div class="sect2">
+<h3 id="_major_version"><a class="anchor" href="#_major_version"></a>Major Version</h3>
+<div class="paragraph">
+<p>Boost has not to date increased its' <em>major</em> version number. This is reserved for when something "big" happens, not for feature improvements nor API breaks.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_minor_version"><a class="anchor" href="#_minor_version"></a>Minor Version</h3>
+<div class="paragraph">
+<p>While library maintainers try hard not to break anything, the <em>minor</em> version is increased when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Three months have passed since the last release.</p>
+</li>
+<li>
+<p>New features have been added because they always are.</p>
+</li>
+<li>
+<p>A few things might have been broken. Details on new features and discontinued features have to be consulted in the individual libraries' <a href="release-notes.html" class="xref page">Release Notes</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_patch_version"><a class="anchor" href="#_patch_version"></a>Patch Version</h3>
+<div class="paragraph">
+<p>The <em>patch</em> number is rarely used, but will be incremented from zero if there is a need for a quick update following a scheduled release. For example, <code>boost-1.65.1</code> followed less than one month after <code>boost-1.65.0</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_planning_for_breaking_changes"><a class="anchor" href="#_planning_for_breaking_changes"></a>Planning for Breaking Changes</h3>
+<div class="paragraph">
+<p>One thing library maintainers do to mitigate problems is announce their intention to break something two releases (or six months) in advance. Some maintainers keep a parallel versioning system for their library, for example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/boostorg/filesystem/blob/7bb038fcb887442e05619db6f48efc9df71c1fc3/include/boost/filesystem/config.hpp#L23-L25">File system config</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/beast/blob/af5240f6f1a15ba328c763f2c505a60a3cbcb555/CMakeLists.txt#L86">Beast CMakeLists</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Ultimately though, even after checking both a library readme file, and for library announcements, some testing may be necessary to be certain of whether a breaking change occurred, or not.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="issues-anchor"><a class="anchor" href="#issues-anchor"></a>Bugs, Issues, Feature Requests and Discussions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The repositories use the built-in GitHub issue tracker. With Boost, users are encouraged to use the issue tracker for discussions and feature requests, as well as to report bugs and other issues.</p>
+</div>
+<div class="paragraph">
+<p>Consider creating custom templates for your library. The goal of these templates is to ensure that contributors provide enough context and information that you, and the other library authors and maintainers, can understand and reproduce the issue, or fully understand what is being discussed.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Currently, the Boost Super-project does not use the GitHub Discussion feature. If filing an issue does not seem appropriate, users are encouraged to post on the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers mailing list</a>.</p>
+</dd>
+</dl>
+</div>
+<div class="sect2">
+<h3 id="_how_to_create_an_issue_template"><a class="anchor" href="#_how_to_create_an_issue_template"></a>How to Create an Issue Template</h3>
+<div class="paragraph">
+<p>Creating an issue template in GitHub can help guide contributors to provide the necessary information when they create new issues with your library.</p>
+</div>
+<div class="paragraph">
+<p>Here are the steps to create an issue template:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to the main page of your repository.</p>
+</li>
+<li>
+<p>In the menu bar (<code>Code</code>, <code>Pull Requests</code>, etc.), click on <code>Settings</code>.</p>
+</li>
+<li>
+<p>In the <code>Features</code> section, ensure that the <code>Issues</code> checkbox is selected.</p>
+</li>
+<li>
+<p>In the section <code>Get organized with issue templates</code>, click on <code>Set up templates</code>.</p>
+</li>
+<li>
+<p>Click on the down arrow of <code>Add template: select</code>, then select <code>Custom template</code>.</p>
+</li>
+<li>
+<p>Click on <code>Preview and edit</code> for your custom template. Then select the pen icon to bring up the template fields.</p>
+</li>
+<li>
+<p>Give your template a descriptive name, perhaps the name of your library followed by "feature request", "performance issue", "bug report" or "discussion". Remember you can enter as many templates as you think appropriate.</p>
+</li>
+<li>
+<p>Give the template a full description in the <code>About</code> box.</p>
+</li>
+<li>
+<p>Then add the meat of the template to the <code>Template content</code>. Consider adding the following, in the form of Markdown syntax and example text, to ask your users to enter:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Boost version number</p>
+</li>
+<li>
+<p>The OS, compiler, hardware they are using</p>
+</li>
+<li>
+<p>A brief summary of the issue/request/discussion topic</p>
+</li>
+<li>
+<p>In the case of a bug or issue:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Steps to reproduce the issue</p>
+</li>
+<li>
+<p>Expected behavior</p>
+</li>
+<li>
+<p>Actual behavior</p>
+</li>
+<li>
+<p>Screenshots, error messages, output</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>In the case of a feature request or discussion:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Accurately describe the purpose of the request (the use case, not the implementation)</p>
+</li>
+<li>
+<p>Describe what they are currently doing to address the issue</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Any other relevant context or information</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Add the <code>Optional additional items</code> if they fit the purpose of the template, and perhaps add yourself as one of the <code>Assignees</code>.</p>
+</li>
+<li>
+<p>When you&#8217;re done editing, at the top right of the page, click <code>Propose changes</code>.</p>
+</li>
+<li>
+<p>Click <code>Commit changes</code> and create a Pull Request to update your repo.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Once the template is added, users who create new issues in your repository can choose to use one of your templates.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For the user&#8217;s perspective on issues, refer to <a href="../user-guide/reporting-issues.html" class="xref page">Reporting Issues</a>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="testing/continuous-integration.html" class="xref page">Continuous Integration</a></p>
+</li>
+<li>
+<p><a href="release-notes.html" class="xref page">Release Notes</a></p>
+</li>
+<li>
+<p><a href="release-process.html" class="xref page">Release Process</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/version-control.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="design-guide/borland.html">Borland Portability</a></span>
+        <span class="next"><a href="best-practices.html">Best Practices</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>AI Client :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-ai-client.html">
+    <link rel="prev" href="task-networking.html">
+    <link rel="next" href="task-simulation.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Common Scenarios</li>
+    <li><a href="task-ai-client.html">AI Client</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="task-networking.html">
+      <span class="material-symbols-outlined" title="Previous: Networking">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-simulation.html">
+      <span class="material-symbols-outlined" title="Next: Simulation">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">AI Client</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Many apps across all sorts of scenarios might significantly benefit from some artificial intelligence (AI). Writing your own AI system is a big task, an alternative is a subscription to an AI system, accessible through networked API calls. This section shows how to use some Boost libraries in a client app to send requests to ChatGPT, and receive and process responses.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_ai_text_client">AI Text Client</a></p>
+</li>
+<li>
+<p><a href="#_secure_ai_text_and_ascii_diagram_client">Secure AI Text and ASCII Diagram Client</a></p>
+</li>
+<li>
+<p><a href="#_ai_generated_image_client">AI Generated Image Client</a></p>
+</li>
+<li>
+<p><a href="#_next_steps">Next Steps</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here are the libraries that are most directly applicable to writing a client app:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/libs/json">Boost.Json</a>: An efficient library for parsing, serializing, and manipulating JSON data. This is useful specifically in client-server communication and web services.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/beast">Boost.Beast</a>: This is a library built on top of <a href="https://www.boost.org/libs/asio">Boost.Asio</a> that provides implementations of HTTP and WebSockets.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a>: A cross-platform C++ library for network and low-level I/O programming. It provides a consistent asynchronous model using a modern C++ approach. <a href="https://www.boost.org/libs/asio">Boost.Asio</a> supports a variety of network protocols, including ICMP, TCP, and UDP.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Notes</dt>
+<dd>
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0. In order to get the example to run, you will need an Open AI API account in order to obtain an API key, Organization Id, and credits for API calls. There may be usage fees involved.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ai_text_client"><a class="anchor" href="#_ai_text_client"></a>AI Text Client</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following code enables the writing of queries to a command window prompt, and sends them to ChatGPT for processing. For debugging and educational purposes the HTTP request is displayed, but masking the API key and Organization Id.</p>
+</div>
+<div class="sect2">
+<h3 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>You will need an Open AI API account, where you can obtain both the API key and Organization Id. You will also need to ensure you have credits for API calls.</p>
+</li>
+<li>
+<p>Ensure your CA certificates are up to date, and you know the path to <code>cacert.pem</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>We use the features of <a href="https://www.boost.org/libs/beast">Boost.Beast</a> and <a href="https://www.boost.org/libs/json">Boost.Json</a> to aid in the writing of the client:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/beast/core.hpp&gt;
+#include &lt;boost/beast/ssl.hpp&gt;
+#include &lt;boost/beast/http.hpp&gt;
+#include &lt;boost/beast/version.hpp&gt;
+#include &lt;boost/json.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace beast = boost::beast;         // Common Boost.Beast types
+namespace http = beast::http;           // HTTP-specific types
+namespace net = boost::asio;            // Networking (Asio)
+namespace ssl = boost::asio::ssl;       // SSL/TLS
+namespace json = boost::json;           // JSON handling
+using tcp = boost::asio::ip::tcp;       // TCP networking
+
+//------------------------------------------------------------------------------
+// Function to query the OpenAI Chat API
+//------------------------------------------------------------------------------
+std::string query_chatgpt(
+    const std::string&amp; api_key,         // OpenAI API key (Bearer token)
+    const std::string&amp; org_id,          // OpenAI Organization ID
+    const std::string&amp; user_prompt)     // User's question/prompt
+{
+    const std::string host = "api.openai.com";
+    const std::string port = "443";
+    const std::string target = "/v1/chat/completions"; // Chat API endpoint
+
+    net::io_context ioc;                // Asio I/O context for event-driven networking
+
+    //-------------------------------
+    // SSL/TLS setup
+    //-------------------------------
+    ssl::context ctx{ ssl::context::sslv23_client }; // Use TLS client
+    ctx.set_default_verify_paths();                  // Use system's CA certs
+    ctx.set_verify_mode(ssl::verify_peer);           // Verify server identity
+
+    // Create an SSL stream (TCP + TLS)
+    beast::ssl_stream&lt;beast::tcp_stream&gt; stream{ ioc, ctx };
+
+    // Enable Server Name Indication (SNI) for TLS
+    if (!SSL_set_tlsext_host_name(stream.native_handle(), host.c_str()))
+        throw beast::system_error{
+            beast::error_code(static_cast&lt;int&gt;(::ERR_get_error()),
+                              net::error::get_ssl_category()) };
+
+    //-------------------------------
+    // Connect to OpenAI server
+    //-------------------------------
+    tcp::resolver resolver{ ioc };
+    auto const results = resolver.resolve(host, port); // DNS lookup
+    beast::get_lowest_layer(stream).connect(results);  // TCP connect
+    stream.handshake(ssl::stream_base::client);        // TLS handshake
+
+    //-------------------------------
+    // Build the JSON request body
+    //-------------------------------
+    json::array messages;
+    messages.push_back({ {"role", "user"}, {"content", user_prompt} });
+
+    json::object body;
+    body["model"] = "gpt-4o-mini";                  // Choose the OpenAI model
+    body["messages"] = messages;
+
+    std::string body_str = json::serialize(body);   // Convert JSON to string
+
+    //-------------------------------
+    // Build HTTP POST request
+    //-------------------------------
+    http::request&lt;http::string_body&gt; req{ http::verb::post, target, 11 }; // HTTP/1.1
+    req.set(http::field::host, host);
+    req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+    req.set(http::field::authorization, "Bearer " + api_key);   // API key
+    req.set("OpenAI-Organization", org_id);                     // Org ID
+    req.set(http::field::content_type, "application/json");
+    req.set(http::field::accept, "application/json");
+    req.body() = body_str;
+    req.prepare_payload();                                      // Set Content-Length header automatically
+
+    // ===== RAW HTTP REQUEST DUMP (with masked API key) =====
+    {
+        http::request&lt;http::string_body&gt; masked_req = req;
+        masked_req.set(http::field::authorization, "Bearer ***********************");
+        masked_req.set("OpenAI-Organization", "***********************");
+        std::cout &lt;&lt; "\n===== RAW HTTP REQUEST =====\n";
+        std::cout &lt;&lt; masked_req &lt;&lt; "\n";
+        std::cout &lt;&lt; "===== END RAW HTTP REQUEST =====\n\n";
+    }
+
+
+    //-------------------------------
+    // Send request &amp; read response
+    //-------------------------------
+    http::write(stream, req);                   // Send request
+
+    beast::flat_buffer buffer;                  // Buffer for reading
+    http::response&lt;http::string_body&gt; res;      // HTTP response container
+    http::read(stream, buffer, res);            // Read full response
+
+    //-------------------------------
+    // Shutdown TLS connection
+    //-------------------------------
+    beast::error_code ec;
+    stream.shutdown(ec);
+    if (ec == net::error::eof || ec == ssl::error::stream_truncated)
+        ec.assign(0, ec.category());            // Ignore harmless shutdown errors
+    if (ec)
+        throw beast::system_error{ ec };
+
+    //-------------------------------
+    // Parse JSON response
+    //-------------------------------
+    auto parsed = json::parse(res.body());
+
+    // Check for "choices" array in response
+    if (parsed.as_object().if_contains("choices")) {
+        auto&amp; choices = parsed.at("choices").as_array();
+        if (!choices.empty()) {
+            auto&amp; msg = choices[0].as_object().at("message").as_object();
+            if (msg.if_contains("content")) {
+                return std::string(msg.at("content").as_string().c_str());
+            }
+        }
+        return "[No content found in choices]";
+    }
+
+    // If "error" present, show error message
+    else if (parsed.as_object().if_contains("error")) {
+        auto&amp; err = parsed.at("error").as_object();
+        return "[API Error] " + std::string(err.at("message").as_string().c_str());
+    }
+    else {
+        return "[Unexpected API response: " + res.body() + "]";
+    }
+}
+
+//------------------------------------------------------------------------------
+// MAIN FUNCTION
+//------------------------------------------------------------------------------
+int main() {
+
+    // Your OpenAI API key &amp; Organization ID
+    const std::string api_key = "YOUR OPEN AI API KEY";
+    const std::string org_id = "YOUR OPEN AI ORGANIZATION ID";
+
+    _putenv_s("SSL_CERT_FILE", "PATH TO YOUR CA CERTIFICATE\\cacert.pem");
+
+    try {
+        while (true) {
+
+            // Ask user for input
+            std::string prompt;
+            std::cout &lt;&lt; "\nEnter prompt (or type 'exit' to quit): ";
+            std::getline(std::cin, prompt);
+
+            // Exit loop if user types "exit"
+            if (prompt == "exit")
+                break;
+
+            // Call OpenAI API
+            std::string response = query_chatgpt(api_key, org_id, prompt);
+
+            // Show model's reply
+            std::cout &lt;&lt; "ChatGPT: " &lt;&lt; response &lt;&lt; "\n";
+        }
+    }
+    catch (const std::exception&amp; e) {
+
+        // Handle and display any errors
+        std::cerr &lt;&lt; "Error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the program. If you get an error, most center around authorization issues (valid API key and Organization Id).</p>
+</div>
+<div class="paragraph">
+<p>You should be able to write a series of text queries:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter prompt (or type 'exit' to quit): Can you sort the following numbers into ascending order: 14 -8 0 3.5 99 3.14159 ?
+
+===== RAW HTTP REQUEST =====
+POST /v1/chat/completions HTTP/1.1
+Host: api.openai.com
+User-Agent: Boost.Beast/357
+Content-Type: application/json
+Accept: application/json
+Content-Length: 144
+Authorization: Bearer ***********************
+OpenAI-Organization: ***********************
+
+{"model":"gpt-4o-mini","messages":[{"role":"user","content":"Can you sort the following numbers into ascending order: 14 -8 0 3.5 99 3.14159"}]}
+===== END RAW HTTP REQUEST =====
+
+ChatGPT: Sure! Here are the numbers sorted in ascending order:
+
+-8, 0, 3.14159, 3.5, 14, 99
+
+Enter prompt (or type 'exit' to quit): What is the height of Vesuvius?
+
+===== RAW HTTP REQUEST =====
+POST /v1/chat/completions HTTP/1.1
+Host: api.openai.com
+User-Agent: Boost.Beast/357
+Content-Type: application/json
+Accept: application/json
+Content-Length: 96
+Authorization: Bearer ***********************
+OpenAI-Organization: ***********************
+
+{"model":"gpt-4o-mini","messages":[{"role":"user","content":"What is the height of Vesuvius?"}]}
+===== END RAW HTTP REQUEST =====
+
+ChatGPT: Mount Vesuvius has an elevation of about 1,281 meters (4,203 feet) above sea level. It is known for its dramatic eruptions and is located near Naples, Italy.
+
+Enter prompt (or type 'exit' to quit): exit</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_secure_ai_text_and_ascii_diagram_client"><a class="anchor" href="#_secure_ai_text_and_ascii_diagram_client"></a>Secure AI Text and ASCII Diagram Client</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We can improve on the security of the requests by using HTTPS (via SSL), rather than HTTP. Also, we have added in the feature of requesting ASCII diagrams:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/beast/core.hpp&gt;
+#include &lt;boost/beast/http.hpp&gt;
+#include &lt;boost/beast/ssl.hpp&gt;
+#include &lt;boost/beast/version.hpp&gt;
+#include &lt;boost/json.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace beast = boost::beast;
+namespace http = beast::http;
+namespace net = boost::asio;
+namespace ssl = boost::asio::ssl;
+namespace json = boost::json;
+using tcp = boost::asio::ip::tcp;
+
+int main()
+{
+    try
+    {
+        //-----------------------------------------
+        // USER CONFIGURATION
+        //-----------------------------------------
+        const std::string host = "api.openai.com";
+        const std::string port = "443";
+        const std::string target = "/v1/chat/completions";
+        const int version = 11; // HTTP/1.1
+
+        const std::string api_key = "YOUR API KEY";
+        const std::string org_id = "YOUR ORGANIZATION ID";
+
+        _putenv_s("SSL_CERT_FILE", "PATH TO YOUR CA CERTIFICATES\\cacert.pem");
+
+        // Optionally, enter your project Id, if you have one.
+        const std::string project_id = "";
+
+        //-----------------------------------------
+        // SSL/TLS Context
+        //-----------------------------------------
+        ssl::context ctx(ssl::context::tls_client);
+        ctx.set_default_verify_paths();
+        ctx.set_verify_mode(ssl::verify_peer);
+
+        //-----------------------------------------
+        // I/O Context
+        //-----------------------------------------
+        net::io_context ioc;
+
+        //-----------------------------------------
+        // Resolver: hostname → TCP endpoint
+        //-----------------------------------------
+        tcp::resolver resolver(ioc);
+        auto const results = resolver.resolve(host, port);
+
+        //-----------------------------------------
+        // SSL stream over TCP socket
+        //-----------------------------------------
+        beast::ssl_stream&lt;tcp::socket&gt; stream(ioc, ctx);
+
+        if (!SSL_set_tlsext_host_name(stream.native_handle(), host.c_str()))
+            throw beast::system_error(
+                beast::error_code(static_cast&lt;int&gt;(::ERR_get_error()), net::error::get_ssl_category()),
+                "Failed to set SNI hostname");
+
+        //-----------------------------------------
+        // Connect and handshake
+        //-----------------------------------------
+        net::connect(stream.next_layer(), results.begin(), results.end());
+        stream.handshake(ssl::stream_base::client);
+
+        //-----------------------------------------
+        // Loop for user input
+        //-----------------------------------------
+        std::string user_input;
+        while (true)
+        {
+            std::cout &lt;&lt; "\nEnter your request (ASCII diagram or text) or 'exit': ";
+            std::getline(std::cin, user_input);
+
+            if (user_input == "exit")
+                break;
+
+            //-----------------------------------------
+            // JSON request body
+            //-----------------------------------------
+            std::string body =
+                "{"
+                "\"model\": \"gpt-4o-mini\","
+                "\"messages\": ["
+                "{\"role\": \"user\", \"content\": \"" + user_input + "\"}"
+                "],"
+                "\"temperature\": 0"
+                "}";
+
+            //-----------------------------------------
+            // HTTP POST
+            //-----------------------------------------
+            http::request&lt;http::string_body&gt; req{ http::verb::post, target, version };
+            req.set(http::field::host, host);
+            req.set(http::field::content_type, "application/json");
+            req.set(http::field::authorization, "Bearer " + api_key);
+            req.set("OpenAI-Organization", org_id);
+            if (!project_id.empty()) {
+                req.set("OpenAI-Project", project_id);
+            }
+            req.body() = body;
+            req.prepare_payload();
+
+            //-----------------------------------------
+            // Send request
+            //-----------------------------------------
+            http::write(stream, req);
+
+            //-----------------------------------------
+            // Receive response
+            //-----------------------------------------
+            beast::flat_buffer buffer;
+            http::response&lt;http::string_body&gt; res;
+            http::read(stream, buffer, res);
+
+            //-----------------------------------------
+            // Parse JSON and extract the assistant's text
+            //-----------------------------------------
+            try {
+                json::value jv = json::parse(res.body());
+                std::string output;
+
+                if (jv.is_object()) {
+                    auto&amp; obj = jv.as_object();
+                    if (obj.contains("choices") &amp;&amp; obj["choices"].is_array()) {
+                        auto&amp; choices = obj["choices"].as_array();
+                        if (!choices.empty()) {
+                            auto&amp; msg = choices[0].as_object()["message"].as_object();
+                            if (msg.contains("content")) {
+                                output = msg["content"].as_string().c_str();
+                            }
+                        }
+                    }
+                }
+
+                // Print raw output so ASCII art formatting is preserved
+                std::cout &lt;&lt; "\nAssistant Response:\n" &lt;&lt; output &lt;&lt; "\n";
+
+            }
+            catch (const std::exception&amp; e) {
+                std::cerr &lt;&lt; "Failed to parse JSON: " &lt;&lt; e.what() &lt;&lt; "\n";
+                std::cerr &lt;&lt; "Raw response:\n" &lt;&lt; res.body() &lt;&lt; "\n";
+            }
+        }
+
+        //-----------------------------------------
+        // Graceful SSL shutdown
+        //-----------------------------------------
+        beast::error_code ec;
+        stream.shutdown(ec);
+        if (ec == net::error::eof) ec = {};
+        if (ec) throw beast::system_error{ ec };
+
+    }
+    catch (std::exception const&amp; e)
+    {
+        std::cerr &lt;&lt; "Error: " &lt;&lt; e.what() &lt;&lt; "\n";
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the program. Notice that the ASCII diagram requests have to be fairly simple to avoid an error, and that the diagrams can be clunky representations!</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter your request (ASCII diagram or text) or 'exit': Can you draw an ASCII diagram of a speedboat?
+
+Assistant Response:
+Sure! Here's a simple ASCII representation of a speedboat:
+
+```
+        __/__
+  _____/_____|_____
+  \              /
+~~~~~~~~~~~~~~~~~~~~~
+```
+
+Feel free to modify it or let me know if you need something different!
+
+Enter your request (ASCII diagram or text) or 'exit': Can you draw an ASCII diagram of an HTTPS request and response?
+
+Assistant Response:
+Certainly! Below is a simple ASCII diagram representing an HTTPS request and response cycle.
+
+```
+Client (Browser)                     Server
+   |                                    |
+   | ----------- HTTPS Request -------&gt; |
+   |                                    |
+   |                                    |
+   | &lt;--------- HTTPS Response -------- |
+   |                                    |
+```
+
+### Breakdown of the Diagram:
+
+1. **Client (Browser)**: This is the user's web browser or application that initiates the request.
+2. **Server**: This is the web server that hosts the website or service the client is trying to access.
+3. **HTTPS Request**: This is the request sent from the client to the server. It typically includes:
+   - HTTP method (GET, POST, etc.)
+   - URL
+   - Headers (e.g., User-Agent, Accept, etc.)
+   - Body (for POST requests)
+4. **HTTPS Response**: This is the response sent from the server back to the client. It typically includes:
+   - Status code (e.g., 200 OK, 404 Not Found)
+   - Headers (e.g., Content-Type, Content-Length, etc.)
+   - Body (the requested resource, such as HTML, JSON, etc.)
+
+### Note:
+- HTTPS (Hypertext Transfer Protocol Secure) ensures that the data exchanged between the client and server is encrypted for security.
+- The arrows indicate the direction of data flow, with the request going from the client to the server and the response going back from the server to the client.
+
+Enter your request (ASCII diagram or text) or 'exit': What is the capital of France?
+
+Assistant Response:
+The capital of France is Paris.
+
+Enter your request (ASCII diagram or text) or 'exit': Can you draw me an ASCII diagram of the Eiffel Tower?
+
+Assistant Response:
+Sure! Here's a simple ASCII representation of the Eiffel Tower:
+
+```
+       /\
+      /  \
+     /    \
+    /      \
+   /        \
+  /          \
+ /            \
+/______________\
+      ||||
+      ||||
+      ||||
+      ||||
+      ||||
+      ||||
+      ||||
+      ||||
+      ||||
+```
+
+This is a basic representation, but I hope you like it!
+
+Enter your request (ASCII diagram or text) or 'exit': exit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Clearly AI produced ASCII diagrams have their limitations!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ai_generated_image_client"><a class="anchor" href="#_ai_generated_image_client"></a>AI Generated Image Client</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s improve on those ASCII diagrams by calling the <strong>images generation endpoint</strong> (<code>/v1/images/generations</code>), taking a text description of the required image, and returning JSON containing a URL with the download link to the image.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/beast/core.hpp&gt;      // Core Beast utilities
+#include &lt;boost/beast/ssl.hpp&gt;       // SSL/TLS support for Beast
+#include &lt;boost/beast/http.hpp&gt;      // HTTP request/response
+#include &lt;boost/beast/version.hpp&gt;   // Version macros
+#include &lt;boost/json.hpp&gt;            // Boost.JSON for parsing API responses
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+
+namespace beast = boost::beast;          // From &lt;boost/beast.hpp&gt;
+namespace http = beast::http;            // From &lt;boost/beast/http.hpp&gt;
+namespace net = boost::asio;             // From &lt;boost/asio.hpp&gt;
+namespace ssl = boost::asio::ssl;        // From &lt;boost/asio/ssl.hpp&gt;
+namespace json = boost::json;            // From &lt;boost/json.hpp&gt;
+using tcp = boost::asio::ip::tcp;        // TCP protocol abstraction
+
+int main()
+{
+    try
+    {
+        //-----------------------------------------
+        // USER CONFIGURATION
+        //-----------------------------------------
+        const std::string host = "api.openai.com";   // OpenAI API host
+        const std::string port = "443";              // HTTPS (TLS) port
+        const std::string target = "/v1/images/generations"; // OpenAI endpoint for image generation
+        const int version = 11; // HTTP/1.1 (11 = 1.1, 10 = 1.0)
+
+        // Replace these with your actual credentials
+        const std::string api_key = "&lt;YOUR_API_KEY&gt;";
+        const std::string org_id = "&lt;YOUR_ORG_ID&gt;";   // Optional: can be blank
+
+        // Path to a certificate bundle (needed so TLS can verify api.openai.com is trusted)
+        _putenv_s("SSL_CERT_FILE", "&lt;YOUR_CERT_PATH&gt;\\cacert.pem");
+
+        //-----------------------------------------
+        // SSL/TLS CONTEXT
+        //-----------------------------------------
+        ssl::context ctx(ssl::context::tls_client);  // Create a client-side TLS context
+        ctx.set_default_verify_paths();              // Use system default trusted certificates
+        ctx.set_verify_mode(ssl::verify_peer);       // Verify server certificate authenticity
+
+        //-----------------------------------------
+        // I/O CONTEXT
+        //-----------------------------------------
+        net::io_context ioc;  // Asynchronous event loop (needed for networking)
+
+        //-----------------------------------------
+        // RESOLVE HOSTNAME → TCP ENDPOINT
+        //-----------------------------------------
+        tcp::resolver resolver(ioc);
+        auto const results = resolver.resolve(host, port);
+
+        //-----------------------------------------
+        // CREATE SSL STREAM WRAPPED AROUND TCP SOCKET
+        //-----------------------------------------
+        beast::ssl_stream&lt;tcp::socket&gt; stream(ioc, ctx);
+
+        // Enable SNI (Server Name Indication), required by many servers including OpenAI
+        if (!SSL_set_tlsext_host_name(stream.native_handle(), host.c_str()))
+            throw beast::system_error(
+                beast::error_code(static_cast&lt;int&gt;(::ERR_get_error()), net::error::get_ssl_category()),
+                "Failed to set SNI hostname");
+
+        //-----------------------------------------
+        // CONNECT TO SERVER AND HANDSHAKE TLS
+        //-----------------------------------------
+        net::connect(stream.next_layer(), results.begin(), results.end()); // TCP connect
+        stream.handshake(ssl::stream_base::client);                        // TLS handshake
+
+        //-----------------------------------------
+        // MAIN LOOP: ASK USER FOR PROMPT
+        //-----------------------------------------
+        std::string user_input;
+        while (true)
+        {
+            std::cout &lt;&lt; "\nEnter an image request (e.g. 'A sunset over the mountain') or 'exit': ";
+            std::getline(std::cin, user_input);
+
+            if (user_input == "exit")
+                break; // Exit program cleanly
+
+            //-----------------------------------------
+            // BUILD JSON REQUEST BODY
+            //-----------------------------------------
+            json::object body;
+            body["prompt"] = user_input;     // User's text description
+            body["n"] = 1;                   // Number of images to generate
+            body["size"] = "512x512";        // Image resolution
+            body["response_format"] = "url"; // We want a downloadable URL back
+            std::string body_str = json::serialize(body);
+
+            //-----------------------------------------
+            // CREATE HTTP POST REQUEST
+            //-----------------------------------------
+            http::request&lt;http::string_body&gt; req{ http::verb::post, target, version };
+            req.set(http::field::host, host);
+            req.set(http::field::content_type, "application/json");  // JSON request body
+            req.set(http::field::authorization, "Bearer " + api_key); // API key
+            req.set("OpenAI-Organization", org_id);                 // Optional header
+            req.body() = body_str;                                  // JSON as request body
+            req.prepare_payload();                                  // Update headers (like Content-Length)
+
+            //-----------------------------------------
+            // SEND REQUEST TO OPENAI
+            //-----------------------------------------
+            http::write(stream, req);
+
+            //-----------------------------------------
+            // RECEIVE RESPONSE
+            //-----------------------------------------
+            beast::flat_buffer buffer;          // Temporary storage for network data
+            http::response&lt;http::string_body&gt; res;
+            http::read(stream, buffer, res);    // Read HTTP response into `res`
+
+            //-----------------------------------------
+            // PARSE JSON RESPONSE
+            //-----------------------------------------
+            try {
+                json::value jv = json::parse(res.body());
+
+                if (jv.is_object()) {
+                    auto&amp; obj = jv.as_object();
+                    if (obj.contains("data")) {
+                        auto&amp; data = obj["data"].as_array();
+                        if (!data.empty()) {
+
+                            // Extract URL of generated image
+                            std::string url = data[0].as_object()["url"].as_string().c_str();
+                            std::cout &lt;&lt; "\nDownload your image here:\n" &lt;&lt; url &lt;&lt; "\n";
+                        }
+                    }
+                }
+            }
+            catch (const std::exception&amp; e) {
+                std::cerr &lt;&lt; "Failed to parse JSON: " &lt;&lt; e.what() &lt;&lt; "\n";
+                std::cerr &lt;&lt; "Raw response:\n" &lt;&lt; res.body() &lt;&lt; "\n";
+            }
+        }
+
+        //-----------------------------------------
+        // CLEANLY SHUTDOWN TLS CONNECTION
+        //-----------------------------------------
+        beast::error_code ec;
+        stream.shutdown(ec);
+
+        // Ignore common "truncated" shutdowns that happen when the peer closes first
+        if (ec == net::error::eof || ec == ssl::error::stream_truncated) {
+            ec = {};
+        }
+
+        if (ec) {
+            throw beast::system_error{ ec };
+        }
+
+    }
+    catch (std::exception const&amp; e)
+    {
+        // If anything throws, report it
+        std::cerr &lt;&lt; "Error: " &lt;&lt; e.what() &lt;&lt; "\n";
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the program:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter an image request (e.g. 'A sunset over the mountains') or 'exit': A sunset over the mountain
+
+Download your image here:
+https://oaidalleapiprodscus.blob.core.windows.net/private/org-DOWNLOAD-LINK-DETAILS</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/a-sunset-over-the-mountain.png" alt="A sunset over the mountain">
+</div>
+</div>
+<div class="paragraph">
+<p>Try a stylized image:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter an image request (e.g. 'A sunset over the mountains') or 'exit': A cartoon image of a volcanic eruption
+
+Download your image here:
+https://oaidalleapiprodscus.blob.core.windows.net/private/org-DOWNLOAD-LINK-DETAILS</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/cartoon-volcanic-eruption.png" alt="Cartoon volcanic eruption"></span></p>
+</div>
+<div class="paragraph">
+<p>Try a more complex subject:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter an image request (e.g. 'A sunset over the mountains') or 'exit': A C++ computer programmer hard at work
+
+Download your image here:
+https://oaidalleapiprodscus.blob.core.windows.net/private/org-DOWNLOAD-LINK-DETAILS</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/cpp-programmer-at-work.png" alt="Cpp programmer at work"></span></p>
+</div>
+<div class="paragraph">
+<p>Push the limits to reveal limitations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter an image request (e.g. 'A sunset over the mountains') or 'exit': A diagram with text showing how a jet engine works
+
+Download your image here:
+https://oaidalleapiprodscus.blob.core.windows.net/private/org-DOWNLOAD-LINK-DETAILS</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/jet-engine-with-text.png" alt="Jet engine with text"></span></p>
+</div>
+<div class="paragraph">
+<p>Clearly, asking for text annotations in this case was asking too much!</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter an image request (e.g. 'A sunset over the mountains') or 'exit': exit</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Making requests to an AI model is fun. However, to be useful a lot of experimentation and honing of requests may well be necessary.</p>
+</div>
+<div class="paragraph">
+<p>Consider updating the examples to tailor the requests to a particular scenario you have in mind. There are also speech-to-text, text-to-speech, and translation endpoints you might give a try.</p>
+</div>
+<div class="paragraph">
+<p>For more information and examples on the use of Boost libraries in client/server connections, refer to <a href="task-networking.html" class="xref page">Networking</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Concurrent">Category: Concurrent Programming</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#IO">Category: Input/Output</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Parsing">Category: Parsing</a></p>
+</li>
+<li>
+<p><a href="task-machine-learning.html" class="xref page">Machine Learning</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-ai-client.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="task-networking.html">Networking</a></span>
+        <span class="next"><a href="task-simulation.html">Simulation</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

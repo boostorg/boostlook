@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>AsciiDoc Style Guide :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/docs/asciidoc.html">
+    <link rel="prev" href="antora.html">
+    <link rel="next" href="logo-policy-media-guide.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="antora.html">Antora Guide</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Writing Documentation</li>
+    <li><a href="asciidoc.html">AsciiDoc Style Guide</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="antora.html">
+      <span class="material-symbols-outlined" title="Previous: Antora Guide">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="logo-policy-media-guide.html">
+      <span class="material-symbols-outlined" title="Next: Logo Policy and Media Guide">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">AsciiDoc Style Guide</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes the style of writing and formatting to use when contributing to Boost documentation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_priorities"><a class="anchor" href="#_priorities"></a>Priorities</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Our documentation priorities are:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Clarity first - clear and accurate.</p>
+</li>
+<li>
+<p>Brevity next.</p>
+</li>
+<li>
+<p>Consistency is good.</p>
+</li>
+<li>
+<p>All else.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mark_up"><a class="anchor" href="#_mark_up"></a>Mark Up</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The mark up tool we are using is <a href="https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/">AsciiDoc</a>. Throughout this topic examples of AsciiDoc format follow for each topic.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_headings"><a class="anchor" href="#_headings"></a>Headings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Headings are crucial elements to guide readers to find the information they&#8217;re looking for.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Title Case</strong>: Capitalize all the important words (not: to, and, a, at, with, etc.). In title case, conjunctions, articles, and prepositions typically remain in lowercase unless they&#8217;re the first or last word in the title. For example: "To Install a Boost Library" is title cased.</p>
+</li>
+<li>
+<p><strong>Top Level</strong>: Use only one top-level heading per page, as the first entry.</p>
+</li>
+<li>
+<p><strong>Engagement</strong>: Use active headings for procedures. For example "Install Boost" is active, "Boost Installation" is inactive.</p>
+</li>
+<li>
+<p><strong>Acronyms and Jargon</strong>: Do not use acronyms in headings. For example, do not use "Working with CI", instead use "Working with Continuous Integration", and then in the text "Continuous Integration (CI) means &#8230;&#8203;.". Avoid jargon too, as it is notoriously confusing for a non-English-as-a-first-language reader.</p>
+</li>
+<li>
+<p><strong>Clarity</strong>: Avoid vague or generic headings.</p>
+</li>
+<li>
+<p><strong>Avoid Overuse</strong>: Too many levels of headings can confuse your readers. Try not to exceed four levels of headings.</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_asciidoc_headings"><a class="anchor" href="#_asciidoc_headings"></a>AsciiDoc Headings</h3>
+<div class="paragraph">
+<p>The equals sign is used to determine the heading level.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">= Top Level
+== Second Level
+=== Third Level
+==== Fourth Level</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_text"><a class="anchor" href="#_text"></a>Text</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The main priorities of brevity and clarity apply as top priority to all text. Avoid jargon altogether, and spell out acronyms on first use.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Active Voice</strong>: Use the active voice as much as possible. It&#8217;s generally more direct and easier to understand than the passive voice.</p>
+</li>
+<li>
+<p><strong>Logical Flow</strong>: Ensure there&#8217;s a logical flow from one paragraph to the next. Each paragraph should build on the previous one, adding new information or further detail.</p>
+</li>
+<li>
+<p><strong>Use Contractions</strong>: Contractions make for a chattier and easier to read style. For example, use "doesn&#8217;t" instead of "does not", or "would&#8217;ve" instead of "would have".</p>
+</li>
+<li>
+<p><strong>Avoid Walls of Text</strong>: Break up large text blocks with images, lists, diagrams where appropriate.</p>
+</li>
+<li>
+<p><strong>Avoid Duplication</strong>: Sometimes duplication is necessary, for example within a tutorial to keep the flow within the tutorial itself. Otherwise, avoid duplication whenever possible, and simply link to one source of truth.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Text in AsciiDoc is entered as is. Be sure to leave a blank line between paragraphs.
+
+Next paragraph.</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_project_references"><a class="anchor" href="#_project_references"></a>Project References</h3>
+<div class="paragraph">
+<p>When writing about the Boost libraries for this website, library documentation or manuals, blog posts, social media, and any official communications - take the following guidelines as pertinent:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The name of the project as a whole is the <strong>"Boost C++ Libraries"</strong>, noting that "the" is <em>not</em> part of the project name, and that "libraries" is plural.</p>
+</li>
+<li>
+<p>After first use of the full project name, avoid over-use of the word "Boost" in following paragraphs. Subsequent references to the project can select from terms such as "project", "libraries", and "collection", as determined by context. It is acceptable to use the single word "Boost" if it is needed for clarity (such as when comparing library collections).</p>
+</li>
+<li>
+<p>Avoid the use of the word "Boost" in section or topic headings, especially those that will appear in the table of contents.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pages"><a class="anchor" href="#_pages"></a>Pages</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Generally avoid the off-putting user-experience of over-long pages.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Landing Page</strong>: A landing page is best kept fairly short, say around 500 words, though clarity is the top priority.</p>
+</li>
+<li>
+<p><strong>Information Pages</strong>: For Search Engine Optimization (SEO) a length of 1500 to 2000 words per page works well. Avoid over-long pages - split them logically with a clear heading for each section.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_operating_systems_and_tools"><a class="anchor" href="#_operating_systems_and_tools"></a>Operating Systems and Tools</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We assume the users of Boost are using Windows, macOS, or Linux based systems. Examples of installation and running code examples should be provided for each of these three systems. There are many variants of Linux, and providing examples for the most popular variants is encouraged.</p>
+</div>
+<div class="paragraph">
+<p>Popular Windows tools are Microsoft Visual C++, Visual Studio Code, and GCC (MinGW or Cygwin). On macOS, Clang is a popular compiler, and on Linux Cmake, GCC and Clang are popular.</p>
+</div>
+<div class="paragraph">
+<p>The recommendation for Boost examples is to use a <em>popular</em> tool in the various steps and processes, but <em>not</em> to recommend one tool over any other. And to mention other tools that we know work well with Boost.</p>
+</div>
+<div class="paragraph">
+<p>It is important that processes in our documentation work, so it will be necessary to state which tool you are using when creating working examples.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_code_snippets"><a class="anchor" href="#_code_snippets"></a>Code Snippets</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Our code snippets include C++ examples on using libraries, but also Command Prompt entries on installing and building, and other text commands.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Accuracy</strong>: Remember that code snippets are going to be <strong>copied and pasted</strong> by users, who are going to (rightly or wrongly) assume that the code conforms to best practices.</p>
+</li>
+<li>
+<p><strong>Simplicity</strong>: The code snippet should be as simple as possible. Avoid complex or confusing code structures, as they can distract from the point you&#8217;re trying to make.</p>
+</li>
+<li>
+<p><strong>Commenting</strong>: Include comments in your code to explain what&#8217;s happening. This can help readers understand the code, especially if it&#8217;s complex or non-obvious.</p>
+</li>
+<li>
+<p><strong>Consistency</strong>: Be consistent in your coding style throughout your documentation. This includes things like indentation, naming conventions, comments, and the use of spaces or tabs.</p>
+</li>
+<li>
+<p><strong>Context</strong>: Provide enough context around the code snippet. Explain what the code does and how it relates to the text.</p>
+</li>
+<li>
+<p><strong>Complete</strong>: If a code snippet is intended to be run by the reader, make sure it includes all necessary parts to actually run.</p>
+</li>
+<li>
+<p><strong>Versioning</strong>: Indicate the version of the programming language, library or framework that the code snippet is intended for. This can help prevent confusion or issues with running the code.</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_asciidoc_code_snippet"><a class="anchor" href="#_asciidoc_code_snippet"></a>Asciidoc Code Snippet</h3>
+<div class="paragraph">
+<p>To include a snippet of source code like the following, precede it with <code>[source, cpp]</code> on one line, followed by <code>----</code>, then the code itself, and finish it with a second <code>----</code>, again on its own line.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">#include &lt;boost/lambda/lambda.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;iterator&gt;
+#include &lt;algorithm&gt;
+
+int main()
+{
+    using namespace boost::lambda;
+    typedef std::istream_iterator&lt;int&gt; in;
+
+    std::for_each(
+        in(std::cin), in(), std::cout &lt;&lt; (_1 * 3) &lt;&lt; " ");
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lists"><a class="anchor" href="#_lists"></a>Lists</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Whether ordered (with numbers), or unordered (with bullets), these are the general best practices for all lists:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Parallelism</strong>: Start each point with the same part of speech (noun, verb, etc.) to keep the list parallel. This makes the list easier to read and understand.</p>
+</li>
+<li>
+<p><strong>Punctuation</strong>: If your points are not complete sentences, they typically do not need to be punctuated. If the points are complete sentences or if each point is a distinct idea that forms a multi-sentence paragraph, use proper punctuation.</p>
+</li>
+<li>
+<p><strong>Length</strong>: Keep your points concise. If a point is running longer than two lines, consider breaking it down further.</p>
+</li>
+<li>
+<p><strong>Introduction</strong>: Always introduce a list with a lead-in sentence or phrase.</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_numbered_lists"><a class="anchor" href="#_numbered_lists"></a>Numbered Lists</h3>
+<div class="paragraph">
+<p>Numbered lists are best used when describing a process, a sequence of steps, or priorities.</p>
+</div>
+<div class="paragraph">
+<p>If the sequence or order of points does not matter, use a <a href="#_bulleted_lists">Bulleted Lists</a> instead. If the sequence matters, use a numbered list (sometimes called "ordered lists").</p>
+</div>
+<div class="sect3">
+<h4 id="_asciidoc_numbered_lists"><a class="anchor" href="#_asciidoc_numbered_lists"></a>AsciiDoc Numbered Lists</h4>
+<div class="paragraph">
+<p>Numbered list entries start with a period (<code>.</code>). There is no need to enter any numbers, the renderer will work them out correctly. Be sure to leave a blank line before and after a list.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Introductory sentence.
+
+. point A
+. point B
+.. Point B.1
+.. Point B.2
+. Point C
+. Point D</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Introductory sentence.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>point A</p>
+</li>
+<li>
+<p>point B</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Point B.1</p>
+</li>
+<li>
+<p>Point B.2</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Point C</p>
+</li>
+<li>
+<p>Point D</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bulleted_lists"><a class="anchor" href="#_bulleted_lists"></a>Bulleted Lists</h3>
+<div class="paragraph">
+<p>If the sequence or order of points matters, use a <a href="#_numbered_lists">Numbered Lists</a> instead. If the sequence doesn’t matter, use a bulleted list (sometimes called "unordered" lists).</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Order</strong>: Arrange your bullet points logically. This could be in order of importance, chronologically, or in some other meaningful way for the reader.</p>
+</li>
+<li>
+<p><strong>Avoid Overuse</strong>: Bulleted lists are most effective when used sparingly. Too many lists can make your document hard to read.</p>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_asciidoc_bulleted_lists"><a class="anchor" href="#_asciidoc_bulleted_lists"></a>AsciiDoc Bulleted Lists</h4>
+<div class="paragraph">
+<p>Note the <code>[disc]</code> entry determining the symbol. Alternatives are <code>[square]</code> and <code>[circle]</code>. Be sure to leave a blank line before and after a list.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Introductory sentence.
+
+[disc]
+* point A
+* point B
+** Point B.1
+** Point B.2
+
+[circle]
+* Point C
+* Point D</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Introductory sentence.</p>
+</div>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p>point A</p>
+</li>
+<li>
+<p>point B</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Point B.1</p>
+</li>
+<li>
+<p>Point B.2</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>Point C</p>
+</li>
+<li>
+<p>Point D</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tables"><a class="anchor" href="#_tables"></a>Tables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If content naturally falls into a row/column format, then encapsulate as a table.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Title</strong>: Every table should have a clear, concise title that describes its content and purpose.</p>
+</li>
+<li>
+<p><strong>Headers</strong>: Use headers for each column to indicate what information is contained in that column.</p>
+</li>
+<li>
+<p><strong>Consistency</strong>: Maintain consistent formatting and structure across all tables in a document to enhance readability and avoid confusion.</p>
+</li>
+<li>
+<p><strong>Simplicity</strong>: Keep the table as simple as possible. Avoid unnecessary columns or rows, and ensure that the data presented is relevant and necessary.</p>
+</li>
+<li>
+<p><strong>Size</strong>: The table should fit the page size. If the table is too large, consider breaking it down into several smaller tables.</p>
+</li>
+<li>
+<p><strong>Striping</strong>: If your table has many rows, consider using striping (alternating row colors) to make it easier to follow across large tables.</p>
+</li>
+<li>
+<p><strong>Units</strong>: If your table includes measures, ensure to specify the units.</p>
+</li>
+<li>
+<p><strong>Notes and References</strong>: If necessary, include footnotes or references right below the table for any clarifications.</p>
+</li>
+<li>
+<p><strong>Data Order</strong>: Consider the most logical order to present your data. This could be alphabetical, numerical, chronological, or in order of importance.</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_asciidoc_tables"><a class="anchor" href="#_asciidoc_tables"></a>AsciiDoc Tables</h3>
+<div class="paragraph">
+<p>The following example asciidoc source would produce the table shown below. Note the relative column widths (1 and 2). This means the first column uses 1/3rd of the width available, and the second column 2/3rds of the width. Also, a header row is required, and zebra striping. Be sure to leave a blank line before and after a table.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">[cols="1,2",options="header",stripes=even,frame=none]
+|===
+| *Head1*  | *Head2*
+| row1 | text
+| row2 | text
+|===</code></pre>
+</div>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Head1</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Head2</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">row1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">text</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">row2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">text</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_images"><a class="anchor" href="#_images"></a>Images</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Images work well in tutorials, and other process-style documentation, where the reader can find visual confirmation that they have followed the correct procedure.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Relevance</strong>: Ensure the images used are relevant and directly aid in <strong>understanding</strong> the content. Avoid using images as mere decorations or fillers. Don&#8217;t overload diagrams or images with <strong>too much information</strong>. They should aid understanding, not create confusion.</p>
+</li>
+<li>
+<p><strong>Quality</strong>: Images should be of <strong>high quality</strong>. They should be clear and easy to read/understand, even when printed.</p>
+</li>
+<li>
+<p><strong>Referencing</strong>: Always reference images in the text. This not only directs the reader&#8217;s attention to the image but also <strong>clarifies what the image is meant to illustrate</strong>.</p>
+</li>
+<li>
+<p><strong>Accessibility</strong>: Ensure images are accessible for people with <strong>visual impairments</strong>. This can include providing alt text for online documents, and detailed captions for printed documents. Be aware that color choices can have an impact on readability, especially for people with color blindness.</p>
+</li>
+<li>
+<p><strong>Consistency</strong>: Try to maintain a consistent style, quality, and <strong>appearance</strong> for all images throughout the document.</p>
+</li>
+<li>
+<p><strong>File Type and Compression</strong>: Use the correct file type for your images. JPEGs are best for photographs, while PNGs are better for screenshots, SVGs for logos and diagrams. Also, be aware of file size - compress images if they are large, but ensure this doesn&#8217;t compromise quality.</p>
+</li>
+<li>
+<p><strong>Copyright</strong>: Only use images that you have the <strong>right to use</strong>. Always attribute images correctly according to the terms of the license.</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_asciidoc_images"><a class="anchor" href="#_asciidoc_images"></a>AsciiDoc Images</h3>
+<div class="paragraph">
+<p>Place the image in the <code>images</code> folder, then add the following link in the file. Add an appropriate caption, and alt-text to describe the image to the visually impaired.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">image::filename.png[caption="Figure 1: caption", alt="alternate text"]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mrduguo.github.io/asciidoctor.org/docs/asciidoc-syntax-quick-reference/">AsciiDoc Syntax Quick Reference</a></p>
+</li>
+<li>
+<p><a href="../site-docs-style-guide.html" class="xref page">Site-docs Style Guide</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/docs/asciidoc.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="antora.html">Antora Guide</a></span>
+        <span class="next"><a href="logo-policy-media-guide.html">Logo Policy and Media Guide</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

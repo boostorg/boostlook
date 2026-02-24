@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Real-Time Simulation :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-simulation.html">
+    <link rel="prev" href="task-ai-client.html">
+    <link rel="next" href="task-system.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Common Scenarios</li>
+    <li><a href="task-simulation.html">Simulation</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="task-ai-client.html">
+      <span class="material-symbols-outlined" title="Previous: AI Client">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-system.html">
+      <span class="material-symbols-outlined" title="Next: System">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Real-Time Simulation</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Creating a real-time simulation of objects or processes involves various aspects, including accurate timing, physical modeling, collisions and deformation, concurrent programming for real-time response, data storage, networking for multi-vehicle simulation, and usually a graphic interface though sometimes logging results is enough.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_simulate_movement_in_3d_space">Simulate Movement in 3D Space</a></p>
+</li>
+<li>
+<p><a href="#_add_collision_detection">Add Collision Detection</a></p>
+</li>
+<li>
+<p><a href="#_deformation_on_impact">Deformation on Impact</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here are some libraries that may be helpful:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/libs/geometry">Boost.Geometry</a>: For spatial computations and geometric algorithms, which you will likely need for modeling the physical behavior and interactions of your vehicles.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/units">Boost.Units</a>: Helps with calculations involving units of measurement. It provides classes and functions that can enforce the correct usage of units and conversions between them, which could be helpful in a physical simulation.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/algorithm">Boost.Algorithm</a> : Provides a variety of utilities for numerical and string processing.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/graph">Boost.Graph</a>: In case you need to represent roads or pathways as a graph, this library provides a flexible and powerful way to represent and manipulate graphs. It also includes a number of graph algorithms.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/chrono">Boost.Chrono</a>: Timing is critical in real-time applications. This library can help you measure time intervals, which could be useful for controlling the timing of your simulation.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/thread">Boost.Thread</a>: To achieve real-time performance, you might need to make use of multi-threading. This library provides classes and functions for multi-threading, synchronization, and inter-thread communication.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/interprocess">Boost.Interprocess</a>: If you need to share data between different processes in real-time, this library can be useful. It supports shared memory, memory-mapped files, semaphores, and more.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/mpi">Boost.Mpi</a> or <a href="https://www.boost.org/libs/asio">Boost.Asio</a>: For distributed simulations that run across multiple systems, you might need a library for network communication. <a href="https://www.boost.org/libs/mpi">Boost.Mpi</a> provides a C++ interface for the Message Passing Interface (MPI) standard for distributed computing. <a href="https://www.boost.org/libs/asio">Boost.Asio</a> can also handle networking tasks and it is a bit lower-level.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/serialization">Boost.Serialization</a>: To save the state of the simulation or to communicate complex data structures over a network, you might find this library helpful.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/log">Boost.Log</a>: Supports severity levels, which you can use to categorize and filter your log messages. This can help you control the amount of log output and focus on what&#8217;s important.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_simulate_movement_in_3d_space"><a class="anchor" href="#_simulate_movement_in_3d_space"></a>Simulate Movement in 3D Space</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following sample simulates the movement of a geometric shape (a 3D box) in space using <a href="https://www.boost.org/libs/geometry">Boost.Geometry</a> for shape representation, <a href="https://www.boost.org/libs/chrono">Boost.Chrono</a> for timing, and <a href="https://www.boost.org/libs/algorithm">Boost.Algorithm</a> for numerical adjustments, such as scaling, normalization and smoothing movement (avoiding unrealistic motion).</p>
+</div>
+<div class="paragraph">
+<p>The simulation itself runs for just a few seconds.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/geometry.hpp&gt;
+#include &lt;boost/chrono.hpp&gt;
+#include &lt;boost/algorithm/clamp.hpp&gt;
+#include &lt;boost/thread/thread.hpp&gt;
+
+namespace bg = boost::geometry;
+using namespace boost::chrono;
+
+// Define a 3D box with min and max corners
+using point3d = bg::model::point&lt;double, 3, bg::cs::cartesian&gt;;
+using box3d = bg::model::box&lt;point3d&gt;;
+
+const int xcoord = 0;
+const int ycoord = 1;
+const int zcoord = 2;
+const double increment = 0.2;       // Guideline time increment in seconds
+
+// Retrieve a point3d co-ordinate
+double getCoord(int i, point3d p)
+{
+    switch (i)
+    {
+    case 0: return bg::get&lt;xcoord&gt;(p);
+    case 1: return bg::get&lt;ycoord&gt;(p);
+    case 2: return bg::get&lt;zcoord&gt;(p);
+    }
+}
+
+// Set a point3d co-ordinate
+void setCoord(int i, point3d&amp; p, double v)
+{
+    switch (i)
+    {
+    case 0: bg::set&lt;xcoord&gt;(p, v);
+        break;
+
+    case 1: bg::set&lt;ycoord&gt;(p, v);
+        break;
+
+    case 2: bg::set&lt;zcoord&gt;(p, v);
+        break;
+
+    }
+}
+
+// Update the position of the box
+void move_box(box3d&amp; box, const point3d&amp; velocity, double delta_time) {
+
+    // Temporary variables for use in the movement calculations
+    point3d min_corner = box.min_corner();
+    point3d max_corner = box.max_corner();
+
+    // Update the box position using velocity * delta time
+    for (int i = 0; i &lt; 3; ++i) {
+
+        double new_min = getCoord(i,min_corner) + (getCoord(i,velocity) * delta_time);
+        double new_max = getCoord(i,max_corner) + (getCoord(i,velocity) * delta_time);
+
+        // Example clamp to avoid excessive movement (Boost.Algorithm)
+        new_min = boost::algorithm::clamp(new_min, -100.0, 100.0);
+        new_max = boost::algorithm::clamp(new_max, -100.0, 100.0);
+
+        setCoord(i, min_corner, new_min);
+        setCoord(i, max_corner, new_max);
+    }
+
+    // Update the box with new corners
+    box = box3d(min_corner, max_corner);
+}
+
+int main() {
+
+    // Set the sleep duration based on the guideline increment in seconds
+    boost::chrono::duration&lt;double&gt; sleep_duration(increment);
+
+    // Create a 3D box (min corner and max corner)
+    box3d box(point3d(0.0, 0.0, 0.0), point3d(1.0, 1.0, 1.0));
+
+    // Define velocity (units per second)
+    point3d velocity(0.5, 0.3, -0.2);
+
+    // Start timing
+    steady_clock::time_point start_time = steady_clock::now();
+    steady_clock::time_point current_time;
+    steady_clock::time_point previous_time = start_time;
+    double elapsed_seconds, increment_seconds;
+
+    // Run simulation for 50 increments
+    for (int i = 0; i &lt; 50; ++i) {
+
+        // Measure elapsed time - both from the start, and from the previous move
+        current_time = steady_clock::now();
+        elapsed_seconds = duration&lt;double&gt;(current_time - start_time).count();
+        increment_seconds = duration&lt;double&gt;(current_time - previous_time).count();
+        previous_time = current_time;
+
+        // Move the box every increment, noting the increment will vary by tiny fractions of a second each time.
+        move_box(box, velocity, increment_seconds);
+
+        // Print times and the updated box position
+        point3d min_corner = box.min_corner();
+        point3d max_corner = box.max_corner();
+        std::cout &lt;&lt; "Time: " &lt;&lt; elapsed_seconds &lt;&lt; " sec | "
+            &lt;&lt; "Inc: " &lt;&lt; increment_seconds &lt;&lt; " sec | "
+            &lt;&lt; "Box Position: Min("
+            &lt;&lt; getCoord(xcoord,min_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(ycoord,min_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(zcoord,min_corner) &lt;&lt; ") "
+            &lt;&lt; " Max("
+            &lt;&lt; getCoord(xcoord, max_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(ycoord, max_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(zcoord, max_corner) &lt;&lt; ")\n";
+
+        boost::this_thread::sleep_for(sleep_duration);
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An example of the output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Time: 0.209428 sec | Inc: 0.209424 sec | Box Position: Min(0.104714, 0.0628285, -0.0418857)  Max(1.10471, 1.06283, 0.958114)
+Time: 0.429642 sec | Inc: 0.220214 sec | Box Position: Min(0.214821, 0.128893, -0.0859284)  Max(1.21482, 1.12889, 0.914072)
+Time: 0.648115 sec | Inc: 0.218473 sec | Box Position: Min(0.324058, 0.194435, -0.129623)  Max(1.32406, 1.19443, 0.870377)
+......</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The time increment varies slightly on each loop, and this value is used when calculating movement.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_collision_detection"><a class="anchor" href="#_add_collision_detection"></a>Add Collision Detection</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Most 3D simulations require collision detection, which usually has a significant impact on the performance of a simulation, particularly in three dimensions. We&#8217;ll introduce a bounding volume (a larger 3D box representing the environment), and detect when our moving box collides with its boundaries.</p>
+</div>
+<div class="paragraph">
+<p>Collision detection is handled by checking if the box&#8217;s min/max corners exceed the bounds. Some "bounce" mechanics are added to invert velocity after impact. In this example, the box moves continuously, rebounding off the walls, without consequences!</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/geometry.hpp&gt;
+#include &lt;boost/chrono.hpp&gt;
+#include &lt;boost/algorithm/clamp.hpp&gt;
+#include &lt;boost/thread/thread.hpp&gt;
+
+namespace bg = boost::geometry;
+using namespace boost::chrono;
+
+// Define a 3D box with min and max corners
+using point3d = bg::model::point&lt;double, 3, bg::cs::cartesian&gt;;
+using box3d = bg::model::box&lt;point3d&gt;;
+
+const int xcoord = 0;
+const int ycoord = 1;
+const int zcoord = 2;
+const double increment = 0.2;       // Guideline time increment in seconds
+
+// Retrieve a point3d co-ordinate
+double getCoord(int i, point3d p)
+{
+    switch (i)
+    {
+    case 0: return bg::get&lt;xcoord&gt;(p);
+    case 1: return bg::get&lt;ycoord&gt;(p);
+    case 2: return bg::get&lt;zcoord&gt;(p);
+    }
+}
+
+// Set a point3d co-ordinate
+void setCoord(int i, point3d&amp; p, double v)
+{
+    switch (i)
+    {
+    case 0: bg::set&lt;xcoord&gt;(p, v);
+        break;
+
+    case 1: bg::set&lt;ycoord&gt;(p, v);
+        break;
+
+    case 2: bg::set&lt;zcoord&gt;(p, v);
+        break;
+
+    }
+}
+
+// Update the position of the box
+void move_box(box3d&amp; box, const point3d&amp; velocity, double delta_time) {
+
+    // Temporary variables for use in the movement calculations
+    point3d min_corner = box.min_corner();
+    point3d max_corner = box.max_corner();
+
+    // Update the box position using velocity * delta time
+    for (int i = 0; i &lt; 3; ++i) {
+
+        double new_min = getCoord(i,min_corner) + (getCoord(i,velocity) * delta_time);
+        double new_max = getCoord(i,max_corner) + (getCoord(i,velocity) * delta_time);
+
+        // Example clamp to avoid excessive movement (Boost.Algorithm)
+        new_min = boost::algorithm::clamp(new_min, -100.0, 100.0);
+        new_max = boost::algorithm::clamp(new_max, -100.0, 100.0);
+
+        setCoord(i, min_corner, new_min);
+        setCoord(i, max_corner, new_max);
+    }
+
+    // Update the box with new corners
+    box = box3d(min_corner, max_corner);
+}
+
+// Function to check and handle collisions with the bounding box
+void handle_collision(box3d&amp; box, point3d&amp; velocity, const box3d&amp; bounds) {
+    for (int i = 0; i &lt; 3; ++i) {
+        double min_pos = getCoord(i, box.min_corner());
+        double max_pos = getCoord(i, box.max_corner());
+        double bound_min = getCoord(i, bounds.min_corner());
+        double bound_max = getCoord(i, bounds.max_corner());
+
+        // If box collides with environment limits, reverse velocity
+        if (min_pos &lt;= bound_min || max_pos &gt;= bound_max) {
+            setCoord(i, velocity, -getCoord(i, velocity));              // Reverse direction
+            double impact_force = std::abs(getCoord(i,velocity));       // Impact force = velocity along the impact axis
+           std::cout &lt;&lt; "\nCollision with impact force: " &lt;&lt; impact_force &lt;&lt; "\n"
+                &lt;&lt; "New velocity : ("
+                &lt;&lt; getCoord(xcoord, velocity) &lt;&lt; ", "
+                &lt;&lt; getCoord(ycoord, velocity) &lt;&lt; ", "
+                &lt;&lt; getCoord(zcoord, velocity) &lt;&lt; ")\n\n";
+        }
+    }
+}
+
+
+int main() {
+
+    // Set the sleep duration based on the guideline increment in seconds
+    boost::chrono::duration&lt;double&gt; sleep_duration(increment);
+
+    // Define the 3D simulation space (bounding box)
+    box3d bounds(point3d(-5.0, -5.0, -5.0), point3d(5.0, 5.0, 5.0));
+
+    // Create a 3D box (min corner and max corner)
+    box3d box(point3d(0.0, 0.0, 0.0), point3d(1.0, 1.0, 1.0));
+
+    // Define velocity (units per second)
+    point3d velocity(0.5, 0.3, -0.2);
+
+    // Start timing
+    steady_clock::time_point start_time = steady_clock::now();
+    steady_clock::time_point current_time;
+    steady_clock::time_point previous_time = start_time;
+    double elapsed_seconds, increment_seconds;
+
+    // Run simulation for 80 increments
+    for (int i = 0; i &lt; 80; ++i) {
+
+        // Measure elapsed time - both from the start, and from the previous move
+        current_time = steady_clock::now();
+        elapsed_seconds = duration&lt;double&gt;(current_time - start_time).count();
+        increment_seconds = duration&lt;double&gt;(current_time - previous_time).count();
+        previous_time = current_time;
+
+        // Move the box every increment, noting the increment will vary by tiny fractions of a second each time.
+        move_box(box, velocity, increment_seconds);
+
+        // Check for collision
+        handle_collision(box, velocity, bounds);
+
+        // Print times and the updated box position
+        point3d min_corner = box.min_corner();
+        point3d max_corner = box.max_corner();
+        std::cout &lt;&lt; "Time: " &lt;&lt; elapsed_seconds &lt;&lt; " sec | "
+            &lt;&lt; "Inc: " &lt;&lt; increment_seconds &lt;&lt; " sec | "
+            &lt;&lt; "Box Position: Min("
+            &lt;&lt; getCoord(xcoord,min_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(ycoord,min_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(zcoord,min_corner) &lt;&lt; ") "
+            &lt;&lt; " Max("
+            &lt;&lt; getCoord(xcoord, max_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(ycoord, max_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(zcoord, max_corner) &lt;&lt; ")\n";
+
+        boost::this_thread::sleep_for(sleep_duration);
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>An unlikely event perhaps, but a collision between the box and two or three sides of the bounding area will be handled by this code.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>An example of the output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Time: 7.76744 sec | Inc: 0.2183 sec | Box Position: Min(3.88372, 2.33023, -1.55349)  Max(4.88372, 3.33023, -0.553488)
+Time: 7.98306 sec | Inc: 0.215622 sec | Box Position: Min(3.99153, 2.39492, -1.59661)  Max(4.99153, 3.39492, -0.596613)
+
+Collision with impact force: 0.5
+New velocity : (-0.5, 0.3, -0.2)
+
+Time: 8.19834 sec | Inc: 0.21528 sec | Box Position: Min(4.09917, 2.4595, -1.63967)  Max(5.09917, 3.4595, -0.639669)
+Time: 8.41678 sec | Inc: 0.218435 sec | Box Position: Min(3.98995, 2.52503, -1.68336)  Max(4.98995, 3.52503, -0.683356)
+......</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deformation_on_impact"><a class="anchor" href="#_deformation_on_impact"></a>Deformation on Impact</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Collisions rarely have no consequences. To simulate deformation on impact, we can modify the shape of the box when it collides with a boundary.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/deformation.png" alt="cube deforming in 3D space">
+</div>
+</div>
+<div class="paragraph">
+<p>The box will deform along the axis of impact, based on the velocity.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/geometry.hpp&gt;
+#include &lt;boost/chrono.hpp&gt;
+#include &lt;boost/algorithm/clamp.hpp&gt;
+#include &lt;boost/thread/thread.hpp&gt;
+
+namespace bg = boost::geometry;
+using namespace boost::chrono;
+
+// Define a 3D box with min and max corners
+using point3d = bg::model::point&lt;double, 3, bg::cs::cartesian&gt;;
+using box3d = bg::model::box&lt;point3d&gt;;
+
+const int xcoord = 0;
+const int ycoord = 1;
+const int zcoord = 2;
+const double increment = 0.2;       // Guideline time increment in seconds
+
+// Retrieve a point3d co-ordinate
+double getCoord(int i, point3d p)
+{
+    switch (i)
+    {
+    case 0: return bg::get&lt;xcoord&gt;(p);
+    case 1: return bg::get&lt;ycoord&gt;(p);
+    case 2: return bg::get&lt;zcoord&gt;(p);
+    }
+}
+
+// Set a point3d co-ordinate
+void setCoord(int i, point3d&amp; p, double v)
+{
+    switch (i)
+    {
+    case 0: bg::set&lt;xcoord&gt;(p, v);
+        break;
+
+    case 1: bg::set&lt;ycoord&gt;(p, v);
+        break;
+
+    case 2: bg::set&lt;zcoord&gt;(p, v);
+        break;
+
+    }
+}
+
+// To verify deformation, calculate the volume of the box
+double volume(const box3d&amp; box) {
+    double dx = getCoord(xcoord, box.max_corner()) - getCoord(xcoord, box.min_corner());
+    double dy = getCoord(ycoord, box.max_corner()) - getCoord(ycoord, box.min_corner());
+    double dz = getCoord(zcoord, box.max_corner()) - getCoord(zcoord, box.min_corner());
+    return dx * dy * dz;
+}
+
+// Function to deform the box upon collision
+void deform_box(box3d&amp; box, int axis, double impact_force) {
+    // Get the box corners
+    point3d min_corner = box.min_corner();
+    point3d max_corner = box.max_corner();
+
+    // Deformation ratio (scales based on impact)
+    double deformation = 1.0 - (impact_force * 0.2);
+    deformation = boost::algorithm::clamp(deformation, 0.7, 1.0);  // Prevent over-deformation
+
+    // Scale the box on the axis of impact
+    double center = (getCoord(axis,min_corner) + getCoord(axis,max_corner)) / 2.0;
+    setCoord(axis,min_corner, center - (center - getCoord(axis,min_corner)) * deformation);
+    setCoord(axis,max_corner, center + (getCoord(axis,max_corner) - center) * deformation);
+
+    // Update the box
+    box = box3d(min_corner, max_corner);
+}
+
+// Update the position of the box
+void move_box(box3d&amp; box, const point3d&amp; velocity, double delta_time) {
+
+    // Temporary variables for use in the movement calculations
+    point3d min_corner = box.min_corner();
+    point3d max_corner = box.max_corner();
+
+    // Update the box position using velocity * delta time
+    for (int i = 0; i &lt; 3; ++i) {
+
+        double new_min = getCoord(i,min_corner) + (getCoord(i,velocity) * delta_time);
+        double new_max = getCoord(i,max_corner) + (getCoord(i,velocity) * delta_time);
+
+        // Example clamp to avoid excessive movement (Boost.Algorithm)
+        new_min = boost::algorithm::clamp(new_min, -100.0, 100.0);
+        new_max = boost::algorithm::clamp(new_max, -100.0, 100.0);
+
+        setCoord(i, min_corner, new_min);
+        setCoord(i, max_corner, new_max);
+    }
+
+    // Update the box with new corners
+    box = box3d(min_corner, max_corner);
+}
+
+// Function to check and handle collisions with the bounding box
+void handle_collision(box3d&amp; box, point3d&amp; velocity, const box3d&amp; bounds) {
+    for (int i = 0; i &lt; 3; ++i) {
+        double min_pos = getCoord(i, box.min_corner());
+        double max_pos = getCoord(i, box.max_corner());
+        double bound_min = getCoord(i, bounds.min_corner());
+        double bound_max = getCoord(i, bounds.max_corner());
+
+        // If box collides with environment limits, reverse velocity
+        if (min_pos &lt;= bound_min || max_pos &gt;= bound_max) {
+            setCoord(i, velocity, -getCoord(i, velocity));          // Reverse direction
+            double impact_force = std::abs(getCoord(i,velocity));   // Higher velocity = more deformation
+            deform_box(box, i, impact_force);                       // Apply deformation
+            std::cout &lt;&lt; "\nCollision with impact force: " &lt;&lt; impact_force &lt;&lt; "\n"
+                &lt;&lt; "New velocity : ("
+                &lt;&lt; getCoord(xcoord, velocity) &lt;&lt; ", "
+                &lt;&lt; getCoord(ycoord, velocity) &lt;&lt; ", "
+                &lt;&lt; getCoord(zcoord, velocity) &lt;&lt; "), Volume of box: "
+                &lt;&lt; volume(box) &lt;&lt; "\n\n";
+        }
+    }
+}
+
+int main() {
+
+    // Set the sleep duration based on the guideline increment in seconds
+    boost::chrono::duration&lt;double&gt; sleep_duration(increment);
+
+    // Define the 3D simulation space (bounding box)
+    box3d bounds(point3d(-5.0, -5.0, -5.0), point3d(5.0, 5.0, 5.0));
+
+    // Create a 3D box (min corner and max corner)
+    box3d box(point3d(0.0, 0.0, 0.0), point3d(1.0, 1.0, 1.0));
+
+    // Define velocity (units per second)
+    point3d velocity(0.5, 0.3, -0.2);
+
+    // Start timing
+    steady_clock::time_point start_time = steady_clock::now();
+    steady_clock::time_point current_time;
+    steady_clock::time_point previous_time = start_time;
+    double elapsed_seconds, increment_seconds;
+
+    // Run simulation for 80 increments
+    for (int i = 0; i &lt; 80; ++i) {
+
+        // Measure elapsed time - both from the start, and from the previous move
+        current_time = steady_clock::now();
+        elapsed_seconds = duration&lt;double&gt;(current_time - start_time).count();
+        increment_seconds = duration&lt;double&gt;(current_time - previous_time).count();
+        previous_time = current_time;
+
+        // Move the box every increment, noting the increment will vary by tiny fractions of a second each time.
+        move_box(box, velocity, increment_seconds);
+
+        // Check for collision
+        handle_collision(box, velocity, bounds);
+
+        // Print times and the updated box position
+        point3d min_corner = box.min_corner();
+        point3d max_corner = box.max_corner();
+        std::cout &lt;&lt; "Time: " &lt;&lt; elapsed_seconds &lt;&lt; " sec | "
+            &lt;&lt; "Inc: " &lt;&lt; increment_seconds &lt;&lt; " sec | "
+            &lt;&lt; "Box Position: Min("
+            &lt;&lt; getCoord(xcoord,min_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(ycoord,min_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(zcoord,min_corner) &lt;&lt; ") "
+            &lt;&lt; " Max("
+            &lt;&lt; getCoord(xcoord, max_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(ycoord, max_corner) &lt;&lt; ", "
+            &lt;&lt; getCoord(zcoord, max_corner) &lt;&lt; ")\n";
+
+        boost::this_thread::sleep_for(sleep_duration);
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An example of the output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Time: 7.40482 sec | Inc: 0.20316 sec | Box Position: Min(3.70241, 2.22145, -1.48096)  Max(4.70241, 3.22145, -0.480964)
+Time: 7.62483 sec | Inc: 0.22001 sec | Box Position: Min(3.81242, 2.28745, -1.52497)  Max(4.81242, 3.28745, -0.524966)
+Time: 7.8286 sec | Inc: 0.203764 sec | Box Position: Min(3.9143, 2.34858, -1.56572)  Max(4.9143, 3.34858, -0.565719)
+
+Collision with impact force:0.5
+New velocity : (-0.5, 0.3, -0.2), Volume of box: 0.9
+
+Time: 8.03252 sec | Inc: 0.203922 sec | Box Position: Min(4.06626, 2.40976, -1.6065)  Max(4.96626, 3.40976, -0.606503)
+Time: 8.25219 sec | Inc: 0.219674 sec | Box Position: Min(3.95642, 2.47566, -1.65044)  Max(4.85642, 3.47566, -0.650438)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is good practice when designing a simulation of real-world activity to clearly define what is to be simulated and what is not. All simulations are simplifications to an extent, though they do tend to be large and challenging programs to write. A complex simulation might have several processes running on different threads. For a sample of multi-threading code, refer to <a href="task-parallel-computation.html" class="xref page">Parallel Computation</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Algorithms">Category: Algorithms</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Image-processing">Category: Image processing</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Math">Category: Math and numerics</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#State">Category: State Machines</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-simulation.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="task-ai-client.html">AI Client</a></span>
+        <span class="next"><a href="task-system.html">System</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

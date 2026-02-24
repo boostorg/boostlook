@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>In Memoriam: Beman Dawes :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/in-memoriam-beman-dawes.html">
+    <link rel="prev" href="boost-history.html">
+    <link rel="next" href="resources.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>User Community</li>
+    <li><a href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="boost-history.html">
+      <span class="material-symbols-outlined" title="Previous: History">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="resources.html">
+      <span class="material-symbols-outlined" title="Next: Resources">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">In Memoriam: Beman Dawes</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="_images/beman_dawes.jpg" alt="Beman Dawes">
+</div>
+</div>
+<div class="paragraph">
+<p>Beman Dawes passed on December first, 2020 at the age of 81 years. He was survived by his wife Sonda.</p>
+</div>
+<div class="paragraph">
+<p><strong>Dave Abrahams</strong>: "Beman Dawes was my friend, inspiration, and collaborator. He was a living demonstration that collegial respect and kindness are fundamental to getting great results. His idea for Boost blossomed into a unique community, inventing the art of library design. RIP."</p>
+</div>
+<div class="paragraph">
+<p><strong>Emil Dotchevski</strong>: "I talked with Beman many times. He was always kind, and through my experience with him I am honored to have had a chance to work with this brilliant member of our community. He should be celebrated as one of those little-known figures who nonetheless has had an enormous positive impact on the world through his work."</p>
+</div>
+<div class="paragraph">
+<p><strong>Niall Douglas</strong>: "Beman had an unusually large impact on C++ over his long and very productive life. My personal opinion of his most monumental achievement was getting Filesystem into standard C++, which was probably the most tortuous, lengthy, and difficult library to have ever been standardized (to date), and that followed a preceding tortuous, lengthy and difficult Boost peer review involving multiple redesigns of the proposed library. Beman was on WG21 from nearly the beginning, served as the Library Working Group chair for some time, and was one of the original co-founders of the Boost C++ Libraries. He also had a long history of continuous contributions to open source, starting from when many on r/cpp were still children."</p>
+</div>
+<div class="paragraph">
+<p><strong>Stefanus Du Toit</strong>: "Just learned about the passing of Beman Dawes. Beman was a truly positive and inspirational influence on the C++ community. A rare example of someone putting contribution to the greater good above all else. You&#8217;ll be missed, Beman."</p>
+</div>
+<div class="paragraph">
+<p><strong>Howard Hinnant</strong>: "He was a friend. He was a giant. He will be missed."</p>
+</div>
+<div class="paragraph">
+<p><strong>Jon Kalb</strong>: "Beman Dawes' legacy in the C++ community is matched by few. As a leader in the process of defining the C++ standard, he recognized a need for high quality, non-proprietary libraries. He saw not only that these were few, but that there was no environment to create new ones. He created the Boost Libraries with the goal of making high quality, peer-reviewed, open source libraries available for every C++ programmer and as an environment to develop candidate libraries for standardization. He then helped launch BoostCon (now C++Now), as a way of nurturing the community that made Boost possible and appreciates high quality C++ libraries. He did all of this with such humor, humility, generosity, and grace that he will be much missed."</p>
+</div>
+<div class="paragraph">
+<p><strong>Christopher Kormanyos</strong>: "When the evolution from Fortran to C to C++ was on, progress seemed to hit a snag around the turn of the century. Beman&#8217;s innovative, comprehensive and reliable work on C++ and Boost helped get C++ back on track. I feel that he enlightened the era and inspired other pioneers of that time and beyond, transforming C++ into the powerful, expressive language it is today."</p>
+</div>
+<div class="paragraph">
+<p><strong>Robert Ramey</strong>: "I do not think C++ would be where it is today without the extraordinary accomplishments of two particular people. Beman Dawes and David Abrahams. Before their efforts in the late nineties C++ was suffering from a lack of libraries which made it noncompetitive with alternatives being promoted at the time - most notably Java and C#. These alternatives were funded by the biggest of the big. The future must have looked bleak to C++ fans at the time. I was looking for an alternative to C++ when I came upon Boost with a number of portable and indispensable libraries. Boost was founded by these two gentleman (of complimentary personalities). That changed everything for me - and I&#8217;m sure I&#8217;m not the only one. And I suspect that it was responsible for changing the future of C++. To those who believe that one man can&#8217;t make a big difference - I offer this counter example."</p>
+</div>
+<div class="paragraph">
+<p><strong>David Sankel</strong>: "I had the opportunity to interact with Beman at both BoostCon and the Standardization committee. He was an incredibly reasonable, and nurturing person. Boost and the greater C++ community is indebted to his tremendous legacy."</p>
+</div>
+<div class="paragraph">
+<p><strong>Andrey Semashev</strong>: "Although I haven&#8217;t known Beman in person, I feel in debt to him for his role in Boost and C++ in general. The Boost Project and the community around it were most educational and inspiring, which allowed me to grow as a developer over the years. His libraries, such as Boost.Filesystem and Boost.System, have helped countless users and made it into the C++ standard as fundamental library components. He has been a long member of the C++ Standards Committee and chaired the Library Working Group. One of the most influential people in the C++ world, he will be missed."</p>
+</div>
+<div class="paragraph">
+<p><strong>Herb Sutter</strong>: "Beman was one of the most important and influential C++ experts in the world, and made his many contributions mostly behind the scenes, so that many C++ developers have likely never heard of him. I and everyone else who have ever benefited from any of the standardized STL, Boost, C++Now, std::filesystem, C++98/11/14/17, and more - so, really, most people who have ever used C++ - all owe Beman a debt of gratitude. We miss him greatly."</p>
+</div>
+<div class="paragraph">
+<p>If you&#8217;ve thoughts about Beman that you&#8217;d like to share, please send them to <a href="mailto:memorial@boost.org">memorial@boost.org</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="boost-history.html" class="xref page">History of Boost</a></p>
+</li>
+<li>
+<p><strong>Bjarne Stroustrup and Herb Sutter</strong>: <a href="https://isocpp.org/blog/2020/12/remembering-beman-dawes">Remembering Beman Dawes</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/in-memoriam-beman-dawes.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="boost-history.html">History</a></span>
+        <span class="next"><a href="resources.html">Resources</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

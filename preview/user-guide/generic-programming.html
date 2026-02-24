@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Generic Programming Techniques :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/generic-programming.html">
+    <link rel="prev" href="boost-macros.html">
+    <link rel="next" href="exception-safety.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Development</li>
+    <li><a href="generic-programming.html">Generic Programming</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="boost-macros.html">
+      <span class="material-symbols-outlined" title="Previous: Macros">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="exception-safety.html">
+      <span class="material-symbols-outlined" title="Next: Exception-Safety">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Generic Programming Techniques</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>Generic programming</em> is about generalizing software components so that they can be reused in a wide variety of situations. In C++, class and function templates are particularly effective mechanisms for generic programming because they make the generalization possible without sacrificing efficiency.</p>
+</div>
+<div class="paragraph">
+<p>As a simple example of generic programming, we will look at how to generalize the <code>memcpy()</code> function of the C standard library. An implementation of <code>memcpy()</code> might look like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void* memcpy(void* region1, const void* region2, size_t n)
+{
+  const char* first = (const char*)region2;
+  const char* last = ((const char*)region2) + n;
+  char* result = (char*)region1;
+  while (first != last)
+    *result++ = *first++;
+  return result;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>memcpy()</code> function is already generalized to some extent by the use of <code>void*</code> so that the function can be used to copy arrays of different kinds of data. But what if the data we would like to copy is not in an array? Perhaps it is in a linked list. Can we generalize the notion of copy to any sequence of elements? Looking at the body of <code>memcpy()</code>, the function&#8217;s <em>minimal requirements</em> are that it needs to traverse through the sequence using some sort of pointer, access elements pointed to, write the elements to the destination, and compare pointers to know when to stop. The C++ standard library groups requirements such as these into <em>concepts</em>, in this case the <a href="https://en.cppreference.com/w/cpp/named_req/InputIterator">Input Iterator</a> concept (for region2) and the <a href="https://en.cppreference.com/w/cpp/named_req/OutputIterator">Output Iterator</a> concept (for region1).</p>
+</div>
+<div class="paragraph">
+<p>If we rewrite <code>memcpy()</code> as a function template, and use the Input Iterator and Output Iterator concepts to describe the requirements on the template parameters, we can implement a highly reusable <code>copy()</code> function in the following way:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template &lt;typename InputIterator, typename OutputIterator&gt;
+OutputIterator
+copy(InputIterator first, InputIterator last, OutputIterator result)
+{
+  while (first != last)
+    *result++ = *first++;
+  return result;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using the generic <code>copy()</code> function, we can now copy elements from any kind of sequence, including a linked list that exports iterators such as <a href="https://en.cppreference.com/w/cpp/container/list">std::list</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;list&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+  const int N = 3;
+  std::vector&lt;int&gt; region1(N);
+  std::list&lt;int&gt; region2;
+
+  region2.push_back(1);
+  region2.push_back(0);
+  region2.push_back(3);
+
+  std::copy(region2.begin(), region2.end(), region1.begin());
+
+  for (int i = 0; i &lt; N; ++i)
+    std::cout &lt;&lt; region1[i] &lt;&lt; " ";
+  std::cout &lt;&lt; std::endl;
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_anatomy_of_a_concept"><a class="anchor" href="#_anatomy_of_a_concept"></a>Anatomy of a Concept</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <em>concept</em> is a set of requirements consisting of valid expressions, associated types, invariants, and complexity guarantees. A type that satisfies the requirements is said to <em>model</em> the concept. A concept can extend the requirements of another concept, which is called <em>refinement</em>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Valid Expressions</em> are C++ expressions which must compile successfully for the objects involved in the expression to be considered models of the concept.</p>
+</li>
+<li>
+<p><em>Associated Types</em> are types that are related to the modeling type in that they participate in one or more of the valid expressions. Typically associated types can be accessed either through <code>typedefs</code> nested within a class definition for the modeling type, or they are accessed through a <a href="#_traits">Traits</a> class.</p>
+</li>
+<li>
+<p><em>Invariants</em> are run-time characteristics of the objects that must always be true, that is, the functions involving the objects must preserve these characteristics. The invariants often take the form of <em>pre-conditions</em> and <em>post-conditions</em>.</p>
+</li>
+<li>
+<p><em>Complexity Guarantees</em> are maximum limits on how long the execution of one of the valid expressions will take, or how much of various resources its computation will use.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The concepts used in the C++ Standard Library are documented in the <a href="https://en.cppreference.com/w/cpp/concepts">C++ reference Concepts library</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_traits"><a class="anchor" href="#_traits"></a>Traits</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A traits class provides a way of associating information with a compile-time entity (a type, integral constant, or address). For example, the class template <a href="https://en.cppreference.com/w/cpp/iterator/iterator_traits">std::iterator_traits&lt;T&gt;</a> looks something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template &lt;class Iterator&gt;
+struct iterator_traits {
+  typedef ... iterator_category;
+  typedef ... value_type;
+  typedef ... difference_type;
+  typedef ... pointer;
+  typedef ... reference;
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>value_type</code> of the traits specifies the type of data that the iterator points to, in generic code, while the <code>iterator_category</code> can be used to select more efficient algorithms depending on the iterator&#8217;s capabilities.</p>
+</div>
+<div class="paragraph">
+<p>A key feature of traits templates is that they&#8217;re non-intrusive: they allow us to associate information with arbitrary types, including built-in types and types defined in third-party libraries, Normally, traits are specified for a particular type by (partially) specializing the traits template.</p>
+</div>
+<div class="paragraph">
+<p>For more details, refer to <a href="https://en.cppreference.com/w/cpp/iterator/iterator_traits">std::iterator_traits</a>. Another very different expression of the traits idiom in the standard is <a href="https://en.cppreference.com/w/cpp/types/numeric_limits">std::numeric_limits&lt;T&gt;</a> which provides constants describing the range and capabilities of numeric types.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tag_dispatching"><a class="anchor" href="#_tag_dispatching"></a>Tag Dispatching</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>Tag dispatching</em> is a way of using function overloading to dispatch based on properties of a type, and is often used hand in hand with traits classes. A good example of this synergy is the implementation of the <a href="https://en.cppreference.com/w/cpp/iterator/advance">std::advance</a> function in the C++ Standard Library, which increments an iterator n times. Depending on the kind of iterator, there are different optimizations that can be applied in the implementation. If the iterator is random access (can jump forward and backward arbitrary distances), then the <code>advance()</code> function can simply be implemented with <code>i += n</code>, and is very efficient: constant time. Other iterators must be advanced in steps, making the operation linear in n. If the iterator is bidirectional, then it makes sense for n to be negative, so we must decide whether to increment or decrement the iterator.</p>
+</div>
+<div class="paragraph">
+<p>The relation between tag dispatching and traits classes is that the property used for dispatching (in this case the <code>iterator_category</code>) is often accessed through a traits class. The main <code>advance()</code> function uses the <code>iterator_traits</code> class to get the <code>iterator_category</code>. It then makes a call to the overloaded <code>advance_dispatch()</code> function. The appropriate <code>advance_dispatch()</code> is selected by the compiler, based on whatever type the <code>iterator_category</code> resolves to, either <code>input_iterator_tag</code>, <code>bidirectional_iterator_tag</code>, or <code>random_access_iterator_tag</code>. A tag is simply a class whose only purpose is to convey some property for use in tag dispatching and similar techniques. Refer to <a href="https://en.cppreference.com/w/cpp/iterator/iterator_tags">cppreference: iterator_tags</a> for more information.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">namespace std {
+  struct input_iterator_tag { };
+  struct bidirectional_iterator_tag { };
+  struct random_access_iterator_tag { };
+
+  namespace detail {
+    template &lt;class InputIterator, class Distance&gt;
+    void advance_dispatch(InputIterator&amp; i, Distance n, input_iterator_tag) {
+      while (n--) ++i;
+    }
+
+    template &lt;class BidirectionalIterator, class Distance&gt;
+    void advance_dispatch(BidirectionalIterator&amp; i, Distance n,
+       bidirectional_iterator_tag) {
+      if (n &gt;= 0)
+        while (n--) ++i;
+      else
+        while (n++) --i;
+    }
+
+    template &lt;class RandomAccessIterator, class Distance&gt;
+    void advance_dispatch(RandomAccessIterator&amp; i, Distance n,
+       random_access_iterator_tag) {
+      i += n;
+    }
+  }
+
+  template &lt;class InputIterator, class Distance&gt;
+  void advance(InputIterator&amp; i, Distance n) {
+    typename iterator_traits&lt;InputIterator&gt;::iterator_category category;
+    detail::advance_dispatch(i, n, category);
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adaptors"><a class="anchor" href="#_adaptors"></a>Adaptors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An <em>adaptor</em> is a class template which builds on another type or types to provide a new interface or behavioral variant. Examples of standard adaptors are <a href="https://en.cppreference.com/w/cpp/iterator/reverse_iterator">std::reverse_iterator</a>, which adapts an iterator type by reversing its motion upon increment/decrement, and <a href="https://en.cppreference.com/w/cpp/container/stack">std::stack</a>, which adapts a container to provide a simple stack interface.</p>
+</div>
+<div class="paragraph">
+<p>A comprehensive review of the adaptors in the standard can be found in <a href="https://dl.acm.org/doi/10.1145/249118.249120">An overview of the standard template library</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_type_generators"><a class="anchor" href="#_type_generators"></a>Type Generators</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The <em>type generator</em> concept has largely been superseded by the more refined notion of a <em>metafunction</em>. Refer to <a href="faq.html#templates" class="xref page">Templates</a> and the documentation for <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>A type generator is a template whose only purpose is to synthesize a new type or types based on its template arguments. The generated type is usually expressed as a nested <code>typedef</code> named, appropriately <code>type</code>. A type generator is usually used to consolidate a complicated type expression into a simple one.</p>
+</div>
+<div class="paragraph">
+<p>This example uses an old version of <code>iterator_adaptor</code> whose design didn&#8217;t allow derived iterator types. As a result, every adapted iterator had to be a specialization of <code>iterator_adaptor</code> itself and generators were a convenient way to produce those types.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template &lt;class Predicate, class Iterator,
+    class Value = complicated default,
+    class Reference = complicated default,
+    class Pointer = complicated default,
+    class Category = complicated default,
+    class Distance = complicated default
+         &gt;
+struct filter_iterator_generator {
+    typedef iterator_adaptor&lt;
+
+        Iterator,filter_iterator_policies&lt;Predicate,Iterator&gt;,
+        Value,Reference,Pointer,Category,Distance&gt; type;
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, that&#8217;s complicated, but producing an adapted filter iterator using the generator is much easier. You can usually just write:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">boost::filter_iterator_generator&lt;my_predicate,my_base_iterator&gt;::type</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Type generators are sometimes viewed as a workaround for the lack of “templated typedefs” in C++.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_object_generators"><a class="anchor" href="#_object_generators"></a>Object Generators</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An <em>object generator</em> is a function template whose only purpose is to construct a new object out of its arguments. Think of it as a kind of generic constructor. An object generator may be more useful than a plain constructor when the exact type to be generated is difficult or impossible to express and the result of the generator can be passed directly to a function rather than stored in a variable. Most Boost object generators are named with the prefix <code>make_</code>, after <a href="https://en.cppreference.com/w/cpp/utility/pair/make_pair">std::make_pair(const T&amp;, const U&amp;)</a>.</p>
+</div>
+<div class="paragraph">
+<p>For example, given:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">struct widget {
+  void tweak(int);
+};
+std::vector&lt;widget *&gt; widget_ptrs;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By chaining two standard object generators, <a href="https://en.cppreference.com/w/cpp/utility/functional/bind12">std::bind2nd</a> and <a href="https://en.cppreference.com/w/cpp/utility/functional/mem_fun">std::mem_fun</a>, we can easily tweak all widgets:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void tweak_all_widgets1(int arg)
+{
+   for_each(widget_ptrs.begin(), widget_ptrs.end(),
+      bind2nd(std::mem_fun(&amp;widget::tweak), arg));
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Without using object generators the example above would look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void tweak_all_widgets2(int arg)
+{
+   for_each(struct_ptrs.begin(), struct_ptrs.end(),
+      std::binder2nd&lt;std::mem_fun1_t&lt;void, widget, int&gt; &gt;(
+          std::mem_fun1_t&lt;void, widget, int&gt;(&amp;widget::tweak), arg));
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As expressions get more complicated the need to reduce the verbosity of type specification gets more compelling.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_policy_classes"><a class="anchor" href="#_policy_classes"></a>Policy Classes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <em>policy class</em> is a template parameter used to transmit behavior. An example from the standard library is <a href="https://en.cppreference.com/w/cpp/memory/allocator">std::allocator</a>, which supplies memory management behaviors to standard containers.</p>
+</div>
+<div class="paragraph">
+<p>Policy classes have been explored in detail by Andrei Alexandrescu in one chapter of his book, <em>Modern C++ Design</em>. He writes:</p>
+</div>
+<div class="paragraph">
+<p><em>"In brief, policy-based class design fosters assembling a class with complex behavior out of many little classes (called policies), each of which takes care of only one behavioral or structural aspect. As the name suggests, a policy establishes an interface pertaining to a specific issue. You can implement policies in various ways as long as you respect the policy interface.</em></p>
+</div>
+<div class="paragraph">
+<p><em>Because you can mix and match policies, you can achieve a combinatorial set of behaviors by using a small core of elementary components."</em></p>
+</div>
+<div class="paragraph">
+<p>Andrei&#8217;s description of policy classes suggests that their power is derived from granularity and orthogonality. Less-granular policy interfaces have been shown to work well in practice, though. There is also precedent in the standard library: <a href="https://en.cppreference.com/w/cpp/string/char_traits">std::char_traits</a>, despite its name, acts as a policies class that determines the behaviors of <a href="https://en.cppreference.com/w/cpp/string/basic_string">std::basic_string</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_acknowledgements"><a class="anchor" href="#_acknowledgements"></a>Acknowledgements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This topic was originally written by David Abrahams, in 2001.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/any">Boost.Any</a> : provides a type-safe container for storing values of any type and retrieved dynamically at runtime.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/variant">Boost.Variant</a> : provides a type-safe container for representing a fixed set of alternative types, and accessed using type-safe visitor patterns.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/iterator">Boost.Iterator</a> : provides utilities for working with iterators and iterator ranges and includes iterator adaptors, iterator categories, and iterator concepts.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/fusion">Boost.Fusion</a> : provides a set of data structures and algorithms for working with heterogeneous sequences of elements in a generic and type-safe manner.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> : provides a modern metaprogramming framework.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/type_traits">Boost.TypeTraits</a> : provides support for fundamental properties of types.</p>
+</li>
+<li>
+<p><a href="faq.html" class="xref page">Frequently Asked Questions</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/generic-programming.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="boost-macros.html">Macros</a></span>
+        <span class="next"><a href="exception-safety.html">Exception-Safety</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

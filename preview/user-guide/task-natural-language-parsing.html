@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Natural Language Processing :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-natural-language-parsing.html">
+    <link rel="prev" href="task-metaprogramming.html">
+    <link rel="next" href="task-parallel-computation.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Advanced Scenarios</li>
+    <li><a href="task-natural-language-parsing.html">Natural Language</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="task-metaprogramming.html">
+      <span class="material-symbols-outlined" title="Previous: Metaprogramming">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-parallel-computation.html">
+      <span class="material-symbols-outlined" title="Next: Parallel Computation">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Natural Language Processing</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Developing a natural language parsing model involves tasks such as tokenization, parsing, and possibly dealing with ambiguous or erroneous inputs.</p>
+</div>
+<div class="paragraph">
+<p>Natural language processing is a complex field that goes beyond just programming. It involves knowledge of linguistics, and many parsing tasks can be difficult due to the ambiguity and complexity of natural languages. You may want to look into existing tools and libraries specifically designed for natural language processing, like <a href="https://en.wikipedia.org/wiki/Natural_Language_Toolkit">NLTK</a> or <a href="https://en.wikipedia.org/wiki/SpaCy">SpaCy</a> for Python, in addition to the general-purpose libraries that Boost offers.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_natural_language_processing_applications">Natural Language Processing Applications</a></p>
+</li>
+<li>
+<p><a href="#_simple_english_parsing_sample">Simple English Parsing Sample</a></p>
+</li>
+<li>
+<p><a href="#_add_a_dictionary_of_valid_words">Add a Dictionary of Valid Words</a></p>
+</li>
+<li>
+<p><a href="#_add_detailed_error_reporting">Add Detailed Error Reporting</a></p>
+</li>
+<li>
+<p><a href="#_next_steps">Next Steps</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/libs/spirit">Boost.Spirit</a>:  This is Boost&#8217;s library for creating parsers and output generation. It includes support for creating grammars, which can be used to define the structure of sentences in English, or other language. You can use it to tokenize and parse input text according to your grammars.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/phoenix">Boost.Phoenix</a>: A library for functional programming, it supports the ability to create inline functions which can be used for defining semantic actions.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/regex">Boost.Regex</a>:  For some simpler parsing tasks, regular expressions can be sufficient and easier to use than full-blown parsing libraries. You could use <a href="https://www.boost.org/libs/regex">Boost.Regex</a> to match specific patterns in your input text, like specific words or phrases, word boundaries, etc.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/doc/html/string_algo.html">Boost.String_Algo</a>:  Provides various string manipulation algorithms, such as splitting strings, trimming whitespace, or replacing substrings. These can be useful in preprocessing text before parsing it.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/optional">Boost.Optional</a> and <a href="https://www.boost.org/libs/variant">Boost.Variant</a>:  These libraries can be helpful in representing the result of a parsing operation, which could be a successful parse (yielding a specific result), an error, or an ambiguous parse (yielding multiple possible results).</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/multi_index">Boost.MultiIndex</a>:  Provides data structures that can be indexed in multiple ways. It can be useful for storing and retrieving information about words or phrases in your language model, such as part of speech, frequency, or possible meanings.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/property_tree">Boost.PropertyTree</a> or <a href="https://www.boost.org/libs/json">Boost.Json</a>:  These libraries can be useful for handling input and output, such as reading configuration files or producing structured output.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_natural_language_processing_applications"><a class="anchor" href="#_natural_language_processing_applications"></a>Natural Language Processing Applications</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Natural language parsing  (NLP) is a foundational technology that powers many more applications and is a hot area of research and development.</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>Search Engines: Search engines like Google extensively use natural language processing to understand the intent behind user queries and provide accurate and relevant search results.</p>
+</li>
+<li>
+<p>Machine Translation: Services like Google Translate and DeepL rely on natural language parsing for their operation. These services can now translate text between many different languages with surprising accuracy.</p>
+</li>
+<li>
+<p>Speech Recognition: Virtual assistants like Apple&#8217;s Siri, Amazon&#8217;s Alexa, Google Assistant, and Microsoft&#8217;s Cortana, use natural language parsing to understand voice commands from users.</p>
+</li>
+<li>
+<p>Text Summarization: This is used in a variety of contexts, from generating summaries of news articles, scientific papers, to creating summaries of lengthy documents for quicker reading.</p>
+</li>
+<li>
+<p>Sentiment Analysis: Businesses use NLP to gauge public opinion about their products and services by analyzing social media posts, customer reviews, and other user-generated content.</p>
+</li>
+<li>
+<p>Chatbots and Virtual Assistants: NLP is key to the operation of automated chatbots, which are used for everything from customer service to mental health support.</p>
+</li>
+<li>
+<p>Information Extraction: Companies use NLP to extract specific information from unstructured text, like dates, names, or specific keywords.</p>
+</li>
+<li>
+<p>Text-to-Speech (TTS): Services that convert written text into spoken words often use natural language processing to ensure proper pronunciation, intonation, and timing.</p>
+</li>
+<li>
+<p>Grammar Checkers: Tools like Grammarly use natural language processing to correct grammar, punctuation, and style in written text.</p>
+</li>
+<li>
+<p>Content Recommendation: Platforms like YouTube or Netflix use NLP to analyze the content and provide more accurate and personalized recommendations.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_simple_english_parsing_sample"><a class="anchor" href="#_simple_english_parsing_sample"></a>Simple English Parsing Sample</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Say we wanted to parse a subset of the English language, only sentences of the form: The &lt;adjective&gt; &lt;noun&gt; &lt;verb&gt;. Example sentences are "The quick fox jumps." or "The lazy dog sleeps."</p>
+</div>
+<div class="paragraph">
+<p>If the input matches this grammar, the following parser will accept it. Otherwise, it rejects the input.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/spirit/include/qi.hpp&gt;
+
+namespace qi = boost::spirit::qi;
+
+bool parseSentence(const std::string&amp; input) {
+
+    // Grammar: The &lt;adjective&gt; &lt;noun&gt; &lt;verb&gt;.
+    qi::rule&lt;std::string::const_iterator, std::string()&gt; word = +qi::alpha;
+    qi::rule&lt;std::string::const_iterator, std::string()&gt; article = qi::lit("The");
+    qi::rule&lt;std::string::const_iterator, std::string()&gt; adjective = word;
+    qi::rule&lt;std::string::const_iterator, std::string()&gt; noun = word;
+    qi::rule&lt;std::string::const_iterator, std::string()&gt; verb = word;
+
+    // Full sentence rule
+    qi::rule&lt;std::string::const_iterator, std::string()&gt; sentence =
+        article &gt;&gt; qi::lit(' ') &gt;&gt; adjective &gt;&gt; qi::lit(' ') &gt;&gt; noun &gt;&gt; qi::lit(' ') &gt;&gt; verb &gt;&gt; qi::lit('.');
+
+    auto begin = input.begin(), end = input.end();
+    bool success = qi::parse(begin, end, sentence);
+
+    return success &amp;&amp; (begin == end);  // Ensure full input is consumed
+}
+
+int main() {
+    std::string input = "";
+    while (input != "exit")
+    {
+        std::cout &lt;&lt; "Enter a sentence (format: The &lt;adjective&gt; &lt;noun&gt; &lt;verb&gt;.) Enter exit to quit.\n";
+        std::getline(std::cin, input);
+
+        if (input == "exit")
+            break;
+
+        if (parseSentence(input)) {
+            std::cout &lt;&lt; "Valid sentence!\n";
+        }
+        else {
+            std::cout &lt;&lt; "Invalid sentence.\n";
+        }
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>In this code spaces have to be explicitly entered in the grammar rule. The next example shows how to skip spaces.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The following shows a successful parse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter a sentence (format: The &lt;adjective&gt; &lt;noun&gt; &lt;verb&gt;.) Enter exit to quit.
+The happy cat purrs.
+Valid sentence!</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the following shows an unsuccessful parse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter a sentence (format: The &lt;adjective&gt; &lt;noun&gt; &lt;verb&gt;.) Enter exit to quit.
+A small dog runs.
+Invalid sentence.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Our subset is clearly very limited, as simply replacing the word "The" with "A" results in an error, and a "sentence" such as "The xxx yyy zzz." is valid.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_a_dictionary_of_valid_words"><a class="anchor" href="#_add_a_dictionary_of_valid_words"></a>Add a Dictionary of Valid Words</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following example shows how to create a vocabulary of valid words, and allow optional adjectives and adverbs.</p>
+</div>
+<div class="paragraph">
+<p>The parsing makes repeated use of statements such as <code>-adj_syms[phoenix::ref(adj1) = qi::_1]</code>, which in English means <em>"Try to match an adjective from adj_syms. If one is found, store it in adj1. If not found, continue without error."</em>. This functionality is a feature of <a href="https://www.boost.org/libs/phoenix">Boost.Phoenix</a>, the statement attaches a semantic action to <code>adj_syms</code>, so that whenever a match occurs, it will execute <code>adj1 = matched_value</code>. The unary minus in front of <code>adj_syms</code> means this match is optional.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/spirit/include/qi.hpp&gt;
+#include &lt;boost/spirit/include/phoenix.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace qi = boost::spirit::qi;
+namespace ascii = boost::spirit::ascii;
+namespace phoenix = boost::phoenix;
+
+// Helper to populate symbol tables
+template &lt;typename SymbolTable&gt;
+void add_words(SymbolTable&amp; symbols, const std::vector&lt;std::string&gt;&amp; words) {
+    for (const auto&amp; word : words) {
+        symbols.add(word, word);
+    }
+}
+
+int main() {
+
+    // Word categories
+    std::vector&lt;std::string&gt; determiners = { "The", "A", "My" };
+    std::vector&lt;std::string&gt; nouns = { "fox", "dog", "cat", "squirrel" };
+    std::vector&lt;std::string&gt; verbs = { "jumps", "chased", "caught", "scared" };
+    std::vector&lt;std::string&gt; adjectives = { "quick", "lazy", "sneaky", "clever" };
+    std::vector&lt;std::string&gt; adverbs = { "loudly", "quickly", "angrily", "silently" };
+
+    // Symbol tables for parsing
+    qi::symbols&lt;char, std::string&gt; dets, noun_syms, verb_syms, adj_syms, adv_syms;
+    add_words(dets, determiners);
+    add_words(noun_syms, nouns);
+    add_words(verb_syms, verbs);
+    add_words(adj_syms, adjectives);
+    add_words(adv_syms, adverbs);
+
+    // Input
+    std::string input = "";
+
+    while (input != "exit")
+    {
+        std::cout &lt;&lt; "Enter a sentence (format: &lt;Determiner&gt; [&lt;adjective&gt;] &lt;noun&gt; [&lt;adverb&gt;] &lt;verb&gt; [&lt;adjective&gt;] &lt;noun&gt;.) Enter exit to quit.\n";
+        std::getline(std::cin, input);
+
+        if (input != "exit")
+        {
+            // Iterators
+            auto begin = input.begin();
+            auto end = input.end();
+
+            // Output fields
+            std::string det1, adj1, noun1, adv, verb, adj2, noun2;
+
+            // Grammar: Determiner [adjective] noun [adverb] verb [adjective] noun.
+            bool success = qi::phrase_parse(
+                begin, end,
+                (
+                    dets[phoenix::ref(det1) = qi::_1] &gt;&gt;
+                    -adj_syms[phoenix::ref(adj1) = qi::_1] &gt;&gt;
+                    noun_syms[phoenix::ref(noun1) = qi::_1] &gt;&gt;
+                    -adv_syms[phoenix::ref(adv) = qi::_1] &gt;&gt;
+                    verb_syms[phoenix::ref(verb) = qi::_1] &gt;&gt;
+                    -adj_syms[phoenix::ref(adj2) = qi::_1] &gt;&gt;
+                    noun_syms[phoenix::ref(noun2) = qi::_1] &gt;&gt;
+                    qi::lit('.')
+                    ),
+                ascii::space
+            );
+
+            // Result
+            if (success &amp;&amp; begin == end) {
+                std::cout &lt;&lt; "\nParsed successfully!\n";
+                if (!det1.empty())  std::cout &lt;&lt; "  Determiner:  " &lt;&lt; det1 &lt;&lt; "\n";
+                if (!adj1.empty())  std::cout &lt;&lt; "  Adjective 1: " &lt;&lt; adj1 &lt;&lt; "\n";
+                std::cout &lt;&lt; "  Noun 1:      " &lt;&lt; noun1 &lt;&lt; "\n";
+                if (!adv.empty())   std::cout &lt;&lt; "  Adverb:      " &lt;&lt; adv &lt;&lt; "\n";
+                std::cout &lt;&lt; "  Verb:        " &lt;&lt; verb &lt;&lt; "\n";
+                if (!adj2.empty())  std::cout &lt;&lt; "  Adjective 2: " &lt;&lt; adj2 &lt;&lt; "\n";
+                std::cout &lt;&lt; "  Noun 2:      " &lt;&lt; noun2 &lt;&lt; "\n";
+            }
+            else {
+                std::cout &lt;&lt; "\nParsing failed.\n";
+            }
+        }
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The <code>ascii::space</code> parameter indicates that spaces should be skipped.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The following shows a successful parse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">&gt; My cat scared lazy squirrel.
+
+Parsed successfully!
+  Determiner:  My
+  Noun 1:      cat
+  Verb:        scared
+  Adjective 2: lazy
+  Noun 2:      squirrel</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_detailed_error_reporting"><a class="anchor" href="#_add_detailed_error_reporting"></a>Add Detailed Error Reporting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s not forget to provide useful comments and error messages:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/spirit/include/qi.hpp&gt;       // Boost.Spirit Qi — parsing framework
+#include &lt;boost/spirit/include/phoenix.hpp&gt;  // Boost.Phoenix — allows assignment actions in parsers
+#include &lt;iostream&gt;
+
+namespace qi = boost::spirit::qi;            // Namespace alias for parser components
+namespace ascii = boost::spirit::ascii;      // Namespace alias for ASCII space skipping, literals, etc.
+namespace phoenix = boost::phoenix;          // Namespace alias for expression templates used in actions
+
+// -----------------------------------------------------------------------------
+// Helper: Adds words into a Qi symbol table
+// Each word is added as both key and value, enabling quick lookup and extraction.
+// -----------------------------------------------------------------------------
+template &lt;typename SymbolTable&gt;
+void add_words(SymbolTable&amp; symbols, const std::vector&lt;std::string&gt;&amp; words) {
+    for (const auto&amp; word : words) {
+        symbols.add(word, word);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Helper: Validates a word against a known list
+// Returns "- valid" or "- invalid" for display when parsing fails.
+// -----------------------------------------------------------------------------
+std::string is_valid(std::string word, std::vector&lt;std::string&gt; list)
+{
+    if (std::find(list.begin(), list.end(), word) != list.end())
+        return "- valid";
+    else
+        return "- invalid";
+}
+
+// -----------------------------------------------------------------------------
+// Main function — interactive grammar demo
+// Uses Boost.Spirit to parse simple English-like sentences with defined syntax.
+// -----------------------------------------------------------------------------
+int main() {
+
+    // -------------------------------------------------------------------------
+    // Word categories (predefined vocabulary)
+    // -------------------------------------------------------------------------
+    std::vector&lt;std::string&gt; determiners = { "The", "A", "My" };
+    std::vector&lt;std::string&gt; nouns       = { "fox", "dog", "cat", "squirrel" };
+    std::vector&lt;std::string&gt; verbs       = { "jumps", "chased", "caught", "scared" };
+    std::vector&lt;std::string&gt; adjectives  = { "quick", "lazy", "sneaky", "clever" };
+    std::vector&lt;std::string&gt; adverbs     = { "loudly", "quickly", "angrily", "silently" };
+
+    // -------------------------------------------------------------------------
+    // Create Qi symbol tables for each word type
+    // qi::symbols maps literal strings to stored values — used as grammar terminals.
+    // -------------------------------------------------------------------------
+    qi::symbols&lt;char, std::string&gt; dets, noun_syms, verb_syms, adj_syms, adv_syms;
+    add_words(dets, determiners);
+    add_words(noun_syms, nouns);
+    add_words(verb_syms, verbs);
+    add_words(adj_syms, adjectives);
+    add_words(adv_syms, adverbs);
+
+    // -------------------------------------------------------------------------
+    // Interactive input loop
+    // The user can enter sentences repeatedly until typing "exit".
+    // -------------------------------------------------------------------------
+    std::string input = "";
+
+    while (input != "exit")
+    {
+        std::cout &lt;&lt; "Enter a sentence (format: &lt;Determiner&gt; [&lt;adjective&gt;] &lt;noun&gt; "
+                     "[&lt;adverb&gt;] &lt;verb&gt; [&lt;adjective&gt;] &lt;noun&gt;.) Enter exit to quit.\n";
+        std::getline(std::cin, input);
+
+        if (input != "exit")
+        {
+            // -----------------------------------------------------------------
+            // Iterator pair used by Boost.Spirit parsers
+            // -----------------------------------------------------------------
+            auto begin = input.begin();
+            auto end   = input.end();
+
+            // -----------------------------------------------------------------
+            // Variables to store parsed components of the sentence
+            // The Phoenix library binds parsed tokens to these variables.
+            // -----------------------------------------------------------------
+            std::string det1, adj1, noun1, adv, verb, adj2, noun2;
+
+            // -----------------------------------------------------------------
+            // Grammar definition using Boost.Spirit.Qi
+            // Sentence pattern:
+            //   Determiner [Adjective] Noun [Adverb] Verb [Adjective] Noun .
+            // The '&gt;&gt;' operator sequences parsing rules.
+            // The '-' operator makes a parser optional.
+            // The '[phoenix::ref(x) = qi::_1]' assigns the parsed value to 'x'.
+            // -----------------------------------------------------------------
+            bool success = qi::phrase_parse(
+                begin, end,
+                (
+                    dets[phoenix::ref(det1) = qi::_1] &gt;&gt;           // Determiner
+                    -adj_syms[phoenix::ref(adj1) = qi::_1] &gt;&gt;      // Optional adjective
+                    noun_syms[phoenix::ref(noun1) = qi::_1] &gt;&gt;     // First noun
+                    -adv_syms[phoenix::ref(adv) = qi::_1] &gt;&gt;       // Optional adverb
+                    verb_syms[phoenix::ref(verb) = qi::_1] &gt;&gt;      // Verb
+                    -adj_syms[phoenix::ref(adj2) = qi::_1] &gt;&gt;      // Optional adjective
+                    noun_syms[phoenix::ref(noun2) = qi::_1] &gt;&gt;     // Second noun
+                    qi::lit('.')                                   // Sentence must end with '.'
+                ),
+                ascii::space                                       // Skips whitespace automatically
+            );
+
+            // -----------------------------------------------------------------
+            // Result handling
+            // If parsing succeeded and the entire string was consumed, show parts.
+            // Otherwise, report failure and show which words are invalid.
+            // -----------------------------------------------------------------
+            if (success &amp;&amp; begin == end) {
+                std::cout &lt;&lt; "\nParsed successfully!\n";
+                if (!det1.empty())  std::cout &lt;&lt; "  Determiner:  " &lt;&lt; det1 &lt;&lt; "\n";
+                if (!adj1.empty())  std::cout &lt;&lt; "  Adjective 1: " &lt;&lt; adj1 &lt;&lt; "\n";
+                std::cout &lt;&lt; "  Noun 1:      " &lt;&lt; noun1 &lt;&lt; "\n";
+                if (!adv.empty())   std::cout &lt;&lt; "  Adverb:      " &lt;&lt; adv &lt;&lt; "\n";
+                std::cout &lt;&lt; "  Verb:        " &lt;&lt; verb &lt;&lt; "\n";
+                if (!adj2.empty())  std::cout &lt;&lt; "  Adjective 2: " &lt;&lt; adj2 &lt;&lt; "\n";
+                std::cout &lt;&lt; "  Noun 2:      " &lt;&lt; noun2 &lt;&lt; "\n";
+            }
+            else {
+                std::cout &lt;&lt; "\nParsing failed.\n";
+                std::cout &lt;&lt; "The sentence must be of the form:\n";
+                std::cout &lt;&lt; "&lt;Determiner&gt; [&lt;adjective&gt;] &lt;noun&gt; [&lt;adverb&gt;] &lt;verb&gt; [&lt;adjective&gt;] &lt;noun&gt;.\n";
+
+                // Display what parts were recognized and whether valid words were used
+                if (!det1.empty())
+                    std::cout &lt;&lt; "  Determiner:  " &lt;&lt; det1 &lt;&lt; is_valid(det1, determiners) &lt;&lt; "\n";
+                if (!adj1.empty())
+                    std::cout &lt;&lt; "  Adjective 1: " &lt;&lt; adj1 &lt;&lt; is_valid(adj1, adjectives) &lt;&lt; "\n";
+                std::cout &lt;&lt; "  Noun 1:      " &lt;&lt; noun1 &lt;&lt; is_valid(noun1, nouns) &lt;&lt; "\n";
+                if (!adv.empty())
+                    std::cout &lt;&lt; "  Adverb:      " &lt;&lt; adv &lt;&lt; is_valid(adv, adverbs) &lt;&lt; "\n";
+                std::cout &lt;&lt; "  Verb:        " &lt;&lt; verb &lt;&lt; is_valid(verb, verbs) &lt;&lt; "\n";
+                if (!adj2.empty())
+                    std::cout &lt;&lt; "  Adjective 2: " &lt;&lt; adj2 &lt;&lt; is_valid(adj2, adjectives) &lt;&lt; "\n";
+                std::cout &lt;&lt; "  Noun 2:      " &lt;&lt; noun2 &lt;&lt; is_valid(noun2, nouns) &lt;&lt; "\n";
+            }
+        }
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following shows a successful parse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">&gt; The lazy dog loudly chased quick squirrel.
+
+Parsed successfully!
+  Determiner:  The
+  Adjective 1: lazy
+  Noun 1:      dog
+  Adverb:      loudly
+  Verb:        chased
+  Adjective 2: quick
+  Noun 2:      squirrel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the following shows an unsuccessful parse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">&gt; The fox chased alligator.
+
+Parsing failed.
+The sentence must be of the form:
+&lt;Determiner&gt; [&lt;adjective&gt;] &lt;noun&gt; [&lt;adverb&gt;] &lt;verb&gt; [&lt;adjective&gt;] &lt;noun&gt;.
+  Determiner:  The- valid
+  Noun 1:      fox- valid
+  Verb:        chased- valid
+  Noun 2:      - invalid</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will notice how adding more features to a natural language parser starts to considerably increase the code length. This is a normal feature of language parsing - a lot of code can be required to cover all the options of something as flexible as language. For an example of a simpler approach to parsing <em>well-formatted</em> input, refer to the sample code in <a href="task-text-processing.html" class="xref page">Text Processing</a>.</p>
+</div>
+<div class="paragraph">
+<p>When designing a natural language system, it is good practice to divide the process into three main steps: <strong>syntax analysis</strong> (parsing), <strong>semantic analysis</strong> (grammar), and <strong>interpretation</strong>. Even though it might be possible to combine some grammar checking with the syntax checking, it is often better practice not to do this but complete the syntax checking first - this makes for greater maintainability and comprehension as the code is developed over time. The final stage, interpretation, usually depends on context. In the following sequence, a phrase as simple as "time flies" contains ambiguity:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/natural-language-parsing.png" alt="natural language parsing">
+</div>
+</div>
+<div class="paragraph">
+<p>The phrase is so widely known it obscures the interpretation of "flies" as a noun. Context is required during interpretation to treat the input as a phrase, and not as something of the form "horse flies". Natural language parsers can remind us of ambiguity when at first we don&#8217;t see it!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Parsing">Category: Parsing</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Patterns">Category: Patterns and Idioms</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#String">Category: String and text processing</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-natural-language-parsing.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="task-metaprogramming.html">Metaprogramming</a></span>
+        <span class="next"><a href="task-parallel-computation.html">Parallel Computation</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

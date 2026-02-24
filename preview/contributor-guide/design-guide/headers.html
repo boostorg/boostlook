@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Headers :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/design-guide/headers.html">
+    <link rel="prev" href="design-best-practices.html">
+    <link rel="next" href="backwards-compatibility.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-best-practices.html">Best Practices</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Design</li>
+    <li><a href="headers.html">Headers</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="design-best-practices.html">
+      <span class="material-symbols-outlined" title="Previous: Best Practices">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="backwards-compatibility.html">
+      <span class="material-symbols-outlined" title="Next: Backwards Compatibility">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Headers</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Header files are the place where a library comes into contact with user code and other libraries. To co-exist peacefully and productively, headers must be "good neighbors".</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="boost-standards"><a class="anchor" href="#boost-standards"></a>Boost Standards</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here are the standards for boost headers. Many of these are also reasonable guidelines for general use.</p>
+</div>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p>Header filenames should have a .hpp (lowercase) extension.</p>
+</li>
+<li>
+<p>Unless multiple inclusion is intended, wrap the header in <code>#ifndef</code> guards. Use a naming convention that minimizes the chance of clashes with macro names from other&#8217;s code. The <a href="#sample">Sample</a> uses the Boost convention of all uppercase letters, with the header name prefixed by the namespace name, followed by the relative path, and suffixed with HPP, separated by underscores. Refer also to the <a href="#example-guards">Example Guards</a>.</p>
+</li>
+<li>
+<p>Wrap the header contents in a namespace to prevent global namespace pollution. The namespace approach to pollution control is strongly preferred to older approaches such as adding funny prefixes to global names. Libraries which are designed to work well with other Boost libraries should be placed in namespace <code>boost</code>.</p>
+</li>
+<li>
+<p>Make sure that a translation unit, consisting of just the contents of the header file, will compile successfully.</p>
+</li>
+<li>
+<p>Place the header file in a sub-directory to prevent conflict with identically named header files in other libraries. The parent directory is added to the compiler&#8217;s include search path. Then both your code and user code specifies the sub-directory in <code>#include</code> directives. Thus the header <a href="#sample">Sample</a> would be included by <code>#include &lt;boost/furball.hpp&gt;</code>. Including from the current file directory using <code>#include "furball.hpp"</code> syntax is discouraged.</p>
+</li>
+<li>
+<p>The preferred ordering for class definitions is <code>public</code> members, <code>protected</code> members, and finally <code>private</code> members.</p>
+</li>
+<li>
+<p>Include the <a href="https://www.boost.org/doc/libs/latest/boost/config.hpp"><code>boost/config.hpp</code></a> if there is a need to deal with compiler or platform configuration issues.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sample"><a class="anchor" href="#sample"></a>Sample</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">//  Boost general library furball.hpp header file ---------------------------//
+
+//  (C) Copyright &lt;Your Name&gt; 2023. Permission to copy, use, modify, sell and
+//  distribute this software is granted provided this copyright notice appears
+//  in all copies. This software is provided "as is" without express or implied
+//  warranty, and with no claim as to its suitability for any purpose.
+
+//  See https://www.boost.org/ for latest version.
+
+#ifndef BOOST_FURBALL_HPP
+#define BOOST_FURBALL_HPP
+
+namespace boost {
+
+//  Furball class declaration  -----------------------------------------------//
+
+  class furball
+  {
+    public:
+      void throw_up();
+    protected:
+      double duration();
+    private:
+      int whatever;
+  };  // furball
+
+} // namespace
+
+#endif  // include guard</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="example-guards"><a class="anchor" href="#example-guards"></a>Example Guards</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Many libraries will include a large number of .hpp header files in a tree structure of folders. Taking <a href="https://www.boost.org/libs/beast">Boost.Beast</a> as an example. The header guard code is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#ifndef BOOST_BEAST_HPP
+#define BOOST_BEAST_HPP</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The subfolder <code>beast</code> includes several more headers, including <code>Core.hpp</code>, which has the header guard:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#ifndef BOOST_BEAST_CORE_HPP
+#define BOOST_BEAST_CORE_HPP</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the <code>beast\core</code> subfolder there is the <code>async_base.hpp</code> header file. Its' guard is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#ifndef BOOST_BEAST_CORE_ASYNC_BASE_HPP
+#define BOOST_BEAST_CORE_ASYNC_BASE_HPP</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And in the <code>beast\core\impl</code> subfolder there is another header named <code>async_base.hpp</code>, this time with the guard:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#ifndef BOOST_BEAST_CORE_IMPL_ASYNC_BASE_HPP
+#define BOOST_BEAST_CORE_IMPL_ASYNC_BASE_HPP</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="https://github.com/boostorg/beast/tree/c316c6bd3571991aeac65f0fc35fca9067bc7906/include/boost">beast/include/boost</a> to view the full hierarchy of folders and headers for this library.</p>
+</div>
+<div class="sect2">
+<h3 id="coding-style"><a class="anchor" href="#coding-style"></a>Coding Style</h3>
+<div class="paragraph">
+<p>The alert reader will have noticed that the <a href="#sample">Sample</a> header employs a certain coding style for indentation, positioning braces, commenting ending braces, and similar formatting issues. These stylistic issues are viewed as personal preferences and are not part of the Boost Header Policy.</p>
+</div>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/design-guide/headers.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="design-best-practices.html">Best Practices</a></span>
+        <span class="next"><a href="backwards-compatibility.html">Backwards Compatibility</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

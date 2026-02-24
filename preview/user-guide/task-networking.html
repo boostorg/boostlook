@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Networking :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-networking.html">
+    <link rel="prev" href="task-finance.html">
+    <link rel="next" href="task-ai-client.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Common Scenarios</li>
+    <li><a href="task-networking.html">Networking</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="task-finance.html">
+      <span class="material-symbols-outlined" title="Previous: Finance">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-ai-client.html">
+      <span class="material-symbols-outlined" title="Next: AI Client">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Networking</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Developing a networking application in C++ involves a lot of different components, and the Boost libraries offer support for low-level communications, such as TCP, and for higher-level networking, such as using JSON, WebSockets or MySQL.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_sample_client_server_messaging">Sample Client-Server Messaging</a></p>
+</li>
+<li>
+<p><a href="#_peer_to_peer_chat">Peer to Peer Chat</a></p>
+</li>
+<li>
+<p><a href="#_add_json_requests_and_responses">Add JSON Requests and Responses</a></p>
+</li>
+<li>
+<p><a href="#_add_http_requests">Add HTTP Requests</a></p>
+</li>
+<li>
+<p><a href="#_add_websockets">Add Websockets</a></p>
+</li>
+<li>
+<p><a href="#_summary">Summary</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here are the libraries that are most directly applicable to a networking app:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a>: This is the most important library for your needs. <a href="https://www.boost.org/libs/asio">Boost.Asio</a> is a cross-platform C++ library for network and low-level I/O programming. It provides a consistent asynchronous model using a modern C++ approach. <a href="https://www.boost.org/libs/asio">Boost.Asio</a> supports a variety of network protocols, including ICMP, TCP, and UDP, and it can manage other resources such as serial ports, file descriptors, and even regular files.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/json">Boost.Json</a>: An efficient library for parsing, serializing, and manipulating JSON data. This is useful specifically in client-server communication and web services. Also, if you are working with large JSON payloads, there is support for incremental parsing, so you can feed data to the parser as it arrives over the network.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/beast">Boost.Beast</a>: This is a library built on top of <a href="https://www.boost.org/libs/asio">Boost.Asio</a> that provides implementations of HTTP and WebSocket. These are common protocols for network programming, so if your app needs to work with them, <a href="https://www.boost.org/libs/beast">Boost.Beast</a> can be a huge help.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/mysql">Boost.Mysql</a>: This library is also built on top of <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, and provides a C++11 client for the <a href="https://www.mysql.com/">MySQL</a> and <a href="https://mariadb.com/">MariaDB</a> database servers. As a library it is most useful when your app needs efficient and asynchronous access to one of these servers.</p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/redis">Boost.Redis</a>: Redis (which stands for <em>Remote Dictionary Server</em>) is a popular in-memory data structure store, used in database, cache, and message broker applications. This library implements Redis plain text protocol RESP3. It can multiplex any number of client requests, responses, and server pushes onto a single active socket connection to the Redis server.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/endian">Boost.Endian</a>: Provides facilities for dealing with data that is represented in different byte orders. This is a common issue in network programming because different machines may represent multi-byte integers differently.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/spirit">Boost.Spirit</a>: If you&#8217;re creating a new protocol or using a lesser-known one, <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a>, a parser generator framework, could be useful. It allows you to define grammar rules that can parse complex data structures sent over the network.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/url">Boost.URL</a>: Parses URL strings into components (scheme, user info, host, port, path, query, and fragment), and provides support for building URLs piece by piece. Also, there is support for modifying an existing URL (changing the query parameters, for example) and handling percent-encoded characters. This library basically makes even complex URLs easy to work with.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0. The client-server samples can be run on the same computer, the peer-to-peer chat sample requires two computers to function correctly.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sample_client_server_messaging"><a class="anchor" href="#_sample_client_server_messaging"></a>Sample Client-Server Messaging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following code is a simple networking chat application using <a href="https://www.boost.org/libs/asio">Boost.Asio</a> that allows two computers to send messages to each other over TCP.</p>
+</div>
+<div class="paragraph">
+<p>This example assumes that you know the IP address (URL) of one of the computers - to set as the server - and the other computer will act as the client. The server listens for incoming connections, the client must connect to the server to communicate, and messages are exchanged asynchronously between the two computers.</p>
+</div>
+<div class="sect2">
+<h3 id="_server_app"><a class="anchor" href="#_server_app"></a>Server App</h3>
+<div class="paragraph">
+<p><code>chat_server.cpp</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/asio.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;thread&gt;
+
+using boost::asio::ip::tcp;
+
+void handle_client(tcp::socket socket) {
+    try {
+        char data[1024];
+        while (true) {
+            std::memset(data, 0, sizeof(data));
+            boost::system::error_code error;
+
+            // Read message from client
+            size_t length = socket.read_some(boost::asio::buffer(data), error);
+            if (error == boost::asio::error::eof) break; // Connection closed
+            else if (error) throw boost::system::system_error(error);
+
+            std::cout &lt;&lt; "Client: " &lt;&lt; data &lt;&lt; std::endl;
+
+            // Send response
+            std::string response;
+            std::cout &lt;&lt; "You: ";
+            std::getline(std::cin, response);
+            boost::asio::write(socket, boost::asio::buffer(response), error);
+        }
+    } catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Exception: " &lt;&lt; e.what() &lt;&lt; std::endl;
+    }
+}
+
+int main() {
+    try {
+        boost::asio::io_context io_context;
+        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12345));
+
+        std::cout &lt;&lt; "Server started. Waiting for client..." &lt;&lt; std::endl;
+
+        tcp::socket socket(io_context);
+        acceptor.accept(socket);
+        std::cout &lt;&lt; "Client connected!" &lt;&lt; std::endl;
+
+        handle_client(std::move(socket));
+    } catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Exception: " &lt;&lt; e.what() &lt;&lt; std::endl;
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>This sample listens for incoming connections on port 12345, and uses TCP sockets for reliable data transfer.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_client_app"><a class="anchor" href="#_client_app"></a>Client App</h3>
+<div class="paragraph">
+<p><code>chat_client.cpp</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/asio.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;thread&gt;
+
+using boost::asio::ip::tcp;
+
+void chat_client(const std::string&amp; server_ip) {
+    try {
+        boost::asio::io_context io_context;
+        tcp::socket socket(io_context);
+        socket.connect(tcp::endpoint(boost::asio::ip::make_address(server_ip), 12345));
+
+        std::cout &lt;&lt; "Connected to server at " &lt;&lt; server_ip &lt;&lt; std::endl;
+
+        char data[1024];
+        while (true) {
+            std::string message;
+            std::cout &lt;&lt; "You: ";
+            std::getline(std::cin, message);
+
+            boost::system::error_code error;
+            boost::asio::write(socket, boost::asio::buffer(message), error);
+
+            if (error) throw boost::system::system_error(error);
+
+            // Read server response
+            std::memset(data, 0, sizeof(data));
+            size_t length = socket.read_some(boost::asio::buffer(data), error);
+            if (error == boost::asio::error::eof) break;
+            else if (error) throw boost::system::system_error(error);
+
+            std::cout &lt;&lt; "Server: " &lt;&lt; data &lt;&lt; std::endl;
+        }
+    } catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Exception: " &lt;&lt; e.what() &lt;&lt; std::endl;
+    }
+}
+
+int main() {
+    std::string server_ip;
+    std::cout &lt;&lt; "Enter server IP: ";
+    std::cin &gt;&gt; server_ip;
+    std::cin.ignore(); // Ignore leftover newline from std::cin
+    chat_client(server_ip);
+    return 0;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compile_and_run"><a class="anchor" href="#_compile_and_run"></a>Compile and Run</h3>
+<div class="paragraph">
+<p>Compile both programs. The server and client can now exchange messages - give it a shot!</p>
+</div>
+<div class="paragraph">
+<p>First, start the server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Server started. Waiting for client...
+Client connected!
+Client: Hello from the client
+You: Hey client, this is the server!</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now run the client, and enter the server&#8217;s IP address when prompted:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter server IP: &lt;IP address in the format xx.x.x.xx&gt;
+Connected to server at xx.x.x.xx
+You: Hello from the client
+Server: Hey client, this is the server!</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_peer_to_peer_chat"><a class="anchor" href="#_peer_to_peer_chat"></a>Peer to Peer Chat</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Client-server architectures are the most useful and most common, but sometimes a peer-to-peer relationship between computers is more appropriate.</p>
+</div>
+<div class="paragraph">
+<p>The following app implements peer-to-peer chatting - that is, both can send and receive messages without a client-server distinction. One key difference in coding is that <em>both</em> computers run the same program. However, one peer must initiate the connection using the other peer&#8217;s IP address and port. Once connected, both peers can send and receive messages asynchronously.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>When testing this code, the server and client programs should be on different computers. In the sample below one is called <code>desktop</code> and the other <code>laptop</code> - both Windows PCs.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p><code>peer_chat.cpp</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/asio.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;atomic&gt;
+
+using boost::asio::ip::tcp;
+
+std::atomic&lt;bool&gt; connected{ false };
+
+void receive_messages(tcp::socket&amp; socket) {
+    try {
+        char data[1024];
+        while (true) {
+            std::memset(data, 0, sizeof(data));
+            boost::system::error_code error;
+
+            size_t length = socket.read_some(boost::asio::buffer(data), error);
+            if (error == boost::asio::error::eof) {
+                std::cout &lt;&lt; "Connection closed by peer.\n";
+                connected = false;
+                break;
+            }
+            else if (error) {
+                throw boost::system::system_error(error);
+            }
+
+            std::cout &lt;&lt; "\nPeer: " &lt;&lt; data &lt;&lt; "\nYou: ";
+            std::cout.flush();
+        }
+    }
+    catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Receive error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}
+
+void send_messages(tcp::socket&amp; socket) {
+    try {
+        std::string message;
+        while (connected) {
+            std::cout &lt;&lt; "You: ";
+            std::getline(std::cin, message);
+            if (message == "/quit") {
+                socket.close();
+                break;
+            }
+            boost::asio::write(socket, boost::asio::buffer(message));
+        }
+    }
+    catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Send error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}
+
+void run_peer(boost::asio::io_context&amp; io_context, const std::string&amp; peer_ip, int peer_port, int local_port) {
+    try {
+        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), local_port));
+        tcp::socket socket(io_context);
+
+        // Attempt outgoing connection
+        if (!peer_ip.empty()) {
+            std::cout &lt;&lt; "Trying to connect to peer " &lt;&lt; peer_ip &lt;&lt; ":" &lt;&lt; peer_port &lt;&lt; "...\n";
+            socket.connect(tcp::endpoint(boost::asio::ip::make_address(peer_ip), peer_port));
+        }
+        else {
+            std::cout &lt;&lt; "Waiting for a peer to connect on port " &lt;&lt; local_port &lt;&lt; "...\n";
+            acceptor.accept(socket);
+        }
+
+        std::cout &lt;&lt; "Connected!\n";
+        connected = true;
+
+        std::thread receive_thread(receive_messages, std::ref(socket));
+        send_messages(socket);
+        receive_thread.join();
+
+    }
+    catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}
+
+int main() {
+    std::string peer_ip;
+    int peer_port = 0;
+    int local_port;
+
+    std::cout &lt;&lt; "Enter local port to listen on: ";
+    std::cin &gt;&gt; local_port;
+
+    std::cout &lt;&lt; "Enter peer IP (leave blank to wait for connection): ";
+    std::cin.ignore();
+    std::getline(std::cin, peer_ip);
+
+    if (!peer_ip.empty()) {
+        std::cout &lt;&lt; "Enter peer's port: ";
+        std::cin &gt;&gt; peer_port;
+    }
+
+    boost::asio::io_context io_context;
+    run_peer(io_context, peer_ip, peer_port, local_port);
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>As before, messages are exchanged over TCP sockets.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>To run the program, on Computer A, set a local port (say, 12345) and leave the peer IP empty to wait for a connection. On Computer B, enter Computer A&#8217;s IP and port (12345) to connect. Messages will be exchanged in real-time.</p>
+</div>
+<div class="paragraph">
+<p>Start one program, typing <code>&lt;Enter&gt;</code> for the IP:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter local port to listen on: 12345
+Enter peer IP (leave blank to wait for connection):
+Waiting for a peer to connect on port 12345...
+Connected!
+Peer: Hello from laptop
+You: Hello from desktop
+Peer: a working chat!
+You: yes, fun isn't it</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter local port to listen on: 12345
+Enter peer IP (leave blank to wait for connection): &lt;IP address in the format xx.x.x.xx&gt;
+Enter peer's port: 12345
+Trying to connect to peer xx.x.x.xx:12345...
+Connected!
+You: Hello from laptop
+Peer: Hello from desktop
+You: a working chat!
+Peer: yes, fun isn't it!</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Type <code>/quit</code> on either computer to exit - which will perform a graceful disconnection.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_json_requests_and_responses"><a class="anchor" href="#_add_json_requests_and_responses"></a>Add JSON Requests and Responses</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If we want more than chat, let&#8217;s add <a href="https://www.boost.org/libs/json">Boost.Json</a> to handle structured requests and responses.</p>
+</div>
+<div class="paragraph">
+<p>This version introduces JSON-based communication, where the client sends JSON-encoded requests, and the server processes and responds accordingly. The appropriate architecture is client-server. The server listens for connections and expects JSON requests. The client sends JSON-formatted messages (for example, { "command": "greet", "name": "Peter" }). The server parses the JSON and returns a JSON response.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>JSON request and response processing is essential for extensible REST API development (GET, POST, etc.).</p>
+</dd>
+</dl>
+</div>
+<div class="sect2">
+<h3 id="_json_based_server"><a class="anchor" href="#_json_based_server"></a>JSON-based Server</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/asio.hpp&gt;
+#include &lt;boost/json.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;thread&gt;
+
+using boost::asio::ip::tcp;
+namespace json = boost::json;
+
+void handle_client(tcp::socket socket) {
+    try {
+        char data[1024];
+        while (true) {
+            std::memset(data, 0, sizeof(data));
+            boost::system::error_code error;
+            size_t length = socket.read_some(boost::asio::buffer(data), error);
+
+            if (error == boost::asio::error::eof) {
+                std::cout &lt;&lt; "Client disconnected.\n";
+                break;
+            } else if (error) {
+                throw boost::system::system_error(error);
+            }
+
+            // Parse JSON request
+            json::value request_json = json::parse(data);
+            std::string command = request_json.as_object()["command"].as_string().c_str();
+
+            // Generate JSON response
+            json::object response;
+            if (command == "greet") {
+                std::string name = request_json.as_object()["name"].as_string().c_str();
+                response["message"] = "Hello, " + name + "!";
+            } else if (command == "status") {
+                response["message"] = "Server is running.";
+            } else {
+                response["error"] = "Unknown command.";
+            }
+
+            std::string response_str = json::serialize(response);
+            boost::asio::write(socket, boost::asio::buffer(response_str));
+        }
+    } catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Error handling client: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}
+
+int main() {
+    try {
+        boost::asio::io_context io_context;
+        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 5000));
+
+        std::cout &lt;&lt; "Server listening on port 5000...\n";
+
+        while (true) {
+            tcp::socket socket(io_context);
+            acceptor.accept(socket);
+            std::thread(handle_client, std::move(socket)).detach();
+        }
+    } catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Server error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Communication is again done over TCP sockets.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_json_based_client"><a class="anchor" href="#_json_based_client"></a>JSON-based Client</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/asio.hpp&gt;
+#include &lt;boost/json.hpp&gt;
+#include &lt;iostream&gt;
+
+using boost::asio::ip::tcp;
+namespace json = boost::json;
+
+int main() {
+    try {
+        boost::asio::io_context io_context;
+        tcp::socket socket(io_context);
+        socket.connect(tcp::endpoint(boost::asio::ip::make_address("127.0.0.1"), 5000));
+
+        while (true) {
+            std::string command, name;
+            std::cout &lt;&lt; "Enter command (greet/status/exit): ";
+            std::cin &gt;&gt; command;
+
+            json::object request;
+            if (command == "greet") {
+                std::cout &lt;&lt; "Enter name: ";
+                std::cin &gt;&gt; name;
+                request["command"] = "greet";
+                request["name"] = name;
+            } else if (command == "status") {
+                request["command"] = "status";
+            } else if (command == "exit") {
+                break;
+            } else {
+                std::cout &lt;&lt; "Invalid command!\n";
+                continue;
+            }
+
+            std::string request_str = json::serialize(request);
+            boost::asio::write(socket, boost::asio::buffer(request_str));
+
+            char response_data[1024] = {0};
+            boost::system::error_code error;
+            size_t length = socket.read_some(boost::asio::buffer(response_data), error);
+
+            if (error == boost::asio::error::eof) {
+                std::cout &lt;&lt; "Server disconnected.\n";
+                break;
+            } else if (error) {
+                throw boost::system::system_error(error);
+            }
+
+            json::value response_json = json::parse(response_data);
+            std::cout &lt;&lt; "Server: " &lt;&lt; response_json.as_object()["message"].as_string().c_str() &lt;&lt; "\n";
+        }
+    } catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Client error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compile_and_run_2"><a class="anchor" href="#_compile_and_run_2"></a>Compile and Run</h3>
+<div class="paragraph">
+<p>The following commands are valid:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Command</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>greet</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prompts for a name and receives a greeting.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the server&#8217;s status.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>exit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Closes the client.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>This sample can cope with multiple clients, using multithreading.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Start the server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Server listening on port 5000...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then run the client and enter the commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter command (greet/status/exit): status
+Server: Server is running.
+Enter command (greet/status/exit): greet
+Enter name: Peter
+Server: Hello, Peter!
+
+[Server is closed at this point]
+
+Enter command (greet/status/exit): status
+Client error: write: An existing connection was forcibly closed by the remote host [system:10054]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_http_requests"><a class="anchor" href="#_add_http_requests"></a>Add HTTP Requests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/beast">Boost.Beast</a> is built on top of <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, and handles HTTP requests - which can be considered a higher-level of communication to TCP sockets. We will stick with the client-server architecture, and useful features of JSON.</p>
+</div>
+<div class="sect2">
+<h3 id="_http_server"><a class="anchor" href="#_http_server"></a>HTTP Server</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/asio.hpp&gt;
+#include &lt;boost/beast.hpp&gt;
+#include &lt;boost/json.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace asio = boost::asio;
+namespace beast = boost::beast;
+namespace http = beast::http;
+namespace json = boost::json;
+using tcp = asio::ip::tcp;
+
+// Function to handle incoming HTTP requests and produce appropriate responses
+void handle_request(
+    http::request&lt;http::string_body&gt; req,         // Incoming HTTP request
+    http::response&lt;http::string_body&gt;&amp; res        // Outgoing HTTP response (to be filled in)
+) {
+    // JSON object to hold the response body
+    json::object response_json;
+
+    // Log request information to the console for debugging
+    std::cout &lt;&lt; "Method: " &lt;&lt; req.method() &lt;&lt; "...\n";
+    std::cout &lt;&lt; "Target: " &lt;&lt; req.target() &lt;&lt; "...\n";
+    std::cout &lt;&lt; "Body: " &lt;&lt; req.body() &lt;&lt; "...\n\n";
+
+    // Route: GET /status — return a simple status message
+    if (req.method() == http::verb::get &amp;&amp; req.target() == "/status") {
+        response_json["status"] = "Server is running!";
+    }
+
+    // Route: POST /greet — expects JSON input and returns a personalized greeting
+    else if (req.method() == http::verb::post &amp;&amp; req.target() == "/greet") {
+        try {
+
+            // Parse the incoming request body as JSON
+            json::value parsed_body = json::parse(req.body());
+
+            // Extract the "name" field from the JSON object
+            std::string name = parsed_body.as_object()["name"].as_string().c_str();
+
+            // Compose a greeting message
+            response_json["message"] = "Hello, " + name + "!";
+        }
+        catch (...) {
+
+            // If parsing fails or "name" field is missing, return an error
+            response_json["error"] = "Invalid JSON format.";
+        }
+    }
+
+    // Handle all other unknown endpoints or unsupported methods
+    else {
+        response_json["error"] = "Unknown endpoint.";
+    }
+
+    // Set the response status to 200 OK
+    res.result(http::status::ok);
+
+    // Specify the content type as JSON
+    res.set(http::field::content_type, "application/json");
+
+    // Serialize the JSON object and assign it to the response body
+    res.body() = json::serialize(response_json);
+
+    // Finalize the response by preparing content-length and other headers
+    res.prepare_payload();
+}
+
+
+// HTTP Server function
+void run_server(asio::io_context&amp; ioc, unsigned short port) {
+    tcp::acceptor acceptor(ioc, tcp::endpoint(tcp::v4(), port));
+
+    std::cout &lt;&lt; "HTTP Server running on port " &lt;&lt; port &lt;&lt; "...\n\n";
+
+    while (true) {
+        tcp::socket socket(ioc);
+        acceptor.accept(socket);
+
+        beast::flat_buffer buffer;
+        http::request&lt;http::string_body&gt; req;
+        http::read(socket, buffer, req);
+
+        http::response&lt;http::string_body&gt; res;
+        handle_request(req, res);
+
+        http::write(socket, res);
+    }
+}
+
+int main() {
+    try {
+        asio::io_context io_context;
+        run_server(io_context, 8080);
+    }
+    catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Server error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_client"><a class="anchor" href="#_http_client"></a>HTTP Client</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/asio.hpp&gt;
+#include &lt;boost/beast.hpp&gt;
+#include &lt;boost/json.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace asio = boost::asio;
+namespace beast = boost::beast;
+namespace http = beast::http;
+namespace json = boost::json;
+using tcp = asio::ip::tcp;
+
+// Function to send a basic HTTP request using Boost.Beast (synchronous, plain TCP)
+std::string send_request(
+    const std::string&amp; host,                  // e.g., "api.example.com"
+    const std::string&amp; port,                  // e.g., "80" or "443" (for HTTPS you'd need SSL setup)
+    http::verb method,                        // HTTP method, e.g., http::verb::post or http::verb::get
+    const std::string&amp; target,                // The path/resource being requested, e.g., "/v1/data"
+    const std::string&amp; body = ""              // Optional request body (for POST/PUT)
+) {
+    try {
+        // Create an I/O context required for all I/O operations
+        asio::io_context ioc;
+
+        // Create a resolver to turn the host name into a TCP endpoint
+        tcp::resolver resolver(ioc);
+
+        // Create the TCP stream for connecting and communicating
+        beast::tcp_stream stream(ioc);
+
+        // Resolve the host and port into a list of endpoints
+        auto const results = resolver.resolve(host, port);
+
+        // Establish a connection to one of the resolved endpoints
+        stream.connect(results);
+
+        // Build the HTTP request message
+        http::request&lt;http::string_body&gt; req{ method, target, 11 };     // HTTP/1.1
+        req.set(http::field::host, host);                               // Required: Host header
+        req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);   // Optional: Identifies the client
+        req.set(http::field::content_type, "application/json");         // Optional: for JSON bodies
+        req.body() = body;                                              // Set the request body (if any)
+        req.prepare_payload();                                          // Sets Content-Length and finalizes headers
+
+        // Send the HTTP request to the remote host
+        http::write(stream, req);
+
+        // Buffer for receiving data
+        beast::flat_buffer buffer;
+
+        // Container for the HTTP response
+        http::response&lt;http::string_body&gt; res;
+
+        // Receive the response
+        http::read(stream, buffer, res);
+
+        // Return only the response body as a string
+        return res.body();
+    }
+    catch (std::exception&amp; e) {
+
+        // Return the exception message prefixed with "Client error:"
+        return std::string("Client error: ") + e.what();
+    }
+}
+
+
+
+int main() {
+    std::string host = "127.0.0.1";
+    std::string port = "8080";
+
+    while (true) {
+        std::string command;
+        std::cout &lt;&lt; "Enter command (status/greet/exit): ";
+        std::cin &gt;&gt; command;
+
+        if (command == "status") {
+            std::string response = send_request(host, port, http::verb::get, "/status");
+            std::cout &lt;&lt; "Server Response: " &lt;&lt; response &lt;&lt; "\n\n";
+        }
+        else if (command == "greet") {
+            std::string name;
+            std::cout &lt;&lt; "Enter name: ";
+            std::cin &gt;&gt; name;
+
+            json::object request;
+            request["name"] = name;
+            std::string request_str = json::serialize(request);
+
+            std::string response = send_request(host, port, http::verb::post, "/greet", request_str);
+            std::cout &lt;&lt; "Server Response: " &lt;&lt; response &lt;&lt; "\n\n";
+        }
+        else if (command == "exit") {
+            break;
+        }
+        else {
+            std::cout &lt;&lt; "Invalid command!\n";
+        }
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compile_and_run_3"><a class="anchor" href="#_compile_and_run_3"></a>Compile and Run</h3>
+<div class="paragraph">
+<p>The following commands are valid.</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Command</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>greet</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prompts for a name and returns a JSON greeting.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Checks if the server is running.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>exit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Closes the client.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Set the server running:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">HTTP Server running on port 8080...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Enter commands into the client:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter command (status/greet/exit): status
+Server Response: {"status":"Server is running!"}
+
+Enter command (status/greet/exit): greet
+Enter name: Peter
+Server Response: {"message":"Hello, Peter!"}
+
+Enter command (status/greet/exit): greet
+Enter name: Johnny
+Server Response: {"message":"Hello, Johnny!"}
+
+Enter command (status/greet/exit): exit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>View the responses on the server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">HTTP Server running on port 8080...
+
+Method: GET...
+Target: /status...
+Body: ...
+
+Method: POST...
+Target: /greet...
+Body: {"name":"Peter"}...
+
+Method: POST...
+Target: /greet...
+Body: {"name":"Johnny"}...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_websockets"><a class="anchor" href="#_add_websockets"></a>Add Websockets</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As a final step, let&#8217;s add WebSockets, as this will allow real-time bidirectional communication between the client and server. This is useful for chat applications, game servers, stock updates, and other timing-critical applications.</p>
+</div>
+<div class="paragraph">
+<p>We will use the features of <a href="https://www.boost.org/libs/beast">Boost.Beast</a> to accept Websocket connections, and echo received messages.</p>
+</div>
+<div class="paragraph">
+<p>The Websocket server runs on <code>ws://127.0.0.1:9002</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_websocket_server"><a class="anchor" href="#_websocket_server"></a>Websocket Server</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/asio.hpp&gt;
+#include &lt;boost/beast.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;thread&gt;
+
+namespace asio = boost::asio;
+namespace beast = boost::beast;
+namespace http = beast::http;
+namespace websocket = beast::websocket;
+using tcp = asio::ip::tcp;
+
+// WebSocket session to handle each client connection
+void websocket_session(tcp::socket socket) {
+    try {
+        websocket::stream&lt;tcp::socket&gt; ws(std::move(socket));
+        ws.accept();
+        std::cout &lt;&lt; "Client connected!\n";
+
+        beast::flat_buffer buffer;
+        while (true) {
+            ws.read(buffer);
+            std::string msg = beast::buffers_to_string(buffer.data());
+
+            std::cout &lt;&lt; "\nReceived: " &lt;&lt; msg &lt;&lt; std::endl;
+
+            // Echo message back to client
+            ws.text(ws.got_text());
+            ws.write(buffer.data());
+
+            buffer.consume(buffer.size()); // Clear buffer for next message
+        }
+    }
+    catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "WebSocket session error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}
+
+// WebSocket Server
+void run_server(asio::io_context&amp; ioc, unsigned short port) {
+    tcp::acceptor acceptor(ioc, tcp::endpoint(tcp::v4(), port));
+
+    std::cout &lt;&lt; "WebSocket Server running on ws://127.0.0.1:" &lt;&lt; port &lt;&lt; "\n\n";
+
+    while (true) {
+        tcp::socket socket(ioc);
+        acceptor.accept(socket);
+        std::thread(websocket_session, std::move(socket)).detach(); // Handle client in new thread
+    }
+}
+
+int main() {
+    try {
+        asio::io_context io_context;
+        run_server(io_context, 9002);
+    }
+    catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Server error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_websocket_client"><a class="anchor" href="#_websocket_client"></a>Websocket Client</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/asio.hpp&gt;
+#include &lt;boost/beast.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace asio = boost::asio;
+namespace beast = boost::beast;
+namespace websocket = beast::websocket;
+using tcp = asio::ip::tcp;
+
+void run_client(const std::string&amp; host, const std::string&amp; port) {
+    try {
+        asio::io_context ioc;
+        tcp::resolver resolver(ioc);
+        websocket::stream&lt;tcp::socket&gt; ws(ioc);
+
+        auto const results = resolver.resolve(host, port);
+        asio::connect(ws.next_layer(), results);
+        ws.handshake(host, "/");
+
+        std::cout &lt;&lt; "Connected to WebSocket server!\n";
+
+        std::string message;
+        while (true) {
+            std::cout &lt;&lt; "\nEnter message (or 'exit' to quit): ";
+            std::getline(std::cin, message);
+
+            if (message == "exit") break;
+
+            ws.write(asio::buffer(message));
+
+            beast::flat_buffer buffer;
+            ws.read(buffer);
+            std::cout &lt;&lt; "Server Response: " &lt;&lt; beast::buffers_to_string(buffer.data()) &lt;&lt; "\n";
+        }
+
+        ws.close(websocket::close_code::normal);
+    }
+    catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Client error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}
+
+int main() {
+    run_client("127.0.0.1", "9002");
+    return 0;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compile_and_run_4"><a class="anchor" href="#_compile_and_run_4"></a>Compile and Run</h3>
+<div class="paragraph">
+<p>In the client, type any message and hit <code>Enter</code>. The server should echo the message. Type <code>exit</code> to close the client.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Connected to WebSocket server!
+
+Enter message (or 'exit' to quit): hi there
+Server Response: hi there
+
+Enter message (or 'exit' to quit): we are connected!
+Server Response: we are connected!
+
+Enter message (or 'exit' to quit):</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server should be responding as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">WebSocket Server running on ws://127.0.0.1:9002
+
+Client connected!
+
+Received: hi there
+
+Received: we are connected!</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The samples shown here are portable and cross-platform (Windows/Linux/Mac), and the servers are asynchronous to handle multiple clients.</p>
+</div>
+<div class="paragraph">
+<p>The following diagram shows how the different layers work together in the samples:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/client-server-layers.png" alt="client server layers">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="task-ai-client.html" class="xref page">AI Client</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Concurrent">Category: Concurrent Programming</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#IO">Category: Input/Output</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-networking.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="task-finance.html">Finance</a></span>
+        <span class="next"><a href="task-ai-client.html">AI Client</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

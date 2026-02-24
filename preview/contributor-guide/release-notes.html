@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Release Notes :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/release-notes.html">
+    <link rel="prev" href="release-process.html">
+    <link rel="next" href="contributor-community-introduction.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Releases</li>
+    <li><a href="release-notes.html">Release Notes</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="release-process.html">
+      <span class="material-symbols-outlined" title="Previous: Release Process">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="contributor-community-introduction.html">
+      <span class="material-symbols-outlined" title="Next: Introduction">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Release Notes</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Writing release notes is crucial for informing users about the changes made in the latest version of your library.</p>
+</div>
+<div class="paragraph">
+<p>Two versions of your release notes need to be prepared: one for your library&#8217;s own documentation, one for a Boost history that covers all libraries added or updated in a release.</p>
+</div>
+<div class="paragraph">
+<p>For the former, the Boost community does not have a strict format for your libraries' version of release notes (and some libraries refer to release notes as a  <em>change log</em> or <em>history</em>). Follow the <a href="#_checklist">Checklist</a>.</p>
+</div>
+<div class="paragraph">
+<p>For the latter, you will need to update a Boost history file with a succinct version of your completed release notes. These files do have a specified format, described in <a href="#_update_boost_history">Update Boost History</a>.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_checklist">Checklist</a></p>
+</li>
+<li>
+<p><a href="#_consistency_and_formatting">Consistency and Formatting</a></p>
+</li>
+<li>
+<p><a href="#_release_note_macros">Release Note Macros</a></p>
+</li>
+<li>
+<p><a href="#_release_note_examples">Release Note Examples</a></p>
+</li>
+<li>
+<p><a href="#_update_boost_history">Update Boost History</a></p>
+</li>
+<li>
+<p><a href="#_best_practices">Best Practices</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_checklist"><a class="anchor" href="#_checklist"></a>Checklist</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When writing release notes for your library remember that the main goal is to effectively communicate the changes to the end-users. It&#8217;s always a good practice to put yourself in the mind set of your developers, and think about what information they would need and appreciate. Be brief, but not so brief that only a seasoned user of your library will understand the context.</p>
+</div>
+<div class="sect2">
+<h3 id="_1_header_information"><a class="anchor" href="#_1_header_information"></a>1. Header Information</h3>
+<div class="paragraph">
+<p>Make sure the version number, and date of release are mentioned.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_summary"><a class="anchor" href="#_2_summary"></a>2. Summary</h3>
+<div class="paragraph">
+<p>If this release addresses particular topics, provide a brief overview of the main changes, enhancements, or the theme of this release if there&#8217;s one.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_breaking_changes"><a class="anchor" href="#_3_breaking_changes"></a>3. Breaking Changes</h3>
+<div class="paragraph">
+<p>Before detailing other updates, immediately inform users of any backward-incompatible changes. This is crucial as these changes can directly impact existing code. The process for breaking changes is covered in detail in  <a href="version-control.html" class="xref page">Version Control</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_api_parameters"><a class="anchor" href="#_4_api_parameters"></a>4. API Parameters</h3>
+<div class="paragraph">
+<p>If you have added additional parameters (or changed a return value, or similar API change) to a function that are not breaking changes, then list them separately. If an API change might break an existing application, then ensure to list it under <a href="#_breaking_changes">[_breaking_changes]</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_5_new_features"><a class="anchor" href="#_5_new_features"></a>5. New Features</h3>
+<div class="paragraph">
+<p>Describe any new features or major enhancements. For complex features, consider adding a brief example or pointing to updated documentation. If the feature is referenced in an <strong>Issue</strong>, then consider adding a link to that issue.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_6_bug_fixes"><a class="anchor" href="#_6_bug_fixes"></a>6. Bug Fixes</h3>
+<div class="paragraph">
+<p>List the fixed bugs, ideally with a brief description. If you&#8217;re using a bug tracking system (like GitHub issues), provide links to the bug reports described in the issues. Include the identifier or number of the bug if available.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_7_deprecations"><a class="anchor" href="#_7_deprecations"></a>7. Deprecations</h3>
+<div class="paragraph">
+<p>Mention any functions, classes, or features that are deprecated and might be removed in future releases.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_8_performance_improvements"><a class="anchor" href="#_8_performance_improvements"></a>8. Performance Improvements</h3>
+<div class="paragraph">
+<p>Detail any optimizations or performance-related changes, ideally with metrics or benchmarks if they are significant.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_9_documentation_updates"><a class="anchor" href="#_9_documentation_updates"></a>9. Documentation Updates</h3>
+<div class="paragraph">
+<p>Highlight and link to any significant updates in documentation, new examples, or tutorials.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_10_acknowledgements"><a class="anchor" href="#_10_acknowledgements"></a>10. Acknowledgements</h3>
+<div class="paragraph">
+<p>Credit contributors or those who reported crucial bugs. Recognize any person or organization that played a special role in this release.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_11_known_issues"><a class="anchor" href="#_11_known_issues"></a>11. Known Issues</h3>
+<div class="paragraph">
+<p>Briefly describe any known limitations or issues that are still unresolved in the current release. Include known compatibility issues - including with compilers and tools, and other libraries.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_12_upgrade_notes"><a class="anchor" href="#_12_upgrade_notes"></a>12. Upgrade Notes</h3>
+<div class="paragraph">
+<p>Provide any specific instructions or recommendations for users upgrading from a previous version, especially if there are any manual steps involved.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_consistency_and_formatting"><a class="anchor" href="#_consistency_and_formatting"></a>Consistency and Formatting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use clear and concise language. Experience has shown that short release notes are read, long files much less so. Do not add into release notes extensive text that should be in your main library documentation.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Be consistent in the formatting. If you&#8217;re using bullet points for one section, maintain that for others.</p>
+</li>
+<li>
+<p>Use headers and sub-headers to clearly differentiate sections.</p>
+</li>
+<li>
+<p>Provide links to:</p>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>Your main library documentation, if there is updated text, examples or tutorials</p>
+</li>
+<li>
+<p>Relevant issues, discussions or threads</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_release_note_macros"><a class="anchor" href="#_release_note_macros"></a>Release Note Macros</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Various macros are available to library authors and maintainers to help keep release notes consistent between libraries, and easier to both write and read. Absolute links <em>can</em> be added to release notes, if necessary, though use of the following macros is encouraged and recommended.</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 60%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Macro</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Examples</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost_phrase:library[ &lt;library name&gt; , &lt;library path&gt;]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shows the library title in a consistent format, and links to the library on Git.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost_phrase:library[Asio,/libs/asio/]</code>, <code>boost_phrase:library[Beast,/libs/beast/]</code>, <code>boost_phrase:library[OpenMethod,/libs/openmethod]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost_at:&lt;path to file&gt;[ &lt;title&gt;]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The specified "title" becomes a link to the file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Consult the boost_at:/doc/libs/1_90_0/doc/html/boost_asio/history.html[Revision History] for further details.</code>, <code>boost_at:/doc/libs/1_90_0/[Documentation]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost_gh:pr[ &lt;library name&gt;, &lt;PR number]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides a link to a GitHub PR for the specified library.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Conform to std::pointer_traits requirements (boost_gh:pr[interprocess,32]).</code>, <code>boost_gh:pr[core,205]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost_gh:issue[&lt;library name&gt;, &lt;ISSUE number&gt;]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides a link to the GitHub Issue for the specified library.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Fixed named_condition_any fails to notify (boost_gh:issue[interprocess,62]).</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_release_note_examples"><a class="anchor" href="#_release_note_examples"></a>Release Note Examples</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Checking out the release notes from fellow library authors and maintainers is good practice:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/boostorg/website-v2-docs/blob/develop/release-notes/boost_1_90_0.adoc">Boost 1.90 Release Notes</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_update_boost_history"><a class="anchor" href="#_update_boost_history"></a>Update Boost History</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you have completed the library release notes, add the required information to the <code>[section New Libraries]</code> or <code>[section Updated Libraries]</code> of the <a href="https://github.com/boostorg/website/tree/master/feed/history">Boostorg History</a>. Copy the formatting of the examples below, which for reference is <a href="https://www.boost.org/doc/libs/latest/doc/html/quickbook.html">Quickbook format</a>.</p>
+</div>
+<div class="paragraph">
+<p>The examples below come from the <a href="https://github.com/boostorg/website/blob/master/feed/history/boost_1_83_0.qbk">boost_1_83_0.qbk</a> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[section New Libraries]
+
+[/ Example:
+* [phrase library..[@/libs/accumulators/ Accumulators]:] Framework for
+  incremental calculation, and collection of statistical accumulators, from Eric Niebler.
+]
+
+* [phrase library..[@/libs/compat/ Compat]:] A repository of C++11 implementations of
+  standard components added in later C++ standards, from Peter Dimov and contributors.
+
+[endsect]
+
+[section Updated Libraries]
+
+[/ Example:
+* [phrase library..[@/libs/interprocess/ Interprocess]:]
+  * Added anonymous shared memory for UNIX systems.
+  * Move semantics for shared objects ([ticket 1932]).
+  * Conform to `std::pointer_traits` requirements ([github_pr interprocess 32])
+  * Fixed `named_condition_any` fails to notify ([github interprocess 62])
+]
+
+* [phrase library..[@/libs/any/ Any]:]
+  * New `boost::anys::unique_any` C++11 class - an alternative to
+    `boost::any` (or to `std::any`) that does not require copy
+    or move construction from the held type.
+  * Ported documentation to Quickbook, Doxygen comments now used in code.
+
+  ....
+
+  [endsect]</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The macros used in Quickbook format for the history sections differ in detail from the macros available for the Release Notes.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_best_practices"><a class="anchor" href="#_best_practices"></a>Best Practices</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Experience has shown the following layout works well when writing release notes and having your users actually read them.</p>
+</div>
+<div class="paragraph">
+<p>The first three (or less) bullet points should briefly explain the most impactful changes to your library. If new functionality has been added, this is the place for it.</p>
+</div>
+<div class="paragraph">
+<p>The next bullet points, at most seven, but perhaps five is better, contain concise changes that affect the use of your library. This will include functions that have been improved, functions removed or deprecated, and other pertinent changes say to an API&#8217;s parameters, errors, return values and similar.</p>
+</div>
+<div class="paragraph">
+<p>If documentation has been updated, comments cleaned up, examples improved or removed, a single bullet point describing this has occurred is enough.</p>
+</div>
+<div class="paragraph">
+<p>The rule of thumb here is to <strong>keep the number of bullet points to ten or less</strong>, as adding more is a good way of ensuring your users will skip or skim your release notes - a classic example of information "hiding in plain sight"!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/boostorg/website/tree/master/feed/history">Boostorg History</a></p>
+</li>
+<li>
+<p><a href="release-process.html" class="xref page">Release Process</a></p>
+</li>
+<li>
+<p><a href="version-control.html" class="xref page">Version Control</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/release-notes.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="release-process.html">Release Process</a></span>
+        <span class="next"><a href="contributor-community-introduction.html">Introduction</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

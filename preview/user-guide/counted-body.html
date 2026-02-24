@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Counted Body Techniques :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/counted-body.html">
+    <link rel="prev" href="exception-safety.html">
+    <link rel="next" href="implementation-variations.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Development</li>
+    <li><a href="counted-body.html">Counted Body</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="exception-safety.html">
+      <span class="material-symbols-outlined" title="Previous: Exception-Safety">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="implementation-variations.html">
+      <span class="material-symbols-outlined" title="Next: Implementation Variations">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Counted Body Techniques</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Reference counting techniques? Nothing new, you might think. Every good C++ text that takes you to an intermediate or advanced level will introduce the concept. It has been explored with such thoroughness in the past that you might be forgiven for thinking that everything that can be said has been said. Well, let&#8217;s start from first principles and see if we can unearth something new&#8230;&#8203;.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_and_then_there_were_none"><a class="anchor" href="#_and_then_there_were_none"></a>And Then There Were None&#8230;&#8203;</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The principle behind reference counting is to keep a running usage count of an object so that when it falls to zero we know the object is unused. This is normally used to simplify the memory management for dynamically allocated objects: keep a count of the number of references held to that object and, on zero, delete the object.</p>
+</div>
+<div class="paragraph">
+<p>How to keep a track of the number of users of an object? Well, normal pointers are quite dumb, and so an extra level of indirection is required to manage the count. This is essentially the <em>proxy</em> pattern described in <em>Design Patterns [Gamma, Helm, Johnson &amp; Vlissides, Addison-Wesley, ISBN 0-201-63361-2]</em>. The intent is given as <em>"Provide a surrogate or placeholder for another object to control access to it."</em></p>
+</div>
+<div class="paragraph">
+<p><em>Advanced C++ Programming Styles and Idioms [Coplien, Addison-Wesley, ISBN 0-201-56365-7]</em> defines a set of idioms related to this essential separation of a handle and a body part. The <em>Taligent Guide to Designing Programs [Addison-Wesley, ISBN 0-201-40888-0]</em> identifies a number of specific categories for proxies (aka surrogates). Broadly speaking they fall into two general categories:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><em>Hidden</em>: The handle is the object of interest, hiding the body itself. The functionality of the handle is obtained by delegation to the body, and the user of the handle is unaware of the body. Reference counted strings offer a transparent optimization. The body is shared between copies of a string until such a time as a change is needed, at which point a copy is made. Such a <em>copy-on-write</em> pattern (a specialization of <em>lazy evaluation</em>) requires the use of a hidden reference counted body.</p>
+</li>
+<li>
+<p><em>Explicit</em>: Here the body is of interest and the handle merely provides intelligence for its access and housekeeping. In C++ this is often implemented as the <em>smart pointer</em> idiom. One such application is that of reference-counted smart pointers that collaborate to keep a count of an object, deleting it when the count falls to zero.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_attached_vs_detached"><a class="anchor" href="#_attached_vs_detached"></a>Attached vs Detached</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For reference counted smart pointers there are two places the count can exist, resulting in two different patterns, both outlined in <em>Software Patterns [Coplien, SIGS, ISBN 0-884842-50-X]</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Counted body</em> or <em>attached counted handle/body</em> places the count within the object being counted. The benefits are that countability is a part of the object being counted, and that reference counting does not require an additional object. The drawbacks are clearly that this is intrusive, and that the space for the reference count is wasted when the object is not heap-based. Therefore the reference counting ties you to a particular implementation and style of use.</p>
+</li>
+<li>
+<p><em>Detached counted handle/body</em> places the count outside the object being counted, such that they are handled together. The clear benefit of this is that this technique is completely unintrusive, with all of the intelligence and support apparatus in the smart pointer, and therefore can be used on classes created independently of the reference counted pointer. The main disadvantage is that frequent use of this can lead to a proliferation of small objects, i.e. the counter, being created on the heap.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Even with this simple analysis, it seems that the <em>Detached counted handle/body</em> approach is ahead. Indeed, with the increasing use of templates this is often the favorite, and is the principle behind the common - but not standard - <code>counted_ptr</code>.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The Boost name is <code>shared_ptr</code> rather than <code>counted_ptr</code>.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>A common implementation of <em>counted body</em> is to provide the counting mechanism in a base class that the counted type is derived from. Either that, or the reference counting mechanism is provided anew for each class that needs it. Both of these approaches are unsatisfactory because they are quite closed, coupling a class into a particular framework. Added to this the non-cohesiveness of having the count lying dormant in a non-counted object, and you get the feeling that excepting its use in widespread object models such as <a href="https://en.wikipedia.org/wiki/Component_Object_Model">COM</a> and <a href="https://en.wikipedia.org/wiki/Common_Object_Request_Broker_Architecture">CORBA</a> the <em>counted body</em> approach is perhaps only of use in specialized situations.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_requirements_based_approach"><a class="anchor" href="#_a_requirements_based_approach"></a>A Requirements Based Approach</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is the question of openness that convinced me to revisit the problems with the <em>counted body</em> idiom. Yes, there is a certain degree of intrusion expected when using this idiom, but is there anyway to minimize this and decouple the choice of counting mechanism from the smart pointer type used?</p>
+</div>
+<div class="paragraph">
+<p>In recent years the most instructive body of code and specification for constructing open general purpose components has been the Stepanov and Lee&#8217;s STL (Standard Template Library), now part of the C++ standard library. The STL approach makes extensive use of compile time polymorphism based on well defined operational requirements for types. For instance, each container, contained and iterator type is defined by the operations that should be performable on an object of that type, often with annotations describing additional constraints. Compile time polymorphism, as its name suggests, resolves functions at compile time based on function name and argument usage, i.e. overloading. This is less intrusive, although less easily diagnosed if incorrect, than runtime polymorphism that is based on types, names and function signatures.</p>
+</div>
+<div class="paragraph">
+<p>This requirements based approach can be applied to reference counting. The operations we need for a type to be <em>countable</em> are loosely:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>An acquire operation that registers interest in a countable object.</p>
+</li>
+<li>
+<p>A release operation unregisters interest in a countable object.</p>
+</li>
+<li>
+<p>An acquired query that returns whether or not a countable object is currently acquired.</p>
+</li>
+<li>
+<p>A dispose operation that is responsible for disposing of an object that is no longer acquired.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The count is deduced as a part of the abstract state of this type, and is not mentioned or defined in any other way. The openness of this approach derives in part from the use of global functions, meaning that no particular member functions are implied; a perfect way to wrap up an existing counted body class without modifying the class itself. The other aspect of openness comes from a more precise specification of the operations.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For a type to be countable it must satisfy the following requirements, where <code>ptr</code> is a non-null pointer to a single object (i.e. not an array) of the type, and <code>#function</code> indicates number of calls to <code>function(ptr)</code>:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Expression</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Return type</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Semantics and notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>acquire(ptr)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no requirement</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>post</em>: <code>acquired(ptr)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>release(ptr)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no requirement</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pre</em>: <code>acquired(ptr)</code> <em>post</em>: <code>acquired(ptr) == #acquire - #release</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>acquired(ptr)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">convertible to bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">return: <code>#acquire &gt; #release</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dispose(ptr, ptr)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no requirement</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pre</em>: <code>!acquired(ptr)</code> <em>post</em>: <code>*ptr</code> no longer usable</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The two arguments to <code>dispose</code> are to support selection of the appropriate type-safe version of the function to be called. In the general case the intent is that the first argument determines the type to be deleted, and would typically be templated, while the second selects which template to use, for example: by conforming to a specific base class.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>In addition the following requirements must also be satisfied, where <code>null</code> is a null pointer to the countable type:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Expression</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Return type</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Semantics and notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>acquire(null)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no requirement</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>action</em>: none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>release(null)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no requirement</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>action</em>: none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>acquired(null)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">convertible to <code>bool</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>return</em>: <code>false</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dispose(null, null)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no requirement</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>action</em>: none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>There are no requirements on these functions in terms of exceptions thrown or not thrown, except that if exceptions are thrown the functions themselves should be exception-safe.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getting_smart"><a class="anchor" href="#_getting_smart"></a>Getting Smart</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Given the countable requirements for a type, it is possible to define a generic smart pointer type that uses them for reference counting:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename countable_type&gt;
+class countable_ptr
+{
+public: // construction and destruction
+
+    explicit countable_ptr(countable_type *);
+    countable_ptr(const countable_ptr &amp;);
+    ~countable_ptr();
+
+public: // access
+
+    countable_type *operator-&gt;() const;
+    countable_type &amp;operator*() const;
+    countable_type *get() const;
+
+public: // modification
+
+    countable_ptr &amp;clear();
+    countable_ptr &amp;assign(countable_type *);
+    countable_ptr &amp;assign(const countable_ptr &amp;);
+    countable_ptr &amp;operator=(const countable_ptr &amp;);
+
+private: // representation
+
+    countable_type *body;
+
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The interface to this class has been kept intentionally simple, for example: member templates and throw specs have been omitted, for exposition. The majority of the functions are quite simple in implementation, relying very much on the assign member as a keystone function:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename countable_type&gt;
+countable_ptr&lt;countable_type&gt;::countable_ptr(countable_type *initial)
+  : body(initial)
+{
+    acquire(body);
+}
+
+template&lt;typename countable_type&gt;
+countable_ptr&lt;countable_type&gt;::countable_ptr(const countable_ptr &amp;other)
+  : body(other.body)
+{
+    acquire(body);
+}
+
+template&lt;typename countable_type&gt;
+countable_ptr&lt;countable_type&gt;::~countable_ptr()
+{
+    clear();
+}
+
+template&lt;typename countable_type&gt;
+countable_type *countable_ptr&lt;countable_type&gt;::operator-&gt;() const
+{
+    return body;
+}
+
+template&lt;typename countable_type&gt;
+countable_type &amp;countable_ptr&lt;countable_type&gt;::operator*() const
+{
+    return *body;
+}
+
+template&lt;typename countable_type&gt;
+countable_type *countable_ptr&lt;countable_type&gt;::get() const
+{
+    return body;
+}
+
+template&lt;typename countable_type&gt;
+countable_ptr&lt;countable_type&gt; &amp;countable_ptr&lt;countable_type&gt;::clear()
+{
+    return assign(0);
+}
+
+template&lt;typename countable_type&gt;
+countable_ptr&lt;countable_type&gt; &amp;countable_ptr&lt;countable_type&gt;::assign(countable_type *rhs)
+{
+    // set to rhs (uses Copy Before Release idiom which is self assignment safe)
+    acquire(rhs);
+    countable_type *old_body = body;
+    body = rhs;
+
+    // tidy up
+    release(old_body);
+    if(!acquired(old_body))
+    {
+        dispose(old_body, old_body);
+    }
+
+    return *this;
+}
+
+template&lt;typename countable_type&gt;
+countable_ptr&lt;countable_type&gt; &amp;countable_ptr&lt;countable_type&gt;::assign(const countable_ptr &amp;rhs)
+{
+    return assign(rhs.body);
+}
+
+template&lt;typename countable_type&gt;
+countable_ptr&lt;countable_type&gt; &amp;countable_ptr&lt;countable_type&gt;::operator=(const countable_ptr &amp;rhs)
+{
+    return assign(rhs);
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_public_accountability"><a class="anchor" href="#_public_accountability"></a>Public Accountability</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Conformance to the requirements means that a type can be used with <code>countable_ptr</code>. Here is an implementation <em>mix-in</em> class that confers countability on its derived classes through member functions. This class can be used as a class adaptor:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">class countability
+{
+public: // manipulation
+
+    void acquire() const;
+    void release() const;
+    size_t acquired() const;
+
+protected: // construction and destruction
+
+    countability();
+    ~countability();
+
+private: // representation
+
+    mutable size_t count;
+
+private: // prevention
+
+    countability(const countability &amp;);
+    countability &amp;operator=(const countability &amp;);
+
+};</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The manipulation functions are <code>const</code> and that the count member itself is mutable. This is because countability is not a part of an object&#8217;s abstract state: memory management does not depend on the const-ness or otherwise of an object. I won&#8217;t include the definitions of the member functions here as you can probably guess them: increment, decrement, and return the current count, respectively for the manipulation functions. In a multithreaded environment, you should ensure that such read and write operations are atomic.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>So how do we make this class countable? A simple set of forwarding functions does the job:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void acquire(const countability *ptr)
+{
+    if(ptr)
+    {
+        ptr-&gt;acquire();
+    }
+}
+
+void release(const countability *ptr)
+{
+    if(ptr)
+    {
+        ptr-&gt;release();
+    }
+}
+
+size_t acquired(const countability *ptr)
+{
+    return ptr ? ptr-&gt;acquired() : 0;
+}
+
+template&lt;class countability_derived&gt;
+void dispose(const countability_derived *ptr, const countability *)
+{
+    delete ptr;
+}
+Any type that now derives from countability may now be used with countable_ptr:
+
+class example : public countability
+{
+    ...
+};
+
+void simple()
+{
+    countable_ptr&lt;example&gt; ptr(new example);
+    countable_ptr&lt;example&gt; qtr(ptr);
+    ptr.clear(); // set ptr to point to null
+}   // allocated object deleted when qtr destructs</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_runtime_mixin"><a class="anchor" href="#_runtime_mixin"></a>Runtime Mixin</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The challenge is to apply <em>counted body</em> in a non-intrusive fashion, such that there is no overhead when an object is not counted. What we would like to do is confer this capability on a per object rather than on a per class basis. Effectively we are after <em>countability</em> on any object, i.e. anything pointed to by a <code>void *</code>! It goes without saying that <code>void</code> is perhaps the least committed of any type.</p>
+</div>
+<div class="paragraph">
+<p>The forces to resolve this are quite interesting, to say the least. Interesting, but not insurmountable. Given that the class of a runtime object cannot change dynamically in any well defined manner, and the layout of the object must be fixed, we have to find a new place and time to add the counting state. The fact that this must be added only on heap creation suggests the following solution:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">struct countable_new;
+extern const countable_new countable;
+
+void *operator new(size_t, const countable_new &amp;);
+void operator delete(void *, const countable_new &amp;);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We have overloaded <code>operator new</code> with a dummy argument to distinguish it from the regular global operator <code>new</code>. This is comparable to the use of the <code>std::nothrow_t</code> type and <code>std::nothrow</code> object in the standard library. The placement <code>operator delete</code> is there to perform any tidy up in the event of failed construction. Note that this is not yet supported on all compilers.</p>
+</div>
+<div class="paragraph">
+<p>The result of a <code>new</code> expression using <code>countable</code> is an object allocated on the heap that has a header block that holds the count, i.e. we have extended the object by prefixing it. We can provide a couple of features in an anonymous namespace (not shown) in the implementation file for supporting the count and its access from a raw pointer:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">struct count
+{
+    size_t value;
+};
+
+count *header(const void *ptr)
+{
+    return const_cast&lt;count *&gt;(static_cast&lt;const count *&gt;(ptr) - 1);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An important constraint to observe here is the alignment of <code>count</code> should be such that it is suitably aligned for any type. For the definition shown this will be the case on almost all platforms. However, you may need to add a padding member for those that don&#8217;t, for example: using an anonymous <code>union</code> to co-align <code>count</code> and the most aligned type. Unfortunately, there is no portable way of specifying this such that the minimum alignment is also observed - this is a common problem when specifying your own allocators that do not directly use the results of either <code>new</code> or <code>malloc</code>.</p>
+</div>
+<div class="paragraph">
+<p>Again, note that the count is not considered to be a part of the logical state of the object, and hence the conversion from <code>const</code> to non-const - count is in effect a mutable type.</p>
+</div>
+<div class="paragraph">
+<p>The allocator functions themselves are fairly straightforward:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void *operator new(size_t size, const countable_new &amp;)
+{
+    count *allocated = static_cast&lt;count *&gt;(::operator new(sizeof(count) + size));
+    *allocated = count(); // initialise the header
+    return allocated + 1; // adjust result to point to the body
+}
+
+void operator delete(void *ptr, const countable_new &amp;)
+{
+    ::operator delete(header(ptr));
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Given a correctly allocated header, we now need the countable functions to operate on <code>const void *</code> to complete the picture:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void acquire(const void *ptr)
+{
+    if(ptr)
+    {
+        ++header(ptr)-&gt;value;
+    }
+}
+
+void release(const void *ptr)
+{
+    if(ptr)
+    {
+        --header(ptr)-&gt;value;
+    }
+}
+
+size_t acquired(const void *ptr)
+{
+    return ptr ? header(ptr)-&gt;value : 0;
+}
+
+template&lt;typename countable_type&gt;
+void dispose(const countable_type *ptr, const void *)
+{
+    ptr-&gt;~countable_type();
+    operator delete(const_cast&lt;countable_type *&gt;(ptr), countable);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The most complex of these is the dispose function that must ensure that the correct type is destructed and also that the memory is collected from the correct offset. It uses the value and type of first argument to perform this correctly, and the second argument merely acts as a strategy selector, i.e. the use of <code>const void *</code> distinguishes it from the earlier <code>dispose</code> shown for <code>const countability *</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getting_smarter"><a class="anchor" href="#_getting_smarter"></a>Getting Smarter</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now that we have a way of adding countability at creation for objects of any type, what extra is needed to make this work with the <code>countable_ptr</code> we defined earlier? Good news: nothing!</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">class example
+{
+    ...
+};
+
+void simple()
+{
+    countable_ptr&lt;example&gt; ptr(new(countable) example);
+    countable_ptr&lt;example&gt; qtr(ptr);
+    ptr.clear(); // set ptr to point to null
+}   // allocated object deleted when qtr destructs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>new(countable)</code> expression defines a different policy for allocation and de-allocation and, in common with other allocators, any attempt to mix your allocation policies, for example: call <code>delete</code> on an object allocated with <code>new(countable)</code>, results in undefined behavior. This is similar to what happens when you mix <code>new[]</code> with <code>delete</code> or <code>malloc</code> with <code>delete</code>. The whole point of countable conformance is that countable objects are used with <code>countable_ptr</code>, and this ensures the correct use.</p>
+</div>
+<div class="paragraph">
+<p>However, accidents will happen, and inevitably you may forget to allocate using <code>new(countable)</code> and instead use <code>new</code>. This error and others can be detected in most cases by extending the code shown here to add a check member to the count, validating the check on every access. A benefit of ensuring clear separation between header and implementation source files mean that you can introduce a checking version of this allocator without having to recompile your code.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion"><a class="anchor" href="#_conclusion"></a>Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are two key concepts that this article has introduced:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The use of a generic requirements based approach to simplify and adapt the use of the <em>counted body</em> pattern.</p>
+</li>
+<li>
+<p>The ability, through control of allocation, to dynamically and non-intrusively add capabilities to fixed types using the <em>runtime mixin</em> pattern.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The application of the two together gives rise to a new variant of the essential <em>counted body</em> pattern: <em>unintrusive counted body</em>. You can take this theme even further and contrive a simple garbage collection system for C++.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_acknowledgements"><a class="anchor" href="#_acknowledgements"></a>Acknowledgements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This topic was originally written as a paper by Kevlin Henney, and first published in <em>Overload 25, April 1998, ISSN 1354-3172</em>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For different approaches to reference counting in Boost libraries, refer to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> : provides support for <code>shared_ptr</code> and <code>weak_ptr</code>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/intrusive">Boost.Intrusive</a> : provides support for <code>intrusive_ptr</code> and <code>shared_ptr</code>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/graph">Boost.Graph</a> : provides support for <code>adjacency_list</code>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/interprocess">Boost.Interprocess</a> : provides support for <code>interprocess_ptr</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/counted-body.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="exception-safety.html">Exception-Safety</a></span>
+        <span class="next"><a href="implementation-variations.html">Implementation Variations</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Contributor Checklist :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/formal-reviews/contributor-checklist.html">
+    <link rel="prev" href="submissions.html">
+    <link rel="next" href="managing-reviews.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="formal-reviews" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Formal Reviews</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="submissions.html">Submission Process</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="contributor-checklist.html">Contributor Checklist</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="managing-reviews.html">Managing Reviews</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="writing-reviews.html">Writing Reviews</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="review-results.html">Review Schedule</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Formal Reviews">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="contributor-checklist.html">Contributor Checklist</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="submissions.html">
+      <span class="material-symbols-outlined" title="Previous: Submission Process">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="managing-reviews.html">
+      <span class="material-symbols-outlined" title="Next: Managing Reviews">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Contributor Checklist</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before submitting a library for review, work through this checklist to help polish the library to a high standard.</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="#_code_quality_and_design">Code Quality and Design</a></p>
+</li>
+<li>
+<p><a href="#_documentation">Documentation</a></p>
+</li>
+<li>
+<p><a href="#_testing">Testing</a></p>
+</li>
+<li>
+<p><a href="#_efficiency_and_performance">Efficiency and Performance</a></p>
+</li>
+<li>
+<p><a href="#_boost_specific_requirements">Boost-Specific Requirements</a></p>
+</li>
+<li>
+<p><a href="#_usability_and_api_design">Usability and API Design</a></p>
+</li>
+<li>
+<p><a href="#_pre_review_feedback">Pre-Review Feedback</a></p>
+</li>
+<li>
+<p><a href="#_examples_of_successful_libraries">Examples of Successful Libraries</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_code_quality_and_design"><a class="anchor" href="#_code_quality_and_design"></a>Code Quality and Design</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Examining your code, can you verify:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[] Consistent Coding Style - naming conventions, indentation, spacing. Consider using clang-format for consistency.</p>
+</li>
+<li>
+<p>[] Modular Design - the code should be broken down into small, manageable, and reusable components, and fit into the structure of the <a href="../contributor-guide/superproject/getting-started.html" class="xref page">Boost Super-Project</a>.</p>
+</li>
+<li>
+<p>[] Avoid Code Smells - eliminate dead code, redundant logic, overly complex functions, and other common red-flag issues.</p>
+</li>
+<li>
+<p>[] Adherence to C++ Standards - ensure the library is compatible with a current standard (for example, C++17 or later).</p>
+</li>
+<li>
+<p>[] Template Usage - are templates appropriately used, and consider the potential impact on compile times.</p>
+</li>
+<li>
+<p>[] Exception Safety - make sure the library has well-defined behavior when exceptions are thrown. Aim for <em>strong</em> or <em>basic</em> exception safety guarantees.</p>
+</li>
+<li>
+<p>[] Thread Safety - if relevant, ensure thread safety or clearly document any multi-threading limitations.</p>
+</li>
+<li>
+<p>[] Minimize Dependencies - use other Boost components when appropriate - ideally the latest incarnation, and avoid unnecessary external and circular dependencies.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="../contributor-guide/design-guide/design-best-practices.html" class="xref page">Design Best Practices</a> for considerably more detail.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_documentation"><a class="anchor" href="#_documentation"></a>Documentation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Documentation should be on a website (rather than, say, a downloadable pdf file) so that it can be regularly and easily be updated. It should also be a <em>single</em> document as many reviewers will not explore beyond one link.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[] The Introduction or Overview should compel an interested developer to read further. The purpose of the library - in not-too-technical terms - should be clear as daylight. What kind of task this library is the solution for should be well understood by reading the introduction completely, but no further. Remember that it is not experts, but developers struggling, who most often turn to documentation for help.</p>
+</li>
+<li>
+<p>[] Have a developer unfamiliar with the library read the introduction. If they struggle to understand it, revise accordingly.</p>
+</li>
+<li>
+<p>[] Include a sub-section on testimonials, if you have any that are noteworthy.</p>
+</li>
+<li>
+<p>[] Include information on how long the library has been stable, especially if it has been used for a significant period before the submission to Boost.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Divide the rest of the documentation into sections:</p>
+</div>
+<div class="sect2">
+<h3 id="_1_comprehensive_user_guide"><a class="anchor" href="#_1_comprehensive_user_guide"></a>1. Comprehensive User Guide</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>[] how to install the library - mentioning B2 and CMake as appropriate</p>
+</li>
+<li>
+<p>[] the dependencies</p>
+</li>
+<li>
+<p>[] the requirements - compilers, operating systems, hardware, etc.</p>
+</li>
+<li>
+<p>[] a "hello world" example</p>
+</li>
+<li>
+<p>[] architecture and rationale - include historical information and timelines if they impacted the design</p>
+</li>
+<li>
+<p>[] license</p>
+</li>
+<li>
+<p>[] references</p>
+</li>
+<li>
+<p>[] acknowledgements</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_examples_and_tutorials"><a class="anchor" href="#_2_examples_and_tutorials"></a>2. Examples and Tutorials</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>[] how to get started</p>
+</li>
+<li>
+<p>[] common use cases</p>
+</li>
+<li>
+<p>[] advanced use cases</p>
+</li>
+<li>
+<p>[] corner cases</p>
+</li>
+<li>
+<p>[] common patterns - for example, how to handle common errors</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_complete_reference_documentation"><a class="anchor" href="#_3_complete_reference_documentation"></a>3. Complete Reference Documentation</h3>
+<div class="paragraph">
+<p>Provide detailed descriptions of <em>all</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[] classes</p>
+</li>
+<li>
+<p>[] interfaces</p>
+</li>
+<li>
+<p>[] functions</p>
+</li>
+<li>
+<p>[] properties</p>
+</li>
+<li>
+<p>[] macros</p>
+</li>
+<li>
+<p>[] types</p>
+</li>
+<li>
+<p>[] constants</p>
+</li>
+<li>
+<p>[] error codes - ensure that error messages are clear and helpful for debugging</p>
+</li>
+<li>
+<p>[] exceptions</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It can be helpful to use tools like Doxygen or QuickBook.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_guidelines_for_contribution"><a class="anchor" href="#_4_guidelines_for_contribution"></a>4. Guidelines for Contribution</h3>
+<div class="paragraph">
+<p>Make it easy for others to understand the codebase and, in the course of time, enable them to contribute their own issues, proposals and code.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[] Provide links to the library source where appropriate.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_testing"><a class="anchor" href="#_testing"></a>Testing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ensure comprehensive test coverage for all functionalities.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[] Unit Tests - use <a href="https://www.boost.org/libs/test">Boost.Test</a> or another test framework.</p>
+</li>
+<li>
+<p>[] Edge Cases and Boundary Conditions - especially for algorithms and data structures.</p>
+</li>
+<li>
+<p>[] Cross-Platform Compatibility - verify that the library works on different platforms (Windows, Linux, macOS). Consider using CI tools like GitHub Actions or Travis CI to automate this process.</p>
+</li>
+<li>
+<p>[] Build Configurations - test with different compilers (GCC, Clang, MSVC) and optimization levels.</p>
+</li>
+<li>
+<p>[] Stress Tests - add stress tests (low memory, high CPU usage, etc.) to see how the library performs under heavy loads.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_efficiency_and_performance"><a class="anchor" href="#_efficiency_and_performance"></a>Efficiency and Performance</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As a minimum for validating your library performance, consider:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[] Including benchmarks to demonstrate the library&#8217;s performance. Compare against existing solutions if possible.</p>
+</li>
+<li>
+<p>[] Optimizing for memory usage and consider using <code>std::move</code> and <code>std::unique_ptr</code> where appropriate to minimize allocations.</p>
+</li>
+<li>
+<p>[] Avoiding unnecessary copies by using <code>const &amp;</code>, <code>std::move</code>, and <code>std::forward</code> properly to avoid unnecessary data copying.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boost_specific_requirements"><a class="anchor" href="#_boost_specific_requirements"></a>Boost-Specific Requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost library technical requirements are laid out in detail:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[] <a href="../contributor-guide/requirements/library-requirements.html" class="xref page">Library Requirements</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_usability_and_api_design"><a class="anchor" href="#_usability_and_api_design"></a>Usability and API Design</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For usability, verify that you have:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[] A Simple and Intuitive Interface - avoid unnecessarily complex APIs.</p>
+</li>
+<li>
+<p>[] A Consistent API -  consistent naming conventions, argument orders, and return types across the library.</p>
+</li>
+<li>
+<p>[] Clear Error Handling - clearly define and handle error cases. Use exceptions where appropriate and document expected exceptions.</p>
+</li>
+<li>
+<p>[] Template Type Deduction - ensure templates are designed to support type deduction and intuitive usage.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pre_review_feedback"><a class="anchor" href="#_pre_review_feedback"></a>Pre-Review Feedback</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before submitting for a formal review, have you:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[] Sought feedback from a smaller group of developers. Consider hosting the code on GitHub to get initial feedback from your community.</p>
+</li>
+<li>
+<p>[] Addressed all feedback from the pre-submission review.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_examples_of_successful_libraries"><a class="anchor" href="#_examples_of_successful_libraries"></a>Examples of Successful Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Consider a brief study of some existing popular Boost libraries and use them as benchmarks for quality and completeness. Recommended libraries for study include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[] <a href="https://www.boost.org/libs/asio">Boost.Asio</a></p>
+</li>
+<li>
+<p>[] <a href="https://www.boost.org/libs/json">Boost.Json</a></p>
+</li>
+<li>
+<p>[] <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a></p>
+</li>
+<li>
+<p>[] <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../contributor-guide/superproject/getting-started.html" class="xref page">Boost Super-Project</a></p>
+</li>
+<li>
+<p><a href="../contributor-guide/contributors-faq.html" class="xref page">Contributor Guide FAQ</a></p>
+</li>
+<li>
+<p><a href="../contributor-guide/design-guide/design-best-practices.html" class="xref page">Design Best Practices</a></p>
+</li>
+<li>
+<p><a href="../contributor-guide/requirements/library-requirements.html" class="xref page">Library Requirements</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/formal-reviews/modules/ROOT/pages/contributor-checklist.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="submissions.html">Submission Process</a></span>
+        <span class="next"><a href="managing-reviews.html">Managing Reviews</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

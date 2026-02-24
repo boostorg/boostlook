@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Text Processing :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-text-processing.html">
+    <link rel="prev" href="testing-debugging.html">
+    <link rel="next" href="advanced-introduction.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Common Scenarios</li>
+    <li><a href="task-text-processing.html">Text Processing</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="testing-debugging.html">
+      <span class="material-symbols-outlined" title="Previous: Testing and Debugging">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="advanced-introduction.html">
+      <span class="material-symbols-outlined" title="Next: Introduction">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Text Processing</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Developing a word processor, or other text based app, involves handling text, GUI (Graphical User Interface), file operations, and possibly networking for cloud features. Boost does not provide a library for creating a GUI. You may want to consider using a library like <a href="https://www.qt.io/product/development-tools">Qt</a> or <a href="https://wxwidgets.org/">wxWidgets</a> for the GUI part of your word processor.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_sample_of_regular_expression_parsing">Sample of Regular Expression Parsing</a></p>
+</li>
+<li>
+<p><a href="#_add_robust_date_and_time_parsing">Add Robust Date and Time Parsing</a></p>
+</li>
+<li>
+<p><a href="#_culturally_aware_date_formatting">Culturally Aware Date Formatting</a></p>
+</li>
+<li>
+<p><a href="#_local_time">Local Time</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here are some Boost libraries that might assist you in processing text:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/libs/regex">Boost.Regex</a>:  For some simpler parsing tasks, regular expressions can be sufficient and easier to use than full-blown parsing libraries. You could use these features to match specific patterns in your input text, like specific commands or phrases, word boundaries, etc.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/locale">Boost.Locale</a> : This library provides a way of handling and manipulating text in a culturally-aware manner. It provides localization and internationalization facilities, allowing your word processor to be used by people with different languages and locales.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> : This library is a parser framework that can parse complex data structures. If you&#8217;re creating a word processor, it could be useful to interpret different markup and file formats.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/date_time">Boost.DateTime</a> : If you need to timestamp changes or edits, or if you&#8217;re implementing any kind of version history feature, this library can help.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> : This library provides a way of manipulating files and directories. This would be critical in a word processor for opening, saving, and managing documents.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a> : If your word processor has network-related features, such as real-time collaboration or cloud-based storage, <a href="https://www.boost.org/libs/asio">Boost.Asio</a> provides a consistent asynchronous model for network programming.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> : This library provides a way of serializing and deserializing data, which could be useful for saving and loading documents in a specific format.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/xpressive">Boost.Xpressive</a> : Could be useful for implementing features like search and replace, spell-checking, and more.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/algorithm">Boost.Algorithm</a> : This library includes a variety of algorithms for string and sequence processing, which can be useful for handling text.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/multi_index">Boost.MultiIndex</a> : This library provides a way of maintaining a set of items sorted according to multiple keys, which could be useful for implementing features like an index or a sorted list of items.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/thread">Boost.Thread</a> : If your application is multithreaded (for example, if you want to save a document while the user continues to work), this library will be useful.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sample_of_regular_expression_parsing"><a class="anchor" href="#_sample_of_regular_expression_parsing"></a>Sample of Regular Expression Parsing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If the text you are parsing is well-formatted then you can use <a href="https://www.boost.org/libs/regex">Boost.Regex</a> which we will base our sample on here, rather than a full-blown parser implementation using <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a>.</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll write a program that scans a string for dates in the format "YYYY-MM-DD" and validates them. The code:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Finds dates in text</p>
+</li>
+<li>
+<p>Validates correct formats (for example, 2024-02-20 is valid, but 2024-15-45 is not)</p>
+</li>
+<li>
+<p>Handles multiple dates in a single input string</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/regex.hpp&gt;
+#include &lt;boost/algorithm/string.hpp&gt;
+
+// Function to check if a given date is valid (basic validation)
+bool is_valid_date(int year, int month, int day) {
+    if (month &lt; 1 || month &gt; 12 || day &lt; 1 || day &gt; 31) return false;
+    if ((month == 4 || month == 6 || month == 9 || month == 11) &amp;&amp; day &gt; 30) return false;
+    if (month == 2) {
+        bool leap = (year % 4 == 0 &amp;&amp; year % 100 != 0) || (year % 400 == 0);
+        if (day &gt; (leap ? 29 : 28)) return false;
+    }
+    return true;
+}
+
+// Function to find and validate dates in a text
+void find_dates(const std::string&amp; text) {
+
+    // Regex pattern: YYYY-MM-DD format
+    boost::regex date_pattern(R"((\d{4})-(\d{2})-(\d{2}))");
+    boost::smatch match;
+    std::string::const_iterator start = text.begin();
+    std::string::const_iterator end = text.end();
+
+    bool found = false;
+    while (boost::regex_search(start, end, match, date_pattern)) {
+        int year = std::stoi(match[1]);
+        int month = std::stoi(match[2]);
+        int day = std::stoi(match[3]);
+
+        if (is_valid_date(year, month, day)) {
+            std::cout &lt;&lt; "Valid date found: " &lt;&lt; match[0] &lt;&lt; "\n";
+        } else {
+            std::cout &lt;&lt; "Invalid date: " &lt;&lt; match[0] &lt;&lt; " (Incorrect month/day)\n";
+        }
+
+        start = match[0].second; // Move to next match
+        found = true;
+    }
+
+    if (!found) {
+        std::cout &lt;&lt; "No valid dates found in the input text.\n";
+    }
+}
+
+int main() {
+    std::string input;
+    std::cout &lt;&lt; "Enter a sentence containing dates (YYYY-MM-DD format):\n";
+    std::getline(std::cin, input);
+
+    find_dates(input);
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following shows a successful parse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter a sentence containing dates (YYYY-MM-DD format):
+Today is 2024-02-19, and tomorrow is 2024-02-20.
+Valid date found: 2024-02-19
+Valid date found: 2024-02-20</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the following shows several unsuccessful parses:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter a sentence containing dates (YYYY-MM-DD format):
+The deadline is 2024-02-30.
+Invalid date: 2024-02-30 (Incorrect month/day)
+
+Enter a sentence containing dates (YYYY-MM-DD format):
+There are no dates in this sentence.
+No valid dates found in the input text.</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_robust_date_and_time_parsing"><a class="anchor" href="#_add_robust_date_and_time_parsing"></a>Add Robust Date and Time Parsing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The clunky date validation in the sample above can be improved by integrating <a href="https://www.boost.org/libs/date_time">Boost.DateTime</a>, which provides functions for handling dates and times correctly.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/regex.hpp&gt;
+#include &lt;boost/date_time/gregorian/gregorian.hpp&gt;
+
+namespace greg = boost::gregorian;
+
+// Function to check if a date is valid using Boost.Date_Time
+bool is_valid_date(int year, int month, int day) {
+    try {
+        greg::date test_date(year, month, day);
+        return true;  // If no exception, it's valid
+    }
+    catch (const std::exception&amp; e) {
+        return false; // Invalid date
+    }
+}
+
+// Function to find and validate dates in a text
+void find_dates(const std::string&amp; text) {
+    boost::regex date_pattern(R"((\d{4})-(\d{2})-(\d{2}))");
+    boost::smatch match;
+    std::string::const_iterator start = text.begin();
+    std::string::const_iterator end = text.end();
+
+    bool found = false;
+    while (boost::regex_search(start, end, match, date_pattern)) {
+        int year = std::stoi(match[1]);
+        int month = std::stoi(match[2]);
+        int day = std::stoi(match[3]);
+
+        if (is_valid_date(year, month, day)) {
+            greg::date valid_date(year, month, day);
+            std::cout &lt;&lt; "Valid date found: " &lt;&lt; valid_date &lt;&lt; "\n";
+        }
+        else {
+            std::cout &lt;&lt; "Invalid date: " &lt;&lt; match[0] &lt;&lt; " (Does not exist)\n";
+        }
+
+        start = match[0].second; // Move to next match
+        found = true;
+    }
+
+    if (!found) {
+        std::cout &lt;&lt; "No valid dates found in the input text.\n";
+    }
+}
+
+int main() {
+    std::string input;
+    std::cout &lt;&lt; "Enter a sentence containing dates (YYYY-MM-DD format):\n";
+    std::getline(std::cin, input);
+
+    find_dates(input);
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code handles leap years correctly, and invalid dates throw an exception.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The following shows a successful parse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter a sentence containing dates (YYYY-MM-DD format):
+Today is 2024-02-29, and tomorrow is 2024-03-01.
+Valid date found: 2024-Feb-29
+Valid date found: 2024-Mar-01</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The "Valid date found" output now includes text for the month name.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>And the following shows several unsuccessful parses:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter a sentence containing dates (YYYY-MM-DD format):
+The deadline is 2024-02-30.
+Invalid date: 2024-02-30 (Does not exist)
+
+
+Enter a sentence containing dates (YYYY-MM-DD format):
+There are no dates in this sentence.
+No valid dates found in the input text.</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_culturally_aware_date_formatting"><a class="anchor" href="#_culturally_aware_date_formatting"></a>Culturally Aware Date Formatting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dates are not represented consistently across the globe. Let&#8217;s use <a href="https://www.boost.org/libs/locale">Boost.Locale</a> to format dates according to the user&#8217;s locale. For example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>US: March 15, 2024</p>
+</li>
+<li>
+<p>UK: 15 March, 2024</p>
+</li>
+<li>
+<p>France: 15 mars 2024</p>
+</li>
+<li>
+<p>Germany: 15. März 2024</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/regex.hpp&gt;
+#include &lt;boost/date_time/gregorian/gregorian.hpp&gt;
+#include &lt;boost/locale.hpp&gt;
+
+namespace greg = boost::gregorian;
+namespace loc = boost::locale;
+
+// Function to check if a date is valid using Boost.Date_Time
+bool is_valid_date(int year, int month, int day) {
+    try {
+        greg::date test_date(year, month, day);
+        return true;  // If no exception, it's valid
+    }
+    catch (const std::exception&amp;) {
+        return false; // Invalid date
+    }
+}
+
+// Function to format and display dates based on locale
+void display_localized_date(const greg::date&amp; date, const std::string&amp; locale_name) {
+    std::locale locale = loc::generator().generate(locale_name);
+    std::cout.imbue(locale);  // Apply locale to std::cout
+
+    std::cout &lt;&lt; locale_name &lt;&lt; " formatted date: "
+        &lt;&lt; loc::as::date &lt;&lt; date &lt;&lt; "\n";
+}
+
+// Function to find and validate dates in a text
+void find_dates(const std::string&amp; text, const std::string&amp; locale_name) {
+    boost::regex date_pattern(R"((\d{4})-(\d{2})-(\d{2}))");
+    boost::smatch match;
+    std::string::const_iterator start = text.begin();
+    std::string::const_iterator end = text.end();
+
+    bool found = false;
+    while (boost::regex_search(start, end, match, date_pattern)) {
+        int year = std::stoi(match[1]);
+        int month = std::stoi(match[2]);
+        int day = std::stoi(match[3]);
+
+        if (is_valid_date(year, month, day)) {
+            greg::date valid_date(year, month, day);
+            std::cout &lt;&lt; "Valid date found: " &lt;&lt; valid_date &lt;&lt; "\n";
+            display_localized_date(valid_date, locale_name);
+        }
+        else {
+            std::cout &lt;&lt; "Invalid date: " &lt;&lt; match[0] &lt;&lt; " (Does not exist)\n";
+        }
+
+        start = match[0].second; // Move to next match
+        found = true;
+    }
+
+    if (!found) {
+        std::cout &lt;&lt; "No valid dates found in the input text.\n";
+    }
+}
+
+int main() {
+    std::locale::global(loc::generator().generate("en_US.UTF-8")); // Default global locale
+    std::cout.imbue(std::locale());  // Apply to output stream
+
+    std::string input;
+    std::cout &lt;&lt; "Enter a sentence containing dates (YYYY-MM-DD format):\n";
+    std::getline(std::cin, input);
+
+    std::string user_locale;
+    std::cout &lt;&lt; "Enter your preferred locale (e.g., en_US.UTF-8, fr_FR.UTF-8, de_DE.UTF-8): ";
+    std::cin &gt;&gt; user_locale;
+
+    find_dates(input, user_locale);
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following shows successful parses:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter a sentence containing dates (YYYY-MM-DD format):
+The meeting is on 2024-03-15.
+Enter your preferred locale (e.g., en_US.UTF-8, fr_FR.UTF-8, de_DE.UTF-8): en_US.UTF-8
+Valid date found: 2024-Mar-15
+en_US.UTF-8 formatted date: March 15, 2024
+
+Enter a sentence containing dates (YYYY-MM-DD format):
+Rendez-vous le 2024-07-20.
+Enter your preferred locale (e.g., en_US.UTF-8, fr_FR.UTF-8, de_DE.UTF-8): fr_FR.UTF-8
+Valid date found: 2024-Jul-20
+fr_FR.UTF-8 formatted date: 20 juillet 2024</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the following shows an unsuccessful parse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter a sentence containing dates (YYYY-MM-DD format):
+The deadline is 2024-02-30.
+Enter your preferred locale (e.g., en_US.UTF-8, fr_FR.UTF-8, de_DE.UTF-8): en_US.UTF-8
+Invalid date: 2024-02-30 (Does not exist)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_local_time"><a class="anchor" href="#_local_time"></a>Local Time</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>On a similar global vein, when you install the <a href="https://www.boost.org/libs/date_time">Boost.DateTime</a> library (or all the Boost libraries), a file containing definitions of time zones across the world is available for your use at: <code>boost_&lt;version&gt;\\libs\\date_time\\data\\date_time_zonespec.csv</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following short sample shows how to use the contents of the file. Enter a city and timezone in the IANA format (such as: 'Europe/Berlin' or 'Asia/Tokyo'), and the current date and time will be output.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/date_time/local_time/local_time.hpp&gt;
+
+namespace pt = boost::posix_time;
+namespace lt = boost::local_time;
+
+int main() {
+    try {
+
+        //---------------------------------------------
+        // Load the Boost tz_database from CSV
+        //---------------------------------------------
+        lt::tz_database tz_db;
+        tz_db.load_from_file("&lt;YOUR PATH&gt;\\date_time_zonespec.csv"); // Adjust the path to your Boost installation
+
+        // Extract all valid timezone names
+        std::vector&lt;std::string&gt; valid_timezones;
+        for (const auto&amp; tz_name : tz_db.region_list()) {
+            valid_timezones.push_back(tz_name);
+        }
+
+        std::string city;
+        while (true) {
+            std::cout &lt;&lt; "\nEnter 'city/timezone' (or 'exit' to quit, or 'zones' for list of options): ";
+            std::getline(std::cin, city);
+            if (city == "exit") break;
+
+            if (city == "zones")
+            {
+                std::cout &lt;&lt; "Available timezones:\n";
+                for (const auto&amp; tz : valid_timezones) {
+                    std::cout &lt;&lt; tz &lt;&lt; "\n";
+                }
+
+            }
+            else
+            {
+
+                // Find the timezone (case-sensitive, must match CSV)
+                lt::time_zone_ptr tz = tz_db.time_zone_from_region(city);
+                if (!tz) {
+                    std::cout &lt;&lt; "Invalid timezone! Try again.\n";
+                    continue;
+                }
+
+                // Get current UTC time
+                pt::ptime utc_now = pt::second_clock::universal_time();
+
+                // Convert UTC to local time in the chosen timezone
+                lt::local_date_time local_now(utc_now, tz);
+
+                // Get user's local machine time
+                pt::ptime user_now = pt::second_clock::local_time();
+
+                std::cout &lt;&lt; "\nYour local system time:   " &lt;&lt; user_now &lt;&lt; "\n";
+
+                std::cout &lt;&lt; "Current local time in " &lt;&lt; city &lt;&lt; ": " &lt;&lt; local_now &lt;&lt; "\n";
+            }
+        }
+    }
+    catch (const std::exception&amp; e) {
+        std::cerr &lt;&lt; "Fatal error: " &lt;&lt; e.what() &lt;&lt; "\n";
+        return 1;
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the program and test out a few options:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter 'city/timezone' (or 'exit' to quit, or 'zones' for list of options): America/New_York
+
+Your local system time:   2025-Sep-03 16:38:02
+Current local time in America/New_York: 2025-Sep-03 19:38:02 EDT
+
+Enter 'city/timezone' (or 'exit' to quit, or 'zones' for list of options): Antarctica/South_Pole
+
+Your local system time:   2025-Sep-03 16:38:20
+Current local time in Antarctica/South_Pole: 2025-Sep-04 11:38:20 NZST
+
+Enter 'city/timezone' (or 'exit' to quit, or 'zones' for list of options): zones
+Available timezones:
+Africa/Abidjan
+Africa/Accra
+Africa/Addis_Ababa
+Africa/Algiers
+Africa/Asmara
+Africa/Asmera
+Africa/Bamako
+Africa/Bangui
+Africa/Banjul
+Africa/Bissau
+Africa/Blantyre
+Africa/Brazzaville
+Africa/Bujumbura
+Africa/Cairo
+Africa/Casablanca
+Africa/Ceuta
+Africa/Conakry
+....</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If more complex input is required, consider the <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> approach to parsing, refer to <a href="task-natural-language-parsing.html" class="xref page">Natural Language Processing</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Miscellaneous">Category: Miscellaneous</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Parsing">Category: Parsing</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#String">Category: String and text processing</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-text-processing.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="testing-debugging.html">Testing and Debugging</a></span>
+        <span class="next"><a href="advanced-introduction.html">Introduction</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

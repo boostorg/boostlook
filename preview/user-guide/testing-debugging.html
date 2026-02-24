@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Testing and Debugging :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/testing-debugging.html">
+    <link rel="prev" href="task-system.html">
+    <link rel="next" href="task-text-processing.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Common Scenarios</li>
+    <li><a href="testing-debugging.html">Testing and Debugging</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="task-system.html">
+      <span class="material-symbols-outlined" title="Previous: System">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-text-processing.html">
+      <span class="material-symbols-outlined" title="Next: Text Processing">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Testing and Debugging</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Debugging code that uses Boost libraries follows the same general principles as debugging any other C++ code, but with the added assistance of test and logging specific libraries, and integration of these libraries into popular tools.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_debugging_strategies">Debugging Strategies</a></p>
+</li>
+<li>
+<p><a href="#_other_libraries">Other Libraries</a></p>
+</li>
+<li>
+<p><a href="#_using_boost_log">Using Boost.Log</a></p>
+</li>
+<li>
+<p><a href="#_using_boost_test">Using Boost.Test</a></p>
+</li>
+<li>
+<p><a href="#_boost_test_tutorial">Boost.Test Tutorial</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_debugging_strategies"><a class="anchor" href="#_debugging_strategies"></a>Debugging Strategies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here are some strategies to consider:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Understanding the Library: Familiarize yourself with the specific Boost libraries that you&#8217;re using. Boost is a large and diverse collection of libraries, and each library may have unique behaviors, requirements, or quirks. Understanding the libraries you&#8217;re using will help you spot issues more easily.</p>
+</li>
+<li>
+<p>Read the <a href="https://www.boost.org/doc/libs">Boost Library Documentation</a>: Boost has extensive and well-maintained documentation. If you&#8217;re having trouble with a specific library or function, start by looking up its documentation.</p>
+</li>
+<li>
+<p>Use a Debugger: Tools like <strong>gdb</strong> or <strong>lldb</strong> on Unix-like systems, or the <strong>Visual Studio</strong> debugger on Windows, can be incredibly useful. You can step through your code line by line, inspect variables at any point, and generally see exactly what your code is doing.</p>
+</li>
+<li>
+<p>Compile Warnings and Errors: Boost code will often make extensive use of templates, and errors in template code can sometimes result in complex and confusing compiler error messages. When confronted with such a message, don&#8217;t panic. Start at the top and try to decipher what the compiler is telling you. Often, the first few lines of the error message will contain the key to understanding the problem.</p>
+</li>
+<li>
+<p>Unit Testing: Boost provides a testing framework, <a href="https://www.boost.org/libs/test">Boost.Test</a>, which you can use to write unit tests for your code. Writing tests can help you catch errors and regressions, and it can also help you understand your code better. <a href="https://www.boost.org/libs/test">Boost.Test</a> is integrated and available when using Microsoft Visual Studio. Refer to the <a href="#_using_boost_test">Using Boost.Test</a> section below.</p>
+</li>
+<li>
+<p>Logging and Debug Output: Sometimes, it can be useful to have your program output diagnostic information while it&#8217;s running. You can use <code>std::cerr</code>, <code>std::clog</code>, or a logging library to output information about your program&#8217;s state at key points.</p>
+</li>
+<li>
+<p>Code Review: If you&#8217;re still stuck, consider asking a fellow developer to review your code. Sometimes, a fresh pair of eyes can spot issues that you might have missed.</p>
+</li>
+<li>
+<p>Online Communities: If you&#8217;re still stuck after trying the above steps, you can ask for help online. The <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers community</a> is large and generally very helpful. There are forums, mailing lists, and <a href="https://stackoverflow.com/">Stack Overflow</a> where you can ask for help.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Remember, debugging is a skill that gets better with practice. The more you work with the Boost libraries, the more you&#8217;ll learn about their idiosyncrasies and the better you&#8217;ll become at debugging issues with them.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_other_libraries"><a class="anchor" href="#_other_libraries"></a>Other Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Other libraries that might help you with testing and debugging include:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/libs/stacktrace">Boost.Stacktrace</a>: Stacktrace can be used to capture, store, and print sequences of function calls and their arguments. This can be a lifesaver when you need to debug complex code or post-mortem crashes.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/exception">Boost.Exception</a>: This library enhances the error handling capabilities of C++. It enables attaching arbitrary data to exceptions, transporting of exceptions between threads, and more, thereby providing richer error information during debugging.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/static_assert">Boost.StaticAssert</a>: Provides two macros, <code>BOOST_STATIC_ASSERT</code> and <code>BOOST_STATIC_ASSERT_MSG</code>, which can be used to perform assertions that are checked at compile time rather than at run time. These can be used to catch programming errors as early as possible.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/bind">Boost.Bind</a> and <a href="https://www.boost.org/libs/lambda">Boost.Lambda</a>: These libraries allow for the creation of small, unnamed function objects at the point where they are used. These can be useful in writing concise tests.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>: A MetaProgramming Library, though not exclusively for testing or debugging, this library can be helpful in writing compile-time tests.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_boost_log"><a class="anchor" href="#_using_boost_log"></a>Using Boost.Log</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Logging can be a helpful part of debugging, so consider using <a href="https://www.boost.org/libs/log">Boost.Log</a>, as it provides a flexible and customizable logging system. It allows you to log messages from different parts of your application to various targets (e.g., console, file, etc.) and with different severity levels or categories.</p>
+</div>
+<div class="paragraph">
+<p>Here is a simple example of how you might use Log:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-C++ hljs" data-lang="C++">#include &lt;boost/log/trivial.hpp&gt;
+
+int main(int, char*[])
+{
+    BOOST_LOG_TRIVIAL(trace) &lt;&lt; "A trace severity message";
+    BOOST_LOG_TRIVIAL(debug) &lt;&lt; "A debug severity message";
+    BOOST_LOG_TRIVIAL(info) &lt;&lt; "An informational severity message";
+    BOOST_LOG_TRIVIAL(warning) &lt;&lt; "A warning severity message";
+    BOOST_LOG_TRIVIAL(error) &lt;&lt; "An error severity message";
+    BOOST_LOG_TRIVIAL(fatal) &lt;&lt; "A fatal severity message";
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Consider creating a Console app, and running the code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">[2025-07-22 20:24:58.955105] [0x0000094c] [trace]   A trace severity message
+[2025-07-22 20:24:58.970721] [0x0000094c] [debug]   A debug severity message
+[2025-07-22 20:24:58.970721] [0x0000094c] [info]    An informational severity message
+[2025-07-22 20:24:58.970721] [0x0000094c] [warning] A warning severity message
+[2025-07-22 20:24:58.970721] [0x0000094c] [error]   An error severity message
+[2025-07-22 20:24:58.970721] [0x0000094c] [fatal]   A fatal severity message</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>BOOST_LOG_TRIVIAL</code> is a macro that logs a message with a specified severity level.</p>
+</div>
+<div class="paragraph">
+<p>Severity levels are provided for log messages that you can use to indicate the importance or urgency of different logs. In basic usage, these severity levels are represented by an enumeration type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-C++ hljs" data-lang="C++">namespace trivial = boost::log::trivial;
+enum severity_level
+{
+    trace,
+    debug,
+    info,
+    warning,
+    error,
+    fatal
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each of these levels can be used to log messages of different importance:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>trace</code>: Very detailed logs, typically used for debugging complex issues.</p>
+</li>
+<li>
+<p><code>debug</code>: Detailed logs useful for development and debugging.</p>
+</li>
+<li>
+<p><code>info</code>: Information about the normal operation of the program.</p>
+</li>
+<li>
+<p><code>warning</code>: Indications of potential problems that are not immediate errors.</p>
+</li>
+<li>
+<p><code>error</code>: Error conditions that may still allow the program to continue running.</p>
+</li>
+<li>
+<p><code>fatal</code>: Severe errors that may prevent the program from continuing to run.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You can customize these levels to fit your app, and you can also filter logs based on their severity level. For example, in a production environment, you might ignore <code>trace</code> and <code>debug</code> logs and only record <code>info</code>, <code>warning</code>, <code>error</code>, and <code>fatal</code> logs.</p>
+</div>
+<div class="paragraph">
+<p>Careful logging of events, not too much information and not to little, will tell a story:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/logging-trace-to-fatal.png" alt="logging trace to fatal">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_boost_test"><a class="anchor" href="#_using_boost_test"></a>Using Boost.Test</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/test">Boost.Test</a> is a robust, powerful library designed to facilitate writing unit tests in C++. It provides a framework for creating, managing, and running tests, enabling developers to ensure that their code functions as expected.</p>
+</div>
+<div class="paragraph">
+<p>To start using the Test library, include its header in your test file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-C++ hljs" data-lang="C++">#define BOOST_TEST_MODULE MyTest
+#include &lt;boost/test/unit_test.hpp&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>BOOST_TEST_MODULE</code> macro creates a main function for your test executable, meaning you don&#8217;t need to write one yourself.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/test">Boost.Test</a> uses <em>test cases</em> for testing. A test case is a function that performs the test. You can define one using the <code>BOOST_AUTO_TEST_CASE(&lt;test_case_name&gt;)</code> macro. The macro parameter becomes the test case&#8217;s name. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-C++ hljs" data-lang="C++">BOOST_AUTO_TEST_CASE(MyTestCase) {
+    BOOST_TEST(true); // A simple test that always passes
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result we all want:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">*** No errors detected</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, <code>MyTestCase</code> is a simple test case. The <code>BOOST_TEST</code> macro checks its argument and, if it&#8217;s false, reports an error.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/test">Boost.Test</a> provides a set of macros for different assertions:</p>
+</div>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p><code>BOOST_TEST</code> for basic testing.</p>
+</li>
+<li>
+<p><code>BOOST_CHECK</code> for non-critical conditions where the test continues even if the check fails.</p>
+</li>
+<li>
+<p><code>BOOST_REQUIRE</code> for critical conditions where the test is aborted if the condition fails.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The suite feature is another strength. It allows you to group test cases, making your tests more organized and manageable. To create a suite, you can use the <code>BOOST_AUTO_TEST_SUITE(suite_name)</code> macro:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-C++ hljs" data-lang="C++">BOOST_AUTO_TEST_SUITE(MyTestSuite)
+
+BOOST_AUTO_TEST_CASE(TestCase1) {
+    // Test code here
+}
+
+BOOST_AUTO_TEST_CASE(TestCase2) {
+    // Test code here
+}
+
+BOOST_AUTO_TEST_SUITE_END()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this snippet, <code>MyTestSuite</code> is a test suite that contains <code>TestCase1</code> and <code>TestCase2</code>.</p>
+</div>
+<div class="paragraph">
+<p>Another powerful feature is the fixture. Fixtures are useful when you want to perform setup and teardown operations for your tests. You can create a fixture class and use <code>BOOST_FIXTURE_TEST_CASE</code> to apply it to a test case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-C++ hljs" data-lang="C++">struct MyFixture {
+    MyFixture() {
+        // Setup code here
+    }
+
+    ~MyFixture() {
+        // Teardown code here
+    }
+};
+
+BOOST_FIXTURE_TEST_CASE(TestCaseWithFixture, MyFixture) {
+    // Test code here
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, <code>MyFixture</code> is a fixture class. Its constructor and destructor are called before and after <code>TestCaseWithFixture</code>, respectively.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/test">Boost.Test</a> also supports parameterized and data-driven tests, exception handling, and custom log formatting.</p>
+</div>
+<div class="paragraph">
+<p>To compile and run your tests, use your preferred C++ compiler to compile the test source file and the Test library. Then, run the resulting executable to execute your tests.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boost_test_tutorial"><a class="anchor" href="#_boost_test_tutorial"></a>Boost.Test Tutorial</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This topic is a step-by-step tutorial on how to get going with the <a href="https://www.boost.org/libs/test">Boost.Test</a> library. This is a very substantial library with lots of functions and documentation. It is valuable to understand the concept of adding tests to a simple program, before venturing further.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s get started with a trivial example.</p>
+</div>
+<div class="sect2">
+<h3 id="_trivial_example"><a class="anchor" href="#_trivial_example"></a>Trivial Example</h3>
+<div class="paragraph">
+<p>Here&#8217;s a simple example of a test suite with Boost.Test:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Windows, perhaps use Visual Studio to create a C++ Console application. If not using Windows or Visual Studio, create a Console app, and add the paths to the Boost <code>include</code> and <code>lib</code> folders appropriately.</p>
+<div class="paragraph">
+<p>If using Visual Studio, in the project <strong>Properties</strong> for <strong>C++/General</strong>, locate <strong>Additional Include Directories</strong> and add the path to your Boost libraries. The path will be something like <code>C:\Users\&lt;your path&gt;\boost_1_88_0</code>. Then, still in <strong>Properties</strong>, but now for <strong>Linker/General</strong> add to the <strong>Additional Library Directories</strong> with the path to your Boost lib folder. This path will be something like <code>C:\Users\&lt;your path&gt;\lib</code>.</p>
+</div>
+</li>
+<li>
+<p>Replace any boilerplate code with:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE MyTestSuite
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+BOOST_AUTO_TEST_CASE(MyTestCase)
+{
+    BOOST_CHECK(1 + 1 == 2);
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>There is no need for a <code>main</code> function</strong>, as it is automatically generated by <code>#include &lt;boost/test/included/unit_test.hpp&gt;</code> when <code>BOOST_TEST_MODULE</code> is defined.</p>
+</li>
+<li>
+<p>Run the program. You should get:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Running 1 test case...
+
+*** No errors detected</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Change the code to:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">BOOST_AUTO_TEST_CASE(MyTestCase)
+{
+    BOOST_CHECK(1 + 1 == 3);
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the program. Do you now get a red error message:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Running 1 test case...
+... error: in "MyTestCase": check 1 + 1 == 3 has failed
+
+*** 1 failure is detected in the test module "MyTestSuite"</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This trivial example shows the two kinds of messages we might get. Now let&#8217;s move onto something with a bit more substance.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_string_reversal_example"><a class="anchor" href="#_string_reversal_example"></a>String Reversal Example</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a Console app as you did in the previous example, or simply reuse the project already created.</p>
+</li>
+<li>
+<p>Replace any boilerplate or leftover code in the .cpp file with:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+
+std::string revString(std::string str)
+{
+    int n = (int) str.length();
+
+    for (int i = 0; i &lt; n / 2; i++) {
+        std::swap(str[i], str[n - i - 1]);
+    }
+    return str;
+}
+
+int main(int argc, char* argv[])
+{
+    std::cout &lt;&lt; revString("Reverse String Function") + "\n";
+    std::cout &lt;&lt; revString("Even") + "\n";
+    std::cout &lt;&lt; revString("Odd") + "\n";
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the program, and ensure you get the three strings reversed appearing in a Console window:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rev-string-test.png" alt="rev string test">
+</div>
+</div>
+</li>
+<li>
+<p>Good, now let&#8217;s see how you would add Boost.Test functions to this.</p>
+</li>
+<li>
+<p>Comment out your <code>main</code> function, as it will be replaced with the Boost.Test <code>main</code> function, whilst the tests are running. It is wise not to delete your <code>main</code> function, as you will need it back when the testing is complete.</p>
+</li>
+<li>
+<p>Your .cpp file should now look like this:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE mytests
+#include &lt;boost/test/included/unit_test.hpp&gt;
+#include &lt;iostream&gt;
+
+std::string revString(std::string str)
+{
+    int n = (int)str.length();
+
+    for (int i = 0; i &lt; n / 2; i++) {
+        std::swap(str[i], str[n - i - 1]);
+    }
+    return str;
+}
+
+/*
+int main(int argc, char* argv[])
+{
+    std::cout &lt;&lt; revString("Reverse String Function") + "\n";
+    std::cout &lt;&lt; revString("Even") + "\n";
+    std::cout &lt;&lt; revString("Odd") + "\n";
+}
+*/
+
+BOOST_AUTO_TEST_CASE(check_revString) {
+    BOOST_TEST(revString("abcd") == "dcba");
+    BOOST_TEST(revString("12345") == "54321");
+    BOOST_TEST(revString("Even") == "nevE");
+
+    // Add a failure case
+    BOOST_TEST(revString("Odd") == "DDO");
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the program. Do you get one error: <code>check revString("Odd") == "DDO" has failed</code>?</p>
+</li>
+<li>
+<p>Correct the error by changing "DDO" to "ddO" in your code.</p>
+</li>
+<li>
+<p>Run the program again. Do you now get <code>*** No errors detected</code>? If so great, the tests have worked.</p>
+</li>
+<li>
+<p>Perhaps add test cases to the <code>BOOST_AUTO_TEST_CASE</code> function, to check the case of an empty string, and for a single character string:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">    BOOST_TEST(revString("a") == "a");
+    BOOST_TEST(revString("") == "");</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add and test any other strings that come to mind.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can imagine now how you can add unit tests to your existing projects, checking the correct working of many of your functions.</p>
+</div>
+<div class="paragraph">
+<p>And check out the full functionality of <a href="https://www.boost.org/libs/test">Boost.Test</a> and <a href="https://www.boost.org/libs/log">Boost.Log</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Workarounds">Category: Broken compiler workarounds</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Correctness">Category: Correctness and testing</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Error-handling">Category: Error handling and recovery</a></p>
+</li>
+<li>
+<p><a href="diagnostics.html" class="xref page">Introduction to Boost Diagnostics</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/testing-debugging.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="task-system.html">System</a></span>
+        <span class="next"><a href="task-text-processing.html">Text Processing</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

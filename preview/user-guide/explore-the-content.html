@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Explore the Content :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/explore-the-content.html">
+    <link rel="prev" href="getting-started.html">
+    <link rel="next" href="faq.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="explore-the-content.html">Explore the Content</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="getting-started.html">
+      <span class="material-symbols-outlined" title="Previous: Getting Started">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="faq.html">
+      <span class="material-symbols-outlined" title="Next: FAQ">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Explore the Content</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are a number of ways you can approach exploring Boost. Clearly, examining the documentation for any of the <a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm">Boost libraries</a> is a great way to start. However, with 180 or so libraries to choose from, you might want to consider a range of options to get going. This section covers a number of approaches you have to focus your exploration of the libraries, and get deeper into Boost content.</p>
+</div>
+<div class="paragraph">
+<p>If knowing what others have done before you helps, refer to <a href="#_high_profile_users_of_boost">High-Profile users of Boost</a>.</p>
+</div>
+<div class="paragraph">
+<p>If you are already using, or considering, the Standard Template Library then refer to <a href="#_boost_vs_the_standard_library">Boost vs the Standard Library</a> to get some idea of which to use when similar ones are available in both sets of libraries.</p>
+</div>
+<div class="paragraph">
+<p>If any of the libraries does pique your interest, consider examining and running working <a href="#_examples">Examples</a>.</p>
+</div>
+<div class="paragraph">
+<p>There are mailing lists you might want to join too, to ask questions and join in the discussion, such as the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost-users">Boost Users mailing list</a>, or project-specific lists accessible from the <a href="https://www.boost.org/community/groups.html">Boost Mailing Lists</a> site.</p>
+</div>
+<div class="paragraph">
+<p>To delve into content for a specific scenario, refer to the <strong>Common Scenarios</strong> topics, such as:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="task-networking.html" class="xref page">Networking</a></p>
+</li>
+<li>
+<p><a href="task-simulation.html" class="xref page">Real-Time Simulation</a></p>
+</li>
+<li>
+<p><a href="testing-debugging.html" class="xref page">Testing and Debugging</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>And, to the <strong>Advanced Scenarios</strong> topics such as:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="task-database.html" class="xref page">High-Performance Database Engine</a></p>
+</li>
+<li>
+<p><a href="task-machine-learning.html" class="xref page">Machine Learning</a></p>
+</li>
+<li>
+<p><a href="task-parallel-computation.html" class="xref page">Parallel Computation</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_high_profile_users_of_boost"><a class="anchor" href="#_high_profile_users_of_boost"></a>High-Profile users of Boost</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Some well known libraries and applications have used the building blocks that Boost provides. These include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://engineering.fb.com/2012/06/02/developer-tools/folly-the-facebook-open-source-library/"><strong>Folly</strong></a>, the Facebook Open Source Library, is an open-source library developed by Facebook that is intended to augment the Standard Library and Boost by providing additional features and optimizations, often with a focus on high-performance systems. It is a collection of relatively small and standalone libraries, and its features can be used on an as-needed basis.</p>
+<div class="paragraph">
+<p>Some of these features include string formatting libraries, hash maps, dynamic types, and concurrency utilities. Folly makes extensive use of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/context">Boost.Context</a> for creating and manipulating execution contexts, which are used in Folly&#8217;s implementation of coroutines</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/intrusive">Boost.Intrusive</a> which provides containers that allow for the insertion and removal of elements in constant time</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/optional">Boost.Optional</a>  which provides a way to represent optional, or nullable, objects of a given type</p>
+<div class="paragraph">
+<p>Additionally, many parts of Folly are designed to interact seamlessly with Boost and the Standard Library, making it easy to integrate Folly into existing codebases that use these libraries. Folly serves as an example of how Boost libraries can be used in the development of large-scale, high-performance systems.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The <a href="https://bitcoin.org/en/bitcoin-core/"><strong>Bitcoin Core</strong></a> client, which is the reference implementation of the Bitcoin protocol, makes extensive use of the Boost libraries. For example, it uses <a href="https://www.boost.org/libs/asio">Boost.Asio</a> for network programming, <a href="https://www.boost.org/libs/thread">Boost.Thread</a> for multithreading, and <a href="https://www.boost.org/libs/test">Boost.Test</a> for unit tests.</p>
+</li>
+<li>
+<p><a href="https://www.mongodb.com/"><strong>MongoDB</strong></a>, a popular open-source document database, leverages libraries such as <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> for filesystem interactions, <a href="https://www.boost.org/libs/thread">Boost.Thread</a> for threading, and <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> for smart pointers.</p>
+</li>
+<li>
+<p>The <a href="https://llvm.org/"><strong>Low Level Virtual Machine</strong></a> (LLVM) project, which is a collection of modular and reusable compiler and toolchain technologies, utilizes Boost in parts of its code base. For instance, it uses <a href="https://www.boost.org/libs/mpl">Boost.Mpl</a> for its metaprogramming functionality.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://www.boost.org/libs/mpl">Boost.Mpl</a> has now been superseded by <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Microsoft has integrated <a href="https://www.boost.org/libs/test">Boost.Test</a> into <a href="https://visualstudio.microsoft.com/"><strong>Visual Studio</strong></a>, in particular to enable unit testing.</p>
+</li>
+<li>
+<p>Adobe also uses Boost in several of their software products. For instance, <a href="https://stlab.adobe.com/"><strong>Adobe Source Libraries</strong></a> (ASL) includes and builds upon <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a>, <a href="https://www.boost.org/libs/mpl">Boost.Mpl</a>, <a href="https://www.boost.org/libs/lambda">Boost.Lambda</a>.</p>
+</li>
+<li>
+<p>The <a href="https://www.ros.org/"><strong>Robot Operating System</strong></a> (ROS), a flexible framework for robotics software development, uses Boost in several areas, for instance, <a href="https://www.boost.org/libs/python">Boost.Python</a> to provide Python bindings, and <a href="https://www.boost.org/libs/signals2">Boost.Signals2</a> for inter-process communication.</p>
+</li>
+<li>
+<p><a href="https://reactnative.dev/"><strong>React Native</strong></a> is a popular JavaScript framework for building mobile application. Boost libraries are used extensively within JavaScriptCore (used to execute JavaScript within the app), and are a key part of the infrastructure that allows React Native to bridge between JavaScript and native code. The libraries used include <a href="https://www.boost.org/libs/optional">Boost.Optional</a>, <a href="https://www.boost.org/libs/intrusive">Boost.Intrusive</a>, and <a href="https://www.boost.org/libs/multi_index">Boost.MultiIndex</a>.</p>
+</li>
+<li>
+<p><a href="https://www.mysql.com/"><strong>MySQL</strong></a> one of the most popular open-source relational database management systems, uses Boost libraries in its build process. It mainly uses the Boost header files, particularly those required for geometry processing operations, such as <a href="https://www.boost.org/libs/geometry">Boost.Geometry</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boost_vs_the_standard_library"><a class="anchor" href="#_boost_vs_the_standard_library"></a>Boost vs the Standard Library</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are several Boost libraries that have a Standard Template Library (STL) equivalent but offer more features, better performance, or additional functionality that can make them more compelling in certain situations. When comparing libraries which have similar features, also consider compilation time, binary size, code readability, and the portability of your code.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/any">Boost.Any</a> is similar to <code>std::any</code>, introduced in C++17. However, if you&#8217;re working with a codebase that needs to be compatible with pre-C++17 standards, then <a href="https://www.boost.org/libs/any">Boost.Any</a> can be a lifesaver.</p>
+</li>
+<li>
+<p>Similar to the situation with <a href="https://www.boost.org/libs/any">Boost.Any</a>, <a href="https://www.boost.org/libs/optional">Boost.Optional</a> provides functionality similar to <code>std::optional</code>, introduced in C++17, but works with earlier standards.</p>
+</li>
+<li>
+<p>While C++11 introduced smart pointers into the standard library (with <code>std::unique_ptr</code> and <code>std::shared_ptr</code>), <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> offers some additional features. These features include the use of <code>intrusive_ptr</code> which allows for the customization of the reference-counting mechanism.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/container">Boost.Container</a> offers some advanced containers like <code>flat_map</code>, <code>small_vector</code>, <code>static_vector</code>, and <code>stable_vector</code> that are not available in STL <code>std::containers</code>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/random">Boost.Random</a> has more extensive features than <code>std::random</code>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/algorithm">Boost.Algorithm</a> provides some algorithms that are not available in STL <code>std::algorithms</code>, such as <code>boost::algorithm::all_of_equal</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Many Boost libraries, but not all, have an <code>example</code> folder that contains runnable source code projects for the library. To locate the examples, first navigate to the <a href="https://github.com/boostorg/boost/tree/master/libs">Super-project</a> containing all the libraries, then select the library that interests you, then its' <code>example</code> folder, if one exists.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/boostorg/algorithm/tree/28dd87b90e79c5e1d9de82835125aa2bcbb3f468/example">algorithm library</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/asio/tree/f5ca167d300a3a18853c29314b03ae0ce91c737a/example">asio library</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/geometry/tree/2ec9d65d1294edb97157b564726fdf56b6ac562f/example">geometry library</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://pdimov.github.io/boostdep-report/">Boost Dependency Report</a></p>
+</li>
+<li>
+<p><a href="faq.html" class="xref page">Frequently Asked Questions</a></p>
+</li>
+<li>
+<p><a href="resources.html" class="xref page">Resources</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/explore-the-content.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="getting-started.html">Getting Started</a></span>
+        <span class="next"><a href="faq.html">FAQ</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

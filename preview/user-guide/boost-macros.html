@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Boost Macros :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/boost-macros.html">
+    <link rel="prev" href="task-bio-tech-engineering.html">
+    <link rel="next" href="generic-programming.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Development</li>
+    <li><a href="boost-macros.html">Macros</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="task-bio-tech-engineering.html">
+      <span class="material-symbols-outlined" title="Previous: Bio-Tech Engineering">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="generic-programming.html">
+      <span class="material-symbols-outlined" title="Next: Generic Programming">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Boost Macros</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost provides many useful macros that help with configuration, debugging, portability, and convenience when working with the libraries.</p>
+</div>
+<div class="paragraph">
+<p>There are thousands of defined macros (refer to the <a href="https://www.boost.org/doc/libs/latest/libs/config/doc/html/boost_config/boost_macro_reference.html">Boost Macro Reference</a>). However, here are some of the most commonly used, and some sample code showing how to work them into your code.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_library_inclusion_and_linking">Library Inclusion and Linking</a></p>
+</li>
+<li>
+<p><a href="#_configuration_and_compiler_detection">Configuration and Compiler Detection</a></p>
+</li>
+<li>
+<p><a href="#_debugging_and_assertions">Debugging and Assertions</a></p>
+</li>
+<li>
+<p><a href="#_preprocessor_utilities">Preprocessor Utilities</a></p>
+</li>
+<li>
+<p><a href="#_cross_platform_compatibility">Cross-Platform Compatibility</a></p>
+</li>
+<li>
+<p><a href="#_threading_and_synchronization">Threading and Synchronization</a></p>
+</li>
+<li>
+<p><a href="#_exception_handling">Exception Handling</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_library_inclusion_and_linking"><a class="anchor" href="#_library_inclusion_and_linking"></a>Library Inclusion and Linking</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Macro</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_ALL_NO_LIB</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disables automatic linking for all Boost libraries.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_LIB_DIAGNOSTIC</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables diagnostic output for automatic linking.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_INCLUDE_LIBRARIES</code>(libs&#8230;&#8203;)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to specify which libraries should be included when using <a href="https://www.bfgroup.xyz/b2/">B2</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_ALL_DYN_LINK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Forces all Boost libraries to be linked dynamically.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_example"><a class="anchor" href="#_example"></a>Example</h3>
+<div class="paragraph">
+<p>The <code>BOOST_ALL_NO_LIB</code> macro prevents automatic linking of Boost libraries.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_ALL_NO_LIB  // Disable auto-linking
+
+#include &lt;boost/filesystem.hpp&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; "Boost Filesystem is included, but auto-linking is disabled.\n";
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration_and_compiler_detection"><a class="anchor" href="#_configuration_and_compiler_detection"></a>Configuration and Compiler Detection</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Macro</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_VERSION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defines the Boost version as an integer (for example, 107800 for Boost 1.78.0).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_PLATFORM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifies the platform (for example, Windows, Linux).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_COMPILER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifies the compiler in use (for example, gcc, msvc).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_STDLIB</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifies the standard library (for example, libstdc++, msvc).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_SP_USE_QUICK_ALLOCATOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optimizes memory allocation for <code>shared_ptr</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_NO_CXX11_SMART_PTR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defined if C++11 <code>std::shared_ptr</code> and <code>std::unique_ptr</code> are not available, so Boost&#8217;s smart pointers are used as a fallback.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_STATIC_CONSTANT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defines compile-time constants in a way that is compatible with older C++ versions, so ensures compatibility with pre-C++11 compilers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_FILESYSTEM_VERSION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defines the version of the <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> library being used, to ensure compatibility between different versions of that library.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_NO_CXX11_LAMBDAS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defined if C++11 lambda expressions are not available, so allows for providing alternative function objects for compatibility.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_FILESYSTEM_NO_DEPRECATED</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disables deprecated features in <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h3>
+<div class="paragraph">
+<p>The <code>BOOST_STDLIB</code> macro is part of <a href="https://www.boost.org/libs/config">Boost.Config</a> and identifies the standard library implementation being used (for example, GNU libstdc++, Microsoft STL, or libc++). This is useful when writing code that needs to adapt to different standard library behaviors. <code>BOOST_STDLIB</code> expands to a string representing the detected standard library.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/config.hpp&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; "Detected Standard Library: " &lt;&lt; BOOST_STDLIB &lt;&lt; std::endl;
+
+#ifdef BOOST_LIBSTD_GNU
+    std::cout &lt;&lt; "Using GNU libstdc++" &lt;&lt; std::endl;
+#elif defined(BOOST_LIBSTD_MSVC)
+    std::cout &lt;&lt; "Using Microsoft STL (MSVC Standard Library)" &lt;&lt; std::endl;
+#elif defined(BOOST_LIBSTD_LIBCXX)
+    std::cout &lt;&lt; "Using libc++ (Clang Standard Library)" &lt;&lt; std::endl;
+#else
+    std::cout &lt;&lt; "Using an unknown or unsupported standard library" &lt;&lt; std::endl;
+#endif
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using <code>BOOST_PLATFORM</code>, <code>BOOST_COMPILER</code>, and <code>BOOST_STDLIB</code> for diagnostics by identifing the system&#8217;s platform, compiler, and standard library.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/config.hpp&gt;
+
+int main() {
+    std::cout &lt;&lt; "Platform: " &lt;&lt; BOOST_PLATFORM &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Compiler: " &lt;&lt; BOOST_COMPILER &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Standard Library: " &lt;&lt; BOOST_STDLIB &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using <code>BOOST_VERSION</code> to ensure version compatibility when using Boost.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/version.hpp&gt;
+
+int main() {
+    std::cout &lt;&lt; "Boost version: "
+              &lt;&lt; (BOOST_VERSION / 100000) &lt;&lt; "."   // Major version
+              &lt;&lt; (BOOST_VERSION / 100 % 1000) &lt;&lt; "." // Minor version
+              &lt;&lt; (BOOST_VERSION % 100) &lt;&lt; std::endl; // Patch version
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using <code>BOOST_SP_USE_QUICK_ALLOCATOR</code> to optimize <code>shared_ptr</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_SP_USE_QUICK_ALLOCATOR // Define before including Boost.SmartPtr
+
+#include &lt;boost/smart_ptr.hpp&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    boost::shared_ptr&lt;int&gt; ptr1(new int(42));
+    boost::shared_ptr&lt;int&gt; ptr2 = ptr1;
+
+    std::cout &lt;&lt; "Shared pointer value: " &lt;&lt; *ptr1 &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_debugging_and_assertions"><a class="anchor" href="#_debugging_and_assertions"></a>Debugging and Assertions</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Macro</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_ASSERT</code>(expr)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asserts an expression, throwing an error in debug builds.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_STATIC_ASSERT</code>(expr)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performs a compile-time assertion.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_STATIC_ASSERT_MSG</code>(expr, msg)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performs a compile-time assertion, with an added message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_VERIFY</code>(expr)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Like <code>BOOST_ASSERT</code>, but always evaluates the expression, even in release mode.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_ENABLE_ASSERT_HANDLER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables a custom assertion handler.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_ASIO_ENABLE_HANDLER_TRACKING</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables the debugging of handlers when using <a href="https://www.boost.org/libs/asio">Boost.Asio</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_examples_2"><a class="anchor" href="#_examples_2"></a>Examples</h3>
+<div class="paragraph">
+<p>Using <code>BOOST_ASSERT</code>, <code>BOOST_STATIC_ASSERT</code>, and <code>BOOST_VERIFY</code> for debugging.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/assert.hpp&gt;
+#include &lt;boost/static_assert.hpp&gt;
+#include &lt;iostream&gt;
+
+void process(int value) {
+    BOOST_ASSERT(value &gt; 0 &amp;&amp; "Value must be positive");  // Runtime assertion
+}
+
+int main() {
+    BOOST_STATIC_ASSERT(sizeof(int) == 4);  // Compile-time assertion
+
+    int x = 10;
+    BOOST_VERIFY(x != 0);  // Always checks in release mode
+
+    process(-1);  // Will trigger an assertion failure
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using <code>BOOST_ASIO_ENABLE_HANDLER_TRACKING</code> to help debug asynchronous operations by tracking handlers.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_ASIO_ENABLE_HANDLER_TRACKING // Enable debugging before including Boost.Asio
+
+#include &lt;boost/asio.hpp&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    boost::asio::io_context io;
+    std::cout &lt;&lt; "Boost.Asio handler tracking enabled!\n";
+    return 0;
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_preprocessor_utilities"><a class="anchor" href="#_preprocessor_utilities"></a>Preprocessor Utilities</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Macro</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_PP_REPEAT</code>(count, macro, data)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Repeats a macro expansion a specified number of times.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_PP_IF</code>(cond, then, else)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implements an if-like construct at preprocessing time.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_PP_ENUM_PARAMS</code>(count, param)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expands into a comma-separated list of parameters.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_example_2"><a class="anchor" href="#_example_2"></a>Example</h3>
+<div class="paragraph">
+<p>Using <code>BOOST_PP_REPEAT</code> to generate repeated code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/preprocessor/repetition/repeat.hpp&gt;
+#include &lt;iostream&gt;
+
+#define PRINT_N(z, n, text) std::cout &lt;&lt; text &lt;&lt; " " &lt;&lt; n &lt;&lt; "\n";
+
+int main() {
+    BOOST_PP_REPEAT(5, PRINT_N, "Iteration");
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cross_platform_compatibility"><a class="anchor" href="#_cross_platform_compatibility"></a>Cross-Platform Compatibility</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Macro</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_WINDOWS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defined when compiling on Windows.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_LINUX</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defined when compiling on Linux.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_UNIX</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defined when compiling on a Unix-like system.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_LITTLE_ENDIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Define when the system is byte-order little-endian.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_BIG_ENDIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Define when the system is byte-order big-endian.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_examples_3"><a class="anchor" href="#_examples_3"></a>Examples</h3>
+<div class="paragraph">
+<p>Using <code>BOOST_WINDOWS</code>, <code>BOOST_LINUX</code>, and <code>BOOST_UNIX</code> for platform-specific code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+
+int main() {
+#ifdef BOOST_WINDOWS
+    std::cout &lt;&lt; "Running on Windows\n";
+#elif defined(BOOST_LINUX)
+    std::cout &lt;&lt; "Running on Linux\n";
+#elif defined(BOOST_UNIX)
+    std::cout &lt;&lt; "Running on a Unix-like system\n";
+#else
+    std::cout &lt;&lt; "Unknown platform\n";
+#endif
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using Using BOOST_LITTLE_ENDIAN and BOOST_BIG_ENDIAN for proper handling of byte order in serialization.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/config.hpp&gt;
+
+int main() {
+#if defined(BOOST_LITTLE_ENDIAN)
+    std::cout &lt;&lt; "System is little-endian.\n";
+#elif defined(BOOST_BIG_ENDIAN)
+    std::cout &lt;&lt; "System is big-endian.\n";
+#else
+    std::cout &lt;&lt; "Unknown endianness.\n";
+#endif
+    return 0;
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_threading_and_synchronization"><a class="anchor" href="#_threading_and_synchronization"></a>Threading and Synchronization</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Macro</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_DISABLE_THREADS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disables multi-threading support in Boost.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_HAS_THREADS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates if Boost is built with threading support.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_THREAD_USE_LIB</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Forces <a href="https://www.boost.org/libs/thread">Boost.Thread</a> to be used as a static library.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_THREAD_USE_DLL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Forces <a href="https://www.boost.org/libs/thread">Boost.Thread</a> to be used as a shared library.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_THREAD_PROVIDES_FUTURE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables std::future-like functionality in <a href="https://www.boost.org/libs/thread">Boost.Thread</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_example_3"><a class="anchor" href="#_example_3"></a>Example</h3>
+<div class="paragraph">
+<p>Using <code>BOOST_HAS_THREADS</code> to ensure threading support is enabled.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/thread.hpp&gt;
+#include &lt;iostream&gt;
+
+void threadFunc() {
+    std::cout &lt;&lt; "Hello from thread!\n";
+}
+
+int main() {
+#ifdef BOOST_HAS_THREADS
+    boost::thread myThread(threadFunc);
+    myThread.join();
+#else
+    std::cout &lt;&lt; "Threads are not supported.\n";
+#endif
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_exception_handling"><a class="anchor" href="#_exception_handling"></a>Exception Handling</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Macro</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_THROW_EXCEPTION</code>(e)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A portable way to throw exceptions that integrates with <code>BOOST_NO_EXCEPTIONS</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BOOST_NO_EXCEPTIONS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disables exception handling.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_examples_4"><a class="anchor" href="#_examples_4"></a>Examples</h3>
+<div class="paragraph">
+<p>Using <code>BOOST_THROW_EXCEPTION</code> to throw exceptions in a portable way.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/exception/exception.hpp&gt;
+#include &lt;boost/exception/all.hpp&gt;
+#include &lt;iostream&gt;
+
+struct MyException : virtual boost::exception, virtual std::exception {
+    const char* what() const noexcept override {
+        return "A Boost exception occurred!";
+    }
+};
+
+void riskyOperation() {
+    BOOST_THROW_EXCEPTION(MyException());
+}
+
+int main() {
+    try {
+        riskyOperation();
+    } catch (const MyException&amp; e) {
+        std::cout &lt;&lt; "Caught exception: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using <code>BOOST_NO_EXCEPTIONS</code> to ensure compatibility with exception-free environments.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/config.hpp&gt;
+
+void safe_function() {
+#ifndef BOOST_NO_EXCEPTIONS
+    throw std::runtime_error("Something went wrong!");
+#else
+    std::cerr &lt;&lt; "Exceptions are disabled. Handling error manually.\n";
+#endif
+}
+
+int main() {
+    try {
+        safe_function();
+    } catch (const std::exception&amp; e) {
+        std::cerr &lt;&lt; "Caught exception: " &lt;&lt; e.what() &lt;&lt; std::endl;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/config/doc/html/boost_config/boost_macro_reference.html">Boost Macro Reference</a></p>
+</li>
+<li>
+<p><a href="diagnostics.html" class="xref page">Introduction to Boost Diagnostics</a></p>
+</li>
+<li>
+<p><a href="testing-debugging.html" class="xref page">Testing and Debugging</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/boost-macros.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="task-bio-tech-engineering.html">Bio-Tech Engineering</a></span>
+        <span class="next"><a href="generic-programming.html">Generic Programming</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

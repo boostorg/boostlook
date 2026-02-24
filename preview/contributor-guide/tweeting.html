@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Tweeting :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/tweeting.html">
+    <link rel="prev" href="oversight-committee.html">
+    <link rel="next" href="site-docs-style-guide.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Contributor Community</li>
+    <li><a href="tweeting.html">Tweeting</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="oversight-committee.html">
+      <span class="material-symbols-outlined" title="Previous: Fiscal Sponsorship Committee">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="site-docs-style-guide.html">
+      <span class="material-symbols-outlined" title="Next: Site-docs Style Guide">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Tweeting</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The collection is represented on social media by the <a href="https://twitter.com/boostlibraries" class="resource" target="_blank" rel="noopener">@BoostLibraries</a>
+X (formerly Twitter) account, where news and information about our libraries in particular and C++ in general are shared
+with the community.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_what_gets_posted">What gets Posted</a></p>
+</li>
+<li>
+<p><a href="#_topics_of_interest">Topics of Interest</a></p>
+</li>
+<li>
+<p><a href="#_post_structure">Post Structure</a></p>
+</li>
+<li>
+<p><a href="#_post_submission">Post Submission</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_gets_posted"><a class="anchor" href="#_what_gets_posted"></a>What gets Posted</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The account publishes two types of posts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Official posts</strong>: These inform the community about new releases and libraries, library proposals,
+review schedules and results, and generally all the events associated to the evolution and deployment of the project.
+Official posts have a Boost brand imagery with watermark, and are produced by volunteers.</p>
+</li>
+<li>
+<p><strong>Non-official posts</strong>: Everything else. Imagery for these posts is not branded so that they can be told from
+the former. Anyone from the community can propose a non-official post for publication; if you&#8217;re interested in
+doing so, follow these simple guidelines:</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_topics_of_interest"><a class="anchor" href="#_topics_of_interest"></a>Topics of Interest</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Upcoming C++ events, meetups, conferences, etc.</p>
+</li>
+<li>
+<p>Talks about some particular library, or where such library is put to good effect.</p>
+</li>
+<li>
+<p>Boost-related articles, blogposts, C++ Committee papers.</p>
+</li>
+<li>
+<p>Interesting discussions ongoing on Reddit or some other online forums.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The list is not exhaustive: if in doubt, just go with your submission or ask
+for guidance using the same submission channel.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_post_structure"><a class="anchor" href="#_post_structure"></a>Post Structure</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="_images/tweet_structure.jpg" alt="Structure of an X post">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Text:</strong> Make it short and attractive. Posts in X are currently capped at
+280 characters, but you should strive for even less than that: one or two sentences
+should suffice. Go straight to the point and phrase your sentences with a
+clear call to action ("learn about", "watch", "contribute", you get the idea).</p>
+</div>
+<div class="paragraph">
+<p><strong>Link(s)</strong>: After the text, the post must include a link (or maybe more) to the
+piece of news, talk, etc. you&#8217;re posting about. Links can be provided as-is
+or with a short introductory text (like "Check it out: <em>link</em>"). There&#8217;s no
+need to pass the links through an URL shortener: X does it automatically
+with its own shortening service.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hashtags</strong>: The post should end with the following:</p>
+</div>
+<div class="paragraph">
+<p><code>#boost</code> <code>#boostcpp</code> <code>#cpp</code> <code>#cplusplus</code></p>
+</div>
+<div class="paragraph">
+<p>plus other hashtags specific to the post you&#8217;re proposing. Experiment with
+different hashtags to see what X search brings on them.</p>
+</div>
+<div class="paragraph">
+<p><strong>Image</strong>: Always provide an image to go with the text —this dramatically
+increases the visibility and reach of your post. The image should be
+as large as possible. X accepts any aspect ratio, but given that
+the majority of accesses will be through a mobile device, consider
+ratios close to 1:1 or even taller than wider.
+In our era of constant fight for attention and
+information overload, the actual content of the image is less important
+than how it will stand out amidst X infinite scroll: so,  favor
+colorful, original images that will make readers pause for a moment
+and read the post (which is where the real info is shared).</p>
+</div>
+<div class="paragraph">
+<p>Making the perfect post is not trivial: if you need inspiration,
+go to <a href="https://twitter.com/boostlibraries" class="resource" target="_blank" rel="noopener">@BoostLibraries</a> for actual
+post examples.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_post_submission"><a class="anchor" href="#_post_submission"></a>Post Submission</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Log into the <a href="https://cpplang.slack.com/" class="resource" target="_blank" rel="noopener">C++ Language Slack Workspace</a>
+(or <a href="https://cppalliance.org/slack/" class="resource" target="_blank" rel="noopener">join it</a> if you&#8217;re not a member yet)
+and post a message in the
+<a href="https://cpplang.slack.com/archives/C27KZLB0X" class="resource" target="_blank" rel="noopener"><code>#boost</code></a> channel, including:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Main text</p>
+</li>
+<li>
+<p>Link(s), with or without introductory texts</p>
+</li>
+<li>
+<p>Hashtags</p>
+</li>
+<li>
+<p>Attached image (or link to it)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The team in charge of <a href="https://twitter.com/boostlibraries" class="resource" target="_blank" rel="noopener">@BoostLibraries</a>
+may make some editorial adjustments
+to your submission or get back to you to help them polish the final post.
+Also, they will schedule the publication date and time for
+maximum impact (typically, on weekday mornings with an eye to
+catching readers both sides of the Atlantic, but this may be adjusted
+for events specific to some country or geographical area).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../user-guide/discussion-policy.html" class="xref page">Boost Discussion Policy</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/tweeting.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="oversight-committee.html">Fiscal Sponsorship Committee</a></span>
+        <span class="next"><a href="site-docs-style-guide.html">Site-docs Style Guide</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

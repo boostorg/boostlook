@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Aeronautical Engineering :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-aeronautical-engineering.html">
+    <link rel="prev" href="task-quantum-computing.html">
+    <link rel="next" href="task-bio-tech-engineering.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Advanced Scenarios</li>
+    <li><a href="task-aeronautical-engineering.html">Aeronautical Engineering</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="task-quantum-computing.html">
+      <span class="material-symbols-outlined" title="Previous: Quantum Computing">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-bio-tech-engineering.html">
+      <span class="material-symbols-outlined" title="Next: Bio-Tech Engineering">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Aeronautical Engineering</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are some specific challenges in the design and building of aircraft, that are less pronounced in other engineering disciples. These challenges include the size of the development teams, all working on one project, the strong presence of regulation and certification, and the unglamorous but mission-critical need for numerical correctness, stability, and traceability. Aerospace software lives for decades, must behave identically across platforms, and is scrutinized by certification authorities who care far more about <em>bounded error</em> than raw speed.</p>
+</div>
+<div class="paragraph">
+<p>This topic examines the pressure on software engineers when working in the aeronautical design space: a space where <code>sqrt(x*x + y*y)</code> might not be acceptable, whereas <code>boost::math::hypot(x, y);</code> works.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_aeronautical_design_fundamentals">Aeronautical Design Fundamentals</a></p>
+</li>
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_demonstrating_range_failure">Demonstrating Range Failure</a></p>
+</li>
+<li>
+<p><a href="#_demonstrating_underflow">Demonstrating Underflow</a></p>
+</li>
+<li>
+<p><a href="#_demonstrating_order_dependent_drift">Demonstrating Order-Dependent Drift</a></p>
+</li>
+<li>
+<p><a href="#_next_steps">Next Steps</a></p>
+</li>
+<li>
+<p><a href="#_footnotes">Footnotes</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_aeronautical_design_fundamentals"><a class="anchor" href="#_aeronautical_design_fundamentals"></a>Aeronautical Design Fundamentals</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost Libraries have a number of components that can play important roles in building a co-operative (distributed) design system. These libraries won&#8217;t give you a full “collaboration system” out of the box, but they provide powerful building blocks for networking, concurrency, data exchange, task distribution, serialization, and scripting integration — all foundational pieces of a distributed CAD/PDM/PLM system.</p>
+</div>
+<div class="paragraph">
+<p>A cooperative aircraft design system must support:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Distributed teams (multiple time zones, intermittent connectivity)</p>
+</li>
+<li>
+<p>Strong data integrity and traceability (certification pressure)</p>
+</li>
+<li>
+<p>Concurrent edits on large models (geometry, constraints, metadata)</p>
+</li>
+<li>
+<p>Heavy computation (FEA, CFD, optimization)</p>
+</li>
+<li>
+<p>Modular extensibility (tools evolve over decades)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/aerospace-design.png" alt="Aircraft design blueprint"></span></p>
+</div>
+<div class="paragraph">
+<p>The modelling service component owns the "truth" of geometry and constraints. Conflict resolution is a well known challenge - engineer A moves an aircraft rib, whilst engineer B instead, increases the rib thickness. Something like this may well need to be flagged for human resolution</p>
+</div>
+<div class="paragraph">
+<p>When building a system for use anywhere in the aerospace industry, it is a good idea to stick to these core principles:</p>
+</div>
+<div id="footnote1-location" class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Command determinism - No hidden randomness and no time-based logic without injected clocks.</p>
+</li>
+<li>
+<p>Immutable inputs - Commands are value objects and model state is derived, not mutated ad hoc.</p>
+</li>
+<li>
+<p>Controlled time - Simulated time replaces wall-clock time.</p>
+</li>
+<li>
+<p>Replay-first mindset - Tests are replays and live execution is just “replay at real-time speed”.</p>
+</li>
+<li>
+<p>Time-Travel Debugging - Step forward <em>and</em> backward through events.</p>
+</li>
+<li>
+<p>Section Cuts (an aerospace favorite) - Auto-generate <em>spanwise cuts</em> <a href="#footnote1">(1)</a>, diff cross-sections, and plot profiles.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>A deterministic simulation of engineering intent is what exactly what certification bodies care about.</strong></p>
+</div>
+<div class="paragraph">
+<p>Design and simulation are a big part of the story. Then comes testing.</p>
+</div>
+<div class="paragraph">
+<p>In aerospace terms: <em>if you can&#8217;t replay it, you can&#8217;t certify it</em>. An aircraft test harness must answer questions like:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Can we replay every design change exactly?</p>
+</li>
+<li>
+<p>Are distributed services deterministic?</p>
+</li>
+<li>
+<p>Does concurrency produce identical results across runs?</p>
+</li>
+<li>
+<p>Can we detect regressions in geometry, constraints, and analysis?</p>
+</li>
+<li>
+<p>Can we reproduce a failure years later?</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This goes far beyond unit tests.</p>
+</div>
+<div class="paragraph">
+<p>One of Boost&#8217;s quiet superpowers is numerical correctness without fanfare - the standard library often prioritizes <em>simplicity</em> whereas Boost prioritizes <em>correctness</em>. Numerical errors are design flaws, not rounding accidents!</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Acronyms are dense in aerospace. FEA is <em>Finite Element Analysis</em> (essentially breaking complex structures into small elements for testing and behavior). CFD is <em>Computational Fluid Dynamics</em>  (for example, modelling turbulence). PLM is <em>Product Lifecycle Management</em> (tracking changes, metadata, milestones) but can also mean <em>Part Load Management</em>. PDM is <em>Product Data Management</em>, managing exactly what data exists and which version is authoritative, but it can also mean <em>Power Distribution Module</em>. Context is mandatory - the unofficial rule is "if someone doesn&#8217;t ask for clarification, they probably misunderstand"!</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/math">Boost.Math</a> : Provides carefully implemented, well-documented algorithms for elementary and special functions with known accuracy characteristics, correct handling of edge cases, and predictable behavior across compilers and architectures. Functions like <code>hypot</code>, robust inverse trig, stable polynomial evaluation, and well-behaved probability distributions eliminate entire classes of silent numerical failures that are notoriously hard to reproduce and even harder to certify. Equally important, this library supports a verification-first engineering culture. Its scale-aware comparisons, error bounds, and compatibility with multi-precision backends allow engineers to create reference implementations and numerical “gold standards” alongside high-performance code. This is exactly what certification demands: the ability to demonstrate not only that results are fast, but that they are correct <em>within defined tolerances</em>, repeatable years later, and defensible under audit. The library quietly delivers numerical trust, and avoid such things as <em>floating-point drift</em> and <em>order-dependent drift</em>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a> : For when extremely large or small numbers need to be calculated, with great precision.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/aerospace-gear.png" alt="Aircraft gear blueprint"></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/accumulators">Boost.Accumulators</a> : This provides numerically stable statistics, preventing <em>summation_drift</em> and an answer to <em>never sum large datasets naïvely</em>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a> : A distributed design system must support robust, scalable communication — real-time updates, distributed computation requests, and client-server synchronization.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> and <a href="https://www.boost.org/libs/interprocess">Boost.Interprocess</a> :Save/load complex design models, and useful if modules on the same machine need fast shared data access.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/geometry">Boost.Geometry</a>, <a href="https://www.boost.org/libs/polygon">Boost.Polygon</a>, and <a href="https://www.boost.org/libs/graph">Boost.Graph</a> : These libs work well with design and CAD-related math, 2D polygon manipulation, and representing complex relationships (dependency graphs, design hierarchies).</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/thread">Boost.Thread</a>, <a href="https://www.boost.org/libs/lockfree">Boost.Lockfree</a>, and <a href="https://www.boost.org/libs/fiber">Boost.Fiber</a> : All to provide UI responsiveness with background computations.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/signals2">Boost.Signals2</a> : Useful for local publish/subscribe patterns within a module.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/program_options">Boost.ProgramOptions</a> and <a href="https://www.boost.org/libs/property_tree">Boost.PropertyTree</a> : Useful for server/service configuration and for storing structured metadata.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_demonstrating_range_failure"><a class="anchor" href="#_demonstrating_range_failure"></a>Demonstrating Range Failure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to show the effects of unmanaged numerical ranges, we&#8217;ll calculate the hypotenuse of a simple right-angled triangle. The two sides of the triangle are of equal length, so the result <em>should be</em> the square root of 2 (1.4142&#8230;&#8203;) times the length of one of the sides. This is true if the sides of the triangle are both 1, or both 1 zillion.</p>
+</div>
+<div class="paragraph">
+<p>The naive version tries to calculate the hypotenuse using standard math.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+
+double naive_hypot(double x, double y)
+{
+    return std::sqrt(x * x + y * y);
+}
+
+int main()
+{
+    double x = 1e154;
+    double y = 1e154;
+
+    double result = naive_hypot(x, y);
+
+    std::cout &lt;&lt; "Naive hypot result: " &lt;&lt; result &lt;&lt; "\n";
+
+    if (std::isinf(result))
+        std::cout &lt;&lt; "Result overflowed to infinity\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you run this code, you will probably get:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Naive hypot result: inf
+Result overflowed to infinity</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should also have noticed that you did not get an error, warning, or exception. So, what happened?</p>
+</div>
+<div class="paragraph">
+<p>The answer is the square of the huge values overflowed.</p>
+</div>
+<div class="paragraph">
+<p>Now try using <a href="https://www.boost.org/libs/:math">Boost.:math</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/math/special_functions/hypot.hpp&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+    double x = 1e154;
+    double y = 1e154;
+
+    double result = boost::math::hypot(x, y);
+
+    std::cout &lt;&lt; "Boost hypot result: " &lt;&lt; result &lt;&lt; "\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you run this version, you should get the correct result:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Boost hypot result: 1.41421e+154</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/math">Boost.Math</a> uses scaling algorithms so that errors are avoided in the edge cases of handling very large values, or for that matter very tiny values.</p>
+</div>
+<div class="paragraph">
+<p>The difference between <code>sqrt(x*x + y*y)</code> and <code>boost::math::hypot(x, y)</code> is not performance or convenience — it is whether intermediate values are allowed to destroy correctness.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_demonstrating_underflow"><a class="anchor" href="#_demonstrating_underflow"></a>Demonstrating Underflow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Underflow is the quiet sibling of overflow and much closer in spirit to <em>drift</em>. Underflow occurs when a result is too small to be represented as a normal floating-point number and is rounded to zero.</p>
+</div>
+<div class="paragraph">
+<p>The following code shows repeated division, eventually resulting in underflow:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+
+int main()
+{
+    double x = 1.0;
+
+    std::cout &lt;&lt; std::setprecision(17);
+
+    for (int i = 0; i &lt; 1100; ++i)
+    {
+        x /= 2.0;
+
+        if (x == 0.0)
+        {
+            std::cout &lt;&lt; "Underflow to zero at iteration " &lt;&lt; i &lt;&lt; "\n";
+            break;
+        }
+    }
+
+    std::cout &lt;&lt; "Final value: " &lt;&lt; x &lt;&lt; "\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Underflow to zero at iteration 1074
+Final value: 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>double</code> does have around 308 bits of range (and 52 bits of mantissa), but eventually precision collapses. <a href="https://www.boost.org/libs/math">Boost.Math</a> can improve numerical stability, but it cannot extend the representable range of a floating-point type. If the value is important, then we add <a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a> to our toolset:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multiprecision/cpp_bin_float.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+
+using highp = boost::multiprecision::cpp_bin_float_100;
+
+int main()
+{
+    highp x = 1.0;
+
+    for (int i = 0; i &lt; 1100; ++i)
+        x /= 2;
+
+    std::cout &lt;&lt; std::scientific &lt;&lt; std::setprecision(50);
+    std::cout &lt;&lt; "Value after division: " &lt;&lt; x &lt;&lt; "\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Value after division: 7.36215182902286267543686617714496511764913503250964e-332</code></pre>
+</div>
+</div>
+<div id="footnote2-location" class="paragraph">
+<p>Aeronautical models need to cope with situations like long-duration decay processes, <em>residual convergence</em> <a href="#footnote2">(2)</a>, damping terms, energy dissipation, and very small forces accumulated over time. The key concept here is that <strong>zero is physically wrong!</strong></p>
+</div>
+<div class="paragraph">
+<p>For a second example, let&#8217;s examine where underflow destroys a physical invariant. In the following code the super small but non-zero velocity value is lost:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+
+int main()
+{
+    double velocity = 1e-300;   // Very small, but non-zero
+    double dt = 1e-300;         // Time step
+
+    double displacement = velocity * dt;
+
+    std::cout &lt;&lt; std::setprecision(17);
+    std::cout &lt;&lt; "Displacement: " &lt;&lt; displacement &lt;&lt; "\n";
+
+    if (displacement == 0.0)
+        std::cout &lt;&lt; "Underflow: motion lost\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Displacement: 0
+Underflow: motion lost</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Again we look to <a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a> to maintain the significance of a tiny value:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multiprecision/cpp_dec_float.hpp&gt;
+#include &lt;iostream&gt;
+
+using highp = boost::multiprecision::cpp_dec_float_50;
+
+int main()
+{
+    highp velocity = highp("1e-300");
+    highp dt       = highp("1e-300");
+
+    highp displacement = velocity * dt;
+
+    std::cout &lt;&lt; displacement &lt;&lt; "\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this and you get the correct answer:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">1e-600</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In physical models, if motion exists, it should be represented.</p>
+</div>
+<div class="paragraph">
+<p>For the aerospace engineer underflow is dangerous because it is so quiet that incorrect results can look plausible, zero is, after all, a valid number.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_demonstrating_order_dependent_drift"><a class="anchor" href="#_demonstrating_order_dependent_drift"></a>Demonstrating Order-Dependent Drift</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Order-dependent drift is one of the most misunderstood floating-point hazards, and it shows up constantly in aerospace (summations of forces, energies, residuals, loads).</p>
+</div>
+<div class="paragraph">
+<p>Order-dependent drift occurs because floating-point addition is not associative: <code>(a + b) + c</code> does not equal <code>a + (b + c)</code> when one, or more, value is very large and other values are very small. Physically, the small forces matter. Numerically, they may disappear.</p>
+</div>
+<div class="paragraph">
+<p>In the following example, the small forces are silently discarded:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+
+double naive_sum(const std::vector&lt;double&gt;&amp; values)
+{
+    double sum = 0.0;
+    for (double v : values)
+        sum += v;
+    return sum;
+}
+
+int main()
+{
+    std::vector&lt;double&gt; forces;
+
+    forces.push_back(1e20);          // Large load
+    for (int i = 0; i &lt; 1'000'000; ++i)
+        forces.push_back(1.0);       // Small loads
+
+    double result = naive_sum(forces);
+
+    std::cout &lt;&lt; std::setprecision(17);
+    std::cout &lt;&lt; "Naive sum: " &lt;&lt; result &lt;&lt; "\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this and you get the answer:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Naive sum: 1e+20</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Boost provides numerically stable accumulation algorithms via <a href="https://www.boost.org/libs/accumulators">Boost.Accumulators</a>. In the following example, small values are preserved and order no longer matters.</p>
+</div>
+<div id="footnote3-location" class="paragraph">
+<p><em>Kahan summation</em> <a href="#footnote3">(3)</a> keeps a compensation term that tracks lost low-order bits:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/accumulators/accumulators.hpp&gt;
+#include &lt;boost/accumulators/statistics/sum_kahan.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+
+
+using namespace boost::accumulators;
+
+int main()
+{
+    accumulator_set&lt;double, features&lt;tag::sum_kahan&gt;&gt; acc;
+
+    acc(1e20);
+    for (int i = 0; i &lt; 1'000'000; ++i)
+        acc(1.0);
+
+    std::cout &lt;&lt; std::setprecision(17);
+    std::cout &lt;&lt; "Boost Kahan sum: " &lt;&lt; sum(acc) &lt;&lt; "\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this and you get the correct answer:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Boost Kahan sum: 1.00000000000001e+20</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Order-dependent drift is not randomness — it is determinism you didn&#8217;t control.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p><a href="https://www.boost.org/libs/accumulators">Boost.Accumulators</a> and <a href="https://www.boost.org/libs/math">Boost.Math</a> are known for compiling cleanly <em>only</em> once every required header is present and all parameters are present and correct. Otherwise these libs can generate a lot of errors.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Wrap your mind around the high level architecture, think federated services, not a monolith:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">┌────────────┐     ┌────────────┐
+│ CAD Client │     │ Analysis   │
+│            │     │ Client     │
+└─────┬──────┘     └─────┬──────┘
+      │                  │
+      ├───────┬──────────┤
+              ▼
+     ┌───────────────────────┐
+     │ Collaboration Gateway │
+     │(Boost.Asio/Beast/Json)│
+     └──────────┬────────────┘
+                │
+ ┌──────────────┼──────────────────┐
+ │              │                  │
+ ▼              ▼                  ▼
+Model Service  Compute Service   Metadata Service
+(Geometry)     (FEA/CFD)         (PLM / audit)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And consider your test harness/certification architecture right from the start:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">┌──────────────────────────────┐
+│ Test Runner (CLI)            │
+│ (Boost.ProgramOptions)       │
+└────────────┬─────────────────┘
+             ▼
+┌──────────────────────────────┐
+│ Scenario Loader              │
+│ (Boost.Filesystem)           │
+└────────────┬─────────────────┘
+             ▼
+┌──────────────────────────────┐
+│ Event Replayer               │
+│ (Boost.Serialization)        │
+└────────────┬─────────────────┘
+             ▼
+┌──────────────────────────────┐
+│ Virtual Services             │
+│ (Model / Compute / Metadata) │
+└────────────┬─────────────────┘
+             ▼
+┌──────────────────────────────┐
+│ Verifier                     │
+│ (Boost.Test / Geometry)      │
+└──────────────────────────────┘</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Start with correctness in mind, and continue along that path.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_footnotes"><a class="anchor" href="#_footnotes"></a>Footnotes</h2>
+<div class="sectionbody">
+<div id="footnote1" class="paragraph">
+<p><a href="#footnote1-location">(1)</a>
+A spanwise cut is a cross-section taken along the span of a wing or lifting surface, from the wing root (near the fuselage) toward the wing tip. It is used to examine how  properties vary across the width of the wingspan, rather than along the flight direction. Nothing is even across the span of a wing, and spanwise cuts are used to measure pressure coefficients, bending stress, fatigue hot spots, baseline verses modified wing geometry, and loads of various sorts.</p>
+</div>
+<div id="footnote2" class="paragraph">
+<p><a href="#footnote2-location">(2)</a>
+Residual convergence is about measuring how wrong your current solution still is, rather than how much the solution (the result) itself is changing. Residuals are a measure of the errors, and if the residuals flatten out or oscillate, something is wrong. Even if your solver converges, a non-shrinking residual means you might be converging to the wrong answer.</p>
+</div>
+<div id="footnote3" class="paragraph">
+<p><a href="#footnote3-location">(3)</a>
+Kahan summation is a technique for adding lots of floating-point numbers while losing far less precision than <code>sum += x</code>. This technique keeps a small “error accumulator” that tracks the bits lost to rounding — and feeds them back in on the next addition. In simple terms, you don&#8217;t get more precision than <code>double</code> allows, but you stop throwing it away. In aerospace, bio-tech, finance, and simulation code, it&#8217;s one of those “once you see it, you never un-see it” techniques.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Algorithms">Category: Algorithms</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Concurrent">Category: Concurrent Programming</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#IO">Category: Input/Output</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Math">Category: Math and numerics</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-aeronautical-engineering.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="task-quantum-computing.html">Quantum Computing</a></span>
+        <span class="next"><a href="task-bio-tech-engineering.html">Bio-Tech Engineering</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

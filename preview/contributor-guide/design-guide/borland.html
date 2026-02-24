@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Portability Hints using Borland C++ Compilers :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/design-guide/borland.html">
+    <link rel="prev" href="dependencies.html">
+    <link rel="next" href="../version-control.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="dependencies.html">Dependencies</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Design</li>
+    <li><a href="borland.html">Borland Portability</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="dependencies.html">
+      <span class="material-symbols-outlined" title="Previous: Dependencies">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="../version-control.html">
+      <span class="material-symbols-outlined" title="Next: Version Control">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Portability Hints using Borland C++ Compilers</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is a general aim for boost libraries to be <a href="../requirements/portability-requirements.html" class="xref page">Portable</a>. The primary means for achieving this goal is to adhere to ISO Standard C++. However, ISO C++ is a broad and complex standard and most compilers are not fully conformant to ISO C++ yet. In order to achieve portability in the light of this restriction, it seems advisable to get acquainted with those language features that some compilers do not fully implement yet.</p>
+</div>
+<div class="paragraph">
+<p>This topic gives portability hints on some language features of the Borland C++ version 5.5.1 compiler. Furthermore, the appendix presents additional problems with Borland C++ version 5.5. Borland C++ 5.5.1 is a freely available command-line compiler for Win32: <a href="https://developerinsider.co/download-and-install-borland-c-compiler-on-windows-10/">Download and Install Borland C++ Compiler on Windows 10 &amp; 11</a>.</p>
+</div>
+<div class="paragraph">
+<p>Each section below describes a particular issue, complete with sample source code to demonstrate the effect. Most sample code herein has been verified to compile with gcc 2.95.2 and Comeau C++ 4.2.44.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="preprocessor-symbol"><a class="anchor" href="#preprocessor-symbol"></a>Preprocessor Symbol</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The preprocessor symbol <code><em>BORLANDC</em></code> is defined for all Borland C++ compilers. Its value is the version number of the compiler interpreted as a hexadecimal number. The following table lists some known values.</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Compiler</th>
+<th class="tableblock halign-left valign-top"><code><em>BORLANDC</em></code> value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Borland C++ Builder 4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x0540</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Borland C++ Builder 5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x0550</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Borland C++ 5.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x0550</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Borland C++ 5.5.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x0551</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Borland C++ Builder 6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0x0560</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="core-language"><a class="anchor" href="#core-language"></a>Core Language</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="mixing-using-declarations-and-using-directives"><a class="anchor" href="#mixing-using-declarations-and-using-directives"></a>Mixing <code>using</code>-declarations and <code>using</code>-directives</h3>
+<div class="paragraph">
+<p>Mixing <code>using</code>-directives (which refer to whole namespaces) and namespace-level <code>using</code>-declarations (which refer to individual identifiers within foreign namespaces) causes ambiguities where there are none. The following code fragment illustrates this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">namespace N {
+  int x();
+}
+
+using N::x;
+using namespace N;
+
+int main()
+{
+  &amp;x;     // Ambiguous overload
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="using-declarations-for-class-templates"><a class="anchor" href="#using-declarations-for-class-templates"></a><code>using</code>-declarations for Class Templates</h3>
+<div class="paragraph">
+<p>Identifiers for class templates can be used as arguments to <code>using</code>-declarations as any other identifier. However, the following code fails to compile with Borland C++:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;class T&gt;
+class X { };
+
+namespace N
+{
+// "cannot use template 'X&lt;T&gt;' without specifying specialization parameters"
+  using ::X;
+};</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deduction-of-constant-arguments-to-function-templates"><a class="anchor" href="#deduction-of-constant-arguments-to-function-templates"></a>Deduction of Constant Arguments to Function Templates</h3>
+<div class="paragraph">
+<p>Template function type deduction should omit top-level constness. However, this code fragment instantiates <code>f&lt;const int&gt;(int)</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;class T&gt;
+void f(T x)
+{
+  x = 1;  // works
+  (void) &amp;x;
+  T y = 17;
+  y = 20;  // "Cannot modify a const object in function f&lt;const int&gt;(int)"
+  (void) &amp;y;
+}
+
+int main()
+{
+  const int i = 17;
+  f(i);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resolving-addresses-of-overloaded-functions"><a class="anchor" href="#resolving-addresses-of-overloaded-functions"></a>Resolving Addresses of Overloaded Functions</h3>
+<div class="paragraph">
+<p>Addresses of overloaded functions are not in all contexts properly resolved (<code>std:13.4 [over.over]</code>); here is a small example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;class Arg&gt;
+void f( void(\*g)(Arg) );
+
+void h(int);
+void h(double);
+
+template&lt;class T&gt;
+void h2(T);
+
+int main()
+{
+  void (\*p)(int) = h;                // this works (std:13.4-1.1)
+  void (\*p2)(unsigned char) = h2;    // this works as well (std:13.4-1.1)
+  f&lt;int&gt;(h2);                         // this also works (std:13.4-1.3)
+
+  // "Cannot generate template specialization from h(int)",
+  // "Could not find a match for f&lt;Arg&gt;(void (\*)(int))"
+  f&lt;double&gt;(h);                       // should work (std:13.4-1.3)
+
+  f( (void(\*)(double))h);            // C-style cast works (std:13.4-1.6 with 5.4)
+
+  // "Overloaded 'h' ambiguous in this context"
+  f(static_cast&lt;void(\*)(double)&gt;(h)); // should work (std:13.4-1.6 with 5.2.9)
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Workaround</dt>
+<dd>
+<p>Always use C-style casts when determining addresses of (potentially) overloaded functions.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="converting-const-char-to-stdstring"><a class="anchor" href="#converting-const-char-to-stdstring"></a>Converting <code>const char *</code> to <code>std::string</code></h3>
+<div class="paragraph">
+<p>Implicitly converting <code>const char *</code> parameters to <code>std::string</code> arguments fails if template functions are explicitly instantiated (it works in the usual cases, though):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;string&gt;
+
+template&lt;class T&gt;
+void f(const std::string &amp; s)
+{}
+
+int main()
+{
+  f&lt;double&gt;("hello");  // "Could not find a match for f&lt;T&gt;(char \*)"
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Workaround</dt>
+<dd>
+<p>Avoid explicit template function instantiations (they have significant problems with Microsoft Visual C++) and pass default-constructed unused dummy arguments with the appropriate type. Alternatively, if you wish to keep to the explicit instantiation, you could use an explicit conversion to <code>std::string</code> or declare the template function as taking a <code>const char *</code> parameter.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="dependent-default-arguments-for-template-value-parameters"><a class="anchor" href="#dependent-default-arguments-for-template-value-parameters"></a>Dependent Default Arguments for Template Value Parameters</h3>
+<div class="paragraph">
+<p>Template value parameters which default to an expression dependent on previous template parameters don&#8217;t work:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;class T&gt;
+struct A
+{
+  static const bool value = true;
+};
+
+// "Templates must be classes or functions", "Declaration syntax error"
+template&lt;class T, bool v = A&lt;T&gt;::value&gt;
+struct B {};
+
+int main()
+{
+  B&lt;int&gt; x;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Workaround</dt>
+<dd>
+<p>If the relevant non-type template parameter is an implementation detail, use inheritance and a fully qualified identifier (for example, <code>::N::A&lt;T&gt;::value</code>).</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="partial-ordering-of-function-templates"><a class="anchor" href="#partial-ordering-of-function-templates"></a>Partial Ordering of Function Templates</h3>
+<div class="paragraph">
+<p>Partial ordering of function templates, as described in <code>std:14.5.5.2 [temp.func.order]</code>, does not work:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+
+template&lt;class T&gt; struct A {};
+
+template&lt;class T1&gt;
+void f(const A&lt;T1&gt; &amp;)
+{
+  std::cout &lt;&lt; "f(const A&lt;T1&gt;&amp;)\n";
+}
+
+template&lt;class T&gt;
+void f(T)
+{
+  std::cout &lt;&lt; "f(T)\n";
+}
+
+int main()
+{
+  A&lt;double&gt; a;
+  f(a);   // output: f(T)  (wrong)
+  f(1);   // output: f(T)  (correct)
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Workaround</dt>
+<dd>
+<p>Declare all such functions uniformly as either taking a value or a reference parameter.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="instantiation-with-member-function-pointer"><a class="anchor" href="#instantiation-with-member-function-pointer"></a>Instantiation with Member Function Pointer</h3>
+<div class="paragraph">
+<p>When directly instantiating a template with some member function pointer, which is itself dependent on some template parameter, the compiler cannot cope:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;class U&gt; class C { };
+template&lt;class T&gt;
+class A
+{
+  static const int v = C&lt;void (T::\*)()&gt;::value;
+};</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Workaround</dt>
+<dd>
+<p>Use an intermediate <code>typedef</code>:</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;class U&gt; class C { };
+template&lt;class T&gt;
+class A
+{
+  typedef void (T::\*my_type)();
+  static const int v = C&lt;my_type&gt;::value;
+};</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Extracted from an e-mail exchange between David Abrahams, Fernando Cacciola, and Peter Dimov; not actually tested.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="math-library"><a class="anchor" href="#math-library"></a>Math Library</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="function-double-stdabsdouble-missing"><a class="anchor" href="#function-double-stdabsdouble-missing"></a>Function <code>double std::abs(double)</code> Missing</h3>
+<div class="paragraph">
+<p>The function <code>double std::abs(double)</code> should be defined (<code>std:26.5-5 [lib.c.math]</code>), but it is not:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;cmath&gt;
+
+int main()
+{
+  double (\*p)(double) = std::abs;  // error
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p><code>int std::abs(int)</code> will be used without warning if you write <code>std::abs(5.1)</code>.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Similar remarks apply to seemingly all of the other standard math functions, where Borland C++ fails to provide <code>float</code> and <code>long double</code> overloads.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Workaround</dt>
+<dd>
+<p>Use <code>std::fabs</code> instead if type genericity is not required.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="appendix-additional-issues-with-borland-c-version-5-5"><a class="anchor" href="#appendix-additional-issues-with-borland-c-version-5-5"></a>Appendix: Additional Issues with Borland C++ Version 5.5</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>These issues are documented mainly for historic reasons. If you are still using Borland C++ version 5.5, you are strongly encouraged to obtain an upgrade to version 5.5.1, which fixes the issues described in the following section.</p>
+</div>
+<div class="sect2">
+<h3 id="inline-friend-functions-in-template-classes"><a class="anchor" href="#inline-friend-functions-in-template-classes"></a>Inline Friend Functions in Template Classes</h3>
+<div class="paragraph">
+<p>If a friend function of some class has not been declared before the friend function declaration, the function is declared at the namespace scope surrounding the class definition. Together with class templates and inline definitions of friend functions, the code in the following fragment should declare (and define) a non-template function <code>bool N::f(int,int)</code>, which is a friend of <code>class N::A&lt;int&gt;</code>. However, Borland C++ v5.5 expects the function <code>f</code> to be declared beforehand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">namespace N {
+  template&lt;class T&gt;
+  class A
+  {
+    // "f is not a member of 'N' in function main()"
+    friend bool f(T x, T y) { return x &lt; y; }
+  };
+}
+
+int main()
+{
+    N::A&lt;int&gt; a;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This technique is extensively used in <code>boost/operators.hpp</code>. Giving in to the wish of the compiler doesn&#8217;t work in this case, because then the <em>instantiate one template, get lots of helper functions at namespace scope</em> approach doesn&#8217;t work anymore. Defining BOOST_NO_OPERATORS_IN_NAMESPACE (a define BOOST_NO_INLINE_FRIENDS_IN_CLASS_TEMPLATES would match this case better) works around this problem and leads to another one, see the template discussion in <a href="#core-language">Core Language</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="see-also"><a class="anchor" href="#see-also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../../user-guide/header-organization-compilation.html#toolset" class="xref page">User Guide Toolsets</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/design-guide/borland.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="dependencies.html">Dependencies</a></span>
+        <span class="next"><a href="../version-control.html">Version Control</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

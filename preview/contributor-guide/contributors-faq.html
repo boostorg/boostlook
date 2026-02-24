@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Contributors Frequently Asked Questions :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/contributors-faq.html">
+    <link rel="prev" href="getting-involved.html">
+    <link rel="next" href="requirements/library-requirements.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="getting-involved.html">Getting Involved</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="contributors-faq.html">Contributors FAQ</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="getting-involved.html">
+      <span class="material-symbols-outlined" title="Previous: Getting Involved">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="requirements/library-requirements.html">
+      <span class="material-symbols-outlined" title="Next: Library">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Contributors Frequently Asked Questions</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section contains answers to the common questions that new contributors to Boost often have.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_topics"><a class="anchor" href="#_topics"></a>Topics</h2>
+<div class="sectionbody">
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_adding_new_libraries">Adding New Libraries</a></p>
+</li>
+<li>
+<p><a href="#boostsoftwarelicense">Boost Software License</a></p>
+</li>
+<li>
+<p><a href="#_development_environments">Development Environments</a></p>
+</li>
+<li>
+<p><a href="#_existing_boost_libraries">Existing Boost Libraries</a></p>
+</li>
+<li>
+<p><a href="#_generative_artificial_intelligence">Generative Artificial Intelligence</a></p>
+</li>
+<li>
+<p><a href="#_modular_boost">Modular Boost</a></p>
+</li>
+<li>
+<p><a href="#_post_release_engagement">Post-Release Engagement</a></p>
+</li>
+<li>
+<p><a href="#safecpp">Safe C++</a></p>
+</li>
+<li>
+<p><a href="#security">Security</a></p>
+</li>
+<li>
+<p><a href="#_testing">Testing</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adding_new_libraries"><a class="anchor" href="#_adding_new_libraries"></a>Adding New Libraries</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Do Boost libraries typically come from gauging outside interest, or perhaps more from developers following their own interests?</strong></p>
+<div class="paragraph">
+<p>Most Boost Libraries originate from individual developers, or small teams, following their own interests, rather than from organized external demand. Typically, self-motivated developers identify a gap in the C++ ecosystem or have a strong interest in a particular domain. To be clear, Boost is <em>not</em> driven by corporate feature requests, community polling or public wishlists, nor top-down direction (though The C++ Alliance might sponsor, or partially sponsor, work it deems of specific value, such as it did with <a href="https://www.boost.org/libs/json">Boost.Json</a>). The community acts as a gatekeeper to ensure quality, generality, and long-term usefulness, rather than as a source for library concepts.</p>
+</div>
+</li>
+<li>
+<p><strong>When considering developing a library for Boost, what is the right balance between ambitious functionality and limited functionality?</strong></p>
+<div class="paragraph">
+<p>The keys to a successful development of a new library are to identify core functionality and start simple. Prioritize functionality that provides significant value to developers and aligns with Boost&#8217;s goals of promoting high-quality, reusable libraries. Avoid adding unnecessary features that may increase complexity without adding much value. It&#8217;s often beneficial to start with a simpler implementation that addresses a specific problem or use case effectively. A library with a narrow focus and a clear, intuitive API is more likely to be accepted by the Boost community than one that attempts to solve too many problems at once or introduces unnecessary complexity.</p>
+</div>
+<div class="paragraph">
+<p>In addition to this, consider future extensibility, performance, portability, current trends, and always remember you can seek community advice and feedback through the Boost mailing lists.</p>
+</div>
+</li>
+<li>
+<p><strong>Am I right in thinking that Boost libraries are typically low-level and very specific, rather than higher-level and for tackling large scale issues such as generative AI, a modern game engine, or quantum computing, to name a few examples?</strong></p>
+<div class="paragraph">
+<p>Yes, Boost libraries have traditionally excelled in areas such as high-performance computing, cross-platform, embedded systems, and networking. Taking your example of generative AI, many Boost libraries could be used as <em>components</em> of a new AI model - such as parsing, networking, serialization, errors and exception handling, math and statistics, randomness, and so on. A new quality generative AI model is a considerable undertaking, and Boost libraries could do a lot of the grunt work and leave a development team with the most creative aspects. Simulating quantum computing, or creating a modern game engine, gets a similar answer, a development team could focus on the interactive UI, with Boost libraries handling a myriad of administrative and operational tasks.</p>
+</div>
+<div class="paragraph">
+<p>A key aspect of a successful Boost library is <em>focus</em>: what is the problem that the library in question is the solution for?</p>
+</div>
+</li>
+<li>
+<p><strong>If there is social media discussion on new libraries, typically what does the discussion entail?</strong></p>
+<div class="paragraph">
+<p>The new libraries most requested tend to be more like updates to existing libraries. There&#8217;s a common desire for more comprehensive asynchronous programming support, often for higher-level abstractions or more extensive async features. Another example is more programming options, say for an enhanced version of <a href="https://www.boost.org/libs/program_options">Boost.ProgramOptions</a>, or for libraries supporting earlier or later C++ standards, such as requests to support pre-C++17 standards.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="boostsoftwarelicense"><a class="anchor" href="#boostsoftwarelicense"></a>Boost Software License</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Where can I read the current version of the Boost Software License?</strong></p>
+<div class="paragraph">
+<p>Here: <a href="../user-guide/bsl.html" class="xref page">The Boost Software License</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>How should Boost programmers apply the license to source and header files?</strong></p>
+<div class="paragraph">
+<p>Add a multi-line comment based on the following template, substituting appropriate text for the name and date on the top line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">//          Copyright Joe Coder 2004 - 2006.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          https://www.boost.org/LICENSE_1_0.txt)</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Notes</dt>
+<dd>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Leave an empty line before and after the above comment block.</p>
+</li>
+<li>
+<p>It is fine if the copyright and license messages are not on different lines; in no case should there be other intervening text.</p>
+</li>
+<li>
+<p>Do not include "All rights reserved" anywhere.</p>
+</li>
+<li>
+<p>Other ways of licensing source files have been considered, but some of them turned out to unintentionally nullify legal elements of the license. Having fixed language for referring to the license helps corporate legal departments evaluate the Boost distribution.</p>
+</li>
+<li>
+<p>Creativity in license reference language is strongly discouraged, but judicious changes in the use of whitespace are fine.</p>
+</li>
+</ol>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>How should the license be applied to documentation files rather than source files?</strong></p>
+<div class="paragraph">
+<p>Similarly to the way it is applied to source files: the user should see the very same text indicated in the template above, with the only difference that your local copy of LICENSE_1_0.txt should also be linked to.</p>
+</div>
+</li>
+<li>
+<p><strong>How should Boost programmers maintain the copyright messages?</strong></p>
+<div class="paragraph">
+<p>Copyright is only claimed for changes meeting a certain threshold of originality. Therefore, the copyright message only covers expressions of creativity. It is up to authors of changes to add themselves to the copyright message if they so decide. Typically, a new claimant is added when someone takes over maintenance of a library or a new version of an existing library is developed. In principle, do not remove previous copyright claims - just add new claims and/or claimants.</p>
+</div>
+</li>
+<li>
+<p><strong>How is the Boost Software License (BSL) different from the GNU General Public License (GPL)?</strong></p>
+<div class="paragraph">
+<p>The <a href="https://opensource.org/license/gpl-3-0">GNU General Public License</a> is longer, and may be harder to understand. The Boost license permits the creation of derivative works for any use with no legal requirement to release your source code. Other differences include BSL not requiring reproduction of copyright messages for object code redistribution, and the fact that BSL is not "viral": if you distribute your own code along with some Boost code, the BSL applies <em>only</em> to the Boost code (and modified versions thereof); you are free to license your own code under any terms you like.</p>
+</div>
+</li>
+<li>
+<p><strong>Why the phrase "machine-executable object code generated by a source language processor"?</strong></p>
+<div class="paragraph">
+<p>To distinguish cases where we do not require reproduction of the copyrights and license (such as object libraries, shared libraries, and final program executables), from cases where reproduction is still required (such as distribution of self-extracting archives of source code or precompiled header files). More detailed wording was rejected as not being legally necessary, and reducing readability.</p>
+</div>
+</li>
+<li>
+<p><strong>Why is the "disclaimer" paragraph of the license entirely in uppercase?</strong></p>
+<div class="paragraph">
+<p>Capitalization of these particular provisions is a US legal mandate for consumer protection.</p>
+</div>
+</li>
+<li>
+<p><strong>Does the copyright and license cover interfaces too?</strong></p>
+<div class="paragraph">
+<p>The conceptual interface to a library is <em>not</em> covered. The particular representation expressed in the header is covered, as is the documentation, examples, test programs, and all the other material that goes with the library. A different implementation is free to use the same logical interface, however. Interface issues have been fought out in court several times; refer to a lawyer if this is likely to be an issue.</p>
+</div>
+</li>
+<li>
+<p><strong>Why doesn&#8217;t the license prohibit the copyright holder from patenting the covered software?</strong></p>
+<div class="paragraph">
+<p>No one who distributes their code under the terms of this license could turn around and sue a user for patent infringement. Boost&#8217;s lawyers were well aware of patent provisions in licenses like the GPL and CPL, and would have included such provisions in the Boost license if they were believed to be legally useful.</p>
+</div>
+</li>
+<li>
+<p><strong>Why doesn&#8217;t the copyright message say "All rights reserved"?</strong></p>
+<div class="paragraph">
+<p>This provision does not belong in the copyright notice for anything (software, electronic documentation, etc.) that is being licensed. It belongs in books that are sold where, in fact, all rights (for example, to reproduce the book, etc.) are being reserved by the publisher or author.</p>
+</div>
+</li>
+<li>
+<p><strong>Do I have to copyright/license trivial files?</strong></p>
+<div class="paragraph">
+<p>Yes, even a test file that just contains an empty <code>main()</code> should have a copyright notice. Files without copyright notices make corporate lawyers nervous, and that&#8217;s a barrier to adoption. The more Boost is uniformly copyrighted and licensed, the better.</p>
+</div>
+</li>
+<li>
+<p><strong>Can I use the Boost Software License for my own projects outside of Boost?</strong></p>
+<div class="paragraph">
+<p>Yes, there are no restrictions on the use of the license itself.</p>
+</div>
+</li>
+<li>
+<p><strong>Is the Boost license Open Source?</strong></p>
+<div class="paragraph">
+<p>Yes. The <a href="https://opensource.org/">Open Source Initiative</a> certified the <a href="https://opensource.org/license/bsl-1-0">Boost Software License 1.0 in early 2008</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_development_environments"><a class="anchor" href="#_development_environments"></a>Development Environments</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Many developers opt for lightweight integrated developer environments (IDEs), rather than the full-fledged IDE. What lightweight IDEs are popular for C++ development?</strong></p>
+<div class="paragraph">
+<p>There are several popular options for both Windows and Linux. <a href="https://www.jetbrains.com/clion/">CLion</a>, developed by JetBrains, is a cross-platform IDE that offers advanced code analysis, refactoring tools, and integration with the CMake build system, which is commonly used in C++ projects.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.gnu.org/software/emacs/">GNU Emacs</a> and <a href="https://www.vim.org/">Vim</a> are highly configurable and popular among developers who prefer a more minimalistic environment. They offer powerful features for editing code, and many plugins are available to enhance development workflows.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.qt.io/product/development-tools">Qt Creator</a> provides features like code completion, syntax highlighting, and debugging support for C++ and Qt (projects that use the Qt framework).</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.sublimetext.com/index2">Sublime Text</a> is a lightweight yet powerful text editor known for its speed and simplicity. It offers features like syntax highlighting, multiple selections, and a wide range of plugins for enhancing functionality, including support for C++ development.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://atom-editor.cc/">Atom</a> is an open-source text editor developed by GitHub. It&#8217;s highly customizable and extensible through packages, and provides features like syntax highlighting, auto-completion, and project navigation.</p>
+</div>
+<div class="paragraph">
+<p>There are many other tools, Microsoft&#8217;s <a href="https://visualstudio.microsoft.com/">Visual Studio</a> provides a full IDE and is well respected as a professional development environment, and <a href="https://code.visualstudio.com/Download">Visual Studio Code</a> is a lighter weight but versatile code editor that can be extended and customized with various extensions.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_existing_boost_libraries"><a class="anchor" href="#_existing_boost_libraries"></a>Existing Boost Libraries</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What are the biggest pain points that developers are running into, that are not addressed by current Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Some Boost libraries have a steep learning curve, especially for newcomers to C++. Simplifying the API design, providing  extensive documentation, and offering beginner-friendly tutorials helps lower the barrier to entry and make your library more accessible to a wider audience. Other pain points include support for modern language features, working with concurrency and parallelism, providing a seamless experience across different platforms, and providing optimal performance.</p>
+</div>
+</li>
+<li>
+<p><strong>For reference, what libraries are good examples of ones that are easy to learn?</strong></p>
+<div class="paragraph">
+<p>One library known for its relatively straightforward API and ease of learning compared to some others is <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a>.
+This library provides portable facilities to work with files and directories, offering an intuitive interface for common file system operations such as file creation, deletion, copying, moving, and directory traversal. Its design is user-friendly and follows familiar patterns. <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> documentation is comprehensive and well-structured. Overall, <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> is often recommended as a starting point for those looking to dip their toes into Boost libraries due to its simplicity, practicality, and broad applicability across various projects.</p>
+</div>
+<div class="paragraph">
+<p>Other libraries that are known for their shallow learning curve include <a href="https://www.boost.org/libs/optional">Boost.Optional</a> which is particularly useful for handling functions that may return an optional value or dealing with nullable data types in a safe and clear manner. <a href="https://www.boost.org/libs/any">Boost.Any</a> allows developers to store objects of different types in a single container and retrieve them without typecasting. <a href="https://www.boost.org/libs/type_index">Boost.TypeIndex</a>  provides facilities for obtaining type information at runtime, making it easy to work with types dynamically.</p>
+</div>
+</li>
+<li>
+<p><strong>What libraries have the steepest learning curve?</strong></p>
+<div class="paragraph">
+<p>While all Boost libraries have their complexities, some are known to have steeper learning curves due to their advanced nature or the intricacies of the domain they address. <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> is a parsing and generation library that uses a domain-specific embedded language (DSEL) implemented as C++ template metaprograms. It allows developers to define parsers and generators directly within code using EBNF-like syntax. However, the template-based approach and the metaprogramming techniques used can make it challenging for newcomers to grasp, especially those unfamiliar with advanced template programming or parsing theory.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> (Meta-Programming Library) is a powerful library for metaprogramming, providing tools for compile-time computation, type manipulation, and template metaprogramming. It allows developers to perform complex compile-time computations and transformations using a functional programming style. However, the functional programming paradigm and the intricacies of template metaprogramming can be daunting for beginners and require a solid understanding of C++ templates and meta-programming concepts.</p>
+</div>
+</li>
+<li>
+<p><strong>What libraries were the most ambitious in what they attempted to achieve?</strong></p>
+<div class="paragraph">
+<p>The many notable examples include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/graph">Boost.Graph</a> provides a generic and efficient framework for working with graphs, making it suitable for a variety of applications in areas such as network analysis, optimization, and data visualization.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/compute">Boost.Compute</a> provides abstractions for memory management, kernel execution, and data parallelism, enabling developers to harness the computational power of modern hardware for tasks such as numerical simulations, image processing, and machine learning.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> is ambitious in its goal of providing a high-level and composable framework for parsing complex data formats and domain-specific languages entirely within C++ code, without the need for external tools or preprocessors.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/hana">Boost.Hana</a> aims to simplify and modernize metaprogramming in C++, making it more accessible and powerful for developing generic libraries and applications.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>What libraries were the least ambitious technically?</strong></p>
+<div class="paragraph">
+<p>The useful utilities such as <a href="https://www.boost.org/libs/any">Boost.Any</a>, <a href="https://www.boost.org/libs/variant">Boost.Variant</a>, and <a href="https://www.boost.org/libs/optional">Boost.Optional</a> offer relatively simple functionality. Another simpler library is <a href="https://www.boost.org/libs/bimap">Boost.Bimap</a> which provides a container for maintaining one-to-one mappings between keys and values. While bidirectional maps are a useful data structure, the functionality provided is relatively straightforward and focused on this specific use case.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_generative_artificial_intelligence"><a class="anchor" href="#_generative_artificial_intelligence"></a>Generative Artificial Intelligence</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>I have always been interested in Artificial Intelligence (AI), and would like to contribute an AI component library to Boost. Within the field of Generative AI, what components would work well as a C++ library?</strong></p>
+<div class="paragraph">
+<p>In simple terms, generative AI works by first breaking down known constructs (for example, text or images) into small reusable components. This might be <em>tokens</em>, <em>subwords</em>, or <em>characters</em> for textual input, or <em>pixels</em>, <em>patches</em>, or <em>semantic elements</em> (sky, tree, car, etc.) for an image. Then, using statistical models, patterns, or learned rules, generative AI assembles these atomic components into something new, ideally in novel and interesting ways.</p>
+</div>
+<div class="paragraph">
+<p>Of course, text and images are not the only complex constructs you might want to work with. There are too many others to list, but high-value constructs include <strong>audio and speech</strong> (breaking them down into phonemes, spectral features, or waveforms), <strong>video</strong> (decomposing into frames, objects, motion vectors, or scene segments), and <strong>time series data</strong> such as sensor data or stock prices (breaking down into patterns, cycles, and perhaps anomalies). More esoteric examples would include <strong>molecular structures and chemical compounds</strong>, <strong>social graph data</strong>, <strong>handwriting and gesture data</strong>, <strong>3D models</strong>, and so on.</p>
+</div>
+<div class="paragraph">
+<p>A new Boost library could address one or more of the tasks involved in decomposing existing structures into atomic components, then the processes involved in rebuilding these components into something new that adheres to a significant set of rules/patterns/behavior. Handling user-input to guide the process is another challenging component.</p>
+</div>
+<div class="paragraph">
+<p>Perhaps take inspiration from the following table:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Construct</th>
+<th class="tableblock halign-left valign-top">Subcomponents / Atomic Units</th>
+<th class="tableblock halign-left valign-top">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Text</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Subwords, Characters, Tokens, Words</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BPE (Byte Pair Encoding), WordPiece, SentencePiece, or character-based tokenization</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Images</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pixels, Patches, Segments, Regions, Object Masks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vision Transformers often use image patches; segmentation maps are used for context</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Audio</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frames, Spectrogram Windows, Mel-Frequency Cepstral Coefficients (MFCCs), Waveform Samples</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Typically converted into spectrograms or embeddings for processing. MFCCs determine how humans perceive sound.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Speech</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Phonemes, Syllables, Graphemes, Acoustic Frames</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Combines audio processing and linguistic modeling</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Video</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frames, Clips, Objects per Frame, Motion Vectors, Scene Changes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Often handled as sequences of images with temporal dependencies</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Time Series</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time Steps, Sliding Windows, Seasonal Components, Trends</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used in forecasting models like Long-Short Term Memory (LSTMs), Transformers, etc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>3D Models</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mesh Vertices, Faces, Point Clouds, Voxels, Primitives</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decomposed for neural rendering or reconstruction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Code</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tokens, AST Nodes, Lines, Statements, Functions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Abstract Syntax Trees (ASTs) used by code Large Language Models (LLMs)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Music</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Notes, Chords, Bars, Timing Events, MIDI Tokens</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Representation varies: symbolic (MIDI), waveform, or spectrogram</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Sensor Data</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Events, Packets, Timestamps, Multimodal Vectors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used in robotics and IoT, often real-time</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Many current AI libraries are built using Python or Rust, is there a need for C++ versions of these libraries?</strong></p>
+<div class="paragraph">
+<p>Perhaps not in all cases, but many applications will need performance, cross-platform portability, or integration with existing or embedded systems, all of which C++ excels at. Imagine adding real-time generative AI into a game or visual simulation, the performance requirement is the deciding factor.</p>
+</div>
+</li>
+<li>
+<p><strong>Can you give me some ideas for libraries that could be created and added to Boost?</strong></p>
+<div class="paragraph">
+<p>Here are some good candidates for AI libraries, with their respective use-cases:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Boost.TokenStream - efficiently tokenizes words into subwords and characters so that a command such as "Turn on the lights" is understood. A C++ version could support inference on an edge device such as a microcontroller to run offline voice assistance.</p>
+</li>
+<li>
+<p>Boost.AIGen - rapidly prototypes models that generate descriptions of simulation states, and returns generated descriptions or structured images. This could be a lightweight generative model abstraction layer that enables experimentation with text, image, audio, or multi-modal generation.</p>
+</li>
+<li>
+<p>Boost.Autograd - provides a lightweight automatic differentiation engine to
+simulate and optimize fluid flow using neural networks that respect physical laws. This requires differentiation of physical equations.</p>
+</li>
+<li>
+<p>Boost.MLGraph - defines and executes computation graphs with typed nodes and edges, enabling graph-based machine language research using custom model formats.</p>
+</li>
+<li>
+<p>Boost.Prompting - a C++ toolkit to structure, serialize, and test prompts for Large Lanugage Model (LLM)-based applications. Prompts could be built dynamically and used by assistants, chatbots, games, and perhaps robotics.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Would the project structure of a generative AI library be any different for any other Boost library?</strong></p>
+<div class="paragraph">
+<p>Not at all, if you were to take our Boost.TokenStream idea and develop it, the project structure could look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">boost-token-stream/
+├── include/
+│   └── boost/
+│       └── token-stream/
+│           ├── bpe.hpp             # Public API
+│           ├── vocab.hpp           # Vocab structure
+│           ├── merge_rules.hpp     # Merge rules structure
+│           └── error.hpp           # Error handling and outcome types
+├── src/
+│   └── bpe.cpp                     # Implementation (if not header-only)
+├── test/
+│   ├── test_bpe.cpp                # Unit tests
+│   └── test_vocab.cpp              # Vocab loading/lookup tests
+├── CMakeLists.txt
+└── README.md</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>I want to experiment with creating a library for scene based generative AI, but I find all the necessary components somewhat daunting. Are there Boost libraries that can lighten the load?</strong></p>
+<div class="paragraph">
+<p>For an experimental project, consider structuring it around the following, assuming the input is a raw still image, and the output is a generated image:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/gil">Boost.Gil</a> : Loads your image and provides pixel access</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/graph">Boost.Graph</a> : Represents the layout/scene structure</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/variant2">Boost.Variant2</a> : Stores object types (components such as Tree, Sky, Road, Building, etc.)</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/fusion">Boost.Fusion</a>: Serializes scene components</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/log">Boost.Log</a> : Records scene parsing statistics</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/program_options">Boost.ProgramOptions</a> : CLI for batch parsing and config</p>
+<div class="paragraph">
+<p>For more ideas, refer to <a href="../user-guide/task-machine-learning.html" class="xref page">Machine Learning</a>.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>What is considered to be best practices when testing a generative AI model, given we can never be sure when it has got it all right?</strong></p>
+<div class="paragraph">
+<p>Testing a generative AI model, or library component, is fundamentally different from traditional software testing because there&#8217;s no single correct output — outputs are often subjective, diverse, and probabilistic. However, there are best practices that help ensure quality, safety, and usefulness. Start by engaging the following methods:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Pros</th>
+<th class="tableblock halign-left valign-top">Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Automated Metrics</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BLEU, ROUGE, METEOR, Perplexity, FID (for images), etc.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fast, repeatable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Poor at capturing nuance</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Human Evaluation</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Judges rate quality, relevance, etc.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High-quality insights</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time-consuming, subjective</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Adversarial Testing</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Try to break the model with edge cases or trick inputs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uncovers weaknesses</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requires creativity and care</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Behavioral Unit Tests</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Small, targeted tests for expected responses</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Precise</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Limited coverage</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><em>Perfect</em> doesn&#8217;t apply in generative AI. Instead, strive for consistent quality, clear boundaries, and safe behavior:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Define clear evaluation goals and test across diverse datasets</p>
+</li>
+<li>
+<p>Simulate misuse - prompt injection, toxic output, sensitive topics</p>
+</li>
+<li>
+<p>Track <em>hallucinations</em> - the AI term for clearly incorrect statements or images</p>
+</li>
+<li>
+<p>Track consistency - does the model contradict itself</p>
+</li>
+<li>
+<p>Conduct <em>temperature sweeps</em> - AI term for measuring the balance between boring/repetitive and overly chaotic output</p>
+</li>
+<li>
+<p>Be transparent and document limitations</p>
+</li>
+<li>
+<p>Consider continuous monitoring in production - collect and analyze feedback</p>
+<div class="paragraph">
+<p>A prospective generative AI Boost library would only need testing within its own domain of functionality, but the design should be cognizant of the testing a finished application is going to require.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modular_boost"><a class="anchor" href="#_modular_boost"></a>Modular Boost</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What is meant by "Modular Boost"?</strong></p>
+<div class="paragraph">
+<p>Technically, Modular Boost consists of the Boost super-project and separate projects for each individual library in Boost. In terms of Git, the Boost super-project treats the individual libraries as submodules. Currently (early 2024) when the Boost libraries are downloaded and installed, the build organization does <em>not</em> match the modular arrangement of the Git super-project. This is largely a legacy issue, and there are advantages to the build layout matching the super-project layout. This concept, and the effort behind it, is now known as "Modular Boost".</p>
+</div>
+<div class="paragraph">
+<p>In the past, the term has been used more broadly to refer simply to libraries in different repositories. This definition has now been tightened to mean a flat layout where each library is in its own sub-module, and there are no sub-libraries as there have been in the past (for example, the <code>numeric</code> libraries).</p>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="superproject/overview.html" class="xref page">Super-Project Layout</a> for a full description of the super-project.</p>
+</div>
+</li>
+<li>
+<p><strong>What exactly is a "modular arrangement"?</strong></p>
+<div class="paragraph">
+<p>It&#8217;s when the libraries can be used, and hence built, without creating the monolithic headers, without needing the root build files, and without needing the libraries to be arranged in the usual <code>root/libs/&lt;name&gt;</code> format.</p>
+</div>
+</li>
+<li>
+<p><strong>Will the move to Modular Boost change testing?</strong></p>
+<div class="paragraph">
+<p>No, unless you want to. You will still be able to test with the current non-modular way. But you could also test the modular way.</p>
+</div>
+</li>
+<li>
+<p><strong>How will modular Boost work if there is no <code>root/libs/&lt;name&gt;</code> structure? Or is the structure still required?</strong></p>
+<div class="paragraph">
+<p>The structure is still required for things like testing and documentation building.</p>
+</div>
+</li>
+<li>
+<p><strong>What happens to the numeric libraries that are currently sub-libraries, when sub-libraries are no longer supported?</strong></p>
+<div class="paragraph">
+<p>The numeric libraries have been divided into four packages: libboost-numeric-conversion/, libboost-numeric-interval/, libboost-numeric-odeint/, libboost-numeric-ublas/.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_post_release_engagement"><a class="anchor" href="#_post_release_engagement"></a>Post-Release Engagement</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Through what channels do Boost library authors typically receive the most feedback?</strong></p>
+<div class="paragraph">
+<p>Primarily the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost-users">Boost Users Mailing List</a> and the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost Developers Mailing List</a>. In addition, checkout GitHub Issues and Pull Requests. Also, the Boost forums on <a href="https://slack.com/">Slack</a> can be active.</p>
+</div>
+<div class="paragraph">
+<p>Example of communication flow:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>A new library release is announced on the Boost mailing lists.</p>
+</li>
+<li>
+<p>Users start discussing the new release on the mailing lists, reporting initial impressions and any issues encountered.</p>
+</li>
+<li>
+<p>Users report bugs and request features on the relevant GitHub repository, leading to active discussions in the issues and pull requests sections.</p>
+</li>
+<li>
+<p>Boost library authors and contributors discuss technical details and implementation strategies on the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost Developers Mailing List</a>.</p>
+</li>
+<li>
+<p>Users seeking immediate help might turn to <a href="https://slack.com/">Slack</a> or sometimes <a href="https://discord.com/">Discord</a> for quick responses, or directly communicate with the authors if email or forum addresses are made public.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>What kind of communication from the C++ developer community have library authors received after public release of their library into the Boost collection?</strong></p>
+<div class="paragraph">
+<p>Authors often receive a variety of feedback, which should be welcomed to help authors gauge the acceptance and usability of their library. Feedback can be categorized into several types:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>General feedback includes both positive and negative comments about the overall design, usability, and documentation of the library. The most common comments include praise for a well-designed API, criticism of complex or confusing documentation, and suggestions for improving user experience.</p>
+</li>
+<li>
+<p>Developers may ask for help or clarification on how to use certain features of the library, especially clarifications on API usage. Another common request is for example code to demonstrate specific use cases, or help with integrating the library into their own projects.</p>
+</li>
+<li>
+<p>Bug reports or issues developers encounter while using the library. These can range from minor issues, such as documentation typos, to major bugs that affect the functionality of the library. The more serious examples include: inconsistent behavior across different platforms, crashes or memory leaks in certain use cases, or incorrect results from specific functions.</p>
+</li>
+<li>
+<p>Feature requests are not uncommon, such as support for additional platforms or compilers, new algorithms or data structures, or performance improvements and optimizations.</p>
+</li>
+<li>
+<p>Performance feedback related to the performance of the library, including benchmarking results and suggestions for optimizations. Typically this centers around reports of slow performance in certain scenarios, comparisons with similar libraries, or suggestions for algorithmic improvements.</p>
+</li>
+<li>
+<p>Portability issues are also to be expected, related to building or running the library on different platforms, operating systems, or compilers. Obvious issues include compilation errors on specific platforms, incompatibilities with certain compiler versions, or issues with platform-specific dependencies.</p>
+</li>
+<li>
+<p>There can be integration feedback on how well the library integrates with other libraries, frameworks, or tools in the C++ ecosystem. This can include integrating even with other Boost libraries as well as other third-party libraries.</p>
+</li>
+<li>
+<p>Finally, it is important to remember that members of the community can contribute to a library by submitting patches, improvements, or additional features. These updates tend to focus on code optimizations, and bug fixes. Less often they are enhancements to the library&#8217;s functionality.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>Can you give me some examples of user requests for library improvements and describe the response from the authors or maintainers?</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a> received numerous bug reports and feature requests related to its asynchronous I/O capabilities. Users asked for better documentation and examples for common use cases, such as implementing network protocols. The author, Christopher M. Kohlhoff, responded by improving documentation and providing more examples and tutorials. The library also received several community-contributed enhancements and bug fixes.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/python">Boost.Python</a> users reported issues related to compatibility with different versions of Python and C++ compilers. There were also many requests for new features to better support modern C++ standards and Python 3.x. The maintainers addressed these issues by updating the library to support newer Python versions and C++ standards. The community also contributed patches to fix compatibility issues and add new features.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/spirit">Boost.Spirit</a>, a library for creating parsers and generators, received feedback about its steep learning curve and complex documentation. Users requested more tutorials and simpler examples. The authors and the community worked on improving the documentation and providing more examples. The library also saw several enhancements to make it more user-friendly and easier to learn.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/thread">Boost.Thread</a> ran into issues with changes in the C++11 standard library, which introduced its own threading support.
+The authors had to adapt <a href="https://www.boost.org/libs/thread">Boost.Thread</a> to coexist with and complement the standard library&#8217;s threading facilities, leading to significant refactoring.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/graph">Boost.Graph</a> initially included some incorrect assumptions about graph properties and algorithms, this led to bugs that required reworking the design to support a wider range of graph types and use cases.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/math">Boost.Math</a> initially had issues in mathematical algorithms that produced incorrect results in some cases, and required redesigning the affected components to ensure greater robustness.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/interprocess">Boost.Interprocess</a> had some bugs related to shared memory management that led to memory corruption, requiring a redesign of the allocation and synchronization mechanisms.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> early versions had an API that was inconsistent and difficult to extend. The introduction of the v3 API addressed these issues, providing a more robust and user-friendly interface.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/multi_index">Boost.MultiIndex</a> had performance issues with certain types of queries and modifications which required rethinking the internal data structures and algorithms to improve efficiency.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/geometry">Boost.Geometry</a> had performance bottlenecks in spatial indexing and query algorithms. This required redesigning parts of the library to handle large datasets more efficiently.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/regex">Boost.Regex</a> had issues with regular expression processing that could be exploited for denial-of-service attacks. This required redesigning parts of the matching engine to improve security and robustness. Refer to <a href="#security">Security</a> for more details.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> also had <a href="#security">Security</a> issues - vulnerabilities in handling serialized data could lead to arbitrary code execution or data corruption. This was addressed with changes to the serialization mechanisms.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>What have been the most unpleasant surprises that Boost library authors have to deal with?</strong></p>
+<div class="paragraph">
+<p>Here are some of the most notable ones:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Changes in the C++ standard or the introduction of new features can sometimes break backward compatibility, leading to user complaints and requiring significant effort to fix.</p>
+</li>
+<li>
+<p>Authors have encountered unexpected behavior or compilation errors on less common platforms, requiring extensive debugging and platform-specific fixes.</p>
+</li>
+<li>
+<p>Boost has its own <a href="https://www.boost.org/tools/build">B2</a> system (though CMake can also be used), which can be complex and difficult for new users to understand. Authors have received feedback about difficulties in building the library, leading to extensive support and documentation efforts to help users get started.</p>
+</li>
+<li>
+<p>Authors have had to deal with unexpected slowdowns (performance regressions) reported by users, requiring detailed performance analysis and sometimes reworking or reverting changes.</p>
+</li>
+<li>
+<p>Users often have high expectations, and meeting these expectations can be challenging, especially for volunteer-driven projects. Authors sometimes face criticism for perceived shortcomings in these areas.</p>
+</li>
+<li>
+<p><em>Dependency hell</em> : there can be a complex web of dependencies, and managing these dependencies can be challenging, especially when changes in one library affect others. Authors sometimes find it difficult to keep everything in sync.</p>
+</li>
+<li>
+<p>Like all software, Boost libraries can have security vulnerabilities that need to be addressed promptly. Carefully read the <a href="#security">Security</a> section.</p>
+</li>
+<li>
+<p>Managing contributions from the community, ensuring code quality, and handling disagreements can be challenging.</p>
+</li>
+<li>
+<p>Writing and maintaining comprehensive documentation is crucial but often neglected due to the focus on coding.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>What mitigation strategies have Boost library authors employed to mitigate these unpleasant surprises?</strong></p>
+<div class="paragraph">
+<p>Primarily implementing a comprehensive <a href="testing/boost-test-matrix.html" class="xref page">Test Matrix</a> to catch issues early. <a href="testing/continuous-integration.html" class="xref page">Continuous Integration (CI)</a> systems ensure consistent builds and tests across multiple platforms and configurations. Also actively engaging with the community through forums, mailing lists, and GitHub to gather feedback and address issues promptly. Last but not least, investing time in writing clear, detailed <a href="docs/layout.html" class="xref page">Documentation</a> and tutorials to help users get started and understand complex features.</p>
+</div>
+<div class="paragraph">
+<p>After the initial release, consider releasing regular updates to address bugs, improve performance, and add features as necessary, based on user feedback. Refer to <a href="version-control.html" class="xref page">Version Control</a>.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Whereas promptly addressing issues is important, haste is not always the right approach. When critical bugs are identified, detailed bug reports are needed, and the library authors and contributors analyze the bugs, discuss possible solutions, and plan the necessary changes. Significant redesign or refactoring of the affected parts of the library may be needed to address the issues. This will involve extensive testing and should not be rushed.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>About how long following release of a library does it take before communication dies down, say to just an occasional email or forum question?</strong></p>
+<div class="paragraph">
+<p>The duration and intensity of communication following the release of a Boost library obviously varies widely depending on several factors, the complexity and popularity of the library, the initial quality of the release, and the responsiveness of the authors to early feedback. However, a general pattern has been observed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>During the <em>initial surge</em> (0-3 months) the communication intensity is high. Authors are typically engaged and active during this period, addressing issues promptly, releasing patches or updates, and improving documentation based on feedback.</p>
+</li>
+<li>
+<p>A <em>stabilization period</em> (3-12 months) follows, with moderate feedback. Authors continue to be engaged but may start shifting focus to other projects or new features for the library, so response times can slow.</p>
+</li>
+<li>
+<p>The <em>maturity phase</em> (12+ months) involves sporadic communication, often related to edge cases or specific environments. Authors may check in periodically but are generally less active unless major issues arise or a significant update is planned.</p>
+<div class="paragraph">
+<p>More complex libraries (for example, <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> or <a href="https://www.boost.org/libs/asio">Boost.Asio</a>) tend to have longer periods of active communication due to their advanced features and higher potential for integration challenges. Libraries that quickly gain a large user base will have prolonged and more intense periods of communication. Popular libraries like <a href="https://www.boost.org/libs/python">Boost.Python</a> tend to have more sustained engagement. <strong>Libraries with thorough initial documentation and fewer bugs tend to stabilize faster.</strong> Poor documentation or frequent bugs can extend the period of high communication.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Say developers greatly appreciate a new library, what kind of praise have they given, or have they remained fairly silent?</strong></p>
+<div class="paragraph">
+<p>Silence is common but praise does come in various ways, both publicly and privately. The feedback can be quite enthusiastic and detailed, highlighting the library&#8217;s impact on their work and its overall quality. Developers often post messages of appreciation on the Boost mailing lists or Slack forums. These posts can range from simple thank-yous to detailed accounts of how the library has helped solve specific problems: <em>"<a href="https://www.boost.org/libs/python">Boost.Python</a> has significantly reduced the complexity of integrating C++ with Python in our project. The documentation is clear, and the API is intuitive. Kudos to the developers!"</em></p>
+</div>
+<div class="paragraph">
+<p>Praise is also shared on social media platforms like X, LinkedIn, and personal or company blogs. Developers might write blog posts detailing their experiences and the benefits they&#8217;ve gained from using the library: <em>"Just integrated <a href="https://www.boost.org/libs/asio">Boost.Asio</a> into our server application. The performance improvements are phenomenal! Big thanks to the Boost community!"</em></p>
+</div>
+<div class="paragraph">
+<p>Developers might mention and praise Boost libraries in their talks at conferences or meetups. They often showcase how they used the library to solve challenging problems: for example, a presentation at <a href="https://github.com/CppCon">CppCon</a> highlighted the use of <a href="https://www.boost.org/libs/hana">Boost.Hana</a> for metaprogramming and how it simplified complex template code.</p>
+</div>
+<div class="paragraph">
+<p>Private emails to the library authors expressing their gratitude and sharing success stories are also not uncommon.
+For example <em>"I wanted to thank you for your work on <a href="https://www.boost.org/libs/graph">Boost.Graph</a>. It has been instrumental in our network analysis tool. Your dedication and support are greatly appreciated."</em></p>
+</div>
+<div class="paragraph">
+<p><em>"The documentation for <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> is outstanding. The examples made it easy to get started and understand the complex concepts."</em></p>
+</div>
+<div class="paragraph">
+<p><em>"<a href="https://www.boost.org/libs/multi_index">Boost.MultiIndex</a> has drastically improved our query performance. The library&#8217;s efficiency and flexibility are top-notch."</em></p>
+</div>
+<div class="paragraph">
+<p><em>"Integrating <a href="https://www.boost.org/libs/beast">Boost.Beast</a> for our HTTP server was seamless. The design and ease of use are commendable."</em></p>
+</div>
+<div class="paragraph">
+<p><em>"<a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> has been rock-solid in our cross-platform application. It handles all edge cases gracefully."</em></p>
+</div>
+<div class="paragraph">
+<p>Positive feedback and praise from developers not only encourages the library authors but also helps promote the library within the wider community. This can lead to increased adoption, further contributions, and continuous improvement of the library by the community. It can of course lead to additional communication.</p>
+</div>
+<div class="paragraph">
+<p>Financial contributions or sponsorships as a token of appreciation are rare!</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="safecpp"><a class="anchor" href="#safecpp"></a>Safe C++</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>As a contributor of a library to Boost, what do I need to know about Safe C++?</strong></p>
+<div class="paragraph">
+<p>The current lack of memory-safety makes it too easy for malicious software to exploit C++ language vulnerabilities and perform a variety of attacks. However, retrofitting the C++ language with memory-safe constructs has proven to be daunting. The <a href="https://safecpp.org/P3390R0.html">Safe C++</a> proposal for a memory-safe set of operations is currently in a state of indefinite hiatus.</p>
+</div>
+<div class="paragraph">
+<p>Clearly there could be significant interest in safe versions of Boost libraries, though the level of work involved extends well beyond rewriting a library using safe extensions, as <em>all</em> dependencies would also have to be safe versions too.</p>
+</div>
+<div class="paragraph">
+<p>Currently, an astute developer should use known safe practices (some of which are shown below), avoid unsafe libraries if there is a choice, and be aware of the discussions on safe coding practices going on in social media.</p>
+</div>
+</li>
+<li>
+<p><strong>What kind of feedback did the proposal for Safe C++ receive?</strong></p>
+<div class="paragraph">
+<p>Positive feedback centered on appreciation of the initiative to address longstanding safety concerns in C++. More challenging feedback has included concerns about the complexity of integrating new safety features into the existing C++ framework, balancing enhanced safety with the language&#8217;s core design features of performance and flexibility, and competition from the <a href="https://www.rust-lang.org/">RUST</a> and <a href="https://developer.apple.com/swift/">Swift</a> programming languages.</p>
+</div>
+</li>
+<li>
+<p><strong>Are there references I can read that will help me understand safe concepts and so understand the online discussions?</strong></p>
+<div class="paragraph">
+<p>Yes, in addition to the, now stalled, <a href="https://safecpp.org/P3390R0.html">Safe C++</a> proposal, the <a href="https://herbsutter.com/2024/03/11/safety-in-context/">C++ safety, in context</a> blog post, by Herb Sutter, has been written for a broad audience. Also by Herb Sutter, there is a paper entitled <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3081r0.pdf">Core safety Profiles: Specification, adoptability, and impact</a>.</p>
+</div>
+<div class="paragraph">
+<p>If you refer to the <strong>References</strong> section of any of these papers, you will find a range of books, papers, presentations and the like that delve to various depths into safety issues. For example, the <a href="https://open-std.org/JTC1/SC22/WG21/docs/papers/2023/p2816r0.pdf">Safety Profiles: Type-and-resource Safe programming in ISO Standard C++</a>, by Bjarne Stroustrup and Gabriel Dos Reis, outlines a talk on the broad spectrum of safety issues in a chattier style than the more formal programming papers - and might be a good place to start!</p>
+</div>
+</li>
+<li>
+<p><strong>Can you recommend some Boost libraries that demonstrate current best safe-coding practices?</strong></p>
+<div class="paragraph">
+<p>By examining the source code and documentation for any of these libraries, you should be able to educate yourself on a robust approach to safe programming, using current development tools.</p>
+</div>
+<div class="paragraph">
+<p>For <em>memory-safety</em>, <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> provides smart pointer types like <code>boost::shared_ptr</code>, <code>boost::weak_ptr</code>, and <code>boost::scoped_ptr</code> to manage dynamic memory safely and avoid common pitfalls like memory leaks and dangling pointers. <a href="https://www.boost.org/libs/pool">Boost.Pool</a> offers memory pooling utilities that efficient managing of memory allocations while minimizing fragmentation. It can help show how to avoid unsafe manual memory management.</p>
+</div>
+<div class="paragraph">
+<p>For <em>type-safety</em>, <a href="https://www.boost.org/libs/static_assert">Boost.StaticAssert</a> facilitates compile-time checks with <code>BOOST_STATIC_ASSERT</code>, ensuring that certain conditions are met during compilation, thus improving type-safety. Also, <a href="https://www.boost.org/libs/type_traits">Boost.TypeTraits</a> supplies a set of tools for type introspection, enabling safer template programming by providing ways to query and manipulate types.</p>
+</div>
+<div class="paragraph">
+<p>For <em>resource-safety</em> <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> is designed to work with file paths and directories safely, minimizing errors in handling filesystem resources and ensuring proper cleanup. <a href="https://www.boost.org/libs/scope_exit">Boost.ScopeExit</a> provides a mechanism for ensuring cleanup of resources (e.g., releasing locks or closing file handles) when a scope is exited, both normally or due to an exception. And <a href="https://www.boost.org/libs/interprocess">Boost.Interprocess</a> facilitates safe and efficient interprocess communication (IPC), managing shared memory and other resources in a resource-safe way.</p>
+</div>
+<div class="paragraph">
+<p>For <em>thread-safety</em> <a href="https://www.boost.org/libs/thread">Boost.Thread</a> offers portable thread management and synchronization primitives (such as <code>boost::mutex</code>, <code>boost::lock_guard</code>) to help developers write thread-safe code. <a href="https://www.boost.org/libs/asio">Boost.Asio</a> enables asynchronous I/O operations with an emphasis on thread-safety, making it easier to build safe and scalable networked applications. At a lower level, <a href="https://www.boost.org/libs/atomic">Boost.Atomic</a> provides atomic operations for thread-safe programming, avoiding data races in concurrent applications.</p>
+</div>
+<div class="paragraph">
+<p>For a more general approach to safety, <a href="https://www.boost.org/libs/optional">Boost.Optional</a> introduces a way to handle optional values safely, avoiding issues like null pointer dereferencing.
+<a href="https://www.boost.org/libs/variant2">Boost.Variant2</a> provides a type-safe <code>union</code> type, ensuring that only one active type is stored at any time, preventing type misuse errors. <a href="https://www.boost.org/libs/coroutine2">Boost.Coroutine2</a> implements stackful coroutines with resource management in mind, preventing unsafe usage patterns.</p>
+</div>
+</li>
+<li>
+<p><strong>Using current development tools what are the design principles of safe programming?</strong></p>
+<div class="paragraph">
+<p>Current best practices start with the use of static and compile-time checks to enforce constraints early. For resource-safety the idiom is  <em>Resource Acquisition Is Initialization</em> (RAII). This idiom ties the lifetime of a resource to a programming object, so that when the object is created the resource is initialized, and when the object is destroyed the resource is released. However, the central theme of current safety is <em>Encapsulation</em> - the encapsulation of known unsafe operations in well-tested, robust, reusable abstractions, for example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Instead of exposing raw pointers, use smart pointers or custom encapsulation to ensure safe memory management:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">//
+// Unsafe code
+//
+
+int* allocateArray(size_t size) {
+    return new int[size];
+}
+
+void useArray() {
+    int* arr = allocateArray(10);
+
+    // No bounds checking.
+    arr[10] = 42;
+
+    // Forgetting to delete could cause memory leaks.
+    delete[] arr;
+}
+
+//
+// Safe encapsulation
+//
+
+#include &lt;vector&gt;
+#include &lt;memory&gt;
+
+class SafeArray {
+private:
+    std::unique_ptr&lt;int[]&gt; data;
+    size_t size;
+
+public:
+    SafeArray(size_t size) : data(std::make_unique&lt;int[]&gt;(size)), size(size) {}
+
+    int&amp; operator[](size_t index) {
+        if (index &gt;= size) {
+            throw std::out_of_range("Index out of range");
+        }
+        return data[index];
+    }
+
+    size_t getSize() const { return size; }
+};
+
+void useSafeArray() {
+    SafeArray arr(10);
+
+    // Safe access
+    arr[0] = 42;
+    try {
+
+        // Throws an exception
+        arr[10] = 13;
+    } catch (const std::out_of_range&amp; e) {
+        std::cerr &lt;&lt; e.what() &lt;&lt; std::endl;
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Handle file operations safely by ensuring that the file is properly closed after use.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">//
+// Unsafe code
+//
+
+void writeFile(const std::string&amp; filename) {
+    FILE* file = fopen(filename.c_str(), "w");
+    if (file) {
+        fputs("Hello, World!", file);
+
+        // Forgetting fclose could cause resource leaks.
+    }
+}
+
+//
+// Safe encapsulation
+//
+
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+
+class FileHandler {
+private:
+    std::ofstream file;
+
+public:
+    explicit FileHandler(const std::string&amp; filename) {
+        file.open(filename, std::ios::out);
+        if (!file) {
+            throw std::ios_base::failure("Failed to open file");
+        }
+    }
+
+    ~FileHandler() {
+        if (file.is_open()) {
+            file.close();
+        }
+    }
+
+    void write(const std::string&amp; content) {
+        if (!file) {
+            throw std::ios_base::failure("File not open");
+        }
+        file &lt;&lt; content;
+    }
+};
+
+void safeWriteFile(const std::string&amp; filename) {
+    try {
+        FileHandler fh(filename);
+        fh.write("Hello, World!");
+    } catch (const std::exception&amp; e) {
+        std::cerr &lt;&lt; "Error: " &lt;&lt; e.what() &lt;&lt; std::endl;
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Prevent race conditions by wrapping shared resources in a thread-safe interface.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">//
+// Unsafe code
+//
+
+#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;vector&gt;
+
+int counter = 0;
+
+void incrementCounter() {
+    for (int i = 0; i &lt; 1000; ++i) {
+
+        // Race condition
+        ++counter;
+    }
+}
+
+void unsafeThreads() {
+    std::thread t1(incrementCounter);
+    std::thread t2(incrementCounter);
+    t1.join();
+    t2.join();
+
+    // Undefined behavior
+    std::cout &lt;&lt; "Counter: " &lt;&lt; counter &lt;&lt; std::endl;
+}
+
+//
+// Safe encapsulation
+//
+
+#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;vector&gt;
+#include &lt;mutex&gt;
+
+class ThreadSafeCounter {
+private:
+    int counter = 0;
+    std::mutex mtx;
+
+public:
+    void increment() {
+        std::lock_guard&lt;std::mutex&gt; lock(mtx);
+        ++counter;
+    }
+
+    int get() const {
+        return counter;
+    }
+};
+
+void safeThreads() {
+    ThreadSafeCounter counter;
+
+    auto worker = [&amp;counter]() {
+        for (int i = 0; i &lt; 1000; ++i) {
+            counter.increment();
+        }
+    };
+
+    std::thread t1(worker);
+    std::thread t2(worker);
+    t1.join();
+    t2.join();
+
+    // Guaranteed correct result
+    std::cout &lt;&lt; "Counter: " &lt;&lt; counter.get() &lt;&lt; std::endl;
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Instead of using raw sockets, encapsulate them in a class that ensures proper resource cleanup.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">//
+// Unsafe code
+//
+
+#include &lt;sys/socket.h&gt;
+#include &lt;unistd.h&gt;
+
+int createSocket() {
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock == -1) {
+        perror("Socket creation failed");
+        return -1;
+    }
+
+    // Forgetting close(sock) could cause resource leaks.
+    return sock;
+}
+
+//
+// Safe encapsulation
+//
+
+#include &lt;sys/socket.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdexcept&gt;
+
+class SafeSocket {
+private:
+    int sock;
+
+public:
+    SafeSocket() {
+        sock = socket(AF_INET, SOCK_STREAM, 0);
+        if (sock == -1) {
+            throw std::runtime_error("Socket creation failed");
+        }
+    }
+
+    ~SafeSocket() {
+        if (sock != -1) {
+            close(sock);
+        }
+    }
+
+    int getSocket() const {
+        return sock;
+    }
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By wrapping low-level operations in safe abstractions, you make the code easier to use and much harder to misuse!</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="security"><a class="anchor" href="#security"></a>Security</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What are the known security vulnerabilities of the language C++ that I should be aware of when developing my Boost library?</strong></p>
+<div class="paragraph">
+<p>There are several known security vulnerabilities and pitfalls associated with the C++ language that developers should be aware of when developing libraries. Leveraging security tools, static analysis, and code reviews can help identify and address security issues early in the development lifecycle. In particular, be aware of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Buffer overflows</em> occur when data is written beyond the boundaries of a fixed-size buffer, leading to memory corruption and potential exploitation. This vulnerability can be exploited by attackers to execute arbitrary code, crash the application, or manipulate program behavior.</p>
+</li>
+<li>
+<p><em>Null Pointer Dereferences</em> (accessing memory at address 0) can lead to undefined behavior, crashes, or security vulnerabilities. Null pointer dereferences are a common source of application instability and can be exploited by attackers to cause denial-of-service conditions or execute arbitrary code.</p>
+</li>
+<li>
+<p><em>Memory leaks</em> occur when memory allocated dynamically is not properly deallocated, leading to the exhaustion of available memory over time. While memory leaks may not directly result in security vulnerabilities, they can indirectly impact system stability and performance, potentially facilitating denial-of-service attacks or other security incidents.</p>
+</li>
+<li>
+<p><em>Deprecated functions</em> and APIs may be insecure or outdated, exposing applications to known vulnerabilities or security risks. Developers should avoid using deprecated functions and select modern, secure alternatives provided by the latest Boost or Standard libraries.</p>
+</li>
+<li>
+<p><em>Integer overflows and underflows</em> occur when arithmetic operations result in values that exceed the range of representable integer types. These vulnerabilities can lead to unexpected behavior, data corruption, or security vulnerabilities, especially in security-critical code paths such as input validation or memory allocation.</p>
+</li>
+<li>
+<p><em>Insecure input handling</em>, such as failure to validate input data or sanitize user input, can lead to injection attacks or buffer overflows. Developers should validate and sanitize input data to ensure that it meets expected criteria and is safe to process further.</p>
+</li>
+<li>
+<p><em>Unsafe type conversions</em>, such as casting pointers between incompatible types or using implicit type conversions without validation, can lead to memory corruption or data integrity issues. Developers should use explicit type conversions and perform appropriate validation to prevent unintended behavior.</p>
+</li>
+<li>
+<p><em>Concurrency and synchronization issues</em>, such as data races, deadlocks, and race conditions, can lead to unpredictable behavior and security vulnerabilities in multithreaded applications. Developers should use thread-safe synchronization primitives and adopt best practices for concurrent programming.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Are there certain kinds of tests or certain testing styles that work well when trying to identify and remove security liabilities in C++ code?</strong></p>
+<div class="paragraph">
+<p>There are several types of tests and testing techniques that can be particularly effective for identifying and mitigating security vulnerabilities in C++ code, consider:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Unit testing</em> involves testing individual components or units of code in isolation to ensure they behave as expected. Writing comprehensive unit tests for critical functions, classes, and modules helps verify their correctness and robustness, including edge cases, boundary conditions, and error handling paths. Refer to <a href="testing/writing-tests.html" class="xref page">Writing Tests</a>.</p>
+</li>
+<li>
+<p><em>Fuzz testing</em>, also known as fuzzing, involves providing invalid, unexpected, or random input data to the program to identify potential vulnerabilities such as buffer overflows, null pointer dereferences, and other memory-related issues. Fuzz testing tools generate large volumes of test cases automatically and monitor the program&#8217;s behavior for crashes, hangs, or unexpected outputs. Refer to <a href="testing/fuzzing.html" class="xref page">Fuzz Testing</a>.</p>
+</li>
+<li>
+<p><em>Static analysis</em> tools analyze source code without executing it and identify potential security vulnerabilities, code smells, and best practice violations. Static analysis tools for C++ can detect issues such as buffer overflows, null pointer dereferences, integer overflows, uninitialized variables, and unsafe type conversions.</p>
+</li>
+<li>
+<p><em>Dynamic analysis</em> involves analyzing the behavior of the program during execution to identify security vulnerabilities, memory leaks, and runtime errors. Dynamic analysis tools for C++ can detect issues such as memory corruption, resource leaks, concurrency issues, and other runtime anomalies. Dynamic analysis techniques include memory sanitizers, address sanitizers, thread sanitizers, and runtime instrumentation. Refer to <a href="testing/sanitizers.html" class="xref page">Sanitize Your Code</a>.</p>
+</li>
+<li>
+<p><em>Penetration testing</em>, also known as <em>pen testing</em> or sometimes <em>ethical hacking</em>, involves simulating real-world attacks against the software to identify security vulnerabilities and assess the effectiveness of existing security measures.</p>
+</li>
+<li>
+<p>Finally, <em>code reviews</em> conducted by peers, security experts, or automated tools, and focus on identifying potential security vulnerabilities, design flaws, and implementation errors.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Are there Boost libraries that would help me guard against null pointer dereferencing?</strong></p>
+<div class="paragraph">
+<p>While there is not a specific library dedicated solely to null pointer dereference prevention, you can leverage several libraries:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> provides smart pointer classes such as <code>shared_ptr</code>, <code>unique_ptr</code>, and <code>weak_ptr</code>, which help manage dynamic memory allocation and deallocation automatically. Smart pointers implement <a href="https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization">RAII (Resource Acquisition Is Initialization)</a> semantics, ensuring that memory is properly released when it goes out of scope or is no longer needed. By using smart pointers instead of raw pointers, you can reduce the risk of null pointer dereferencing errors, as smart pointers automatically handle null checks and memory deallocation.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/optional">Boost.Optional</a> provides a type-safe wrapper for optional values, allowing you to represent nullable objects without resorting to raw pointers or null references.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/assert">Boost.Assert</a> provides macros and utilities for defining runtime assertions and preconditions in your code. You can use assertions to validate assumptions and guard against null pointer dereferences by checking for null pointers before dereferencing them.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/contract">Boost.Contract</a> provides a framework for specifying and enforcing function contracts, including preconditions, postconditions, and invariants. You can use contracts to define and enforce conditions that must be satisfied by function parameters, return values, and object states, including null pointer checks.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Are there Boost libraries that I could include in my library project that help with secure input validation?</strong></p>
+<div class="paragraph">
+<p>There are several libraries that provide functionalities for input validation, sanitization, and handling, helping to mitigate security vulnerabilities related to invalid or malicious input data:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/doc/html/string_algo.html">Boost.String_Algo</a> provides a collection of algorithms for string manipulation, including functions for removing leading or trailing whitespace, case conversion, tokenization, and search.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/tokenizer">Boost.Tokenizer</a> provides a tokenizer class for splitting input strings into tokens based on delimiter characters or regular expressions. This can be useful for parsing and validating input data that is structured or delimited, such as CSV files, configuration files, or network protocols. The tokenizer class allows you to define custom tokenization rules and handle edge cases effectively, improving the reliability and security of input data processing.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/property_tree">Boost.PropertyTree</a> provides a hierarchical data structure for representing and manipulating structured data, such as XML, JSON, INI, or property list formats. You can use it to parse, validate, and sanitize input data in various formats, ensuring that it conforms to expected schema or constraints before further processing.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/regex">Boost.Regex</a> provides a comprehensive regular expression library for pattern matching and text processing. Regular expressions can be powerful tools for validating and sanitizing input data, such as validating email addresses, URLs, or other structured formats.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> is a parsing and generation library that allows you to define parsers and generators directly within C++ code using a domain-specific embedded language (DSEL).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Are there Boost libraries that help with secure memory management?</strong></p>
+<div class="paragraph">
+<p>You can leverage various libraries to help ensure memory-safety, prevent memory-related vulnerabilities, and manage resources efficiently:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> provides smart pointer classes such as <code>shared_ptr</code>, <code>unique_ptr</code>, and <code>weak_ptr</code>, which help manage dynamic memory allocation and deallocation automatically. By using smart pointers, you can prevent common memory-related vulnerabilities such as memory leaks, dangling pointers, and double frees.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/pool">Boost.Pool</a> provides memory pool classes that allow you to efficiently allocate and deallocate fixed-size memory blocks from preallocated memory pools. Memory pools can help reduce memory fragmentation, improve memory locality, and minimize overhead associated with dynamic memory allocation.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/interprocess">Boost.Interprocess</a> povides classes and utilities for interprocess communication and shared memory management. This library allows multiple processes to share memory regions securely and efficiently, facilitating communication and data exchange between them, and offers features such as named shared memory, mutexes, condition variables, and allocators for managing shared memory resources robustly.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/ptr_container">Boost.PtrContainer</a> provides container classes that manage ownership and lifetime of dynamically allocated objects stored within them. These containers, such as <code>ptr_vector</code>, <code>ptr_list</code>, and <code>ptr_map</code>, automatically delete contained objects when the container is destroyed or when objects are removed from it. By using pointer containers, you can simplify memory management and ensure proper cleanup of dynamically allocated objects, reducing the risk of memory leaks and resource exhaustion.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/circular_buffer">Boost.CircularBuffer</a> provides a circular buffer data structure that manages a fixed-size buffer with automatic wrapping behavior. Circular buffers can be used to manage memory efficiently in scenarios where a fixed-size buffer is sufficient, and memory allocation and deallocation overhead, and fragmentation, need to be minimized.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>What penetration testing frameworks might work well with a new Boost library?</strong></p>
+<div class="paragraph">
+<p>While penetration testing frameworks typically focus on testing web applications, network services, and software systems, they are still useful for identifying security vulnerabilities and weaknesses in a new library, typically by developing a test application that fully engages the features of the library:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.metasploit.com/">Metasploit</a> is one of the most popular penetration testing frameworks, offering a wide range of tools and modules for exploiting vulnerabilities, conducting network reconnaissance, and assessing security posture. Metasploit modules can be customized to target specific vulnerabilities or attack vectors, such as buffer overflows, injection attacks, or memory corruption issues.</p>
+</li>
+<li>
+<p><a href="https://www.zaproxy.org/">OWASP ZAP</a> is an open-source web application security testing tool designed for finding security vulnerabilities in web applications and APIs. Boost libraries used in web applications or services may benefit from integration with ZAP to identify vulnerabilities related to input validation, injection attacks, and other web security issues.</p>
+</li>
+<li>
+<p><a href="https://nmap.org/">Nmap</a> (Network Mapper) is a powerful network scanning and reconnaissance tool used for discovering hosts and services on a network, identifying open ports, and detecting potential security vulnerabilities. Boost libraries used in networked applications or services may benefit from integration with Nmap to identify potential attack vectors, misconfigurations, or exposed services.</p>
+</li>
+<li>
+<p><a href="https://www.tenable.com/products/nessus">NESSUS</a> is a widely-used vulnerability scanning tool designed for identifying security vulnerabilities, misconfigurations, and compliance violations in networked environments.</p>
+</li>
+<li>
+<p><a href="https://portswigger.net/burp">Burp Suite</a> is a comprehensive web application security testing tool designed for finding security vulnerabilities in web applications and APIs, including input validation and injection attacks.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>In the past, can you give me some examples of where Boost libraries have fallen short and not prevented a malicious attack?</strong></p>
+<div class="paragraph">
+<p>Security vulnerabilities in Boost libraries are rare compared to many other software projects, thanks to the rigorous testing, code reviews, and scrutiny they undergo. Nevertheless, there have been a few instances where security issues have been identified in Boost libraries. Here are a couple of examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A vulnerability affected multiple versions of Boost (versions 1.61 through 1.63) and was related to the <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> library. The vulnerability allowed an attacker to bypass security restrictions and potentially execute arbitrary code by exploiting a symbolic link issue in the <code>remove_all</code> function. This issue was addressed in later versions of Boost, and users were advised to update their installations to mitigate the risk.</p>
+</li>
+<li>
+<p>Another vulnerability affected a later version of Boost (version 1.70). This vulnerability was related to the <a href="https://www.boost.org/libs/asio">Boost.Asio</a> library and could allow an attacker to cause a denial-of-service condition by triggering a stack overflow via a recursive function call. The issue was addressed in subsequent versions of <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, and users were encouraged to upgrade to the latest version to prevent potential exploitation.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>If I write a library for Boost, what are the legal ramifications if there are security breaches using features of my library?</strong></p>
+<div class="paragraph">
+<p>As a developer contributing a library to the Boost C++ libraries, you generally retain ownership of the copyright to your code, but you also grant a license to the Boost Software License (BSL) for distribution as part of the Boost libraries. The Boost Software License is a permissive open-source license that allows users to freely use, modify, and distribute the library, subject to certain conditions.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="../user-guide/bsl.html" class="xref page">Boost Software License</a> includes a disclaimer of liability clause, which limits the liability of the library author and contributors for damages arising from the use or distribution of the library. This means that as the library author, you are generally not held legally responsible for any damages or losses resulting from security breaches or vulnerabilities in your library.</p>
+</div>
+<div class="paragraph">
+<p>Users of your library are responsible for their own use and deployment of the library, including ensuring the security of their applications and systems. <strong>While you have a duty to exercise reasonable care in the development and maintenance of your library, users are ultimately responsible for assessing and mitigating any security risks associated with its usage.</strong></p>
+</div>
+<div class="paragraph">
+<p>In the event of a security breach or vulnerability in your library, it is important to respond promptly and responsibly by disclosing the issue, providing mitigations or workarounds, and releasing updates or patches to address the vulnerability. Prompt and transparent communication with the community helps minimize the impact of security incidents and demonstrates your commitment to security and accountability.</p>
+</div>
+<div class="paragraph">
+<p>Depending on the circumstances and applicable laws, there may be legal obligations to report security breaches or vulnerabilities, especially if they involve personal data or sensitive information. It&#8217;s important to familiarize yourself with relevant legal requirements and best practices for handling security incidents, including data breach notification laws and industry-specific regulations. Engaging with the Boost community and collaborating with security researchers can help identify and address security vulnerabilities proactively. Encouraging responsible disclosure of security issues, providing clear channels for reporting vulnerabilities, and acknowledging contributions from security researchers fosters a culture of security awareness and helps improve the overall security posture of your library.</p>
+</div>
+</li>
+<li>
+<p><strong>Can you recommend a book that would give me best practices for threat modelling for my Boost library?</strong></p>
+<div class="paragraph">
+<p>There are several books that cover threat modeling principles, techniques, and applicable best practices:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Threat Modeling: Designing for Security</em> by Adam Shostack. This book includes a comprehensive introduction to threat modeling, covering fundamental concepts, methodologies, and practical techniques for identifying and mitigating security threats in software systems.</p>
+</li>
+<li>
+<p><em>Threat Modeling: Uncover Security Design Flaws Using the STRIDE Approach</em> by Frank Swiderski and Window Snyder. This book introduces the STRIDE threat modeling framework, which helps identify and analyze security threats based on six categories: Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, and Elevation of Privilege.</p>
+</li>
+<li>
+<p><em>Threat Modeling: A Practical Guide for Development Teams</em> by Mark E. Donaldson, James B. Ransome, and Andrew N. Nelson. This book offers practical guidance, real-world examples, and insights for integrating threat modeling into the software development process. It covers a range of threat modeling techniques, tools, and best practices, including data flow diagrams, attack trees, and risk analysis.</p>
+</li>
+<li>
+<p><em>Software Security Engineering: A Guide for Project Managers</em> by Julia H. Allen, Sean Barnum, and Robert J. Ellison. This book provides a comprehensive overview of software security engineering principles, practices, and processes. It covers a wide range of topics related to software security, including threat modeling, security requirements analysis, security architecture, secure coding practices, and security testing.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_testing"><a class="anchor" href="#_testing"></a>Testing</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What Boost libraries are useful examples of how to add Continuous Integration (CI) into the library testing process?</strong></p>
+<div class="paragraph">
+<p>The following libraries are solid examples of how Continuous Integration (CI) is integrated into the testing process:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a> is a cross-platform library for network and low-level I/O programming that relies heavily on CI systems for testing and validation.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/test">Boost.Test</a> supports unit testing in C++ and provides a framework for writing and running test cases, as well as utilities for organizing and reporting test results. <a href="https://www.boost.org/libs/test">Boost.Test</a> leverages CI to ensure the correctness and reliability of its functionality across different platforms, compilers, and network configurations.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/thread">Boost.Thread</a>, a set of classes and functions for multithreading, is tested rigorously using CI systems to verify its correctness, performance, and portability across various platforms and environments. CI helps identify threading-related issues, including feared and difficult-to-debug race conditions.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/property_tree">Boost.PropertyTree</a> reads, manipulates and writes structured data. CI is used to validate the correctness and robustness of the parsing, serialization and manipulation features across diverse use cases and data sources.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> relies on CI systems to validate its functionality across different operating systems, file systems, and compiler environments, from basic file I/O operations to more complex file management tasks.</p>
+<div class="paragraph">
+<p>By studying how these libraries implement CI into their testing processes, newcomers can gain valuable insights into best practices for ensuring the quality and reliability of their own library contributions.</p>
+</div>
+<div class="paragraph">
+<p>Refer also to <a href="testing/continuous-integration.html" class="xref page">Continuous Integration</a>.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="best-practices.html" class="xref page">Development Best Practices</a></p>
+</li>
+<li>
+<p><a href="release-process.html" class="xref page">Release Process</a></p>
+</li>
+<li>
+<p><a href="version-control.html" class="xref page">Version Control</a></p>
+</li>
+<li>
+<p><a href="../user-guide/faq.html" class="xref page">User Guide FAQ</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/contributors-faq.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="getting-involved.html">Getting Involved</a></span>
+        <span class="next"><a href="requirements/library-requirements.html">Library</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

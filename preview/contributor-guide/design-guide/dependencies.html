@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Dependencies :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/design-guide/dependencies.html">
+    <link rel="prev" href="separate-compilation.html">
+    <link rel="next" href="borland.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Design</li>
+    <li><a href="dependencies.html">Dependencies</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="separate-compilation.html">
+      <span class="material-symbols-outlined" title="Previous: Separate Compilation">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="borland.html">
+      <span class="material-symbols-outlined" title="Next: Borland Portability">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Dependencies</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>A Boost library <em>does not generally</em> depend on other libraries, except for Boost or the C++ Standard Library. There are some exceptions. For example, <a href="https://www.boost.org/libs/iostreams">Boost.Iostreams</a>, and <a href="https://www.boost.org/libs/beast">Boost.Beast</a>, have an optional dependency on <a href="https://www.zlib.net/"><strong>zlib</strong></a>, to provide support for gzip and zlib compression and decompression. If zlib is not available, <a href="https://www.boost.org/libs/iostreams">Boost.Iostreams</a> will still work, but without the ability to handle gzip and zlib formats. Another example is <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, which has an optional dependency on <a href="https://www.openssl.org/"><strong>OpenSSL</strong></a>, to provide support for SSL and TLS protocols. These protocols are widely used for secure network communications. Again, if OpenSSL is not available, <a href="https://www.boost.org/libs/asio">Boost.Asio</a> will still work, but without support for SSL or TLS.</p>
+</div>
+<div class="paragraph">
+<p>Other examples include <a href="https://www.boost.org/libs/python">Boost.Python</a> interfaces with the Python C API, so obviously depends on a Python installation. <a href="https://www.boost.org/libs/locale">Boost.Locale</a> depends on the International Components for Unicode (<a href="https://icu.unicode.org/"><strong>ICU</strong></a>) to provide Unicode and localization support. On Unix systems, <a href="https://www.boost.org/libs/thread">Boost.Thread</a> relies on the <a href="https://www.cs.cmu.edu/afs/cs/academic/class/15492-f07/www/pthreads.html"><strong>pthread</strong></a> library. <a href="https://www.boost.org/libs/compute">Boost.Compute</a> has a dependency on <a href="https://www.khronos.org/opencl/"><strong>OpenCL</strong></a>.</p>
+</div>
+<div class="paragraph">
+<p>For other libraries that you might want to take a dependency on, get a discussion going first with the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers' mailing list</a>. The general rule is avoid <em>unreasonable</em> dependencies.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="benefits-and-effects-of-coupling"><a class="anchor" href="#benefits-and-effects-of-coupling"></a>Benefits and Effects of Coupling</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A Boost library <em>should</em> use other Boost Libraries, or the C++ Standard Library, when the benefits outweigh the costs. In general, Boost libraries are designed to be as independent as possible, so that users can pick and choose the libraries they need without being forced to include unnecessary code. Many Boost libraries are indeed standalone and can be used separately without any dependencies on other libraries.</p>
+</div>
+<div class="paragraph">
+<p>The benefits of using components from other libraries may include clearer, more understandable code, reduced development and maintenance costs, and the assurance which comes from reusing well-known and trusted building blocks. The costs may include undesirable coupling between components, and added compilation and runtime costs. If the interface to the additional component is complex, using it may make code less readable, and thus actually increase development and maintenance costs.</p>
+</div>
+<div class="paragraph">
+<p>Negative effects of coupling become obvious when one library uses a second library which uses a third, and so on. The worst form of coupling requires the user understand each of the coupled libraries. Coupling may also reduce the portability of a library - even in cases when all used libraries are self-sufficient (see <a href="#examples-of-questionable-dependencies">Examples of Questionable Dependencies</a>).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="examples-of-acceptable-dependencies"><a class="anchor" href="#examples-of-acceptable-dependencies"></a>Examples of Acceptable Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <a href="https://www.boost.org/libs/graph">Boost.Graph</a> library depends on <a href="https://www.boost.org/libs/iterator">Boost.Iterator</a> and <a href="https://www.boost.org/libs/property_map">Boost.PropertyMap</a>. Similarly, <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, mentioned above, depends on several other Boost libraries including <a href="https://www.boost.org/libs/system">Boost.System</a>, <a href="https://www.boost.org/libs/date_time">Boost.DateTime</a>, and <a href="https://www.boost.org/libs/bind">Boost.Bind</a>, and others. <a href="https://www.boost.org/libs/asio">Boost.Asio</a> itself is recommended if your library needs networking.</p>
+</div>
+<div class="paragraph">
+<p>A good example where another boost component should certainly be used is <a href="https://www.boost.org/libs/core">Boost.Core</a>, as it has considerable benefits; it simplifies code, improves readability, and signals intent. <a href="https://www.boost.org/libs/core">Boost.Core</a> contains small utilities, usually polyfills for standard components, which you use when targeting C++ standards where they are not available. Costs are low as coupling is limited; the <a href="https://www.boost.org/libs/core">Boost.Core</a> header includes only lightweight headers. There are no runtime costs at all. With costs so low and benefits so high, other boost libraries should use <a href="https://www.boost.org/libs/core">Boost.Core</a> when the need arises.</p>
+</div>
+<div class="paragraph">
+<p>Other Boost libraries you might consider as good foundational components include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/compatibility">Boost.Compatibility</a> has been updated recently and has a similar role to <a href="https://www.boost.org/libs/core">Boost.Core</a>. Its' classes provide polyfills from std classes, and have no extensions.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/config">Boost.Config</a> is used by almost all libraries. It provides macro definitions to make your code portable. It enables you to detect standard levels prior to C++17, to check which platform/compiler you are building for, and to add the relevant platform-specific code to create compiled libraries.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/assert">Boost.Assert</a> is in general recommended over plain <code>&lt;cassert&gt;</code>, as it provides a source_location polyfill. <a href="https://www.boost.org/libs/assert">Boost.Assert</a> is used by almost all Boost libraries, so using it makes your library more interoperable with the others.</p>
+</li>
+<li>
+<p>Similarly, <a href="https://www.boost.org/libs/throw_exception">Boost.ThrowException</a> is in general recommended over plainly throwing exceptions, as it adds more info to the thrown exceptions and makes behavior more configurable. As it too is widely used in exiting Boost libraries, good interoperability applies.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/utility">Boost.Utility</a> includes several non-templated, non-data structure related classes and functions, such as base-from-member idiom, checked delete, next and prior functions, noncopyable, and result_of.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/concept_check">Boost.ConceptCheck</a> provides tools for specifying and checking that types meet the requirements of generic algorithms. It&#8217;s used by many other libraries to ensure that template parameters meet the necessary requirements.</p>
+</li>
+<li>
+<p>For handling data types and structures, one of <a href="https://www.boost.org/libs/function_types">Boost.FunctionTypes</a>, <a href="https://www.boost.org/libs/fusion">Boost.Fusion</a>, <a href="https://www.boost.org/libs/any">Boost.Any</a>, <a href="https://www.boost.org/libs/variant">Boost.Variant</a>, or <a href="https://www.boost.org/libs/variant2">Boost.Variant2</a> might provide what you need.</p>
+</li>
+<li>
+<p>As well as supporting data types, <a href="https://www.boost.org/libs/variant2">Boost.Variant2</a> is preferred over <code>std::variant</code>, as it enforces better invariants and is never valueless, unlike is standard counterpart.</p>
+</li>
+<li>
+<p>For metaprogramming, <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> is the latest metaprogramming library and provides many of the building blocks for this style of programming. <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> should be used in preference over the older <a href="https://www.boost.org/libs/mpl">Boost.Mpl</a> and <a href="https://www.boost.org/libs/preprocessor">Boost.Preprocessor</a>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/describe">Boost.Describe</a> is valuable if you need reflection as part of your interface, which will occur when your library users are passing in user-defined types for your library to process.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="examples-of-questionable-dependencies"><a class="anchor" href="#examples-of-questionable-dependencies"></a>Examples of Questionable Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An example where another Boost component should <em>not</em> be used is simply where the use of the library is minimal, and does not justify the cost of having the dependency. Or perhaps when a C++ Standard Library has the same functionality for a lower cost.</p>
+</div>
+<div class="paragraph">
+<p>Other examples of questionable dependencies, outside of Boost, include libraries with unstable interfaces (libraries that change frequently), libraries that are platform-specific, not widely supported, not public, or are internal in some way. Obviously libraries with heavy runtime requirements should largely be avoided altogether.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/design-guide/dependencies.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="separate-compilation.html">Separate Compilation</a></span>
+        <span class="next"><a href="borland.html">Borland Portability</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

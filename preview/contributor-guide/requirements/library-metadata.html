@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Library Metadata :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/requirements/library-metadata.html">
+    <link rel="prev" href="organization-requirements.html">
+    <link rel="next" href="../design-guide/design-best-practices.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="organization-requirements.html">Organization</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Requirements</li>
+    <li><a href="library-metadata.html">Metadata</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="organization-requirements.html">
+      <span class="material-symbols-outlined" title="Previous: Organization">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="../design-guide/design-best-practices.html">
+      <span class="material-symbols-outlined" title="Next: Best Practices">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Library Metadata</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The sources for each library, or possibly a number of related libraries, is contained in a sub-module of the <a href="../version-control.html#super-project" class="xref page">Boost super-project</a>.
+Each sub-module <em>must</em> contain a file which describes the libraries that it contains. This is located at <code>meta/libraries.json</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="json-objects"><a class="anchor" href="#json-objects"></a>Json Objects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If the sub-module contains a single library, <code>libraries.json</code> should contain a single object, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">{
+    "key": "unordered",
+    "name": "Unordered",
+    "authors": [
+        "Daniel James"
+    ],
+    "maintainers": [
+        "Daniel James &lt;dnljms -at- gmail.com&gt;"
+    ],
+    "description": "Unordered associative containers.",
+    "std": [
+        "tr1"
+    ],
+    "category": [
+        "Containers"
+    ],
+    "cxxstd": "03"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or view: <a href="https://github.com/vinniefalco/unordered/blob/d05824312f4b4748f8975a4bdb9e51bfc10327b2/meta/libraries.json">unordered/meta
+/libraries.json</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="multiple-libraries"><a class="anchor" href="#multiple-libraries"></a>Multiple Libraries</h3>
+<div class="paragraph">
+<p>If the sub-module contains multiple libraries, <code>libraries.json</code> should contain a list of objects, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">[
+    {
+        "key": "algorithm",
+        "name": "Algorithm",
+        "authors": [
+            "Marshall Clow"
+        ],
+        "description": "A collection of useful generic algorithms.",
+        "category": [
+            "Algorithms"
+        ],
+        "maintainers": [
+            "Marshall Clow &lt;marshall -at- idio.com&gt;"
+        ],
+        "cxxstd": "03"
+    },
+    {
+        "key": "algorithm/minmax",
+        "name": "Min-Max",
+        "authors": [
+            "Hervé Brönnimann"
+        ],
+        "description": "Standard library extensions for simultaneous min/max and min/max element computations.",
+        "documentation": "minmax/",
+        "category": [
+            "Algorithms"
+        ],
+        "maintainers": [
+            "Marshall Clow &lt;marshall -at- idio.com&gt;"
+        ],
+        "cxxstd": "03"
+    },
+    {
+        "key": "algorithm/string",
+        "name": "String Algo",
+        "authors": [
+            "Pavol Droba"
+        ],
+        "description": "String algorithms library.",
+        "documentation": "string/",
+        "category": [
+            "Algorithms",
+            "String"
+        ],
+        "maintainers": [
+            "Marshall Clow &lt;marshall -at- idio.com&gt;"
+        ],
+        "cxxstd": "03"
+    }
+]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or view: <a href="https://github.com/boostorg/algorithm/blob/28dd87b90e79c5e1d9de82835125aa2bcbb3f468/meta/libraries.json">algorithm/meta/libraries.json</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="json-fields"><a class="anchor" href="#json-fields"></a>Json Fields</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All meta files should contain <code>key</code>, <code>name</code>, <code>description</code>, <code>authors</code>, <code>maintainers</code>, and <code>category</code>. The other fields are optional.</p>
+</div>
+<div class="sect2">
+<h3 id="key"><a class="anchor" href="#key"></a><code>key</code></h3>
+<div class="paragraph">
+<p>This is a unique identifier for the library, typically the path to it from the <code>libs</code> directory.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="boost-version"><a class="anchor" href="#boost-version"></a><code>boost-version</code></h3>
+<div class="paragraph">
+<p>The Boost version where the library was first added, such as: <code>"boost-version": "1.33.0"</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="name"><a class="anchor" href="#name"></a><code>name</code></h3>
+<div class="paragraph">
+<p>Human friendly name of the library.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="status"><a class="anchor" href="#status"></a><code>status</code></h3>
+<div class="paragraph">
+<p>Used for libraries with special statuses, currently can have the value <code>deprecated</code> for deprecated libraries, and <code>hidden</code> for libraries which shouldn&#8217;t be displayed to the user. Hidden libraries include <strong>detail</strong> and <strong>winapi</strong>, both of which are hidden because they are used as components of other libraries, and not intended as stand-alone libraries themselves.</p>
+</div>
+<div class="paragraph">
+<p>The library <a href="https://github.com/boostorg/coroutine/blob/1e1347c0b1910b9310ec1719edad8b0bf2fd03c8/meta/libraries.json">coroutine</a> is marked as "deprecated", though this does not mean full deprecation as this library is part of the Boost super-project, and will be tested each time the super-project is tested.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="authors"><a class="anchor" href="#authors"></a><code>authors</code></h3>
+<div class="paragraph">
+<p>Strings containing the names of the authors.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="description"><a class="anchor" href="#description"></a><code>description</code></h3>
+<div class="paragraph">
+<p>A brief description of the purpose of the library.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="maintainers"><a class="anchor" href="#maintainers"></a><code>maintainers</code></h3>
+<div class="paragraph">
+<p>One, or more, strings containing both the names and, usually, email addresses of the maintainers.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="std"><a class="anchor" href="#std"></a><code>std</code></h3>
+<div class="paragraph">
+<p>This is now an unused field.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="category"><a class="anchor" href="#category"></a><code>category</code></h3>
+<div class="paragraph">
+<p>A list of one or more of the <a href="#categories">Categories</a> that the library belongs to.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="documentation"><a class="anchor" href="#documentation"></a><code>documentation</code></h3>
+<div class="paragraph">
+<p>Path to the documentation, defaults to the root of the module.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="cxxstd"><a class="anchor" href="#cxxstd"></a><code>cxxstd</code></h3>
+<div class="paragraph">
+<p>The minimum C++ standard compilation level at which all, or the large majority, of the functionality in the library is usable. The possible values are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>98 = C++98</p>
+</li>
+<li>
+<p>03 = C++03</p>
+</li>
+<li>
+<p>11 = C++11</p>
+</li>
+<li>
+<p>14 = C++14</p>
+</li>
+<li>
+<p>17 = C++17</p>
+</li>
+<li>
+<p>20 = C++20</p>
+</li>
+<li>
+<p>23 = C++23</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The level only indicates the minimum level, which means that the functionality of the library can be used when compiling at that level or at a higher level. There may be some functionality in the library which will need a higher C++ standard compilation level than is indicated by this value, but the information about that specific functionality will be provided for the end-user within the documentation for that library. If a library does not have this field it indicates that the end-user will have to read the library documentation to understand what C++ standard compilation level is needed to use the library.</p>
+</div>
+<div class="paragraph">
+<p>Note that <code>11</code> and <code>14</code> are commonly set minimum levels.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="categories"><a class="anchor" href="#categories"></a>Categories</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A library can be in one or more categories. The string is not case-sensitive. In some cases, the string used to describe the category on our website is slightly more descriptive than the string used in the <code>category</code> field.</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Metadata Category</th>
+<th class="tableblock halign-left valign-top">Website Category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Algorithms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Algorithms</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Concurrent</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concurrent Programming</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Containers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Containers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Correctness</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Correctness and testing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data structures</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Domain</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Specific</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Emulation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Language Features Emulation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Error-handling</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Error handling and recovery</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Function-objects</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Function objects and higher-order programming</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Generic</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generic Programming</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Image-processing</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Image processing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Input/Output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Inter-language</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inter-language support</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Iterators</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Iterators</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Math</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Math and numerics</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Memory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Memory</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Metaprogramming</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Template Metaprogramming</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Miscellaneous</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Miscellaneous</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Parsing</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Parsing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Patterns</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Patterns and Idioms</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Preprocessor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Preprocessor Metaprogramming</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Programming</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Programming Interfaces</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>State</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State Machines</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String and text processing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>System</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">System</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Workarounds</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broken compiler workarounds</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="see-also"><a class="anchor" href="#see-also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm">Boost Libraries</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/requirements/library-metadata.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="organization-requirements.html">Organization</a></span>
+        <span class="next"><a href="../design-guide/design-best-practices.html">Best Practices</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

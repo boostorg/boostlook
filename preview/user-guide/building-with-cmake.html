@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Building with CMake :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/building-with-cmake.html">
+    <link rel="prev" href="faq.html">
+    <link rel="next" href="common-introduction.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="building-with-cmake.html">Building with CMake</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="faq.html">
+      <span class="material-symbols-outlined" title="Previous: FAQ">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="common-introduction.html">
+      <span class="material-symbols-outlined" title="Next: Introduction">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Building with CMake</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://cmake.org/"><strong>CMake</strong></a> is a powerful and widely-used cross-platform build system generator, designed to simplify the process of building and managing <strong>complex software projects</strong>. Unlike traditional build systems like Make, which relies on platform-specific Makefiles, CMake acts as a meta-build system: it generates platform-specific build files (such as Makefiles for Unix or Visual Studio project files for Windows) from a single set of configuration files.</p>
+</div>
+<div class="paragraph">
+<p>CMake is an alternative to using the Boost-specific <a href="https://www.bfgroup.xyz/b2/">B2</a> system, or the build options available in development environments such as <a href="https://visualstudio.microsoft.com/">Microsoft Visual Studio</a>.</p>
+</div>
+<div class="paragraph">
+<p>In this section, the main concepts of CMake are described, then some examples of how to use the system with one or more Boost libraries.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_cmakelists_file"><a class="anchor" href="#_the_cmakelists_file"></a>The CMakeLists file</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The core of any CMake project is the <code>CMakeLists.txt</code> file, which defines the structure of the project and the build rules. This file allows developers to specify the source files, include directories, compiler flags, and dependencies required to build the project. CMake&#8217;s syntax is declarative and procedural, allowing developers to set options, define targets, and specify dependencies in a structured way. The build configuration is organized around “targets,” which can represent executables, libraries, or custom commands. This target-based approach makes CMake highly flexible, as it enables complex dependency management and configuration, all while keeping platform-specific details abstracted away.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_handling_external_dependencies"><a class="anchor" href="#_handling_external_dependencies"></a>Handling External Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>One of the key strengths of CMake is its handling of external dependencies. Instead of manually specifying the paths to libraries or include directories, developers can use CMake&#8217;s <code>find_package</code> command, which searches for installed libraries and frameworks. This is particularly useful when managing complex dependencies across different platforms, as CMake knows how to find libraries on Windows, macOS, and Linux systems <em>without</em> requiring separate configuration files. CMake also supports package management tools such as <a href="https://conan.io/">Conan</a> and <a href="https://vcpkg.io/en/">vcpkg</a>, allowing developers to integrate and manage third-party libraries more easily.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_separate_build_and_source_locations"><a class="anchor" href="#_separate_build_and_source_locations"></a>Separate Build and Source Locations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>CMake&#8217;s “out-of-source” build feature is another significant advantage, allowing developers to keep build artifacts separate from the source code. By creating a dedicated build directory, developers can avoid cluttering the source tree with generated files, which makes it easier to manage source code and switch between different build configurations (such as debug and release builds) without affecting the original source files.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_handling_complex_projects"><a class="anchor" href="#_handling_complex_projects"></a>Handling Complex Projects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For projects that span multiple modules or dependencies, CMake provides convenient mechanisms to handle this complexity. Projects can be organized into subdirectories, each with its own <code>CMakeLists.txt</code>, which can then be included in the main configuration file using <code>add_subdirectory</code>. This modularity is beneficial for larger projects with multiple libraries or executables, as it allows each component to define its build rules independently.</p>
+</div>
+<div class="paragraph">
+<p>In recent years, CMake has also introduced features like “Modern CMake” syntax, which promotes best practices, improves readability, and enhances maintainability. With Modern CMake, target-based commands like <code>target_include_directories</code> and <code>target_link_libraries</code> are emphasized, encouraging developers to specify dependencies and configurations directly on targets rather than globally. This approach makes it easier to manage dependencies in complex projects, as the configuration for each target is self-contained, reducing the risk of unintended interactions between targets.</p>
+</div>
+<div class="paragraph">
+<p>By learning CMake, you unlock the ability to handle cross-platform builds with ease and embrace a more structured, modular approach to software development.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_cmake_with_boost"><a class="anchor" href="#_using_cmake_with_boost"></a>Using CMake with Boost</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Using CMake with the Boost C++ Libraries makes it straightforward to include Boost&#8217;s powerful functionality in your C++ projects. CMake has built-in support for Boost, allowing you to easily find and link Boost libraries to your project, whether you&#8217;re using header-only libraries (like <a href="https://www.boost.org/libs/range">Boost.Range</a>) or the compiled ones (like <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> or <a href="https://www.boost.org/libs/thread">Boost.Thread</a>).</p>
+</div>
+<div class="paragraph">
+<p>To determine whether a library is header-only or requires compilation, refer to <a href="header-organization-compilation.html#compiled" class="xref page">Required Compiled Binaries</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_header_only_library"><a class="anchor" href="#_header_only_library"></a>Header-Only Library</h3>
+<div class="paragraph">
+<p>For header-only libraries, you don&#8217;t need to link against compiled Boost libraries. Instead, you simply need to locate Boost and add the include directories:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">cmake_minimum_required(VERSION 3.10)
+project(BoostExample)
+
+find_package(Boost REQUIRED)
+
+add_executable(my_app main.cpp)
+target_include_directories(my_app PRIVATE ${Boost_INCLUDE_DIRS})</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here, <code>find_package(Boost REQUIRED)</code> locates Boost, and <code>target_include_directories</code> adds the Boost headers to your project. This configuration is enough if you&#8217;re using only header-only parts of Boost.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compiled_library"><a class="anchor" href="#_compiled_library"></a>Compiled Library</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For Boost libraries that require linking, we need to specify the components and link them to the target:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">cmake_minimum_required(VERSION 3.10)
+project(BoostExample)
+
+find_package(Boost REQUIRED COMPONENTS filesystem)
+
+add_executable(my_app main.cpp)
+target_link_libraries(my_app PRIVATE Boost::filesystem)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, <code>find_package(Boost REQUIRED COMPONENTS filesystem)</code> locates only the <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> library. Then, <code>target_link_libraries</code> links the compiled Boost library to the target executable. This approach makes it easy to build complex applications that depend on multiple Boost libraries.</p>
+</div>
+<div class="paragraph">
+<p>By using <code>find_package</code> and CMake&#8217;s <code>target</code>-based commands, you can effectively manage Boost dependencies in both simple and complex scenarios.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_multiple_compiled_libraries"><a class="anchor" href="#_multiple_compiled_libraries"></a>Multiple Compiled Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Assume we have this project structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">MyProject/
+├── CMakeLists.txt
+├── libA/
+│   ├── CMakeLists.txt
+│   └── libA.cpp
+├── libB/
+│   ├── CMakeLists.txt
+│   └── libB.cpp
+├── libC/
+│   ├── CMakeLists.txt
+│   └── libC.cpp
+└── src/
+    ├── CMakeLists.txt
+    └── main.cpp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each library (<code>libA</code>, <code>libB</code>, and <code>libC</code>) is in its own folder with its own <code>CMakeLists.txt</code> file, and there&#8217;s a main application (<code>main.cpp</code>) in the <code>src</code> directory that links to these libraries.</p>
+</div>
+<div class="sect2">
+<h3 id="_top_level_cmakelists_txt"><a class="anchor" href="#_top_level_cmakelists_txt"></a>Top-Level CMakeLists.txt</h3>
+<div class="paragraph">
+<p>The root <code>CMakeLists.txt</code> file defines the project and includes the subdirectories for each library and the main executable.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">cmake_minimum_required(VERSION 3.10)
+project(MyProject)
+
+# Include each library's subdirectory
+add_subdirectory(libA)
+add_subdirectory(libB)
+add_subdirectory(libC)
+add_subdirectory(src)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_libacmakelists_txt"><a class="anchor" href="#_libacmakelists_txt"></a>libA/CMakeLists.txt</h3>
+<div class="paragraph">
+<p>This file defines <code>libA</code> as a static library.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">add_library(libA STATIC libA.cpp)
+
+# Optionally specify include directories if needed
+target_include_directories(libA PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_libbcmakelists_txt"><a class="anchor" href="#_libbcmakelists_txt"></a>libB/CMakeLists.txt</h3>
+<div class="paragraph">
+<p>This file defines <code>libB</code> as a static library.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">add_library(libB STATIC libB.cpp)
+
+# Optionally specify include directories if needed
+target_include_directories(libB PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_libccmakelists_txt"><a class="anchor" href="#_libccmakelists_txt"></a>libC/CMakeLists.txt</h3>
+<div class="paragraph">
+<p>This file defines <code>libC</code> as a static library.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">add_library(libC STATIC libC.cpp)
+
+# Optionally specify include directories if needed
+target_include_directories(libC PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_srccmakelists_txt"><a class="anchor" href="#_srccmakelists_txt"></a>src/CMakeLists.txt</h3>
+<div class="paragraph">
+<p>This file defines the main executable and links it to the three libraries (<code>libA</code>, <code>libB</code>, and <code>libC</code>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">add_executable(main_app main.cpp)
+
+# Link the main executable to the three libraries
+target_link_libraries(main_app PRIVATE libA libB libC)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_summary_of_the_pre_build_process"><a class="anchor" href="#_summary_of_the_pre_build_process"></a>Summary of the Pre-Build Process</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Each library (<code>libA</code>, <code>libB</code>, <code>libC</code>) is defined in its respective <code>CMakeLists.txt</code> file and added as a STATIC library. Alternatively, you could change STATIC to SHARED if you want dynamic libraries instead.</p>
+</li>
+<li>
+<p>In` src/CMakeLists.txt`, the main executable <code>main_app</code> is linked to <code>libA</code>, <code>libB</code>, and <code>libC</code> using <code>target_link_libraries</code>.</p>
+</li>
+<li>
+<p>By using <code>add_subdirectory</code>, each library and executable has its own configuration, which keeps the project modular and organized.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building_the_project"><a class="anchor" href="#_building_the_project"></a>Building the Project</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From the top-level directory (<code>MyProject</code>), you can build the entire project with the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">mkdir build
+cd build
+cmake ..
+make</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will compile each library and link them to the <code>main_app</code> executable.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.bfgroup.xyz/b2/">B2</a></p>
+</li>
+<li>
+<p><a href="https://cmake.org/">CMake</a></p>
+</li>
+<li>
+<p><a href="https://github.com/boostorg/cmake/blob/develop/developer.md">CMake for Boost Developers</a></p>
+</li>
+<li>
+<p><a href="getting-started.html" class="xref page">Getting Started</a></p>
+</li>
+<li>
+<p><a href="header-organization-compilation.html" class="xref page">Header Organization and Compiled Binaries</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/building-with-cmake.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="faq.html">FAQ</a></span>
+        <span class="next"><a href="common-introduction.html">Introduction</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

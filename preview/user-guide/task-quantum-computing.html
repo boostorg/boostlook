@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Quantum Computing :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-quantum-computing.html">
+    <link rel="prev" href="task-parallel-computation.html">
+    <link rel="next" href="task-aeronautical-engineering.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Advanced Scenarios</li>
+    <li><a href="task-quantum-computing.html">Quantum Computing</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="task-parallel-computation.html">
+      <span class="material-symbols-outlined" title="Previous: Parallel Computation">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-aeronautical-engineering.html">
+      <span class="material-symbols-outlined" title="Next: Aeronautical Engineering">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Quantum Computing</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div id="footnote1-location" class="paragraph">
+<p>Unlike classical bits, which represent either 0 or 1, quantum bits - <em>qubits</em> <a href="#footnote1">(1)</a> - can exist in multiple states simultaneously, exponentially increasing processing power for certain tasks. Quantum computing harnesses the principles of quantum mechanics — <em>superposition</em>, <em>entanglement</em>, and <em>quantum interference</em> <a href="#footnote2">(2)</a> — to perform computations that are infeasible for classical computers. This allows quantum computers to solve complex problems in cryptography, optimization, and material science at unprecedented speeds.</p>
+</div>
+<div class="paragraph">
+<p>Algorithms like Shor&#8217;s for factoring large numbers and Grover&#8217;s for searching unsorted data showcase quantum speedup, making quantum computing a disruptive force in fields requiring massive parallelism and probabilistic computation. However, challenges in qubit stability, error correction, and scalability still limit practical applications.</p>
+</div>
+<div class="paragraph">
+<p>This topic is an educational tutorial on what we might expect from quantum applications, simulating quantum algorithms in C++ where we can. The references to college-level math are frequent and can be somewhat overwhelming - hopefully running the simulations will make things clearer - the long-term implications for brute-force computing are daunting!</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_quantum_algorithms">Quantum Algorithms</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_the_shor_algorithm">The Shor Algorithm</a></p>
+</li>
+<li>
+<p><a href="#_the_grover_algorithm">The Grover Algorithm</a></p>
+</li>
+<li>
+<p><a href="#_one_dimensional_quantum_walks">One-dimensional Quantum Walks</a></p>
+</li>
+<li>
+<p><a href="#_two_dimensional_quantum_walks">Two-dimensional Quantum Walks</a></p>
+</li>
+<li>
+<p><a href="#_other_quantum_algorithms">Other Quantum Algorithms</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_quantum_walk_simulation_using_boost_multiarray">Quantum Walk Simulation using Boost.MultiArray</a></p>
+</li>
+<li>
+<p><a href="#_quantum_gate_simulation_using_boost_numeric_libraries">Quantum Gate Simulation using Boost Numeric Libraries</a></p>
+</li>
+<li>
+<p><a href="#_hybrid_classic_quantum_algorithms">Hybrid Classic-Quantum Algorithms</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="#_next_steps_for_quantum_computing">Next Steps for Quantum Computing</a></p>
+</li>
+<li>
+<p><a href="#_footnotes">Footnotes</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_quantum_algorithms"><a class="anchor" href="#_quantum_algorithms"></a>Quantum Algorithms</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quantum computing is much easier to understand with a deep dive into some specific algorithms.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0.</p>
+</dd>
+</dl>
+</div>
+<div class="sect2">
+<h3 id="_the_shor_algorithm"><a class="anchor" href="#_the_shor_algorithm"></a>The Shor Algorithm</h3>
+<div class="paragraph">
+<p>Shor&#8217;s algorithm is a quantum algorithm designed to factor large numbers efficiently, making it a potential threat to classical cryptographic systems like RSA. It leverages quantum mechanics to find the period of a function, which classical methods struggle with. In short, given an integer <em>N</em>, the goal is to find its prime factors:</p>
+</div>
+<div id="footnote3-location" class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Choose a random number <code>a</code> such that <code>1 &lt; a &lt; N</code>. Note that if <code>gcd(a,N) = 1</code>, then we already found a factor.</p>
+</li>
+<li>
+<p>Compute the order <code>r</code> of <code>a modulo N</code>, that is, find the smallest <code>r</code> such that: <code>a^r  ≡ 1 mod N</code>. This is done efficiently using <em>quantum phase estimation</em> <a href="#footnote3">(3)</a>.</p>
+</li>
+<li>
+<p>Check if <code>r</code> is even. If <code>r</code> is odd, restart with a different <code>a</code>.</p>
+</li>
+<li>
+<p>Compute <code>gcd(a^(r/2) - 1, N)</code> and <code>gcd(a^(r/2) + 1, N)</code>. If either result is a nontrivial factor, we&#8217;re done.</p>
+</li>
+</ol>
+</div>
+<div id="footnote4-location" class="dlist">
+<dl>
+<dt class="hdlist1">Notes</dt>
+<dd>
+<p>The function <code>gcd</code> is the <em>greatest common divisor</em>. The quantum advantage comes from step 2, where a <em>Quantum Fourier Transform</em> - or QFT <a href="#footnote4">(4)</a> - is used to efficiently determine the order <code>r</code>. The quantum computer prepares a superposition of states, applies modular exponentiation as a quantum operation, and then uses QFT to extract <code>r</code>.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Probably easier to understand with an example, lets compute factors with <code>N = 15</code>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Randomly choose <code>a = 2</code>.</p>
+</li>
+<li>
+<p>Find the order <code>r</code> such that <code>2^r ≡ 1 mod 15</code>. The smallest such <code>r</code> is 4.</p>
+</li>
+<li>
+<p>Since <code>r</code> is even, compute:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gcd-equations.png" alt="GCD equations">
+</div>
+</div>
+</li>
+<li>
+<p>Found factors: 3 and 5.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Shor&#8217;s algorithm runs exponentially faster than the best-known classical factoring algorithms.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s write a simulation of Shor&#8217;s algorithm that approximates its behavior using classical number theory techniques. Since true quantum computation requires a quantum computer, this version simulates the order-finding step using classical algorithms like modular exponentiation and the greatest common divisor (GCD).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+#include &lt;cstdlib&gt;
+#include &lt;ctime&gt;
+
+using namespace std;
+
+// Function to compute the greatest common divisor (GCD)
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+// Function for modular exponentiation: (base^exp) % mod
+int mod_exp(int base, int exp, int mod) {
+    int result = 1;
+    base = base % mod;
+    while (exp &gt; 0) {
+        if (exp % 2 == 1) { // If exp is odd
+            result = (result * base) % mod;
+        }
+        exp = exp &gt;&gt; 1; // Divide exp by 2
+        base = (base * base) % mod;
+    }
+    return result;
+}
+
+// Function to find the order r of a modulo N
+int find_order(int a, int N) {
+    int r = 1;
+    int value = a;
+    while (value != 1) {
+        value = (value * a) % N;
+        r++;
+        if (r &gt; N) return -1; // Fail-safe to avoid infinite loops
+    }
+    return r;
+}
+
+// Shor's algorithm simulation
+void shors_algorithm(int N) {
+    if (N % 2 == 0) { // If even, trivially factor
+        cout &lt;&lt; "Trivial factor: 2" &lt;&lt; endl;
+        return;
+    }
+
+    srand(time(0)); // Seed for randomness
+
+    int a, r, factor1, factor2;
+    while (true) {
+        a = 2 + rand() % (N - 2); // Choose random a in range [2, N-1]
+
+        int gcd_val = gcd(a, N);
+        if (gcd_val &gt; 1) {
+            cout &lt;&lt; "Found factor (GCD check): " &lt;&lt; gcd_val &lt;&lt; endl;
+            return;
+        }
+
+        r = find_order(a, N);
+        if (r == -1 || r % 2 == 1) continue; // Ignore invalid or odd r
+
+        // Compute the factors
+        factor1 = gcd(mod_exp(a, r / 2, N) - 1, N);
+        factor2 = gcd(mod_exp(a, r / 2, N) + 1, N);
+
+        if (factor1 &gt; 1 &amp;&amp; factor2 &gt; 1) {
+            cout &lt;&lt; "Factors found: " &lt;&lt; factor1 &lt;&lt; " and " &lt;&lt; factor2 &lt;&lt; endl;
+            return;
+        }
+    }
+}
+
+// Main function
+int main() {
+    int N;
+    cout &lt;&lt; "Enter a number to factor: ";
+    cin &gt;&gt; N;
+
+    if (N &lt;= 1) {
+        cout &lt;&lt; "Invalid input. Please enter a number greater than 1." &lt;&lt; endl;
+        return 0;
+    }
+
+    shors_algorithm(N);
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you compile and run this program, you should get output similar to the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter a number to factor: 15
+Factors found: 3 and 5
+
+Enter a number to factor: 21
+Factors found: 3 and 7</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The order-finding step is deterministic instead of quantum-powered, making it slower for very large numbers. Our simulation works best for small numbers (say, less than 1000).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_grover_algorithm"><a class="anchor" href="#_the_grover_algorithm"></a>The Grover Algorithm</h3>
+<div class="paragraph">
+<p>Grover&#8217;s algorithm is a quantum search algorithm that finds a target item in an unsorted database quadratically faster than classical methods. It was developed by Lov Grover in 1996 and is particularly powerful for problems that require brute-force search, such as breaking symmetric cryptographic hashes.</p>
+</div>
+<div class="paragraph">
+<p>In a classical search: if you have an unsorted list of <em>N</em> elements, finding a specific item requires checking, on average, <em>N/2</em> elements, and in the worst case, all <em>N</em> elements. This is <em>O(N)</em> complexity. In a quantum search: Grover&#8217;s algorithm finds the target in <em>O(sqrt N)</em> steps — which is way faster, especially with a large number of elements.</p>
+</div>
+<div class="paragraph">
+<p>Grover&#8217;s algorithm enhances the probability of the correct solution using a technique called <em>amplitude amplification</em> through iterative applications of two main operations:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Oracle Function (Marking the Solution): A quantum function (black box) that inverts the amplitude of the correct answer. Or think of it as labeling the correct item with a negative phase.</p>
+</li>
+<li>
+<p>Diffusion Operator (Amplitude Amplification): This boosts the amplitude of the marked item while reducing others. Acts like a "quantum reflection" across the average amplitude.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>By applying these two steps <em>O(sqrt N)</em> times, the probability of measuring the correct answer approaches 100%.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s explain with a trivial example, imagine searching for the number 3 in the list <code>{0, 1, 2, 3}</code>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start with an equal superposition of all four states:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/grovers1.png" alt="equal superposition">
+</div>
+</div>
+</li>
+<li>
+<p>The oracle flips the phase of the correct answer (let&#8217;s say <code>|3⟩</code>):</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/grovers2.png" alt="flip the phase">
+</div>
+</div>
+</li>
+<li>
+<p>The diffusion operator boosts the probability of <code>|3⟩</code> by reflecting all amplitudes around their mean.</p>
+</li>
+<li>
+<p>After one iteration, the probability of measuring <code>|3⟩</code> is nearly 100%.</p>
+</li>
+</ol>
+</div>
+<div id="footnote5-location" class="paragraph">
+<p>In addition to the dubious purpose of cracking cryptographic hashes, this algorithm has the potential to solve NP-complete problems like <em>3-SAT</em> <a href="#footnote5">(5)</a>, amd speed up graph search, pathfinding, and database lookups.</p>
+</div>
+<div class="paragraph">
+<p>The following code simulates a quantum state as an array of probabilities, and assumes a small dataset - such as searching for 3 in <code>{0,1,2,3,4,5,6,7}</code>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cmath&gt;
+#include &lt;cstdlib&gt;
+#include &lt;ctime&gt;
+
+using namespace std;
+
+// Function to apply the oracle (mark the target state)
+void applyOracle(vector&lt;double&gt;&amp; state, int target) {
+    state[target] *= -1; // Flip the phase of the marked state
+}
+
+// Function to apply the diffusion operator (amplitude amplification)
+void applyDiffusion(vector&lt;double&gt;&amp; state) {
+    int N = state.size();
+    double avg = 0;
+
+    // Compute the average amplitude
+    for (double amp : state) avg += amp;
+    avg /= N;
+
+    // Reflect around the mean
+    for (double&amp; amp : state) {
+        amp = 2 * avg - amp;
+    }
+}
+
+// Function to simulate Grover's algorithm
+int groverSearch(int N, int target) {
+    vector&lt;double&gt; state(N, 1.0 / sqrt(N)); // Initialize equal superposition
+
+    int iterations = round(acos(sqrt(1.0/N)) / (2 * asin(sqrt(1.0/N)))); // O(√N)
+
+    for (int i = 0; i &lt; iterations; i++) {
+        applyOracle(state, target);  // Mark the target state
+        applyDiffusion(state);       // Amplify the probability
+    }
+
+    // Measure the highest probability state
+    int maxIndex = 0;
+    for (int i = 1; i &lt; N; i++) {
+        if (abs(state[i]) &gt; abs(state[maxIndex])) {
+            maxIndex = i;
+        }
+    }
+
+    return maxIndex; // Return the most likely result
+}
+
+// Main function
+int main() {
+    int N = 8;         // Number of states (must be a power of 2)
+    int target = 3;    // Element to search for
+
+    srand(time(0));
+
+    cout &lt;&lt; "Searching for element: " &lt;&lt; target &lt;&lt; " in range [0, " &lt;&lt; N-1 &lt;&lt; "]..." &lt;&lt; endl;
+    int result = groverSearch(N, target);
+
+    cout &lt;&lt; "Grover's Algorithm found: " &lt;&lt; result &lt;&lt; endl;
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A run of the program will give us:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Searching for element: 3 in range [0, 7]...
+Grover's Algorithm found: 3</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_one_dimensional_quantum_walks"><a class="anchor" href="#_one_dimensional_quantum_walks"></a>One-dimensional Quantum Walks</h3>
+<div class="paragraph">
+<p>A <em>quantum walk</em> is a version of random walks (traversing a graph), offering speedups in graph traversal. This is important for search algorithms and network analysis.</p>
+</div>
+<div class="paragraph">
+<p>Unlike classical random walks, where a particle moves left or right with equal probability, quantum walks use superposition and interference, leading to a faster spread over the search space. The probability distribution in a quantum walk spreads quadratically faster than a classical random walk.</p>
+</div>
+<div class="paragraph">
+<p>The following program simulates a discrete-time quantum walk using a coin flip (academically known as a <em>Hadamard gate</em>) to create superposition. Conditional movement is based on the coin&#8217;s state and there are interference effects that make quantum walks behave differently from classical ones.</p>
+</div>
+<div class="paragraph">
+<p>The walker starts at position <code>x = 0</code> - the middle of the array. It has an internal quantum coin state (spin |0⟩ or |1⟩), and the quantum coin flip (the Hadamard Gate) creates superposition, splitting into two paths: if coin is |0⟩, move left, if coin is |1⟩, move right.</p>
+</div>
+<div class="paragraph">
+<p>Unlike a classical random walk (which results in a bell curve), quantum walks create two dominant peaks due to constructive and destructive interference.</p>
+</div>
+<div class="paragraph">
+<p>This should be clearer by running a simulation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cmath&gt;
+#include &lt;complex&gt;
+
+using namespace std;
+
+const int N = 21;  // Number of positions (should be odd for symmetry)
+const int STEPS = 10;  // Number of quantum walk steps
+
+using Complex = complex&lt;double&gt;;  // Complex number type
+using State = vector&lt;vector&lt;Complex&gt;&gt;;  // Quantum state storage
+
+// Hadamard coin operator
+const Complex H[2][2] = {
+    {1 / sqrt(2), 1 / sqrt(2)},
+    {1 / sqrt(2), -1 / sqrt(2)}
+};
+
+// Function to apply the coin operator (Hadamard gate)
+void apply_coin(State&amp; psi) {
+    State new_psi = psi;
+    for (int pos = 0; pos &lt; N; pos++) {
+        Complex left = psi[pos][0] * H[0][0] + psi[pos][1] * H[0][1];
+        Complex right = psi[pos][0] * H[1][0] + psi[pos][1] * H[1][1];
+        new_psi[pos][0] = left;
+        new_psi[pos][1] = right;
+    }
+    psi = new_psi;
+}
+
+// Function to apply the shift operator (move left or right)
+void apply_shift(State&amp; psi) {
+    State new_psi(N, vector&lt;Complex&gt;(2, 0));
+
+    for (int pos = 1; pos &lt; N - 1; pos++) {
+        new_psi[pos - 1][0] += psi[pos][0];  // Left movement
+        new_psi[pos + 1][1] += psi[pos][1];  // Right movement
+    }
+
+    psi = new_psi;
+}
+
+// Function to compute probability distribution
+vector&lt;double&gt; get_probabilities(const State&amp; psi) {
+    vector&lt;double&gt; probabilities(N, 0);
+    for (int pos = 0; pos &lt; N; pos++) {
+        probabilities[pos] = norm(psi[pos][0]) + norm(psi[pos][1]);
+    }
+    return probabilities;
+}
+
+// Main function
+int main() {
+    State psi(N, vector&lt;Complex&gt;(2, 0));  // Initialize quantum state
+    psi[N / 2][0] = 1.0;  // Start in the middle with |0⟩ spin state
+
+    cout &lt;&lt; "Quantum Walk Simulation (" &lt;&lt; STEPS &lt;&lt; " steps)" &lt;&lt; endl;
+
+    for (int step = 0; step &lt; STEPS; step++) {
+        apply_coin(psi);
+        apply_shift(psi);
+    }
+
+    // Get probability distribution
+    vector&lt;double&gt; probabilities = get_probabilities(psi);
+
+    // Print results
+    for (int i = 0; i &lt; N; i++) {
+        cout &lt;&lt; "Position " &lt;&lt; (i - N / 2) &lt;&lt; ": " &lt;&lt; probabilities[i] &lt;&lt; endl;
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you run this code you will get something like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Quantum Walk Simulation (10 steps)
+Position -10: 0
+Position -9: 0.0012
+Position -8: 0.0041
+Position -7: 0.0113
+Position -6: 0.0264
+Position -5: 0.0492
+Position -4: 0.0795
+Position -3: 0.1134
+Position -2: 0.1421
+Position -1: 0.1543
+Position  0: 0.1421
+Position  1: 0.1134
+Position  2: 0.0795
+Position  3: 0.0492
+Position  4: 0.0264
+Position  5: 0.0113
+Position  6: 0.0041
+Position  7: 0.0012
+Position  8: 0
+Position  9: 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result shows the probability distribution of being at any one of the positions at the end of the walk.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_two_dimensional_quantum_walks"><a class="anchor" href="#_two_dimensional_quantum_walks"></a>Two-dimensional Quantum Walks</h3>
+<div class="paragraph">
+<p>We can extend the quantum walk example to simulate a walker with an <em>x,y</em> position on a grid. Two coins are tossed: <em>00</em> - move left, <em>01</em> - move right, <em>10</em> - move up, <em>11</em> - move down.</p>
+</div>
+<div class="paragraph">
+<p>This program simulates a <em>10 x 10</em> quantum grid and tracks the probability of the walker being at each position.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;complex&gt;
+#include &lt;cmath&gt;
+#include &lt;iomanip&gt;
+
+using namespace std;
+
+const int GRID_SIZE = 11; // Must be odd to center the walker
+const int STEPS = 10;  // Number of quantum walk steps
+
+using Complex = complex&lt;double&gt;;
+using State = vector&lt;vector&lt;vector&lt;Complex&gt;&gt;&gt;;  // 2D grid with 2 coin states
+
+// Hadamard gate for a 2-qubit coin (simplified)
+const Complex H[2][2] = {
+    {1 / sqrt(2), 1 / sqrt(2)},
+    {1 / sqrt(2), -1 / sqrt(2)}
+};
+
+// Apply Hadamard gate to the coin state
+void apply_coin(State&amp; psi) {
+    State new_psi = psi;
+
+    for (int x = 0; x &lt; GRID_SIZE; x++) {
+        for (int y = 0; y &lt; GRID_SIZE; y++) {
+            Complex left = psi[x][y][0] * H[0][0] + psi[x][y][1] * H[0][1];
+            Complex right = psi[x][y][0] * H[1][0] + psi[x][y][1] * H[1][1];
+            new_psi[x][y][0] = left;
+            new_psi[x][y][1] = right;
+        }
+    }
+    psi = new_psi;
+}
+
+// Apply conditional movement based on coin state
+void apply_shift(State&amp; psi) {
+    State new_psi(GRID_SIZE, vector&lt;vector&lt;Complex&gt;&gt;(GRID_SIZE, vector&lt;Complex&gt;(2, 0)));
+
+    for (int x = 1; x &lt; GRID_SIZE - 1; x++) {
+        for (int y = 1; y &lt; GRID_SIZE - 1; y++) {
+            // Move left if coin state |0⟩
+            new_psi[x - 1][y][0] += psi[x][y][0];
+            // Move right if coin state |1⟩
+            new_psi[x + 1][y][1] += psi[x][y][1];
+            // Move up if coin state |0⟩
+            new_psi[x][y - 1][0] += psi[x][y][0];
+            // Move down if coin state |1⟩
+            new_psi[x][y + 1][1] += psi[x][y][1];
+        }
+    }
+
+    psi = new_psi;
+}
+
+// Compute probability distribution
+vector&lt;vector&lt;double&gt;&gt; get_probabilities(const State&amp; psi) {
+    vector&lt;vector&lt;double&gt;&gt; probabilities(GRID_SIZE, vector&lt;double&gt;(GRID_SIZE, 0));
+
+    for (int x = 0; x &lt; GRID_SIZE; x++) {
+        for (int y = 0; y &lt; GRID_SIZE; y++) {
+            probabilities[x][y] = norm(psi[x][y][0]) + norm(psi[x][y][1]);
+        }
+    }
+    return probabilities;
+}
+
+// Main function
+int main() {
+    State psi(GRID_SIZE, vector&lt;vector&lt;Complex&gt;&gt;(GRID_SIZE, vector&lt;Complex&gt;(2, 0)));
+
+    int mid = GRID_SIZE / 2;
+    psi[mid][mid][0] = 1.0;  // Start in the middle with |0⟩ spin state
+
+    cout &lt;&lt; "2D Quantum Walk Simulation (" &lt;&lt; STEPS &lt;&lt; " steps)" &lt;&lt; endl;
+
+    for (int step = 0; step &lt; STEPS; step++) {
+        apply_coin(psi);
+        apply_shift(psi);
+    }
+
+    vector&lt;vector&lt;double&gt;&gt; probabilities = get_probabilities(psi);
+
+    // Print probability grid
+    for (int y = 0; y &lt; GRID_SIZE; y++) {
+        for (int x = 0; x &lt; GRID_SIZE; x++) {
+            cout &lt;&lt; fixed &lt;&lt; setprecision(3) &lt;&lt; probabilities[x][y] &lt;&lt; " ";
+        }
+        cout &lt;&lt; endl;
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you run this code you will get something like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">2D Quantum Walk Simulation (10 steps)
+0.000  0.001  0.002  0.003  0.005  0.003  0.002  0.001  0.000  0.000
+0.001  0.004  0.009  0.016  0.027  0.016  0.009  0.004  0.001  0.000
+0.004  0.011  0.022  0.040  0.067  0.040  0.022  0.011  0.004  0.001
+0.009  0.022  0.045  0.079  0.133  0.079  0.045  0.022  0.009  0.002
+0.016  0.040  0.079  0.139  0.233  0.139  0.079  0.040  0.016  0.003
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Again, the result shows the probability distribution of being at any one of the positions at the end of the 2D walk.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/quantum-walk-simulation.png" alt="quantum walk simulation">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_other_quantum_algorithms"><a class="anchor" href="#_other_quantum_algorithms"></a>Other Quantum Algorithms</h3>
+<div class="paragraph">
+<p>Other algorithms you might like to investigate include <em>Variational Quantum Eigensolver (VQE)</em> - which is a hybrid algorithm that finds the ground state energy of a molecule, and can be used in quantum chemistry (molecular simulation) and optimization problems.</p>
+</div>
+<div class="paragraph">
+<p>To simulate in C++ consider implementing a gradient descent optimizer to simulate quantum variational circuits, and use classical matrix exponentiation to approximate Hamiltonian evolution - which refers to the time evolution of a quantum state under a Hamiltonian operator (the energy function of a system).</p>
+</div>
+<div class="paragraph">
+<p>Another possibility - the <em>Harrow-Hassidim-Lloyd (HHL)</em> algorithm - solves large linear systems exponentially faster than classical methods, and can be applied in AI (machine learning), big data, finance and differential equations.</p>
+</div>
+<div class="paragraph">
+<p>To simulate in C++ we should use classical numerical solvers (for example, Gaussian elimination, LU decomposition) and simulate quantum matrix inversion with iterative phase estimation.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are several Boost libraries that show potential for use in quantum computing, or in simulating quantum algorithms:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/libs/multi_array">Boost.MultiArray</a> : Quantum computations require multi-dimensional arrays for storing wavefunctions and operators. This library provides high-performance, multi-dimensional array support, say for storing quantum states (annotated as: &#8220;|ψ⟩&#8221;  ) as high-dimensional arrays, or efficiently representing unitary matrices for quantum gates.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multi_array.hpp&gt;
+using namespace boost;
+multi_array&lt;std::complex&lt;double&gt;, 2&gt; quantum_state(boost::extents[4][4]);</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/numeric/ublas">Boost.Numeric/ublas</a>  : Quantum mechanics heavily relies on matrix operations (for example, unitary transformations, tensor products), and this library provides fast matrix and vector operations, ideal for quantum gate simulations. An example would be computing Quantum Fourier Transforms (QFT) and Grover&#8217;s diffusion operator.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/numeric/ublas/matrix.hpp&gt;
+#include &lt;boost/numeric/ublas/vector.hpp&gt;
+using namespace boost::numeric::ublas;
+matrix&lt;std::complex&lt;double&gt;&gt; hadamard(2, 2);</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/compute">Boost.Compute</a> : Quantum simulations are computationally expensive, especially for large n-qubit systems. This library provides OpenCL-based GPU acceleration for quantum algorithms, such as parallelized quantum state evolution on GPUs, or accelerating quantum circuit simulation for Shor&#8217;s algorithm or Grover&#8217;s search.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/compute.hpp&gt;
+namespace compute = boost::compute;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/random">Boost.Random</a> : Quantum systems often require true randomness (for example, simulating quantum measurement collapse or generating random phase shifts in quantum gates).</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/random.hpp&gt;
+boost::random::mt19937 rng;
+boost::random::uniform_real_distribution&lt;&gt; dist(0, 1);
+double probability = dist(rng);</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/python">Boost.Python</a> : To bridge C++ and Python quantum libraries to allow seamless integration with frameworks like <a href="https://www.ibm.com/quantum/qiskit">Qiskit</a> or <a href="https://pennylane.ai/">PennyLane</a>. This could be for writing fast C++ quantum gate implementations and exposing them to Python, or perhaps using Qiskit for quantum execution while handling complex classical calculations in C++.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/python.hpp&gt;
+using namespace boost::python;
+BOOST_PYTHON_MODULE(my_quantum_module) {
+    def("quantum_gate_sim", &amp;quantum_gate_sim);
+}</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div id="footnote6-location" class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/graph">Boost.Graph</a> : Quantum circuits can be represented as <em>directed acyclic graphs</em> <a href="#footnote6">(6)</a>. This library should help with optimizing quantum gate sequences, for reordering quantum gates to minimize depth, or finding the shortest path in quantum networks.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/graph/adjacency_list.hpp&gt;
+using namespace boost;</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s engage some Boost libraries in our Quantum algorithm simulations.</p>
+</div>
+<div class="sect2">
+<h3 id="_quantum_walk_simulation_using_boost_multiarray"><a class="anchor" href="#_quantum_walk_simulation_using_boost_multiarray"></a>Quantum Walk Simulation using Boost.MultiArray</h3>
+<div class="paragraph">
+<p>Let&#8217;s simulate a 1D quantum walk using <a href="https://www.boost.org/libs/multi_array">Boost.MultiArray</a> for state representation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;complex&gt;
+#include &lt;boost/multi_array.hpp&gt;
+
+using namespace std;
+using Complex = std::complex&lt;double&gt;;
+
+const int NUM_STEPS = 100;
+const int NUM_POSITIONS = 201; // [-100, 100] range
+
+// Initialize the quantum state (walking on a line)
+void initialize_state(boost::multi_array&lt;Complex, 1&gt;&amp; state) {
+    // Start at position 0 with full probability
+    state[NUM_POSITIONS / 2] = 1.0;
+}
+
+// Apply Hadamard gate (equal superposition)
+void apply_hadamard(boost::multi_array&lt;Complex, 1&gt;&amp; state) {
+    for (int i = 1; i &lt; NUM_POSITIONS - 1; i++) {
+        Complex left = state[i - 1];
+        Complex right = state[i + 1];
+        state[i] = (left + right) / sqrt(2);
+    }
+}
+
+// Perform the quantum walk for a specified number of steps
+void perform_quantum_walk(boost::multi_array&lt;Complex, 1&gt;&amp; state) {
+    for (int step = 0; step &lt; NUM_STEPS; step++) {
+        apply_hadamard(state);
+    }
+}
+
+// Calculate and print the probability distribution
+void print_probability_distribution(const boost::multi_array&lt;Complex, 1&gt;&amp; state) {
+    for (int i = 0; i &lt; NUM_POSITIONS; i++) {
+        cout &lt;&lt; i - NUM_POSITIONS / 2 &lt;&lt; ": " &lt;&lt; norm(state[i]) &lt;&lt; endl;
+    }
+}
+
+int main() {
+    // Initialize the quantum walk state
+    boost::multi_array&lt;Complex, 1&gt; state(boost::extents[NUM_POSITIONS]);
+    initialize_state(state);
+
+    // Perform the walk
+    perform_quantum_walk(state);
+
+    // Print the probability distribution
+    print_probability_distribution(state);
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output should be similar to the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">-100: 0
+-99: 3.86581e-27
+-98: 5.02749e-24
+-97: 2.90701e-21
+-96: 9.63774e-19
+-95: 2.08484e-16
+-94: 3.19241e-14
+-93: 3.66019e-12
+-92: 3.27387e-10
+-91: 2.35719e-08
+-90: 1.40029e-06
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quantum_gate_simulation_using_boost_numeric_libraries"><a class="anchor" href="#_quantum_gate_simulation_using_boost_numeric_libraries"></a>Quantum Gate Simulation using Boost Numeric Libraries</h3>
+<div class="paragraph">
+<p>Let&#8217;s simulate some quantum gates (a Hadamard gate and a PauliX gate), ensuring high precision with <a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a>, and with matrix and vector calculations using <a href="https://www.boost.org/libs/numeric/ublas">Boost.Numeric/ublas</a>. The sample simulates a single qubit as a 2-element complex vector, and applies quantum gates using 2x2 complex matrices.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The Pauli gates (PauliX, PauliY, and PauliZ) equate to rotation about the respective axis, in each case by pi radians. The Hadamard gate is the proverbial <em>coin flip</em>.</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/numeric/ublas/matrix.hpp&gt;
+#include &lt;boost/numeric/ublas/io.hpp&gt;
+#include &lt;boost/multiprecision/cpp_complex.hpp&gt;
+#include &lt;boost/math/constants/constants.hpp&gt;
+
+namespace ublas = boost::numeric::ublas;
+namespace mp = boost::multiprecision;
+
+using Complex = mp::cpp_complex_100;  // or std::complex&lt;double&gt; for normal precision
+using Matrix2 = ublas::matrix&lt;Complex&gt;;
+using Vector2 = ublas::vector&lt;Complex&gt;;
+
+const Complex I(0, 1);
+
+// Quantum gate definitions
+Matrix2 Hadamard() {
+    Matrix2 H(2, 2);
+    Complex norm = 1.0 / sqrt(2.0);
+    H(0, 0) = norm; H(0, 1) = norm;
+    H(1, 0) = norm; H(1, 1) = -norm;
+    return H;
+}
+
+Matrix2 PauliX() {
+    Matrix2 X(2, 2);
+    X(0, 0) = 0; X(0, 1) = 1;
+    X(1, 0) = 1; X(1, 1) = 0;
+    return X;
+}
+
+// Print a qubit's state vector
+void print_state(const Vector2&amp; qubit) {
+    std::cout &lt;&lt; "Qubit state:\n";
+    std::cout &lt;&lt; "  |0⟩: " &lt;&lt; qubit(0) &lt;&lt; "\n";
+    std::cout &lt;&lt; "  |1⟩: " &lt;&lt; qubit(1) &lt;&lt; "\n";
+}
+
+int main() {
+    // Initial state |0⟩ = [1, 0]
+    Vector2 qubit(2);
+    qubit(0) = 1.0;
+    qubit(1) = 0.0;
+
+    std::cout &lt;&lt; "Initial state:\n";
+    print_state(qubit);
+
+    // Apply Hadamard gate
+    Matrix2 H = Hadamard();
+    qubit = ublas::prod(H, qubit);
+
+    std::cout &lt;&lt; "\nAfter Hadamard gate:\n";
+    print_state(qubit);
+
+    // Apply Pauli-X gate
+    Matrix2 X = PauliX();
+    qubit = ublas::prod(X, qubit);
+
+    std::cout &lt;&lt; "\nAfter Pauli-X gate:\n";
+    print_state(qubit);
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running this code should give output simlar to the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Initial state:
+Qubit state:
+  |0?: 1
+  |1?: 0
+
+After Hadamard gate:
+Qubit state:
+  |0?: 0.707107
+  |1?: 0.707107
+
+After Pauli-X gate:
+Qubit state:
+  |0?: 0.707107
+  |1?: 0.707107</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_hybrid_classic_quantum_algorithms"><a class="anchor" href="#_hybrid_classic_quantum_algorithms"></a>Hybrid Classic-Quantum Algorithms</h3>
+<div class="paragraph">
+<p>Let&#8217;s explore a hybrid quantum-classical algorithm using Boost C++ libraries. A great candidate for this is the <em>Variational Quantum Eigensolver (VQE)</em>, a hybrid quantum-classical algorithm used to find the lowest energy state of a quantum system, typically used in quantum chemistry.</p>
+</div>
+<div class="paragraph">
+<p>The classic part of VQE is that a classical optimizer is used to find optimal parameters for a parameterized quantum circuit. The quantum part is that a quantum circuit generates quantum states based on these parameters, and the energy expectation is measured. The classical optimizer updates the parameters iteratively, with the quantum part computing the energy each time.</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll simulate a very basic version of this with a quantum Hamiltonian (energy function) and use a classical optimizer (from the functions of <a href="https://www.boost.org/libs/numeric/ublas">Boost.Numeric/ublas</a>) to minimize the energy.</p>
+</div>
+<div class="paragraph">
+<p>The quantum state will be parameterized, and the energy will be computed classically, simulating how a quantum system would behave in a real quantum computer.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/numeric/ublas/matrix.hpp&gt;
+#include &lt;boost/numeric/ublas/io.hpp&gt;
+#include &lt;boost/numeric/ublas/vector.hpp&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+
+namespace ublas = boost::numeric::ublas;
+constexpr double pi = 3.14159265358979323846;
+
+// Pauli-Z Hamiltonian
+ublas::matrix&lt;double&gt; pauli_z() {
+    ublas::matrix&lt;double&gt; z(2, 2);
+    z(0, 0) = 1.0; z(0, 1) = 0.0;
+    z(1, 0) = 0.0; z(1, 1) = -1.0;
+    return z;
+}
+
+// Rotation around Y-axis (parameterized gate)
+ublas::matrix&lt;double&gt; ry(double theta) {
+    ublas::matrix&lt;double&gt; ry_gate(2, 2);
+    ry_gate(0, 0) = std::cos(theta / 2);
+    ry_gate(0, 1) = -std::sin(theta / 2);
+    ry_gate(1, 0) = std::sin(theta / 2);
+    ry_gate(1, 1) = std::cos(theta / 2);
+    return ry_gate;
+}
+
+// Expectation value: ⟨ψ|H|ψ⟩
+double expectation_value(const ublas::matrix&lt;double&gt;&amp; hamiltonian, const ublas::vector&lt;double&gt;&amp; state) {
+    ublas::vector&lt;double&gt; h_psi = ublas::prod(hamiltonian, state);
+    return ublas::inner_prod(state, h_psi);
+}
+
+// Normalize a vector
+void normalize(ublas::vector&lt;double&gt;&amp; v) {
+    double norm = std::sqrt(ublas::inner_prod(v, v));
+    if (norm &gt; 0.0) v /= norm;
+}
+
+int main() {
+    ublas::matrix&lt;double&gt; H = pauli_z();
+
+    // Initial state |0&gt; = [1, 0]
+    ublas::vector&lt;double&gt; init_state(2);
+    init_state(0) = 1.0;
+    init_state(1) = 0.0;
+
+    // Sweep over theta to minimize expectation value
+    double min_energy = 1e9;
+    double best_theta = 0.0;
+
+    for (double theta = 0.0; theta &lt;= 2 * pi; theta += 0.01) {
+        ublas::matrix&lt;double&gt; U = ry(theta);
+        ublas::vector&lt;double&gt; psi = ublas::prod(U, init_state);
+        normalize(psi);
+
+        double energy = expectation_value(H, psi);
+        if (energy &lt; min_energy) {
+            min_energy = energy;
+            best_theta = theta;
+        }
+    }
+
+    std::cout &lt;&lt; "Minimum energy: " &lt;&lt; min_energy &lt;&lt; " at theta = " &lt;&lt; best_theta &lt;&lt; " radians\n";
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running the code should give you this result:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Minimum energy: -0.999999 at theta = 3.14 radians</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps_for_quantum_computing"><a class="anchor" href="#_next_steps_for_quantum_computing"></a>Next Steps for Quantum Computing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quantum Computing is not ready for industrial use just yet. Currently qubits are not nearly reliable enough and need to be better connected (perhaps even photon-based networking for modular quantum computers). Also quantum computers currently need cryogenic cooling (to near absolute zero), and control electronics (such as lasers and microwaves) are bulky and inefficient. Perhaps Cryo-CMOS electronics (quantum chips running at ultra-low temps) with integrated photonics to replace bulky microwave-based control would solve this.</p>
+</div>
+<div class="paragraph">
+<p>We also need more and better quantum-classical hybrid algorithms (like the Variational Quantum Eigensolver discussed above).</p>
+</div>
+<div class="paragraph">
+<p>The biggest bottleneck right now is error correction and qubit stability. Once this is solved, scaling up becomes much easier, and quantum computing will move from experimental labs to real-world applications.</p>
+</div>
+<div class="paragraph">
+<p>Realistically in the short term (say, up to 2030), quantum systems with more than a thousand qubits should be available with some error correction breakthroughs. These might work well with hybrid quantum-classical AI and chemistry applications.</p>
+</div>
+<div class="paragraph">
+<p>In the mid term (say 2030 to 2040) we might see fault-tolerant quantum computers with a million or more logical qubits. Real-world applications in cryptography, finance, and materials science could then be tackled.</p>
+</div>
+<div class="paragraph">
+<p>In the long-term quantum supremacy might reign over all classical tasks!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_footnotes"><a class="anchor" href="#_footnotes"></a>Footnotes</h2>
+<div class="sectionbody">
+<div id="footnote1" class="paragraph">
+<p><a href="#footnote1-location">(1)</a>
+A <em>qubit</em> (quantum bit) is the fundamental unit of quantum information, analogous to a classical bit but with unique quantum properties. Unlike a classical bit, which can be either 0 or 1, a qubit exists in a superposition of both states simultaneously, represented as <em>α|0⟩ + β|1⟩</em>, where <em>α</em> and <em>β</em> are complex probability amplitudes. Qubits also exhibit entanglement, allowing them to share information instantaneously over distance, and quantum interference, which enables complex computations by manipulating probability amplitudes. These properties make qubits exponentially more powerful for certain tasks, forming the basis of quantum computing breakthroughs like Shor&#8217;s algorithm (for factoring) and Grover&#8217;s algorithm (for search). However, qubits are fragile and require error correction and extreme isolation to maintain coherence, making practical quantum computing a significant engineering challenge.</p>
+</div>
+<div id="footnote2" class="paragraph">
+<p><a href="#footnote1-location">(2)</a>
+<em>Superposition</em> allows a qubit to exist in a combination of both <em>|0⟩</em> and <em>|1⟩</em> states simultaneously, enabling quantum computers to process multiple possibilities at once. <em>Entanglement</em> is a quantum phenomenon where qubits become correlated, meaning the state of one qubit instantly influences another, regardless of distance, enabling powerful parallel computations and secure communication. <em>Interference</em> arises from the wave-like nature of quantum states, allowing quantum algorithms to amplify correct answers while canceling out incorrect ones, enhancing computational efficiency.</p>
+</div>
+<div id="footnote3" class="paragraph">
+<p><a href="#footnote3-location">(3)</a>
+<em>Quantum Phase Estimation</em> (QPE) is a quantum algorithm that determines the eigenvalues of a unitary operator, crucial for quantum computing applications like Shor&#8217;s algorithm and quantum chemistry simulations. It works by applying the Quantum Fourier Transform <a href="#footnote4">(4)</a> to extract phase information from an eigenvector, effectively finding a highly accurate estimate of the phase. QPE is essential for problems where phase information reveals properties like energy levels in quantum systems, making it a powerful tool for scientific and cryptographic applications.</p>
+</div>
+<div id="footnote4" class="paragraph">
+<p><a href="#footnote4-location">(4)</a>
+The <em>Quantum Fourier Transform</em> (QFT) is the quantum counterpart of the Discrete Fourier Transform (DFT), efficiently mapping quantum states to their frequency representations using a quantum circuit. It plays a key role in quantum algorithms like Shor&#8217;s algorithm for factoring and Quantum Phase Estimation. Unlike the classical <em>O(N²) DFT</em>, QFT runs in <em>O(log² N)</em> time, offering an exponential speedup, but requires careful handling of quantum phase information to be useful in practical computations.</p>
+</div>
+<div id="footnote5" class="paragraph">
+<p><a href="#footnote5-location">(5)</a>
+<em>3-SAT</em> (3-Satisfiability) is a decision problem where a Boolean formula, expressed in conjunctive normal form (CNF) with exactly three literals per clause, must be determined as satisfiable or not. It is NP-complete, meaning that while any given solution can be verified in polynomial time, no known algorithm can solve all instances efficiently (unless P = NP). Since 3-SAT was one of the first problems proven NP-complete, many other computational problems can be reduced to it, making it a cornerstone of computational complexity theory.</p>
+</div>
+<div id="footnote6" class="paragraph">
+<p><a href="#footnote6-location">(6)</a>
+A <em>Directed Acyclic Graph</em> (DAG) is a finite directed graph with no cycles, meaning that there is no way to start at a node and return to it by following directed edges. DAGs are widely used in applications such as task scheduling, dependency resolution (such as package managers, build systems like CMake), and blockchain technologies (IOTA&#8217;s Tangle). Their acyclic nature ensures that they represent structures with clear progressions, making them ideal for modeling workflows, computations, and hierarchical relationships.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Algorithms">Category: Algorithms</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Concurrent">Category: Concurrent Programming</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Math">Category: Math and numerics</a></p>
+</li>
+<li>
+<p><a href="glossary.html#q" class="xref page">Glossary: Quantum Computing</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-quantum-computing.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="task-parallel-computation.html">Parallel Computation</a></span>
+        <span class="next"><a href="task-aeronautical-engineering.html">Aeronautical Engineering</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,2315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Formal Review Schedule :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/formal-reviews/review-results.html">
+    <link rel="prev" href="writing-reviews.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="formal-reviews" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Formal Reviews</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="submissions.html">Submission Process</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="contributor-checklist.html">Contributor Checklist</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="managing-reviews.html">Managing Reviews</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="writing-reviews.html">Writing Reviews</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="review-results.html">Review Schedule</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Formal Reviews">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="review-results.html">Review Schedule</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="writing-reviews.html">
+      <span class="material-symbols-outlined" title="Previous: Writing Reviews">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+</div></div>
+    <h1 class="page">Formal Review Schedule</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Reviews are scheduled when the <a href="managing-reviews.html#reviewwizards" class="xref page">Review Wizards</a> approve a review manager and agree with the manager and author on dates. See <a href="submissions.html" class="xref page">Library Submission Process</a> for more information.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The review results include recent completed reviews - where the library may have been accepted but is not yet part of Boost. There is often a lag between acceptance and site posting as authors address issues raised in the formal review.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#currentschedule">Current Schedule</a></p>
+</li>
+<li>
+<p><a href="#pastreviewresults">Past Review Results and Milestones</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="currentschedule"><a class="anchor" href="#currentschedule"></a>Current Schedule</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Submission</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Submitter</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Links</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Review Manager</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Review Dates</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Result</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/correaa/boost-multi">Multi</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alfredo Correa</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://correaa.github.io/boost-multi/multi/intro.html">Docs</a> <a href="https://github.com/correaa/boost-multi">Lib</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matt Borland</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 5, 2025 - March 15, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TBD</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/joaquintides/hub">boost::container::hub</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joaquín M López Muñoz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/joaquintides/hub?tab=readme-ov-file#hub-container">Docs</a> <a href="https://github.com/joaquintides/hub">Lib</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ion Gaztañaga</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 16, 2025 - April 26, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TBD</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_review_managers"><a class="anchor" href="#_review_managers"></a>Review Managers</h3>
+<div class="paragraph">
+<p>In order for a review to proceed, a Boost member must volunteer to manage the review. This should be someone with experience with the review process and knowledge of the library&#8217;s domain. If you would like to volunteer to become a review manager, refer to <a href="managing-reviews.html" class="xref page">Managing Reviews</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="pastreviewresults"><a class="anchor" href="#pastreviewresults"></a>Past Review Results and Milestones</h2>
+<div class="sectionbody">
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 28.5714%;">
+<col style="width: 28.5715%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Submission</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Submitter</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Review Manager</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Review/Release Dates</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Result</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.90.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 10, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_90_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal Re-Review</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matt Borland and Chris Kormanyos</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">October 6, 2025 - October 15, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/archives/list/boost@lists.boost.org/thread/F5FIMGM7CCC24OKQZEFMHHSUV64XX63I/">Accepted</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SQLite Re-Review</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Klemens Morgenstern</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mohammad Nejati</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 22, 2025 - August 31, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/archives/list/boost@lists.boost.org/message/J74OTT6TZ5W6ZHCBTPPBGM6WW54PBFNR/">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.89.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 14, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_89_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://master.bloom.cpp.al/html/index.html">Bloom</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joaquin M Lopez Munoz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Arnaud Becheler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 13, 2025 - May 22, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2025/05/259631.php">Accepted</a> Added in 1.89.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://jll63.github.io/Boost.OpenMethod/">OpenMethod</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jean-Louis Leroy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dmitry Arkhipov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 28, 2025 - May 07, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2025/05/259629.php">Accepted</a> Added in 1.90.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.88.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 10, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_88_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matt Borland and Chris Kormanyos</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 15, 2025 - January 22, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost//2025/02/259187.php">Indeterminate</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hash2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peter Dimov and Christian Mazakas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matt Borland</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 7, 2024 - December 15, 2024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost//2024/12/258910.php">Accepted</a> Added in 1.88.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.87.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 11, 2024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_87_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SQLite</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Klemens Morgenstern</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Richard Hodges</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 13, 2024 - November 22, 2024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2025/02/259197.php">Indeterminate</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MQTT5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ivica Siladic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Klemens Morgenstern</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">October 16, 2024 - October 25, 2024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost//2024/10/258197.php">Conditionally Accepted</a> Added in 1.88.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost Fiscal Sponsorship</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vinnie Falco</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Glen Fernandes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 3, 2024 - September 22, 2024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2024/09/257941.php">Accepted</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.86.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 14, 2024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_86_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.85.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 15, 2024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_85_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Parser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zach Laine</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 19, 2024 - February 28, 2024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2024/02/255957.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2024/03/256151.php">Conditionally Accepted</a> Added in 1.87.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CharConv</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matt Borland</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Christopher Kormanyos</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 15, 2024 - January 25, 2024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2024/01/255713.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2024/02/255820.php">Accepted</a> Added in 1.85</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.84.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 13, 2023</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_84_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cobalt (fka Async)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Klemens Morgenstern</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Niall Douglas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 22, 2023 - October 2, 2023 <a href="https://lists.boost.org/Archives/boost/2023/08/254947.php">repeated due lack of reviews</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2023/09/254987.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2023/10/255139.php">Conditionally Accepted</a>&#8201;&#8212;&#8201;Added in 1.84</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scope</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andrey Semashev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dmitry Arkhipov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 26, 2023 - December 5, 2023</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2023/11/255367.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2024/01/255717.php">Conditionally Accepted</a>&#8201;&#8212;&#8201;Added in 1.85</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.83.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 11, 2023</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_83_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.82.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 14, 2023</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_82_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mustache</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peter Dimov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Klemens Morgenstern</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 5, 2023 - February 14, 2023</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2023/02/254011.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2023/02/254188.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Redis (fka Aedis)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marcelo Zimbres Silva</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Klemens Morgenstern</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 15, 2023 - January 24, 2023</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2023/01/253871.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2023/01/253944.php">Conditionally Accepted</a>&#8201;&#8212;&#8201;Added in 1.84</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.81.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 14, 2022</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_81_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vinnie Falco, Alan de Freitas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Klemens Morgenstern</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 13, 2022 - August 22, 2022</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2022/05/252898.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost//2022/08/253509.php">Accepted</a> Added in 1.81</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.80.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 10, 2022</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_80_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MySQL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ruben Perez</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Richard Hodges</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 9, 2022 - May 18, 2022</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2022/05/252898.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost//2022/06/253193.php">Accepted</a> Added in 1.82</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.79.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 13, 2022</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_79_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.78.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 8, 2021</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_78_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.77.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 11, 2021</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_77_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.76.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 16, 2021</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_76_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lambda2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peter Dimov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joel de Guzman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 22, 2021 - March 31, 2021</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2021/03/251218.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2021/04/251393.php">Accepted</a> Added in 1.77</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Describe</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peter Dimov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Richard Hodges</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 1, 2021 - March 10, 2021</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2021/02/250933.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2021/03/251099.php">Accepted</a> Added in 1.77</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.75.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 11, 2020</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_75_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PFR(Precise and Flat Reflection)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Antony Polukhin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Benedek Thaler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 28, 2020 - October 7, 2020</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2020/09/250077.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2020/10/250176.php">Accepted</a> Added in 1.75</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSON</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vinnie Falco, Krystian Stasiowski</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pranam Lashkari</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 14, 2020 - September 23, 2020</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2020/09/249708.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2020/10/250129.php">Accepted</a> Added in 1.75</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.74.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 14, 2020</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_74_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LEAF(Lightweight Error Augmentation Framework)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Emil Dotchevski</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Michael Caisse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 22, 2020 - May 31, 2020</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2020/05/248850.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2020/08/249657.php">Accepted</a> Added in 1.75</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zach Laine</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Glen Fernandes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 11, 2020 - June 20, 2020</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2020/06/249094.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2020/06/249242.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mateusz Loskot</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 20, 2020</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2020/05/248944.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.73.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 28, 2020</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_73_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.72.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 11, 2019</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_72_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STLInterfaces</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zach Laine</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Barrett Adair</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 10, 2019 - December 19, 2019</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2019/12/0564.php">Pending</a></span>
+		      <a href="https://lists.boost.org/boost-announce/2019/12/0568.php">Conditionally Accepted</a>&#8201;&#8212;&#8201;Added in 1.74</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StaticString (was FixedString)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Krystian Stasiowski and Vinnie Falco</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joaquin M López Muñoz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 25, 2019 - December 4, 2019</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2019/11/0563.php">Pending</a></span>
+		    <a href="https://lists.boost.org/Archives/boost/2020/02/248229.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.73</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.71.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 19, 2019</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_71_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">out_ptr</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JeanHeyd Meneide</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zach Laine</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 16, 2019 - July 10, 2019</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2019/06/0556.php">Pending</a></span></p>
+<p class="tableblock">			<a href="https://lists.boost.org/boost-announce/2019/07/0558.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.70.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 12, 2019</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_70_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Variant2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peter Dimov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Michael Caisse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 1, 2019 - April 15, 2019</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2019/03/245563.php">Ongoing</a></span>
+		    <a href="https://lists.boost.org/boost-announce/2019/06/0553.php">Accepted</a> Added in 1.71</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.69.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 11, 2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_69_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Histogram</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hans Dembinski</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mateusz Loskot</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 17, 2018 - September 26, 2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2018/09/0544.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2018/10/0548.php">Accepted</a> Added in 1.70</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.68.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 09, 2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_68_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.67.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 16, 2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_67_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">YAP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zach Laine</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Louis Dionne</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 5, 2018 - February 14, 2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2018/02/0537.php">Ongoing</a>   <a href="https://lists.boost.org/boost-announce/2018/03/0540.php">Conditionally Accepted</a></span>   <a href="https://lists.boost.org/boost-announce/2018/06/0542.php">Accepted</a> Added in 1.70</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Outcome</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Niall Douglas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Charley Bay</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 19, 2018 - January 28, 2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2018/01/0533.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2018/02/0536.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.70</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.66.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 19, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_66_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Double-Ended</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Benedek Thaler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 21, 2017 - October 7, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2017/09/0528.php">Pending</a></span>
+		    <a href="https://lists.boost.org/boost-announce/2017/10/0530.php">Conditionally Accepted</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fit (now HOF)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Paul Fultz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matt Calabrese</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 8, 2017 - September 20, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2017/09/0526.php">Pending</a></span>
+		    <a href="https://lists.boost.org/boost-announce/2017/09/0529.php">Accepted</a> Added in 1.67</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.65.1 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 7, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_65_1.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.65.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 21, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_65_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mp11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peter Dimov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bjorn Reese</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July  15, 2017 - July 24, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2017/07/0519.php">Ongoing</a></span>
+		    <a href="https://lists.boost.org/boost-announce/2017/08/0520.php">Accepted</a> Added in 1.66</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vinnie Falco</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Michael Caisse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July 1, 2017 - July 10, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2017/06/0515.php">Pending</a></span>
+		    <a href="https://lists.boost.org/Archives/boost/2017/07/237385.php">Accepted</a> Added in 1.66</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pdqsort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Orson Peters</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Steven Ross</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 21, 2017 - June 30, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2017/06/0518.php">Accepted</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nowide</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Artyom Beilis</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frédéric Bron</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 12, 2017 - June 21, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2017/06/0512.php">Pending</a></span>
+		      <a href="https://lists.boost.org/boost-announce/2017/06/0516.php">Accepted</a> Added in 1.73</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timsort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alexander Zaitsev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Steven Ross</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 3, 2017 - June 12, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2017/06/0509.php">Ongoing</a></span>
+		      <a href="https://lists.boost.org/boost-announce/2017/06/0513.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Outcome</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Niall Douglas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Charley Bay</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 19, 2017 - May 28, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2017/05/0504.php">Pending</a></span>
+		      <a href="https://lists.boost.org/boost-announce/2017/06/0510.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PolyCollection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joaquín Mª López Muñoz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ion Gaztañaga</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 3, 2017 - May 12, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2017/05/0502.php">Ongoing</a></span> <a href="https://lists.boost.org/boost-announce/2017/05/0505.php">Accepted</a> Added in 1.65</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.64.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rene Rivera</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 19, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_64_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CallableTraits</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Barrett Adair</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Louis Dionne</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 3, 2017 - April 12, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2017/03/234005.php">Ongoing</a></span>
+		    <a href="https://lists.boost.org/Archives/boost/2017/04/234513.php">Conditionally Accepted</a>&#8201;&#8212;&#8201;Added in 1.66</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stacktrace</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Antony Polukhin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Niall Douglas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 17, 2017 - March 26, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2017/03/0493.php">Ongoing</a></span>
+		      <a href="https://lists.boost.org/boost-announce/2017/03/0496.php">Accepted</a> Added in 1.65</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Safe Numerics</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Robert Ramey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andrzej Krzemienski</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 2, 2017 - March 16, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2017/03/0491.php">Ongoing</a></span>
+		      <a href="https://lists.boost.org/boost-announce/2017/03/0494.php">Conditionally Accepted</a>&#8201;&#8212;&#8201;Added in 1.69</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.63.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 26, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_63_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stacktrace</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Antony Polukhin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Niall Douglas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 14, 2016 - December 23, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2016/12/0483.php">Pending</a></span>
+		    <a href="https://lists.boost.org/boost-announce/2017/01/0486.php">Conditionally Accepted</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Synapse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Emil Dotchevski</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Edward Diener</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 2, 2016 - December 11, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2016/12/0479.php">Pending</a></span>
+<a href="https://lists.boost.org/boost-announce/2016/12/0484.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Parallel Sorting Sub-library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Francisco José Tapia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Steven Ross</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 11, 2016 - November 20, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2016/11/231544.php">Pending</a></span>
+		      <a href="https://lists.boost.org/Archives/boost/2016/11/231732.php">Accepted</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Klemens Morgenstern</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Antony Polukhin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">October 27, 2016 - November 5, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2016/10/0476.php">Pending</a></span>
+		      <a href="https://lists.boost.org/boost-announce/2016/11/0477.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.64</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.62.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rene Rivera</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 28, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_62_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fiber (mini-review)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oliver Kowalke</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nat Goodspeed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 23, 2016 - June 2, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2016/05/0473.php">Pending</a></span>
+		      <a href="https://lists.boost.org/boost-announce/2016/06/0474.php">Accepted</a> Added in 1.62</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 19, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2016/05/0471.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.61.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rene Rivera</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 13, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/history/version_1_61_0.html">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Paul Fultz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vicente Botet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 2, 2016 - March 13, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2016/03/228107.php">Ongoing</a></span>
+		      <a href="https://lists.boost.org/Archives/boost/2016/04/228770.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quaternions, Vectors, Matrices (QVM)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Emil Dotchevski</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adam Wulkiewicz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 7, 2015 - December 23, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2015/12/0458.php">Ongoing</a></span>
+<a href="https://lists.boost.org/Archives/boost/2016/01/227027.php">Accepted</a> Added in 1.62</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.60.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 17, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_60_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fiber (mini-review)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oliver Kowalke</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nat Goodspeed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 4, 2015 - September 13, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2015/09/0453.php">Pending</a></span>
+<a href="https://lists.boost.org/boost-announce/2015/10/0456.php">Continuing Conditionally Accepted</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asynchronous File I/O</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Niall Douglas and
+                  Paul Kirth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ahmed Charles</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 21, 2015 - August 31, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2015/08/0451.php">Pending</a></span>
+		    Rejected (no result posted)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.59.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 13, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_59_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Http</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vinícius dos Santos Oliveira</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bjorn Reese</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 7, 2015 - August 16, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2015/08/0449.php">Pending</a></span>
+		    <a href="https://lists.boost.org/boost-announce/2015/08/0452.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DLL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Antony Polukhin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vladimir Prus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 29, 2015 - July 12, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2015/07/223995.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2015/07/0448.php">Accepted</a> Added in 1.61</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hana</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Louis Dionne</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Glen Fernandes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 10, 2015 - June 24, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2015/07/0443.php">Accepted</a> Added in 1.61</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metaparse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Abel Sinkovics</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Christophe Henry</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 25, 2015 - June 7, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/Archives/boost/2015/05/222478.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2015/07/0446.php">Accepted</a> Added in 1.61</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.58.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 17, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_58_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Endian Mini-Review</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joel Falcou</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 23, 2015 - February 1, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2015/01/0428.php">Ongoing</a></span> <a href="https://lists.boost.org/Archives/boost/2015/02/220090.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.58</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 22, 2015</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2015/01/0427.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kyle Lutz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Antony Polukhin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 15, 2014 - December 30, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2014/12/0423.php">Ongoing</a></span> <a href="https://lists.boost.org/boost-announce/2015/01/0425.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.61</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Steven Ross</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Edward Diener</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 10, 2014 - November 19, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2014/11/0421.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2014/11/0422.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.58</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.57.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 3, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_57_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 30, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2014/08/0414.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Variadic Macro Data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Edward Diener</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Steven Watanabe</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 21, 2014 - August 30, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2014/08/0413.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2015/02/0432.php">Accepted</a> Added in 1.60</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.56.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 7, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_56_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Convert</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vladimir Batov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Edward Diener</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 12, 2014 - May 25, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2014/05/0403.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2014/06/0406.php">Accepted</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TypeIndex Mini-Review</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Antony Polukhin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Niall Douglas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 21, 2014 - April 30, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2014/04/0399.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2014/05/0402.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.56</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Align</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Glen Fernandes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ahmed Charles</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 11, 2014 - April 20, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2014/04/0398.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2014/04/0400.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.56</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fiber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oliver Kowalke</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nat Goodspeed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 6, 2014 - January 15, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2014/01/0392.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2014/01/0393.php">Conditionally Accepted</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TypeIndex</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Antony Polukhin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Niall Douglas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 11, 2013 - November 20, 2013</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2013/11/0389.php">Conditionally Accepted</a></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.55.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 11, 2013</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_55_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.54.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July 1, 2013</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_54_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 14, 2013</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2013/03/0378.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.53.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 4, 2013</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_53_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 10, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2012/11/0374.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.52.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">October 5, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_52_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 27, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2012/09/0370.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ODEint</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Karsten Ahnert and
+		    Mario Mulansky</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Steven Watanabe</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 19, 2012 - September 28, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2012/09/0369.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2012/10/0371.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.53</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Coroutine</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oliver Kowalke</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 3, 2012 - September 12, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2012/09/0366.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2012/11/0375.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.53</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contract</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lorenzo Caminiti</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dave Abrahams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 22, 2012 - August 31, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2012/08/0362.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2012/09/0368.php">Accepted</a> Added in 1.67</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.51.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 20, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_51_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 15, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2012/08/0360.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type Erasure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Steven Watanabe</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lorenzo Caminiti</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July 18, 2012 - July 27, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2012/07/0357.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2012/08/0364.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.54</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July 13, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2012/07/0355.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.50.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 28, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_50_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multiprecision Arithmetic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeffrey Hellrung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 8, 2012 - June 17, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2012/06/0353.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2012/08/0359.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.53</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.49.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 24, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_49_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Predef</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rene Rivera</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joel Falcou</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 20, 2012 - February 29, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2012/02/0349.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2013/04/0379.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.55</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 10, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2012/01/0344.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Context (mini-review)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oliver Kowalke</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Giovanni Deretta</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 2, 2012 - January 11, 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2012/01/0343.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2012/01/0348.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.51.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.48.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 16, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_48_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Local</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lorenzo Caminiti</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeffrey Hellrung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 10, 2011 - November 19, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/11/0338.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2011/12/0340.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.50</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Atomic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Helge Bahmann</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tim Blechmann</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">October 17, 2011 - October 26, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2011/11/0337.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.53</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Algorithm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dave Abrahams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 22, 2011 - October 1, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/09/0333.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2011/12/0341.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.50</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Endian</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joel Falcou</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 5, 2011 - September 14, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2011/11/0336.php">Conditionally Accepted</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conversion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vicente Botet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gordon Woodhull</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 20, 2011 - August 29, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/08/0330.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2012/07/0356.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Containers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ion Gaztañaga</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 3, 2011 - August 12, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/08/0329.php">Pending</a></span> <a href="https://lists.boost.org/Archives/boost/2011/08/184936.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.48.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lockfree</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tim Blechmann</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July 18, 2011 - July 27, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/07/0324.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2011/08/0331.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.53</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.47.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July 12, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_47_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type Traits Introspection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Edward Diener</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joel Falcou</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July 1, 2011 - July 10, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/06/0320.php">Pending</a></span>
+<span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/07/0322.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2011/08/0328.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.54</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Assign v2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Erwann Rogard,
+                  Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Bytheway</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 15, 2011 - June 24, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/06/0315.php">Pending</a></span>
+<span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/06/0319.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2011/07/0321.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Heaps</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tim Blechmann</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andrew Sutton</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 30, 2011 - June 8, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/05/0314.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2011/06/0316.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.49</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 23, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2011/05/0311.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AutoIndex (Tool)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 5, 2011 - May 14, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/05/0308.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2011/05/0312.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.48.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Convert</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vladimir Batov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Edward Diener</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 23, 2011 - May 2, 2011-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/04/0302.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2011/05/0307.php">Withdrawn</a> <a href="https://lists.boost.org/boost-announce/2011/05/0309.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Locale</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Artyom Beilis</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chad Nelson</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 7, 2011 - April 16, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/04/0298.php">Pending</a></span>
+<span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/04/0303.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2011/04/0304.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.48.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Context</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oliver Kowalke</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vicente Botet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 21, 2011 - March 30, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/03/0296.php">Pending</a></span>
+<span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/05/0310.php">Accepted Provisionally</a></span> <a href="https://lists.boost.org/boost-announce/2012/01/0348.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.51.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type Traits Extensions (Fast-Track)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frédéric Bron</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joel Falcou</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 14, 2011 - March 18, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2011/03/0297.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.48.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.46.1 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 21, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_46_1">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 4, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2011/03/0289.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">XInt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chad Nelson</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vladimir Prus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 2, 2011 - March 12, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2011/03/0288.php">Pending</a></span> <a href="https://lists.boost.org/boost-announce/2011/04/0305.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.46 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 21, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/users/news/version_1_46_0">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Phoenix (mini-review)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joel de Guzmann</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 20, 2011 - March 2, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2011/03/0291.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.47.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boris Schaeling</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marshall Clow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 7. 2011 - February 16, 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2011/03/0292.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GIL.IO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Christian Henning</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mateusz Loskot</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 1, 2010 - December 10, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2011/01/0281.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.68.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.45 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 20, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2010/11/0272.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chrono</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vicente Botet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Anthony Williams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 6, 2010 - November 15, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2011/01/0280.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.47.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ratio</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vicente Botet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Anthony Williams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">October 2, 2010 - October 11, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2010/10/0270.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.47.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.44 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 17, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2010/08/0264.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Assign Extensions (Mini-Review)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Erwann Rogard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 13, 2010 - June 19, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2010/10/0269.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 26, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2010/05/0262.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Move</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ion Gaztañaga</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through">OvermindDL1</span> Michael Caisse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 10, 2010 - May 24, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2011/02/0283.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.48.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.43 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 6, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2010/05/0258.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andrey Semashev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vladimir Prus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 8, 2010 - March 17, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2010/03/0256.php">Accepted Provisionally</a></span> Accepted&#8201;&#8212;&#8201;Added in 1.54</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interval Containers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joachim Faulhaber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 18, 2010 - February 27, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2010/04/0257.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.46</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.42 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 2, 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2010/02/0250.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Phillips</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 7, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/development/report-dec-2009.html">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Meta State Machine (MSM)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Christophe Henry</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dave Abrahams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 23, 2009 - December 13, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2010/01/160812.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.44</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.41 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 18, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2009/11/0241.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Geometry</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Barend Gehrels, Bruno Lalande, and Mateusz Loskot</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 5, 2009 - November 22, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2009/11/0245.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.47.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.40 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 27, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2009/08/0235.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Polygon</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lucanus Simonson</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fernando Cacciola</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 24, 2009 - September 2, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2009/11/0239.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.44</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 4, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/development/report-jun-2009.html">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.39 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 3, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2009/05/0232.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Polynomial</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Paweł Kieliszczyk</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 10, 2009 - March 19, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2009/04/0228.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost.Range (Update)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Neil Groves</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 20, 2009 - March 3, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2009/04/0231.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.43</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.38 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 9, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2009/02/0223.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Futures (1st candidate)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Anthony Williams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tom Brinkman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 5, 2009 - January 20, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2009/04/0229.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.41</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Futures (2nd candidate)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Braddock Gaskill</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tom Brinkman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 5, 2009 - January 20, 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rejected</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constrained Value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Robert Kawulak</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through">Jeff Garland</span> Gordon Woodhull</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 1, 2008 - December 10, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2010/09/0265.php">Accepted</a></span> Orphaned</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Phillips</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 25, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/development/report-nov-2008.html">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Globally Unique Identifier (mini-review) (now UUID)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andy Tompkins</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 23, 2008 - November 29, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2009/01/0221.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.42</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.37 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 3, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/11/0209.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thread-Safe Signals (now Signals2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frank Hess</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stjepan Rajko</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">November 1, 2008 - November 10, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/11/0211.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.39</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Phoenix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joel de Guzman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 21, 2008 - September 30, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2008/10/0205.php">Accepted Conditionally</a></span> <span class="line-through"><a href="https://lists.boost.org/Archives/boost/2010/05/167128.php">Under Development</a></span> <a href="https://lists.boost.org/boost-announce/2011/03/0291.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.47.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DataFlow Signals</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stjepan Rajko</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jaakko Järvi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 1, 2008 - September 10, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2008/09/142198.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.36 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 14, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/08/0196.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Finite State Machines</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andrey Semashev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin Vuille</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 11, 2008 - August 27, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/09/0202.php">Rejected</a> (<a href="https://lists.boost.org/boost-announce/2008/09/0203.php">Notes</a> )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Phillips</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2008 May 16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/development/report-may-2008.html">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Egg</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shunsuke Sogame</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dan Marsden</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 31, 2008 - April 13, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/05/0192.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.35 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 29, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/03/0183.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Proto</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eric Niebler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 1, 2008 - March 14, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/04/0187.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.37</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Floating Point Utilities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Johan Råde</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 18, 2008 - February 27, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/03/0179.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.??</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logging</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Torjo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gennadiy Rozental</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 4, 2008 - February 13, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/03/0181.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flyweight</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joaquín Mª López Muñoz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ion Gaztañaga</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 21, 2008 - January 30, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/02/0174.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.38</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Singleton (fast-track)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Schwinger</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Torjo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 14, 2008 - January 18, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/01/0171.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Steven Watanabe</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stejpan Rajko</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 5, 2008 - January 13, 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2008/01/0166.php">Accepted Provisionally</a></span> Orphaned</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Factory (fast-track)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Schwinger</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Torjo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 17, 2007 - December 21, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2007/12/0161.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.43</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unordered Containers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ion Gaztañaga</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 7, 2007 - December 16, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2007/12/0158.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.36</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Forward (fast-track)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Schwinger</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Torjo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 3, 2007 - December 7, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2007/12/0153.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.43</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2007 November 16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/development/report-nov-2007.html">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Exception</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Emil Dotchevski</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Schwinger</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 27, 2007 - October 7, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-users/2007/11/31912.php">Accepted</a>  &#8201;&#8212;&#8201;Added in 1.36</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2007 September 14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/development/report-sep-2007.html">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scope Exit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alexander Nasonov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through">Jody Hagins</span>   John R. Phillips</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 13, 2007 - August 22, 2007-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2008/05/0190.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.38</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time Series</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eric Niebler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John R. Phillips</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July 30, 2007 - August 13, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2007/08/0142.php">Accepted</a></span>   <a href="https://lists.boost.org/Archives/boost/2010/05/167128.php">Orphaned</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.34.1 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thomas Witt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July 24, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2007/07/0135.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.34.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thomas Witt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 12, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2007/05/0131.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Globally Unique Identifier</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andy Tompkins</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 30, 2007 - May 10, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2007/05/0134.php">Accepted Provisionally</a></span>   <a href="https://lists.boost.org/boost-announce/2009/01/0221.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.42</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Math Toolkit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matthias Schabel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 11, 2007 - April 27, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2007/05/0129.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quantitative Units</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matthias Schabel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John R. Phillips</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 26, 2007 - April 4, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2007/04/0126.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.36</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Intrusive Containers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ion Gaztañaga</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joaquín Mª López Muñoz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">March 12, 2007 - March 21, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2007/04/0122.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bimap</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matias Capeletto</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ion Gaztañaga</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 15 2007- March 2, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2007/03/117351.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accumulators</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eric Niebler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John R. Phillips</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 29, 2007 - February 7, 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2007/02/0114.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.36</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Function Types (Re-review)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Schwinger</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tom Brinkman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 November 6 - 2006 November 17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2006/11/0106.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generic Image Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lubomir Bourdev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tom Brinkman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 October 5 - 2006 October 25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2006/11/112896.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Passing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Doug Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeremy Siek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 September 6 - 2006 September 15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2006/09/0099.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Physical Quantities System</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andy Little</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fred Bertsch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 May 31 - 2006 June 9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2006/06/0096.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pimpl Pointer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asger Mangaard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rene Rivera</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 May 15 - 2006 May 24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2006/10/0104.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fusion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joel de Guzman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 May 1 - 2006 May 10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2006/06/0094.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property Tree</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marcin Kalicinski</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 April 18 - 2006 April 30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2006/05/0092.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.41</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Promotion Traits (fast-track)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alexander Nasonov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Schwinger</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 April 1 - 2006 April 9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2006/04/0086.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tom Brinkman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 March 30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/development/report-apr-2006.html">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shmem (now Interprocess)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ion Gaztañaga</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fred Bertsch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 February 6 - 2006 February 15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2006/02/0083.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed Strings</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reece Dunn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Harmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 January 19 - 2006 February 5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2006/02/0081.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2006 January 19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/development/report-jan-2006.html">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">asio</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Christopher Kohlhoff</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeff Garland</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 December 10 - 2005 December 30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2006/03/102287.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.33.1 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Doug Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 December 5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2005/12/0077.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Review Wizard Status Report</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ronald Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 December 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2005/12/0076.php">Report</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logging Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Torjo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 November 7 - 2005 November 16th</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2005/11/0075.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.33.1 Beta Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Doug Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 November 9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2005/11/0073.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">binary_int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott Schurr and Matt Calabrese</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pavel Vozenilek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 October 13 - 2005 October 20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2006/01/0078.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.37.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TR1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 September 24 - 2005 October 5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.34</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Xpressive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eric Niebler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thomas Witt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 September 8 - 2005 September 18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.34</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Boost 1.33.0 Released</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Doug Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17 August 2005</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2005/08/0067.php">Notes</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Function Types</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tobias Schwinger</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005-Jun-6 to 2005-June-16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through"><a href="https://lists.boost.org/boost-announce/2005/06/0066.php">Accepted Provisionally</a></span>,   <a href="https://lists.boost.org/boost-announce/2006/11/0106.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Typeof</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Arkadiy Vertleyb and
+		      Peder Holt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andy Little</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 May 20 - 2005 May 30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.34</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Singleton</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jason Hise</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pavel Vozenilek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 May 5 - 2005 May 15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2005/05/0062.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FOREACH Macro</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eric Niebler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gennadiy Rozental</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 April 25 - 2005 May 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.34</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hash</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daniel James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 Mar 21 - 2005 March 12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.33</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State Chart</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andreas Huber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pavel Vozenilek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 Feb 23 - 2005 March 9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.34</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wave</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tom Brinkman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2005 Feb 7 - 2005 Feb 20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.33</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pointer Containers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pavol Droba</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Sept 26 - Oct 5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.33</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Named Params</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">David Abrahams &amp;
+		      Daniel Wallin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Doug Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Nov 1 - 2004 Nov 20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.33</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Output Formatters</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reece Dunn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Torjo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Sept 11 - Sept 25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2004/10/74535.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Iostreams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jonathan Turkanis</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeff Garland</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Aug 28 - Sep 11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.33</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">More IO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daryle Walker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tom Brinkman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Aug 21 - 28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rejected</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tribool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Douglas Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thomas Witt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 May 19-29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Assignment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tom Brinkman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Apr 1 - 11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Serialization (re-review)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Robert Ramey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeff Garland</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Apr 13 - 26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Container Traits (now Range)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hartmut Kaiser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Apr 28 - May 7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indexed Set (now MultiIndex)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joaquín Mª López Muñoz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pavel Vozenilek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Mar 20 - 30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2004/04/63582.php">Accepted</a>&#8201;&#8212;&#8201;Added in 1.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circular Buffer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jan Gaspar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pavel Vozenilek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Mar 5 - 15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;Added in 1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enable_if</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jaakko Järvi &amp; Jeremiah Willcock &amp; Andrew Lumsdaine</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(fasttrack)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dec 2003</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.31</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FC++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Brian McNamara &amp; Yannis Smaragdakis</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mat Marcus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2004 Feb 14 - Mar 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rejected</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Numeric Conversions Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fernando Cacciola</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 - 22 Dec 2003</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String Algorithm Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pavol Droba</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thorsten Ottosen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17 - 30 Oct 2003</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shifted Pointer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Philippe A. Bouchard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Doug Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24 - 30 Sep 2003</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rejected</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed-Point Decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bill Seymour</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jens Maurer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11 - 21 Jul 2003</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rejected</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Math Constants</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Paul A. Bristow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jaap Suter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">06 - 15 Jun 2003</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rejected</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Command Line &amp; Config</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vladimir Prus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aleksey Gurtovoy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21 May - 03 Jun 2003</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I/O Manipulators and Adaptors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daryle Walker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ed Brey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27 Feb - 11 Mar 2003</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Variant</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eric Friedman &amp; Itay Maman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeff Garland</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16 - 25 Feb 2003</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.31</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fernando Cacciola</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Douglas Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">09 - 18 Dec 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Serialization</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Robert Ramey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dave Abrahams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">02 - 11 Nov 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rejected</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Spirit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joel de Guzman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11 - 20 Oct 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minmax</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hervé Bronnimann</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thomas Witt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">28 Sep - 07 Oct 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Filesystem</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">William Kempf</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14 - 23 Sep 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interval Arithmetic Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hervé Bronnimann &amp; Guillaume Melquiond &amp; Sylvain Pion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">31 Aug - 09 Sep 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Template Meta Programming Library MPL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aleksey Gurtovoy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Douglas Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15 - 29 Jul 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">uBLAS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joerg Walter &amp; Mathias Koch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ed Brey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21 Jun - 01 Jul 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.29</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dynamic Bitset</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chuck Alison &amp; Jeremy Siek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mat Marcus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">08 - 17 Jun 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.29</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Date / Time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeff Garland</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Darin Adler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15 - 24 Apr 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.29</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lambda</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jaakko Järvi &amp; Gary Powell</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aleksey Gurtovoy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">08 - 20 Mar 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signals</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Douglas Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">William Kempf</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18 - 27 Feb 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.29</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I/O State Saver</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daryle Walker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">06 - 16 Feb 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">printf-like formatting for iostreams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Samuel Krempp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jens Maurer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13 - 23 Jan 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.29</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multi-array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ron Garcia</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">02 - 12 Jan 2002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted&#8201;&#8212;&#8201;added in 1.29</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unit Test Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gennadiy Rozental</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeremy Siek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">01 - 13 Dec 2001</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GCD Library plus integer additions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daryle Walker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dave Abrahams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17 - 26 Sep 2001</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thread Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bill Kempf</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ed Brey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aug 30 - Sep 8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Config System</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Doug Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aug 20 - 29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bind Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peter Dimov</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Darin Adler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aug 10 - 19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base from Member Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daryle Walker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jul 30 - Aug 9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Coding Guidelines</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dave Abrahams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aleksey Gurtovoy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jul 20 - 29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Preprocessor Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vesa Karvonen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jeremy Siek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jun 28 - Jul 9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tuples Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jaakko Järvi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beman Dawes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jun 17 - 26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Function Library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Doug Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Maddock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jun 6 - 16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tokenizer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Bandela</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Doug Gregor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 28 - Jun 6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Special Functions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hubert Holin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jens Maurer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 18 - 27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted and added</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../user-guide/boost-history.html" class="xref page">History of Boost</a></p>
+</li>
+<li>
+<p><a href="../contributor-guide/release-process.html" class="xref page">Contributor Guide: Release Process</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/formal-reviews/modules/ROOT/pages/review-results.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="writing-reviews.html">Writing Reviews</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Writing Tests :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/testing/writing-tests.html">
+    <link rel="prev" href="regression-tests.html">
+    <link rel="next" href="sanitizers.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Testing</li>
+    <li><a href="writing-tests.html">Writing Tests</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="regression-tests.html">
+      <span class="material-symbols-outlined" title="Previous: Local Regression Tests">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="sanitizers.html">
+      <span class="material-symbols-outlined" title="Next: Sanitizers">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Writing Tests</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_guidelines_for_contributors">Guidelines for Contributors</a></p>
+</li>
+<li>
+<p><a href="#_unit_tests">Unit Tests</a></p>
+</li>
+<li>
+<p><a href="#_test_edge_cases">Test Edge Cases</a></p>
+</li>
+<li>
+<p><a href="#_testing_features_of_boost_core">Testing Features of Boost.Core</a></p>
+</li>
+<li>
+<p><a href="#_descriptive_test_names">Descriptive Test Names</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_guidelines_for_contributors"><a class="anchor" href="#_guidelines_for_contributors"></a>Guidelines for Contributors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By following these guidelines and examples, contributors can write effective and maintainable unit tests that ensure the robustness and reliability of their Boost library contributions.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tests should be neatly organized into test suites to maintain clarity about which aspect of the library is being tested.</p>
+</li>
+<li>
+<p>When testing features that are compiler or platform-specific, use <a href="https://www.boost.org/libs/config">Boost.Config</a> to ensure portability.</p>
+</li>
+<li>
+<p>Test names should be descriptive enough to understand the purpose without diving deep into the test logic.</p>
+</li>
+<li>
+<p>If a test contains non-trivial logic or checks for edge cases, include comments explaining the rationale.</p>
+</li>
+<li>
+<p>Ensure that the tests cover all corner cases, edge conditions, and typical usage scenarios.</p>
+</li>
+<li>
+<p>Each test should be independent, not relying on the state or outcome of another test.</p>
+</li>
+<li>
+<p>Well-commented unit tests not only describe the "what" but also the "why" behind certain checks, making them invaluable for both current developers and future maintainers. It&#8217;s crucial for unit tests to be self-explanatory, and while descriptive names play a significant role, comments can further elucidate complex or non-obvious logic.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_unit_tests"><a class="anchor" href="#_unit_tests"></a>Unit Tests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Writing good unit tests is crucial. <a href="https://www.boost.org/libs/test">Boost.Test</a> provides the facilities needed to write unit tests, and <a href="https://www.boost.org/libs/config">Boost.Config</a> can be used to adjust code depending on the platform and compiler features. The following are some examples to help contributors get started:</p>
+</div>
+<div class="sect2">
+<h3 id="_basic_unit_testing_using_boost_test"><a class="anchor" href="#_basic_unit_testing_using_boost_test"></a>Basic Unit Testing using Boost.Test</h3>
+<div class="paragraph">
+<p>To begin, contributors should include the necessary headers and use the right macros.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE MyLibraryTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+BOOST_AUTO_TEST_CASE(test_case1)
+{
+    BOOST_TEST(2 + 2 == 4);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, a test module named <code>MyLibraryTest</code> is defined, and a single test case (<code>test_case1</code>) checks a trivial arithmetic operation.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_suite"><a class="anchor" href="#_testing_suite"></a>Testing Suite</h3>
+<div class="paragraph">
+<p>For a library with multiple functionalities, it&#8217;s a good idea to organize tests into test suites.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/test/included/unit_test.hpp&gt;
+
+BOOST_AUTO_TEST_SUITE(MathTestSuite)
+
+BOOST_AUTO_TEST_CASE(test_addition)
+{
+    BOOST_TEST(2 + 2 == 4);
+}
+
+BOOST_AUTO_TEST_CASE(test_subtraction)
+{
+    BOOST_TEST(4 - 2 == 2);
+}
+
+BOOST_AUTO_TEST_SUITE_END()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_boost_config"><a class="anchor" href="#_using_boost_config"></a>Using Boost.Config</h3>
+<div class="paragraph">
+<p>Let&#8217;s say a certain test is only valid for compilers supporting C++14. <a href="https://www.boost.org/libs/config">Boost.Config</a> can be used to conditionally include or exclude that test.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/test/included/unit_test.hpp&gt;
+#include &lt;boost/config.hpp&gt;
+
+BOOST_AUTO_TEST_CASE(test_cpp14_feature)
+{
+#if !defined(BOOST_NO_CXX14_GENERIC_LAMBDAS)
+    auto lambda = [](auto x) { return x * x; };
+    BOOST_TEST(lambda(3) == 9);
+#endif
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the above test, we ensure that the lambda (which uses a C++14 feature) only gets compiled if the compiler supports C++14 generic lambdas. The <code>BOOST_NO_CXX14_GENERIC_LAMBDAS</code> macro is provided by Boost.Config.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_with_floating_point"><a class="anchor" href="#_testing_with_floating_point"></a>Testing with Floating Point</h3>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/test">Boost.Test</a> has special support for floating-point comparison to handle rounding errors.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">BOOST_AUTO_TEST_CASE(test_floating_point)
+{
+    double result = 0.1 * 0.1;
+    BOOST_TEST(result == 0.01, boost::test_tools::tolerance(1e-9));
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this test, the <code>boost::test_tools::tolerance</code> call specifies the allowed difference between the computed result and the expected result.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_exceptions"><a class="anchor" href="#_testing_exceptions"></a>Testing Exceptions</h3>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/test">Boost.Test</a> provides facilities to check if the right exceptions are thrown.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-[source hljs" data-lang="[source">#include &lt;stdexcept&gt;
+
+void foo() { throw std::runtime_error("Error!"); }
+
+BOOST_AUTO_TEST_CASE(test_exception)
+{
+    BOOST_CHECK_THROW(foo(), std::runtime_error);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is an example that works around expectations.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-[source hljs" data-lang="[source">#define BOOST_TEST_MODULE ExceptionTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+void mightThrow(bool doThrow)
+{
+    if (doThrow)
+        throw std::runtime_error("An error occurred!");
+}
+
+BOOST_AUTO_TEST_CASE(test_exception_handling)
+{
+    // This call should not throw any exceptions.
+    mightThrow(false);
+
+    // Testing if the function throws the expected exception when asked to.
+    // This is especially useful when certain conditions in the application
+    // logic are expected to trigger specific exceptions.
+    BOOST_CHECK_THROW(mightThrow(true), std::runtime_error);
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_edge_cases"><a class="anchor" href="#_test_edge_cases"></a>Test Edge Cases</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Testing edge cases is crucial in ensuring the robustness and reliability of any software component. Edge cases often arise from boundary conditions, interactions of features, or uncommon input scenarios. The following examples demonstrate some common edge cases and how they can be tested using <a href="https://www.boost.org/libs/test">Boost.Test</a>. In practice, understanding the problem domain and potential pitfalls of the library/component being developed is crucial in identifying and effectively testing edge cases.</p>
+</div>
+<div class="sect2">
+<h3 id="_test_array_boundaries"><a class="anchor" href="#_test_array_boundaries"></a>Test Array Boundaries</h3>
+<div class="paragraph">
+<p>When working with arrays or data structures with a fixed size, it&#8217;s crucial to test both lower and upper boundaries.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;array&gt;
+#define BOOST_TEST_MODULE ArrayBoundaryTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+std::array&lt;int, 5&gt; data = {1, 2, 3, 4, 5};
+
+BOOST_AUTO_TEST_CASE(test_lower_boundary)
+{
+    BOOST_TEST(data[0] == 1);
+}
+
+BOOST_AUTO_TEST_CASE(test_upper_boundary)
+{
+    BOOST_TEST(data[4] == 5);
+}
+
+// This should fail if accessing out of bounds
+BOOST_AUTO_TEST_CASE(test_out_of_bounds)
+{
+    BOOST_CHECK_THROW(data.at(5), std::out_of_range);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_list_boundaries"><a class="anchor" href="#_test_list_boundaries"></a>Test List Boundaries</h3>
+<div class="paragraph">
+<p>Comments help identify the purpose of the tests in this example of testing list size and boundaries.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE BoundaryTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+BOOST_AUTO_TEST_CASE(test_list_boundary_conditions)
+{
+    std::list&lt;int&gt; myList;
+
+    // Testing the lower boundary. An empty list should have a size of 0.
+    BOOST_TEST(myList.size() == 0);
+
+    myList.push_back(1);
+    myList.push_back(2);
+
+    // When two items are added, size should reflect that.
+    BOOST_TEST(myList.size() == 2);
+
+    myList.clear();
+
+    // After clearing, the list should return to its initial empty state.
+    BOOST_TEST(myList.size() == 0);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_numeric_limits"><a class="anchor" href="#_test_numeric_limits"></a>Test Numeric Limits</h3>
+<div class="paragraph">
+<p>When working with numerical operations, it&#8217;s vital to test the smallest, largest, and other boundary values.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;limits&gt;
+#define BOOST_TEST_MODULE NumericLimitsTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+BOOST_AUTO_TEST_CASE(test_integer_overflow)
+{
+    int max_int = std::numeric_limits&lt;int&gt;::max();
+    BOOST_CHECK_THROW([&amp;](){
+        int result = max_int + 1;
+    }(), std::overflow_error);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_numerical_algorithms"><a class="anchor" href="#_test_numerical_algorithms"></a>Test Numerical Algorithms</h3>
+<div class="paragraph">
+<p>Numerical algorithms often have trouble with 0!</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE AlgorithmTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+double divide(double a, double b)
+{
+    if (b == 0.0)
+        throw std::domain_error("Denominator cannot be zero.");
+    return a / b;
+}
+
+BOOST_AUTO_TEST_CASE(test_division)
+{
+    // Regular division scenario: 10 divided by 2 should give 5.
+    BOOST_TEST(divide(10.0, 2.0) == 5.0);
+
+    // Division by zero should throw an error. We're ensuring that our
+    // function correctly handles this edge case and provides meaningful feedback.
+    BOOST_CHECK_THROW(divide(10.0, 0.0), std::domain_error);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_string_edge_cases"><a class="anchor" href="#_string_edge_cases"></a>String Edge Cases</h3>
+<div class="paragraph">
+<p>When working with strings, some common edge cases include empty strings, strings with special characters, and extremely long strings.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;string&gt;
+#define BOOST_TEST_MODULE StringTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+std::string concatenate(const std::string &amp;a, const std::string &amp;b)
+{
+    return a + b;
+}
+
+BOOST_AUTO_TEST_CASE(test_empty_string)
+{
+    BOOST_TEST(concatenate("", "world") == "world");
+}
+
+BOOST_AUTO_TEST_CASE(test_special_characters)
+{
+    BOOST_TEST(concatenate("hello", "\n\t!") == "hello\n\t!");
+}
+
+// Use this test cautiously as it can consume a lot of memory
+// BOOST_AUTO_TEST_CASE(test_extremely_long_string)
+// {
+//     std::string long_string(1e7, 'a');  // 10 million 'a's
+//     BOOST_TEST(concatenate(long_string, "b").back() == 'b');
+// }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_for_null_or_nullptr"><a class="anchor" href="#_test_for_null_or_nullptr"></a>Test for <code>NULL</code> or <code>nullptr</code></h3>
+<div class="paragraph">
+<p>For libraries that might work with pointers, always check for null pointer scenarios.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE PointerTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+int dereference(int* ptr)
+{
+    return *ptr;
+}
+
+BOOST_AUTO_TEST_CASE(test_null_pointer)
+{
+    int* null_ptr = nullptr;
+    BOOST_CHECK_THROW(dereference(null_ptr), std::runtime_error);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_recursive_functions"><a class="anchor" href="#_test_recursive_functions"></a>Test Recursive Functions</h3>
+<div class="paragraph">
+<p>For recursive algorithms, consider the maximum depth and base cases.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE RecursionTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+int factorial(int n)
+{
+    if (n &lt; 0) throw std::runtime_error("Negative input not allowed");
+    if (n == 0) return 1;
+    return n * factorial(n - 1);
+}
+
+BOOST_AUTO_TEST_CASE(test_negative_input)
+{
+    BOOST_CHECK_THROW(factorial(-1), std::runtime_error);
+}
+
+BOOST_AUTO_TEST_CASE(test_base_case)
+{
+    BOOST_TEST(factorial(0) == 1);
+}
+
+BOOST_AUTO_TEST_CASE(test_general_case)
+{
+    BOOST_TEST(factorial(5) == 120);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_with_mocks"><a class="anchor" href="#_testing_with_mocks"></a>Testing with Mocks</h3>
+<div class="paragraph">
+<p>A "mock" is a hypothetical example. Mocks are useful in isolating units of code and simulating external interactions without actually invoking them.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE MockTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+#include &lt;mock_database.hpp&gt;  // hypothetical mock database header
+
+BOOST_AUTO_TEST_CASE(test_database_read)
+{
+    MockDatabase db;  // Creating a mock database instance
+
+    // Presetting the mock to return specific data when read is called.
+    db.setMockData("sample_data");
+
+    // The data returned from our mock should match the preset data.
+    BOOST_TEST(db.read() == "sample_data");
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_testing_features_of_boost_core"><a class="anchor" href="#_testing_features_of_boost_core"></a>Testing Features of Boost.Core</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/core">Boost.Core</a> provides a set of core utility components intended for use by other libraries. Features include utility classes like <code>noncopyable</code>, type traits like <code>is_same</code>, and low-level functions like <code>addressof</code>.</p>
+</div>
+<div class="paragraph">
+<p>In each of the following tests, the <a href="https://www.boost.org/libs/test">Boost.Test</a> framework is used to verify the behavior of components based on <a href="https://www.boost.org/libs/core">Boost.Core</a>:</p>
+</div>
+<div class="sect2">
+<h3 id="_testing_noncopyable"><a class="anchor" href="#_testing_noncopyable"></a>Testing <code>noncopyable</code></h3>
+<div class="paragraph">
+<p>Suppose you have a class that inherits from <code>boost::noncopyable</code> to ensure it can&#8217;t be copied.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/core/noncopyable.hpp&gt;
+
+class MyClass : private boost::noncopyable {
+    // class contents
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To test this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE NonCopyableTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+BOOST_AUTO_TEST_CASE(test_noncopyable)
+{
+    MyClass instance1;
+
+    // The following lines should result in compile-time errors because copy
+    // constructor and assignment operator are deleted for noncopyable.
+    // Uncommenting these lines will cause the test to fail at compilation.
+    //
+    // MyClass instance2(instance1);  // Copy construction
+    // instance1 = instance2;         // Copy assignment
+
+    BOOST_TEST(true);  // If we reach here, it means the class is noncopyable
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_is_same"><a class="anchor" href="#_testing_is_same"></a>Testing <code>is_same</code></h3>
+<div class="paragraph">
+<p>Using <code>boost::is_same</code> type trait:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/type_traits/is_same.hpp&gt;
+
+template &lt;typename T, typename U&gt;
+bool are_same_type() {
+    return boost::is_same&lt;T, U&gt;::value;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To test this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE IsSameTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+
+BOOST_AUTO_TEST_CASE(test_is_same)
+{
+    BOOST_TEST(are_same_type&lt;int, int&gt;());
+    BOOST_TEST(!are_same_type&lt;int, double&gt;());
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_boostaddressof"><a class="anchor" href="#_testing_boostaddressof"></a>Testing <code>boost::addressof</code></h3>
+<div class="paragraph">
+<p>This function obtains the memory address of an object, even if its <code>operator&amp;</code> is overloaded.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">struct OverloadedAddress {
+    OverloadedAddress* operator&amp;() {
+        return nullptr;
+    }
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Testing it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_TEST_MODULE AddressOfTest
+#include &lt;boost/test/included/unit_test.hpp&gt;
+#include &lt;boost/core/addressof.hpp&gt;
+
+BOOST_AUTO_TEST_CASE(test_addressof)
+{
+    OverloadedAddress obj;
+    BOOST_TEST(boost::addressof(obj) != nullptr);
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_descriptive_test_names"><a class="anchor" href="#_descriptive_test_names"></a>Descriptive Test Names</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Descriptive test names are crucial for several reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When a test fails, a good test name instantly conveys what was expected and what aspect of the system was being tested.</p>
+</li>
+<li>
+<p>As the software evolves, descriptive test names make it easier for developers to update tests or understand the impact of a code change.</p>
+</li>
+<li>
+<p>Tests often serve as a form of living documentation for a system. Good test names provide an outline of the system&#8217;s behavior.</p>
+</li>
+<li>
+<p>Test names should often start with a verb to indicate the action or condition being tested.</p>
+</li>
+<li>
+<p>It&#8217;s usually better to have a longer, descriptive name than a short, vague one.</p>
+</li>
+<li>
+<p>If you&#8217;re using a test framework that already prefixes methods with <code>test_</code>, you don&#8217;t need to start every test name with <code>test_</code>. Consider using a more descriptive prefix.</p>
+</li>
+<li>
+<p>If there&#8217;s a naming convention in the existing test suite, stick to it.</p>
+</li>
+<li>
+<p>The name should describe the expected behavior or outcome, not just the input conditions. For instance, <code>test_negative_balance</code> doesn&#8217;t tell us what to expect, while <code>test_withdrawing_more_than_balance_throws_error</code> is much clearer.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s delve into some more examples:</p>
+</div>
+<div class="sect2">
+<h3 id="_example_good_test_names"><a class="anchor" href="#_example_good_test_names"></a>Example Good Test Names</h3>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Name</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test_empty_list_has_size_of_zero</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This name is clear about the context (empty list) and the expectation (size is zero).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test_user_cannot_withdraw_more_than_balance</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clear and specific about the business rule being enforced.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test_connection_throws_timeout_after_10_seconds</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates that a connection should time out, and also specifies the expected time frame.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test_sorting_preserves_original_order_of_equal_elements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Describes a specific characteristic (stability) of a sorting function.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test_password_must_contain_at_least_one_special_character</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clear about the rule being checked.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_example_poor_test_names"><a class="anchor" href="#_example_poor_test_names"></a>Example Poor Test Names</h3>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Name</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test1</code> or <code>test_function1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vague. Does not tell anything about the purpose or expected outcome.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test_errors</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Too broad. What kind of errors? Under what conditions?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test_logic</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ambiguous. What specific logic? Why is it being tested?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test_against_spec</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">What spec? How? This name doesn&#8217;t give a clear picture of what&#8217;s being tested or what to expect.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test_flag</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Too vague. What about the flag? Are we testing its default value, its behavior when set, or something else?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test_issue576</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Will a future maintainer know how to access Issue 576?</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="test-policy.html" class="xref page">Test Policy</a></p>
+</li>
+<li>
+<p><a href="fuzzing.html" class="xref page">Fuzz Testing</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/testing/writing-tests.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="regression-tests.html">Local Regression Tests</a></span>
+        <span class="next"><a href="sanitizers.html">Sanitizers</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

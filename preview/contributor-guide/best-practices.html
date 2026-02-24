@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Development Best Practices :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/best-practices.html">
+    <link rel="prev" href="version-control.html">
+    <link rel="next" href="debug-visualisers.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="version-control.html">Version Control</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Development</li>
+    <li><a href="best-practices.html">Best Practices</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="version-control.html">
+      <span class="material-symbols-outlined" title="Previous: Version Control">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="debug-visualisers.html">
+      <span class="material-symbols-outlined" title="Next: Debug Visualizers">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Development Best Practices</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section contains guidance on how to reduce development time from concept through to publishing of a new library, whilst ensuring a quality and maintainability to the open source project that will be the result.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_engage_beneficial_dependencies">Engage Beneficial Dependencies</a></p>
+</li>
+<li>
+<p><a href="#githubstrategies">Use Robust GitHub Strategies</a></p>
+</li>
+<li>
+<p><a href="#comments">Take Time to Comment Your Code</a></p>
+</li>
+<li>
+<p><a href="#_craft_helpful_error_messages">Craft Helpful Error Messages</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_engage_beneficial_dependencies"><a class="anchor" href="#_engage_beneficial_dependencies"></a>Engage Beneficial Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Some libraries are published with the intended primary audience, or in some cases the sole audience, being developers of other libraries. These libraries are published to make some of the time consuming and awkward processes of Boost-compliance easier. It is good practice for a new library developer to read the introductions to each of these libraries, and ascertain if they might be of value to the library they are developing.</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Library</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/config">Boost.Config</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Helps Boost library developers adapt to compiler idiosyncrasies. The range of macros can be extended, if required, with <a href="https://www.boost.org/libs/predef">Boost.Predef</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/core">Boost.Core</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A collection of simple core utilities with minimal dependencies. The range of utilities can be extended, if required, with <a href="https://www.boost.org/libs/utility">Boost.Utility</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/assert">Boost.Assert</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Customizable assert macros.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/throw_exception">Boost.ThrowException</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A common infrastructure for throwing exceptions from Boost libraries.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides a template metaprogramming framework, useful if metaprogramming is a feature of your new library.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="githubstrategies"><a class="anchor" href="#githubstrategies"></a>Use Robust GitHub Strategies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Always submit changes to a Boost repo using a Pull Request (PR), never use the GitHub website to change the contents of a repository directly.</p>
+</div>
+<div class="paragraph">
+<p>It is good practice to bring your local repo up to date before submitting a PR, perhaps on a weekly or even daily basis - depending on the activity in the repo.</p>
+</div>
+<div class="paragraph">
+<p>Merge commits are to be avoided. These commits happens when a local origin branch and remote branch are out of sync.</p>
+</div>
+<div class="paragraph">
+<p>The focus is on strategies that emphasize <em>linear history</em>, <em>rebasing</em>, and <em>collaborative discipline</em>. What follows are the best practices that can help.</p>
+</div>
+<div class="sect2">
+<h3 id="_use_rebase_instead_of_merge"><a class="anchor" href="#_use_rebase_instead_of_merge"></a>Use Rebase Instead of Merge</h3>
+<div class="paragraph">
+<p>When integrating changes from one branch into another, use <code>git rebase</code> instead of <code>git merge</code>. This rewrites the commit history, applying your changes on top of the target branch and maintains a linear history. Keep branches short-lived and focused on specific features or bug fixes. This reduces the likelihood of conflicts and simplifies rebasing onto the main branch. Regularly rebase your feature branch onto main or the target branch to keep up with upstream changes and avoid a large, complex integration at the end. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git checkout feature-branch
+git rebase main</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then push changes after resolving any conflicts:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git push --force</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_always_pull_using_rebase"><a class="anchor" href="#_always_pull_using_rebase"></a>Always Pull Using Rebase</h3>
+<div class="paragraph">
+<p>Configure your Git client to rebase when pulling changes, rather than creating merge commits:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git config --global pull.rebase true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When working collaboratively on a branch, use <code>git pull --rebase</code> to fetch and reapply your local changes on top of the latest commits from the remote branch.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git pull --rebase origin main</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_squash_commits_before_merging"><a class="anchor" href="#_squash_commits_before_merging"></a>Squash Commits Before Merging</h3>
+<div class="paragraph">
+<p>Use interactive rebasing (<code>git rebase -i</code>) to clean up your branch history and squash multiple commits into one meaningful commit. This keeps the repository history tidy and avoids unnecessary merge commits.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git rebase -i HEAD~n  # Replace 'n' with the number of commits to squash</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After squashing, you can fast-forward the branch without creating a merge commit:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git checkout main
+git rebase feature-branch</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_use_fast_forward_merges"><a class="anchor" href="#_use_fast_forward_merges"></a>Use Fast-Forward Merges</h3>
+<div class="paragraph">
+<p>Enable fast-forward-only merges to ensure the branch history is linear. This avoids creating a merge commit.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git merge --ff-only feature-branch</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure the repository to enforce fast-forward merges:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git config --global merge.ff only</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enforce_commit_discipline"><a class="anchor" href="#_enforce_commit_discipline"></a>Enforce Commit Discipline</h3>
+<div class="paragraph">
+<p>Avoid unnecessary commits and ensure that every commit is meaningful. Use <code>git add -p</code> or <code>git commit --amend</code> to refine commits before pushing.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git commit --amend</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This ensures that when changes are rebased or fast-forwarded, the history remains clean and easy to understand.</p>
+</div>
+<div class="paragraph">
+<p>By following these practices, you&#8217;ll avoid merge commits and maintain a clean, linear history in your Git repository while keeping the dev community happy!</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="comments"><a class="anchor" href="#comments"></a>Take Time to Comment Your Code</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost has informal coding standards that encourage clear, concise, and useful comments. The following are the main policy recommendations:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Doxygen-style comments for documenting APIs.</p>
+</li>
+<li>
+<p><em>Explanatory</em> comments preceding a function for complex logic and important decisions.</p>
+</li>
+<li>
+<p>Minimal but meaningful <em>inline</em> comments.</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_doxygen_api_comments"><a class="anchor" href="#_doxygen_api_comments"></a>Doxygen API Comments</h3>
+<div class="paragraph">
+<p>Boost libraries can use <a href="https://www.doxygen.nl/">Doxygen</a> to generate API reference documentation from specifically formatted comments. Many libraries follow this structure, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">/// \brief Brief description of the function
+/// \details More detailed explanation if necessary.
+/// \param x Description of parameter x
+/// \return Description of return value
+int my_function(int x);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This makes it easier to generate consistent and readable documentation for users, as the build process picks up the triple-slash comments and creates API documentation automatically from them. Here is a more complete example using all the most useful annotations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;cmath&gt;
+#include &lt;stdexcept&gt;
+
+/**
+ * @brief Computes the area of a triangle using Heron's formula.
+ *
+ * This function calculates the area of a triangle given the lengths of its three sides.
+ * It uses Heron's formula, which states that for a triangle with sides a, b, and c:
+ *
+ * \f[
+ * A = \sqrt{s \cdot (s - a) \cdot (s - b) \cdot (s - c)}
+ * \f]
+ *
+ * where \f$s\f$ is the semi-perimeter:
+ *
+ * \f[
+ * s = \frac{a + b + c}{2}
+ * \f]
+ *
+ * @param a The length of the first side (must be positive).
+ * @param b The length of the second side (must be positive).
+ * @param c The length of the third side (must be positive).
+ * @return The computed area of the triangle.
+ * @throws std::invalid_argument if the sides do not form a valid triangle.
+ * @throws std::domain_error if the computed area is invalid due to floating-point errors.
+ */
+double computeTriangleArea(double a, double b, double c) {
+    if (a &lt;= 0 || b &lt;= 0 || c &lt;= 0) {
+        throw std::invalid_argument("All side lengths must be positive.");
+    }
+
+    // Check for the triangle inequality
+    if (a + b &lt;= c || a + c &lt;= b || b + c &lt;= a) {
+        throw std::invalid_argument("The given sides do not form a valid triangle.");
+    }
+
+    // Calculate semi-perimeter
+    double s = (a + b + c) / 2.0;
+
+    // Compute area using Heron's formula
+    double area = std::sqrt(s * (s - a) * (s - b) * (s - c));
+
+    if (std::isnan(area) || area &lt;= 0) {
+        throw std::domain_error("Computed area is invalid due to floating-point errors.");
+    }
+
+    return area;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The most useful Doxygen annotations are:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Annotation</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@brief</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A short summary of the function&#8217;s purpose.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@param</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Describes the function parameters and their constraints.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@return</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explains the function&#8217;s return value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@throws</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lists the possible exceptions that the function may throw.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Notes</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>For mathematical formulas the <code>\f[ &#8230;&#8203; \f]</code> tags render inline <a href="https://www.latex-project.org/">LaTeX</a>-style math formulas in the generated documentation.</p>
+</li>
+<li>
+<p><code>@brief</code> is used inside block comments  (<code>/** &#8230;&#8203; */</code>), while <code>\brief</code> works with both block and single-line (<code>///</code>) comments. Good practice is simply being consistent with your preference.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_explanatory_comments"><a class="anchor" href="#_explanatory_comments"></a>Explanatory Comments</h3>
+<div class="paragraph">
+<p>Since many Boost libraries aim to be compatible with (or eventually integrated into) the <a href="https://en.cppreference.com/w/cpp/standard_library">Standard Library</a>, you might adopt commenting styles similar to standard library headers, keeping explanations brief, precise, and technical. Sometimes though, the comments are more numerous and helpful in specific implementations, such as Clang libc++, GNU libstc++ or MSVC STL. The following code comes from <code>std::vector::resize</code> in libc++.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">/**
+ * @brief Resizes the container to contain @p __sz elements.
+ *
+ * If @p __sz is smaller than the current size, the container is reduced to its first @p __sz elements.
+ * If @p __sz is greater than the current size, additional default-constructed elements are appended.
+ *
+ * @param __sz The new size of the container.
+ *
+ * If an expansion is needed and sufficient capacity exists, no reallocation occurs.
+ * Otherwise, new storage is allocated and existing elements are moved.
+ *
+ * @exception If an exception is thrown during element construction or move, the container remains unchanged.
+ *
+ * Complexity: Linear in the difference between old and new size.
+ */
+template &lt;class _Tp, class _Allocator&gt;
+void vector&lt;_Tp, _Allocator&gt;::resize(size_type __sz) {
+    if (__sz &lt; size()) {
+
+        // Shrink: Destroy extra elements
+        erase(begin() + __sz, end());
+    } else if (__sz &gt; size()) {
+
+        // Grow: Append default-constructed elements
+        insert(end(), __sz - size(), _Tp());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Both exception safety and performance considerations are covered in the comments above, which are good practices!</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Boost encourages documenting exception safety guarantees (<code>noexcept</code>, strong guarantee, basic guarantee), and thread-safety considerations if applicable. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">/// \pre `ptr` must not be null.
+/// \post Returns a valid shared_ptr managing `ptr`.
+/// \throws std::bad_alloc if allocation fails.
+std::shared_ptr&lt;T&gt; safe_wrap(T* ptr);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Some Boost libraries include comments explaining design choices, performance considerations, or trade-offs. These are typically found in complex implementations like <a href="https://www.boost.org/libs/hana">Boost.Hana</a>, <a href="https://www.boost.org/libs/asio">Boost.Asio</a> or <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a>. Here&#8217;s an example from the <a href="https://www.boost.org/libs/hana">Boost.Hana</a> library, which demonstrates the use of comments to explain the code&#8217;s purpose and functionality:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">/*!
+@file
+Defines `boost::hana::transform`.
+*/
+
+namespace boost { namespace hana {
+
+    //! Transform each element of a sequence with a given function.
+    //! @ingroup group-Sequence
+    //!
+    //! Example:
+    //! @code
+    //! auto doubled = hana::transform(hana::make_tuple(1, 2, 3), [](auto x) { return x * 2; });
+    //! @endcode
+    //! doubled == hana::make_tuple(2, 4, 6)
+    //!
+    template &lt;typename Xs, typename F&gt;
+    constexpr auto transform(Xs&amp;&amp; xs, F&amp;&amp; f) {
+
+        // See below for the commented version of this function.
+    }
+}}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The <code>@file</code> entry provides an overview of the file contents. The <code>//!</code> syntax precedes a function-level Doxygen comment, providing an example usage of the function <code>hana::transform</code> in the code snippet above.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_inline_comments"><a class="anchor" href="#_inline_comments"></a>Inline Comments</h3>
+<div class="paragraph">
+<p>Inline comments, throughout the source code, are used to explain the purpose of specific statements. This example is taken from <code>hana::transform</code>, mentioned previously.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">    constexpr auto transform(Xs&amp;&amp; xs, F&amp;&amp; f) {
+        return hana::adjust_if(
+
+            static_cast&lt;Xs&amp;&amp;&gt;(xs), // Forward the sequence `xs`
+
+            [](auto const&amp;) { return true; }, // Always apply the transformation
+
+            static_cast&lt;F&amp;&amp;&gt;(f) // Forward the transformation function
+        );
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is another example of inline commenting, from the <a href="https://www.boost.org/libs/asio">Boost.Asio</a> library, notice how the comments make understanding the flow easy.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void start_read() {
+
+    // Prepare a buffer to store incoming data.
+    socket_.async_read_some(boost::asio::buffer(data_, max_length),
+        [this](boost::system::error_code ec, std::size_t length) {
+            if (!ec) {
+
+                // Successfully read some data, process it.
+                handle_data(data_, length);
+
+                // Initiate another asynchronous read to continue receiving data.
+                start_read();
+            } else {
+
+                // An error occurred, log and handle it.
+                handle_error(ec);
+            }
+        });
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is a more in-depth example, showing how to comment non-trivial code behavior (for example, shared pointers, async operations). The comments also describe <em>purpose</em> rather than restating code (for example, "Keep session alive" rather than "Creates a shared pointer"). And finally the comments guide the reader through the flow (such as explaining what happens after a read or write).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/asio.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;utility&gt;
+
+using boost::asio::ip::tcp;
+
+class Session : public std::enable_shared_from_this&lt;Session&gt; {
+public:
+    explicit Session(tcp::socket socket)
+
+        : socket_(std::move(socket)) {}  // Move socket into this session
+
+    void start() {
+
+        read();  // Begin reading data from the client
+    }
+
+private:
+    void read() {
+
+        auto self = shared_from_this();  // Ensure session remains alive during async operation
+
+        // Asynchronous read operation
+        socket_.async_read_some(boost::asio::buffer(data_, max_length),
+            [self](boost::system::error_code ec, std::size_t length) {
+                if (!ec) {
+
+                    // Successfully received data, now send a response
+                    self-&gt;write(length);
+                } else {
+
+                    // Handle connection errors (for example, client disconnected)
+                    std::cerr &lt;&lt; "Read error: " &lt;&lt; ec.message() &lt;&lt; std::endl;
+                }
+            });
+    }
+
+    void write(std::size_t length) {
+
+        auto self = shared_from_this();  // Keep session alive for async write
+
+        // Asynchronous write operation
+        boost::asio::async_write(socket_, boost::asio::buffer(data_, length),
+            [self](boost::system::error_code ec, std::size_t /*bytes_transferred*/) {
+                if (!ec) {
+
+                    // Successfully wrote data, continue reading for more client input
+                    self-&gt;read();
+                } else {
+
+                    // Handle write error (for example, broken pipe)
+                    std::cerr &lt;&lt; "Write error: " &lt;&lt; ec.message() &lt;&lt; std::endl;
+                }
+            });
+    }
+
+    tcp::socket socket_;
+    enum { max_length = 1024 };
+
+    char data_[max_length];  // Buffer to store incoming data
+};
+
+// Server class that listens for incoming connections
+class Server {
+public:
+    Server(boost::asio::io_context&amp; io_context, short port)
+        : acceptor_(io_context, tcp::endpoint(tcp::v4(), port)) {
+
+        accept();  // Start listening for connections
+    }
+
+private:
+    void accept() {
+        acceptor_.async_accept(
+            [this](boost::system::error_code ec, tcp::socket socket) {
+                if (!ec) {
+
+                    // Successfully accepted a connection, create a session
+                    std::make_shared&lt;Session&gt;(std::move(socket))-&gt;start();
+                } else {
+
+                    // Log accept error
+                    std::cerr &lt;&lt; "Accept error: " &lt;&lt; ec.message() &lt;&lt; std::endl;
+                }
+
+                // Continue accepting new connections
+                accept();
+            });
+    }
+
+    tcp::acceptor acceptor_;
+};
+
+// Main function to run the server
+int main() {
+    try {
+        boost::asio::io_context io_context;
+
+        Server server(io_context, 12345);  // Start server on port 12345
+
+        io_context.run();  // Run the IO context to handle async operations
+    } catch (std::exception&amp; e) {
+        std::cerr &lt;&lt; "Exception: " &lt;&lt; e.what() &lt;&lt; std::endl;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Inline comments are clearer if they are preceded by a blank line. Many libraries do not strictly stick to this practice, but it should be clear from the above example that the preceding-blank-line is a best practice for readability.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_craft_helpful_error_messages"><a class="anchor" href="#_craft_helpful_error_messages"></a>Craft Helpful Error Messages</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ideally, when writing error message text, use the following rules of thumb:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Name the library (so user knows the source)</p>
+</li>
+<li>
+<p>Show the input and expected type/value</p>
+</li>
+<li>
+<p>Give context (function name, file, line, operation)</p>
+</li>
+<li>
+<p>Provide standard error codes (for example: POSIX, errno)</p>
+</li>
+<li>
+<p>Avoid low-level noise (memory addresses)</p>
+</li>
+<li>
+<p>Be actionable (help the user fix the error)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Here are some example error messages that have issues:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Message</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Issue</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>error C2679: binary '=': no operator found which takes a right-hand operand of type 'boost::gregorian::date' (or there is no acceptable conversion)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Too verbose, compiler jargon, doesn&#8217;t say what the user did wrong.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost::system::system_error</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Just the type name, no context, no error code, no description.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Error in lexical_cast</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">What input? What target type? Which file/line?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>terminate called after throwing an instance of boost::archive::archive_exception what():  input stream error</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Too vague - “input stream error” — which input, which archive format?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Unhandled exception at 0x00007FF9B7114ED9 in test.exe: Microsoft C++ exception: boost::bad_any_cast at memory location 0x0000009F4A2FD9A0.</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Very low-level, memory address is useless to most users.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assertion failed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No filename, no condition, no hint at what caused it.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Here are some useful error messages:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Message</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost::date_time::invalid_date: "2025-02-30" is not a valid Gregorian date</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Names the library, the invalid input, and the problem.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost::system::system_error: connect() failed: Connection refused [ECONNREFUSED]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explains what call failed and gives a standard POSIX error code.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost::lexical_cast: cannot convert string "abc" to int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shows the input ("abc") and the target type (<code>int</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost::serialization::archive_exception: failed to open file "savegame.dat" for reading</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explains the archive issue and gives the file name.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost::any_cast failed: stored type is 'std::string', requested type was 'int'</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shows both the stored and requested types — no guesswork.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boost::assertion failed: vec.size() == 3, function normalize_vector, file vector_utils.hpp, line 42</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Includes condition, function, file, and line number.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Well written error messages can be one of the hidden superpowers of your library. A well-crafted message can save hours of debugging, while a cryptic one can scare away even experienced devs - part of the approachable vs hostile experience!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="design-guide/design-best-practices.html" class="xref page">Design Best Practices</a></p>
+</li>
+<li>
+<p><a href="superproject/overview.html" class="xref page">Super-Project Layout</a></p>
+</li>
+<li>
+<p><a href="version-control.html" class="xref page">Version Control</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/best-practices.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="version-control.html">Version Control</a></span>
+        <span class="next"><a href="debug-visualisers.html">Debug Visualizers</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Managing Reviews :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/formal-reviews/managing-reviews.html">
+    <link rel="prev" href="contributor-checklist.html">
+    <link rel="next" href="writing-reviews.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="formal-reviews" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Formal Reviews</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="submissions.html">Submission Process</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="contributor-checklist.html">Contributor Checklist</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="managing-reviews.html">Managing Reviews</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="writing-reviews.html">Writing Reviews</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="review-results.html">Review Schedule</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Formal Reviews">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="managing-reviews.html">Managing Reviews</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="contributor-checklist.html">
+      <span class="material-symbols-outlined" title="Previous: Contributor Checklist">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="writing-reviews.html">
+      <span class="material-symbols-outlined" title="Next: Writing Reviews">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Managing Reviews</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before a library can be scheduled for formal review, an active Boost member (not connected with the library submission) must volunteer to be the <em>Review Manager</em> for the library. Members may contact a library author on- or off-list to express interest in managing the review. The library author has to accept a person as a review manager.</p>
+</div>
+<div class="paragraph">
+<p>Before submitting a library, it will help to understand the role of the review manager.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_the_role_of_review_manager">The Role of Review Manager</a></p>
+</li>
+<li>
+<p><a href="#_becoming_a_review_manager">Becoming a Review Manager</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_role_of_review_manager"><a class="anchor" href="#_the_role_of_review_manager"></a>The Role of Review Manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The review manager works through the following process:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Checks the submission to make sure it really is complete enough to warrant formal review. For full requirements, refer to the <a href="../contributor-guide/requirements/library-requirements.html" class="xref page">Library Requirements</a>. If necessary, work with the submitter to verify the code compiles and runs correctly on several compilers and platforms.</p>
+</li>
+<li>
+<p>Finalizes the schedule with the <a href="#reviewwizards">Review Wizards</a> and the submitter.</p>
+</li>
+<li>
+<p>Posts a notice of the review schedule on both the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers' mailing list</a> and the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost-announce">Boost-announce mailing list</a>.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The notice should include a brief description of the library and what it does, to let readers know if the library is one they are interested in reviewing.</p>
+</li>
+<li>
+<p>If the library is known to fail with certain compilers, mention them in the review notice so reviewers with those compilers won&#8217;t waste time diagnosing known problems.</p>
+</li>
+<li>
+<p>It is advised to send the notice to each mailing list in a separate e-mail, otherwise online e-mail to news gateways could get confused.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Inspects the Boost library catalogue for libraries which may interact with the new submission. These potential interactions should be pointed out in the review announcement, and the authors of these libraries should be privately notified and urged to participate in the review.</p>
+</li>
+<li>
+<p>Urges people to do reviews if they aren&#8217;t forthcoming.</p>
+</li>
+<li>
+<p>Follows review discussions regarding the library, moderating or answering questions as needed. It is the review manager&#8217;s job to give reviewers the benefit of the doubt and to try to coax a serious review out of participants, by asking pertinent questions.</p>
+</li>
+<li>
+<p>Asks the <a href="#reviewwizards">Review Wizards</a> for permission to extend the review schedule if it appears that too few reviews will be submitted during the review period.</p>
+</li>
+<li>
+<p>Decides if there is consensus to accept the library and if there are any conditions attached. Consensus is not the same as a vote. <strong>The review manager has discretion to weigh opinions based on authority or thoughtfulness.</strong></p>
+</li>
+<li>
+<p>Posts a notice of the review results on the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost-users">Boost users mailing list</a> as well as the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers' mailing list</a> and <a href="https://lists.boost.org/mailman/listinfo.cgi/boost-announce">Boost-announce mailing list</a>. A rationale is also helpful, but its extent is up to the review manager. If there are suggestions, or conditions that must be met before final inclusion, they should be stated. Concerns about the timeliness or quality of the review report should be brought to the <a href="#reviewwizards">Review Wizards</a> off-list.</p>
+<div class="paragraph">
+<p>Ideally, the review summary should contain all the information the manager has taken into account when coming to a decision. If there were discussions out of band, they need to be summarized. If there were discussions <em>on the list</em> that haven&#8217;t made their way into the formal reviews, they should be summarized too. Refer to the <a href="writing-reviews.html#bestpractices" class="xref page">Best Practices</a> section on Writing Reviews for some issues to look out for.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="realitycheck"><a class="anchor" href="#realitycheck"></a>Reality Check</h3>
+<div class="paragraph">
+<p>The review manager is <em>not</em> supposed to impartially reflect the community opinion, as expressed in the form of formal reviews. Instead, the review manager&#8217;s role is to decide whether the library should be accepted, and the reviews help them with this, rather than decide for them. Simply put, the review manager does not impartially tally votes - reviews are not votes.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A review manager <em>can</em> write a review themselves, though this process is independent of their role of review manager.</p>
+</li>
+<li>
+<p>The review process is more like a court - with the judge (the review manager) asking <em>"Does the library meet the required standards for acceptance as a Boost library?"</em>.  This question is resolved by various advocates presenting their cases, criticizing other advocates cases, presenting facts, logical arguments, their own experiences, and so on.  The judge&#8217;s job is to weigh all this and reach a decision. And they may add conditions on acceptance, or not. If consensus between judge and authors cannot be reached on meeting any conditions - the process ends without a resolution (the mistrial).</p>
+</li>
+<li>
+<p>The review manager is - for better or worse - personally responsible for making the decision, defending the results, and dealing with future criticism.  Their name will be public.  This is not a job for everyone.</p>
+</li>
+<li>
+<p>Sometimes the judging process is going to produce irreconcilable differences, and continued discussions about the "verdict" are a fact of life. With any process there will be "winners" and "losers". So it&#8217;s not about everyone being happy at the end of the day.</p>
+</li>
+<li>
+<p>If, years from now, someone would like to know why a library was accepted or rejected, they <em>only</em> needs to read the court documents (the review posts and the review summary), and should come away with the correct understanding of what happened and why.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rejecting_a_library"><a class="anchor" href="#_rejecting_a_library"></a>Rejecting a Library</h3>
+<div class="paragraph">
+<p>One of the challenging tasks a review manager might have to take on is to write rejection rationale for a submitted library. For reference, here are links to the rationale of several libraries that were rejected in recent years.</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Submission</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Review Dates</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Result Rationale</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mustache</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 5, 2023 - February 14, 2023</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2023/02/254188.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 11, 2020 - June 20, 2020</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/Archives/boost/2020/06/249242.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">out_ptr</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 16, 2019 - July 10, 2019</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2019/07/0558.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timsort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 3, 2017 - June 12, 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2017/06/0513.php">Rejected</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Synapse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 2, 2016 - December 11, 2016</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lists.boost.org/boost-announce/2016/12/0484.php">Rejected</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>For links to all available acceptance and rejection rationales, refer to <a href="review-results.html#pastreviewresults" class="xref page">Past Review Results and Milestones</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_becoming_a_review_manager"><a class="anchor" href="#_becoming_a_review_manager"></a>Becoming a Review Manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To manage a review, you should have experience with the review process and ideally expert knowledge of the library&#8217;s domain. To volunteer to become a review manager, contact the current <a href="#reviewwizards">Review Wizards</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="reviewwizards"><a class="anchor" href="#reviewwizards"></a>Review Wizards</h3>
+<div class="paragraph">
+<p>Currently the review wizards are: Matt Borland (<a href="mailto:matt@mattborland.com">matt@mattborland.com</a>), Mateusz Łoskot (<a href="mailto:mateusz@loskot.net">mateusz@loskot.net</a>) and John Phillips (<a href="mailto:johnphillipsithaca@gmail.com">johnphillipsithaca@gmail.com</a>).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../contributor-guide/contributors-faq.html" class="xref page">Contributors Frequently Asked Questions</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/formal-reviews/modules/ROOT/pages/managing-reviews.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="contributor-checklist.html">Contributor Checklist</a></span>
+        <span class="next"><a href="writing-reviews.html">Writing Reviews</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

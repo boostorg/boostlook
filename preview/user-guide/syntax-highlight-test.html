@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Syntax Highlighting: Dark Mode Before/After :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/syntax-highlight-test.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="syntax-highlight-test.html">Syntax Highlighting: Dark Mode Before/After</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+</div></div>
+    <h1 class="page">Syntax Highlighting: Dark Mode Before/After</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This page compares syntax highlighting in dark mode <strong>before</strong> and <strong>after</strong> the fixes. Toggle dark mode to see the difference. The "Before" column shows the old behavior (light-theme colors on dark background). The "After" column shows the corrected Atom One Dark colors.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bash"><a class="anchor" href="#_bash"></a>Bash</h2>
+<div class="sectionbody">
+<div class="highlight-comparison">
+  <div class="highlight-before">
+    <h4>Before</h4>
+    <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class="hljs-comment">#!/bin/bash</span>
+<span class="hljs-variable">NAME</span>=<span class="hljs-string">"Boost"</span>
+<span class="hljs-variable">BUILD_DIR</span>=<span class="hljs-string">"<span class="hljs-subst">${HOME}</span>/build/<span class="hljs-subst">${NAME}</span>"</span>
+
+<span class="hljs-function"><span class="hljs-title">build_library</span></span>() {
+    <span class="hljs-built_in">local</span> lib_name=<span class="hljs-string">"<span class="hljs-subst">$1</span>"</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Building <span class="hljs-subst">${lib_name}</span>..."</span>
+    <span class="hljs-built_in">mkdir</span> -p <span class="hljs-string">"<span class="hljs-subst">$BUILD_DIR</span>"</span>
+    <span class="hljs-keyword">if</span> [ -f <span class="hljs-string">"CMakeLists.txt"</span> ]; <span class="hljs-keyword">then</span>
+        cmake -DCMAKE_BUILD_TYPE=Release .
+        make -j<span class="hljs-subst">$(nproc)</span>
+    <span class="hljs-keyword">fi</span>
+}
+
+LIBRARIES=(<span class="hljs-string">"filesystem"</span> <span class="hljs-string">"system"</span> <span class="hljs-string">"thread"</span>)
+<span class="hljs-keyword">for</span> lib <span class="hljs-keyword">in</span> <span class="hljs-string">"<span class="hljs-subst">${LIBRARIES[@]}</span>"</span>; <span class="hljs-keyword">do</span>
+    build_library <span class="hljs-string">"<span class="hljs-subst">$lib</span>"</span>
+<span class="hljs-keyword">done</span></code></pre>
+  </div>
+  <div class="highlight-after">
+    <h4>After</h4>
+    <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class="hljs-comment">#!/bin/bash</span>
+<span class="hljs-variable">NAME</span>=<span class="hljs-string">"Boost"</span>
+<span class="hljs-variable">BUILD_DIR</span>=<span class="hljs-string">"<span class="hljs-subst">${HOME}</span>/build/<span class="hljs-subst">${NAME}</span>"</span>
+
+<span class="hljs-function"><span class="hljs-title">build_library</span></span>() {
+    <span class="hljs-built_in">local</span> lib_name=<span class="hljs-string">"<span class="hljs-subst">$1</span>"</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Building <span class="hljs-subst">${lib_name}</span>..."</span>
+    <span class="hljs-built_in">mkdir</span> -p <span class="hljs-string">"<span class="hljs-subst">$BUILD_DIR</span>"</span>
+    <span class="hljs-keyword">if</span> [ -f <span class="hljs-string">"CMakeLists.txt"</span> ]; <span class="hljs-keyword">then</span>
+        cmake -DCMAKE_BUILD_TYPE=Release .
+        make -j<span class="hljs-subst">$(nproc)</span>
+    <span class="hljs-keyword">fi</span>
+}
+
+LIBRARIES=(<span class="hljs-string">"filesystem"</span> <span class="hljs-string">"system"</span> <span class="hljs-string">"thread"</span>)
+<span class="hljs-keyword">for</span> lib <span class="hljs-keyword">in</span> <span class="hljs-string">"<span class="hljs-subst">${LIBRARIES[@]}</span>"</span>; <span class="hljs-keyword">do</span>
+    build_library <span class="hljs-string">"<span class="hljs-subst">$lib</span>"</span>
+<span class="hljs-keyword">done</span></code></pre>
+  </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_html"><a class="anchor" href="#_html"></a>HTML</h2>
+<div class="sectionbody">
+<div class="highlight-comparison">
+  <div class="highlight-before">
+    <h4>Before</h4>
+    <pre class="highlightjs highlight"><code class="language-html hljs" data-lang="html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Boost C++ Libraries<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/css/styles.css"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">header</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"main-header"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"top"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span>&gt;</span>Boost<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Main content --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+  </div>
+  <div class="highlight-after">
+    <h4>After</h4>
+    <pre class="highlightjs highlight"><code class="language-html hljs" data-lang="html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Boost C++ Libraries<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/css/styles.css"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">header</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"main-header"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"top"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span>&gt;</span>Boost<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Main content --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+  </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_yaml"><a class="anchor" href="#_yaml"></a>YAML</h2>
+<div class="sectionbody">
+<div class="highlight-comparison">
+  <div class="highlight-before">
+    <h4>Before</h4>
+    <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml"><span class="hljs-comment"># Antora playbook</span>
+<span class="hljs-attr">site:</span>
+  <span class="hljs-attr">title:</span> <span class="hljs-string">Boost C++ Libraries</span>
+  <span class="hljs-attr">url:</span> <span class="hljs-string">https://www.boost.io</span>
+
+<span class="hljs-attr">content:</span>
+  <span class="hljs-attr">sources:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">url:</span> <span class="hljs-string">https://github.com/boostorg/website-v2-docs.git</span>
+      <span class="hljs-attr">branches:</span> [<span class="hljs-string">develop</span>, <span class="hljs-string">master</span>]
+
+<span class="hljs-attr">ui:</span>
+  <span class="hljs-attr">bundle:</span>
+    <span class="hljs-attr">url:</span> <span class="hljs-string">./antora-ui/build/ui-bundle.zip</span>
+
+<span class="hljs-attr">runtime:</span>
+  <span class="hljs-attr">fetch:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-attr">log:</span>
+    <span class="hljs-attr">level:</span> <span class="hljs-string">warn</span></code></pre>
+  </div>
+  <div class="highlight-after">
+    <h4>After</h4>
+    <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml"><span class="hljs-comment"># Antora playbook</span>
+<span class="hljs-attr">site:</span>
+  <span class="hljs-attr">title:</span> <span class="hljs-string">Boost C++ Libraries</span>
+  <span class="hljs-attr">url:</span> <span class="hljs-string">https://www.boost.io</span>
+
+<span class="hljs-attr">content:</span>
+  <span class="hljs-attr">sources:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">url:</span> <span class="hljs-string">https://github.com/boostorg/website-v2-docs.git</span>
+      <span class="hljs-attr">branches:</span> [<span class="hljs-string">develop</span>, <span class="hljs-string">master</span>]
+
+<span class="hljs-attr">ui:</span>
+  <span class="hljs-attr">bundle:</span>
+    <span class="hljs-attr">url:</span> <span class="hljs-string">./antora-ui/build/ui-bundle.zip</span>
+
+<span class="hljs-attr">runtime:</span>
+  <span class="hljs-attr">fetch:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-attr">log:</span>
+    <span class="hljs-attr">level:</span> <span class="hljs-string">warn</span></code></pre>
+  </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_python"><a class="anchor" href="#_python"></a>Python</h2>
+<div class="sectionbody">
+<div class="highlight-comparison">
+  <div class="highlight-before">
+    <h4>Before</h4>
+    <pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"><span class="hljs-comment">#!/usr/bin/env python3</span>
+<span class="hljs-string">"""Build script for Boost documentation."""</span>
+
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> subprocess
+<span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> List, Optional
+
+BOOST_VERSION = <span class="hljs-string">"1.84.0"</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">DocBuilder</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, version: <span class="hljs-built_in">str</span></span>):
+        self.version = version
+        self._libraries: List[<span class="hljs-built_in">str</span>] = []
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-built_in">bool</span>:
+        <span class="hljs-keyword">for</span> lib <span class="hljs-keyword">in</span> self._libraries:
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Building <span class="hljs-subst">{lib}</span>..."</span>)
+            result = subprocess.run(
+                [<span class="hljs-string">"antora"</span>, <span class="hljs-string">"--fetch"</span>],
+                capture_output=<span class="hljs-literal">True</span>,
+            )
+            <span class="hljs-keyword">if</span> result.returncode != <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span></code></pre>
+  </div>
+  <div class="highlight-after">
+    <h4>After</h4>
+    <pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"><span class="hljs-comment">#!/usr/bin/env python3</span>
+<span class="hljs-string">"""Build script for Boost documentation."""</span>
+
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> subprocess
+<span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> List, Optional
+
+BOOST_VERSION = <span class="hljs-string">"1.84.0"</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">DocBuilder</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, version: <span class="hljs-built_in">str</span></span>):
+        self.version = version
+        self._libraries: List[<span class="hljs-built_in">str</span>] = []
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-built_in">bool</span>:
+        <span class="hljs-keyword">for</span> lib <span class="hljs-keyword">in</span> self._libraries:
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Building <span class="hljs-subst">{lib}</span>..."</span>)
+            result = subprocess.run(
+                [<span class="hljs-string">"antora"</span>, <span class="hljs-string">"--fetch"</span>],
+                capture_output=<span class="hljs-literal">True</span>,
+            )
+            <span class="hljs-keyword">if</span> result.returncode != <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span></code></pre>
+  </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_json"><a class="anchor" href="#_json"></a>JSON</h2>
+<div class="sectionbody">
+<div class="highlight-comparison">
+  <div class="highlight-before">
+    <h4>Before</h4>
+    <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"@antora/ui-default"</span>,
+    <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1.0.0"</span>,
+    <span class="hljs-attr">"dependencies"</span>: {
+        <span class="hljs-attr">"highlight.js"</span>: <span class="hljs-string">"^11.9.0"</span>
+    },
+    <span class="hljs-attr">"engines"</span>: {
+        <span class="hljs-attr">"node"</span>: <span class="hljs-string">"&gt;= 16.0.0"</span>
+    },
+    <span class="hljs-attr">"private"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"license"</span>: <span class="hljs-string">"BSL-1.0"</span>
+}</code></pre>
+  </div>
+  <div class="highlight-after">
+    <h4>After</h4>
+    <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"@antora/ui-default"</span>,
+    <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1.0.0"</span>,
+    <span class="hljs-attr">"dependencies"</span>: {
+        <span class="hljs-attr">"highlight.js"</span>: <span class="hljs-string">"^11.9.0"</span>
+    },
+    <span class="hljs-attr">"engines"</span>: {
+        <span class="hljs-attr">"node"</span>: <span class="hljs-string">"&gt;= 16.0.0"</span>
+    },
+    <span class="hljs-attr">"private"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"license"</span>: <span class="hljs-string">"BSL-1.0"</span>
+}</code></pre>
+  </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_css"><a class="anchor" href="#_css"></a>CSS</h2>
+<div class="sectionbody">
+<div class="highlight-comparison">
+  <div class="highlight-before">
+    <h4>Before</h4>
+    <pre class="highlightjs highlight"><code class="language-css hljs" data-lang="css"><span class="hljs-comment">/* Dark mode overrides */</span>
+<span class="hljs-selector-pseudo">:root</span> {
+    <span class="hljs-attr">--bg-primary</span>: <span class="hljs-number">#ffffff</span>;
+    <span class="hljs-attr">--text-primary</span>: <span class="hljs-number">#18191b</span>;
+}
+
+<span class="hljs-selector-tag">html</span><span class="hljs-selector-class">.dark</span> {
+    <span class="hljs-attr">--bg-primary</span>: <span class="hljs-number">#282c34</span>;
+}
+
+<span class="hljs-selector-class">.hljs-keyword</span> {
+    <span class="hljs-attribute">color</span>: <span class="hljs-built_in">var</span>(--code-keyword);
+    <span class="hljs-attribute">font-weight</span>: <span class="hljs-number">600</span>;
+}
+
+<span class="hljs-selector-tag">pre</span> <span class="hljs-selector-tag">code</span> {
+    <span class="hljs-attribute">display</span>: block;
+    <span class="hljs-attribute">padding</span>: <span class="hljs-number">1rem</span>;
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">0.875rem</span>;
+}</code></pre>
+  </div>
+  <div class="highlight-after">
+    <h4>After</h4>
+    <pre class="highlightjs highlight"><code class="language-css hljs" data-lang="css"><span class="hljs-comment">/* Dark mode overrides */</span>
+<span class="hljs-selector-pseudo">:root</span> {
+    <span class="hljs-attr">--bg-primary</span>: <span class="hljs-number">#ffffff</span>;
+    <span class="hljs-attr">--text-primary</span>: <span class="hljs-number">#18191b</span>;
+}
+
+<span class="hljs-selector-tag">html</span><span class="hljs-selector-class">.dark</span> {
+    <span class="hljs-attr">--bg-primary</span>: <span class="hljs-number">#282c34</span>;
+}
+
+<span class="hljs-selector-class">.hljs-keyword</span> {
+    <span class="hljs-attribute">color</span>: <span class="hljs-built_in">var</span>(--code-keyword);
+    <span class="hljs-attribute">font-weight</span>: <span class="hljs-number">600</span>;
+}
+
+<span class="hljs-selector-tag">pre</span> <span class="hljs-selector-tag">code</span> {
+    <span class="hljs-attribute">display</span>: block;
+    <span class="hljs-attribute">padding</span>: <span class="hljs-number">1rem</span>;
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">0.875rem</span>;
+}</code></pre>
+  </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_javascript"><a class="anchor" href="#_javascript"></a>JavaScript</h2>
+<div class="sectionbody">
+<div class="highlight-comparison">
+  <div class="highlight-before">
+    <h4>Before</h4>
+    <pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript"><span class="hljs-string">'use strict'</span>
+
+<span class="hljs-keyword">const</span> hljs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'highlight.js/lib/common'</span>)
+
+<span class="hljs-comment">/**
+ * Process code blocks after highlight.js runs.
+ * @param {string} selector - CSS selector
+ * @returns {number} count
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">processBlocks</span>(<span class="hljs-params">selector</span>) {
+    <span class="hljs-keyword">const</span> elements = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(selector)
+    <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>
+
+    elements.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">el</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (el.<span class="hljs-property">classList</span>.<span class="hljs-title function_">contains</span>(<span class="hljs-string">'processed'</span>)) <span class="hljs-keyword">return</span>
+        el.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">'processed'</span>)
+        count++
+    })
+    <span class="hljs-keyword">return</span> count
+}
+
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = { processBlocks }</code></pre>
+  </div>
+  <div class="highlight-after">
+    <h4>After</h4>
+    <pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript"><span class="hljs-string">'use strict'</span>
+
+<span class="hljs-keyword">const</span> hljs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'highlight.js/lib/common'</span>)
+
+<span class="hljs-comment">/**
+ * Process code blocks after highlight.js runs.
+ * @param {string} selector - CSS selector
+ * @returns {number} count
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">processBlocks</span>(<span class="hljs-params">selector</span>) {
+    <span class="hljs-keyword">const</span> elements = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(selector)
+    <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>
+
+    elements.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">el</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (el.<span class="hljs-property">classList</span>.<span class="hljs-title function_">contains</span>(<span class="hljs-string">'processed'</span>)) <span class="hljs-keyword">return</span>
+        el.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">'processed'</span>)
+        count++
+    })
+    <span class="hljs-keyword">return</span> count
+}
+
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = { processBlocks }</code></pre>
+  </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_plain_pre_no_hljs_e_g_expected_output"><a class="anchor" href="#_plain_pre_no_hljs_e_g_expected_output"></a>Plain pre (no hljs — e.g. "Expected Output")</h2>
+<div class="sectionbody">
+<div class="highlight-comparison">
+  <div class="highlight-before">
+    <h4>Before</h4>
+    <pre>=== uint128_t Construction ===
+From builtin (42U): 42
+From parts (1, 0) = 2^64: 18446744073709551616
+From parts (max, max): 340282366920938463463374607431768211455
+  Equals numeric_limits max? true
+From literal "36893488147419103232"_U128: 36893488147419103232
+
+=== Default and Copy Construction ===
+Default constructed: 0
+Copy constructed: 36893488147419103232</pre>
+  </div>
+  <div class="highlight-after">
+    <h4>After</h4>
+    <pre>=== uint128_t Construction ===
+From builtin (42U): 42
+From parts (1, 0) = 2^64: 18446744073709551616
+From parts (max, max): 340282366920938463463374607431768211455
+  Equals numeric_limits max? true
+From literal "36893488147419103232"_U128: 36893488147419103232
+
+=== Default and Copy Construction ===
+Default constructed: 0
+Copy constructed: 36893488147419103232</pre>
+  </div>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/syntax-highlight-test.adoc">Edit this Page</a>
+  </div>
+  </article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

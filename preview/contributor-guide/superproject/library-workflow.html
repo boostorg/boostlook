@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Super-Project Library Workflow :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/superproject/library-workflow.html">
+    <link rel="prev" href="library-maintenance.html">
+    <link rel="next" href="../docs/layout.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>The Super-Project</li>
+    <li><a href="library-workflow.html">Library Workflow</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="library-maintenance.html">
+      <span class="material-symbols-outlined" title="Previous: Library Maintenance">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="../docs/layout.html">
+      <span class="material-symbols-outlined" title="Next: Guidelines">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Super-Project Library Workflow</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Workflow is the term used to describe the steps a Boost library developer follows to create, maintain, and release a library. The workflow presented here is designed for Boost&#8217;s individual libraries. The workflow for the Super-project may differ.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_git_flow"><a class="anchor" href="#_git_flow"></a>Git Flow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The workflow model Boost recommends is called Git Flow. It was introduced as a simple <a href="https://nvie.com/posts/a-successful-git-branching-model/">blog posting by Vincent Driessen</a> on January 5th, 2010, that went viral and has become a widely used software engineering practice.</p>
+</div>
+<div class="paragraph">
+<p>This workflow has arguably become so successful because it scales well from very small to very large projects, and that&#8217;s one of the reasons it is recommended (but not required) for Boost libraries.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An unusually simple, single developer library would have only the permanent <code>develop</code> and <code>master</code> branches that are required for all Boost libraries.</p>
+</li>
+<li>
+<p>A more typical library would occasionally add temporary feature branches, either private or public. Feature branch names follow the <code>feature/x</code> model, where <code>x</code> names the specific feature being developed.</p>
+</li>
+<li>
+<p>A larger library, particularly if it has multiple developers, would always have some active public feature branches, and at least occasionally employ release staging branches and hotfix branches. Individual developers would often use private branches.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Many Git Flow model diagrams are available online - print one out and hang it on your wall!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_command_line_tools"><a class="anchor" href="#_command_line_tools"></a>Command Line Tools</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For those who use Git from the command line, <a href="https://github.com/nvie/gitflow">git-flow command line tools</a> are available to automate common operations. See <a href="https://github.com/nvie/gitflow/wiki">git-flow wiki</a> for more information, including installation instructions for various platforms.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_branch_names"><a class="anchor" href="#_branch_names"></a>Branch Names</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All Boost libraries are required to have two branches:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>master</code> is always the library&#8217;s latest release. It should always be stable.</p>
+</li>
+<li>
+<p><code>develop</code> is always the main development branch. Whether it is always stable or not is up to the individual library.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>These branches are required so that Boost release management and other scripts know the branch names.</p>
+</div>
+<div class="paragraph">
+<p>While Boost libraries are not required to use the following branches, these naming conventions are recommended if the branches are present.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>feature/descriptive-name</code> for feature branches. For example, <code>feature/add-roman-numeral-math</code>.</p>
+</li>
+<li>
+<p><code>bugfix/descriptive-name</code> for problem fix branches of develop that will be merged back to develop after the fix. For example, <code>bugfix/ticket-1234-error-msg-not-clear</code>.</p>
+</li>
+<li>
+<p><code>hotfix/descriptive-name</code> for problem fix branches of master that will be merged back to master and also to develop after the fix. For example, <code>hotfix/ticket-5678-crash-if-result-negative</code>.</p>
+</li>
+<li>
+<p><code>release/n.n.n</code> for release staging branches. For example, <code>release/1.56.2</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_release_names"><a class="anchor" href="#_release_names"></a>Release Names</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Individual Boost libraries are free to choose their own release numbers, and these library release numbers are normally unrelated to the release numbers for the Super-project. The recommended release naming convention is the traditional three unsigned integers separated by periods (for example: 1.2.3) where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The first integer is the major version number, with each major version, with 0 being used for initial development and 1 for the first production-usable version. A change in version number is recommended when there are breaking changes.</p>
+</li>
+<li>
+<p>The middle integer is the release number, reset to 0 with each version update and otherwise increasing monotonically.</p>
+</li>
+<li>
+<p>The last integer is the patch level, reset to 0 with each revision and otherwise increasing monotonically. A patch level greater than 1 indicates a so-called point releases, normally containing bug fixes but not new features.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_release_tags"><a class="anchor" href="#_release_tags"></a>Release Tags</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A release tag is usually the library name, a hyphen, the release number, and then possibly "-beta#" or "-rc#" if applicable. Thus the second release candidate for <a href="https://www.boost.org/libs/timer">Boost.Timer</a> release 1.2.3 would be "timer-1.2.3-rc2".</p>
+</div>
+<div class="paragraph">
+<p>Peter A. Bigot suggested library name prefixes for tags to avoid tag namespace pollution. Without the prefix, local tags could be overwritten.</p>
+</div>
+<div class="paragraph">
+<p>Libraries choose their own release numbers. A simple library that does not require a complex release numbering convention might just use the date, such as "system-2014-06-02".</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rationale_for_choice_of_git_flow"><a class="anchor" href="#_rationale_for_choice_of_git_flow"></a>Rationale for Choice of Git Flow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Git Flow scales well from very small to very large projects. The same overall workflow model serves the whole spectrum of Boost libraries, even though the details differ.
+Git Flow has become widely known and widely used. Boost doesn&#8217;t have to pioneer a new workflow.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_aside_deleting_merged_branches"><a class="anchor" href="#_aside_deleting_merged_branches"></a>Aside: Deleting Merged Branches</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The usual culture with Git is to delete feature branches as soon as they are merged to some other branch, and is followed by Git Flow. This approach is also recommended for Boost developers. After all, the merged-to branch keeps the commit history alive and there&#8217;s no longer any need to keep the old label around. If you delete a branch without merging it, of course, any content and commit history exclusive to that branch is lost.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="overview.html" class="xref page">Super-Project Layout</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/superproject/library-workflow.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="library-maintenance.html">Library Maintenance</a></span>
+        <span class="next"><a href="../docs/layout.html">Guidelines</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

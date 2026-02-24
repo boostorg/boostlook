@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Boost Discussion Policy :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/discussion-policy.html">
+    <link rel="prev" href="reporting-issues.html">
+    <link rel="next" href="bsl.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>User Community</li>
+    <li><a href="discussion-policy.html">Discussion Policy</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="reporting-issues.html">
+      <span class="material-symbols-outlined" title="Previous: Reporting Issues">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="bsl.html">
+      <span class="material-symbols-outlined" title="Next: The Boost Software License">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Boost Discussion Policy</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Email discussion is the tie that binds Boost members together into a community. If the discussion is stimulating and effective, the community thrives. If the discussion degenerates into name-calling and ill will, the community withers and dies.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_acceptable_topics"><a class="anchor" href="#_acceptable_topics"></a>Acceptable Topics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Try to focus email discussion on the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Queries to determine interest in a possible library submission</p>
+</li>
+<li>
+<p>Technical discussions about a proposed or existing library, including bug reports and requests for help</p>
+</li>
+<li>
+<p>Formal Reviews of proposed libraries</p>
+</li>
+<li>
+<p>Reports of user experiences with Boost libraries</p>
+</li>
+<li>
+<p>Boost administration or policies</p>
+</li>
+<li>
+<p>Compiler specific workarounds as applied to Boost libraries</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Other topics related to Boost development may be acceptable, at the discretion of moderators. If unsure, go ahead and post. The moderators will let you know.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_unacceptable_topics"><a class="anchor" href="#_unacceptable_topics"></a>Unacceptable Topics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Posts on the following topics will probably not be accepted by the moderators:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Advertisements for commercial products</p>
+</li>
+<li>
+<p>Requests for help getting non-Boost code to compile with your compiler (try <a href="https://stackoverflow.com/questions/tagged/c%2b%2b">Stack Overflow: C++</a>)</p>
+</li>
+<li>
+<p>Requests for help interpreting the C++ standard (try <a href="https://isocpp.org/faq">C++ FAQ</a>)</p>
+</li>
+<li>
+<p>Job offers</p>
+</li>
+<li>
+<p>Requests for solutions to homework assignments</p>
+</li>
+<li>
+<p>Any posting noted as <a href="#_prohibited_behavior">Prohibited Behavior</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_effective_posting"><a class="anchor" href="#_effective_posting"></a>Effective Posting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Most Boost mailing lists host a great deal of traffic, so your post is usually competing for attention with many other communications. This section describes how to make sure it has the desired impact.</p>
+</div>
+<div class="sect2">
+<h3 id="_well_crafted_posting_is_worth_the_effort"><a class="anchor" href="#_well_crafted_posting_is_worth_the_effort"></a>Well-Crafted Posting is Worth the Effort</h3>
+<div class="paragraph">
+<p>Don&#8217;t forget, you&#8217;re a single writer but there are many readers, and you want them to stay interested in what you&#8217;re saying. Saving your readers a little time and effort is usually worth the extra time you spend when writing a message. Also, Boost discussions are saved for posterity, as rationales and history of the work we do. A post&#8217;s usefulness in the future is determined by its readability.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_put_the_library_name_in_the_subject_line"><a class="anchor" href="#_put_the_library_name_in_the_subject_line"></a>Put the Library Name in the Subject Line</h3>
+<div class="paragraph">
+<p>When your post is related to a particular Boost library, it&#8217;s helpful to put the library name in square brackets at the beginning of the subject line, e.g.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Subject: [Regex] Why doesn't this pattern match?</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers' mailing list</a> is a high-volume mailing list, and most maintainers don&#8217;t have time to read every message. A tag on the subject line will help ensure the right people see your post.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dont_use_tabs"><a class="anchor" href="#_dont_use_tabs"></a>Don&#8217;t Use Tabs</h3>
+<div class="paragraph">
+<p>If you use tabs to indent your source code, convert them to spaces before inserting the code in a posting. Something in the processing chain usually strips all the indentation and leaves a mess behind.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_limit_line_length"><a class="anchor" href="#_limit_line_length"></a>Limit Line Length</h3>
+<div class="paragraph">
+<p>If you put source code in your postings and your mailer wraps long lines automatically, either keep the code narrow or insert the code as an (inline, if possible) attachment. That will help ensure others can read what you&#8217;ve posted.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dont_over_quote_dont_top_post_and_do_use_inline_replies_for_readable_quotations"><a class="anchor" href="#_dont_over_quote_dont_top_post_and_do_use_inline_replies_for_readable_quotations"></a>Don&#8217;t Over-quote, Don&#8217;t Top-Post, and Do Use Inline Replies for Readable Quotations</h3>
+<div class="paragraph">
+<p>Prune extraneous quoted text from replies so that only the relevant parts are included. It will save time and make your post more valuable when readers do not have to find out which exact part of a previous message you are responding to.</p>
+</div>
+<div class="paragraph">
+<p>Don&#8217;t <a href="https://en.wikipedia.org/wiki/Posting_style#Top-posting">top-post</a> (where the original message is included verbatim, with the reply above it); <em>inline</em> replies are the appropriate posting style for Boost lists.</p>
+</div>
+<div class="paragraph">
+<p>The common and very useful inline approach cites the small fractions of the message you are actually responding to and puts your response directly beneath each citation, with a blank line separating them for readability:</p>
+</div>
+<div class="paragraph">
+<p>Person-you&#8217;re-replying-to wrote:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">&gt; Some part of a paragraph that you wish to reply to goes
+&gt; here; there may be several lines.
+
+Your response to that part of the message goes here.
+There may, of course, be several lines.
+
+&gt; The second part of the  paragraph that is relevant to your
+&gt; reply goes here; again there may be several lines.
+
+Your response to the second part of the message goes here.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For more information about effective use of quotation in posts, see <a href="https://www.netmeister.org/news/learn2quote.html">How do I quote correctly in Usenet?</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_keep_the_formatting_of_quotations_consistent"><a class="anchor" href="#_keep_the_formatting_of_quotations_consistent"></a>Keep the Formatting of Quotations Consistent</h3>
+<div class="paragraph">
+<p>Some email and news clients use poor word wrapping algorithms that leave successive lines from the same quotation with differing numbers of leading "&gt;" characters. Microsoft Outlook and Outlook Express, and some web clients, are especially bad about this. If your client offends in this way, please take the effort to clean up the mess it makes in quoted text. Remember, even if you didn&#8217;t write the original text, it&#8217;s your posting; whether you get your point across depends on its readability.</p>
+</div>
+<div class="paragraph">
+<p>The Microsoft clients also create an unusually verbose header at the beginning of the original message text and leave the cursor at the beginning of the message, which encourages users to write their replies before all of the quoted text rather than putting the reply in context. Search online for "Quotefix" and you may find a utility that fixes this issue automatically for your email client.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_summarizing_and_referring_to_earlier_messages"><a class="anchor" href="#_summarizing_and_referring_to_earlier_messages"></a>Summarizing and Referring to Earlier Messages</h3>
+<div class="paragraph">
+<p>A summary of the foregoing thread is only needed after a long discussion, especially when the topic is drifting or a result has been achieved in a discussion. The mail system will do the tracking that is needed to enable mail readers to display message threads (and every decent mail reader supports that).</p>
+</div>
+<div class="paragraph">
+<p>If you ever have to refer to single message earlier in a thread or in a different thread then you can use a URL to the <a href="https://lists.boost.org/Archives/boost/">message archives</a>. Citing the relevant portion of the message you link to is often helpful (if the citation is small).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_maintain_the_integrity_of_discussion_threads"><a class="anchor" href="#_maintain_the_integrity_of_discussion_threads"></a>Maintain the Integrity of Discussion Threads</h3>
+<div class="paragraph">
+<p>When starting a new topic, always send a fresh message, rather than beginning a reply to some other message and replacing the subject and body. Many mailers can detect the thread you started with and will show the new message as part of the original thread, which probably isn&#8217;t what you intended. Follow this guideline for your own sake as well as for others'. Often, people scanning for relevant messages will decide they&#8217;re done with a topic and hide or kill the entire thread: your message will be missed, and you won&#8217;t get the response you&#8217;re looking for.</p>
+</div>
+<div class="paragraph">
+<p>By the same token, when replying to an existing message, use your mailer&#8217;s <strong>Reply</strong> function, so that the reply shows up as part of the same discussion thread.</p>
+</div>
+<div class="paragraph">
+<p>Do not reply to digests if you are a digest delivery subscriber. Your reply will not be properly threaded and will probably have the wrong subject line.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_keep_the_size_of_your_posting_manageable"><a class="anchor" href="#_keep_the_size_of_your_posting_manageable"></a>Keep The Size of Your Posting Manageable</h3>
+<div class="paragraph">
+<p>The mailing list software automatically limits message and attachment size to a reasonable amount, typically 75K, which is adjusted from time-to-time by the moderators. This limit is a courtesy to those who rely on dial-up Internet access and let&#8217;s face it, no one wants to read a posting that consists of 75K of error message text.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_avoid_corporate_and_confidentiality_footers_in_your_emails"><a class="anchor" href="#_avoid_corporate_and_confidentiality_footers_in_your_emails"></a>Avoid Corporate and Confidentiality Footers in Your Emails</h3>
+<div class="paragraph">
+<p>Remember that mailing lists are publicly viewable, including by people not subscribed to the list. The responsibility of not posting any confidential information is always on the sender, and any confidentiality notice you may have in your email is void. Sending an email with a confidentiality footer is a one-way action by the sender, and the receiver has no way to accept or reject the terms specified in the footer. As such, the footer is not binding, but may come across as imposing on the receiver. This negative reception will reduce the likelihood of your message being answered.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, if your footer contains corporate information, such as company name, logo, marketing slogans, contacts, and your position within the company, this may be taken as advertisement, which is explicitly forbidden. If your message requires you to expose your corporate affiliation, please include this information in the body of your message instead of attaching it to your every post in the corporate footer.</p>
+</div>
+<div class="paragraph">
+<p>If the footer is a mandatory corporate policy then please avoid using corporate email accounts for sending posts to the mailing lists. Use a non-corporate email account instead.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prohibited_behavior"><a class="anchor" href="#_prohibited_behavior"></a>Prohibited Behavior</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Prohibited behavior will not be tolerated. The moderators will ban postings by abusers.</p>
+</div>
+<div class="sect2">
+<h3 id="_flame_wars"><a class="anchor" href="#_flame_wars"></a>Flame Wars</h3>
+<div class="paragraph">
+<p>Personal insults, argument for the sake of argument, and all the other behaviors which fall into the "flame war" category are prohibited. Discussions should focus on technical arguments, not the personality traits or motives of participants.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_third_party_attacks"><a class="anchor" href="#_third_party_attacks"></a>Third-party Attacks</h3>
+<div class="paragraph">
+<p>Attacks on third parties such as software vendors, hardware vendors, or any other organizations, are prohibited. Boost exists to unite and serve the entire C++ community, not to disparage the work of others.</p>
+</div>
+<div class="paragraph">
+<p>Does this mean that we ban the occasional complaint or wry remark about a troublesome compiler? No, but be wary of overdoing it.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_off_topic_posts"><a class="anchor" href="#_off_topic_posts"></a>Off-topic Posts</h3>
+<div class="paragraph">
+<p>Discussions that stray from the acceptable topics are strongly discouraged. While off-topic posts are often well meaning and not as individually corrosive as other abuses, cumulatively the distraction damages the effectiveness of discussion.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_culture"><a class="anchor" href="#_culture"></a>Culture</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In addition to technical skills, Boost members value collaboration, acknowledgment of the help of others, and a certain level of politeness. Boost membership is very international, and ranges widely in age and other characteristics. Think of discussion as occurring among colleagues in a widely read forum, rather than among a few close friends.</p>
+</div>
+<div class="paragraph">
+<p>Always remember that the cumulative effort spent by people reading your contribution scales with the (already large) number of Boost members. Thus, do invest time and effort to make your message as readable as possible. Adhere to English syntax and grammar rules such as proper capitalization. Avoid copious informalism, colloquial language, or abbreviations, they may not be understood by all readers. Re-read your message before submitting it.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_guidelines_for_effective_discussions"><a class="anchor" href="#_guidelines_for_effective_discussions"></a>Guidelines for Effective Discussions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Apply social engineering to prevent heated technical discussion from degenerating into a shouting match, and to actively encourage the cooperation upon which Boost depends.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Questions help. If someone suggests something that you don&#8217;t think will work, then replying with a question like "will that compile?" or "won&#8217;t that fail to compile, or am I missing something?" is a lot smoother than "That&#8217;s stupid - it won&#8217;t compile." Saying "that fails to compile for me, and seems to violate section n.n.n of the standard" would be yet another way to be firm without being abrasive.</p>
+</li>
+<li>
+<p>If most of the discussion has been code-free generalities, posting a bit of sample code can focus people on the practical issues.</p>
+</li>
+<li>
+<p>If most of the discussion has been in terms of specific code, try to talk a bit about hidden assumptions and generalities that may be preventing discussion closure.</p>
+</li>
+<li>
+<p>Taking a time-out is often effective. Just say: "Let me think about that for a day or two. Let&#8217;s take a time-out to digest the discussion so far."</p>
+</li>
+<li>
+<p>Avoid <em>Parkinson&#8217;s Bicycle Shed</em>. Parkinson described a committee formed to oversee design of an early nuclear power plant. There were three agenda items - when to have tea, where to put the bicycle shed, and how to ensure nuclear safety. Tea was disposed of quickly as trivial. Nuclear safety was discussed for only an hour - it was so complex, scary, and technical that even among experts few felt comfortable with the issues. Endless days were then spent discussing construction of the bicycle shed (the parking lot would be the modern equivalent) because everyone thought they understood the issues and felt comfortable discussing them.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_library_names"><a class="anchor" href="#_library_names"></a>Library Names</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to ensure a uniform presentation in books and articles, we have adopted a convention for referring to Boost libraries. Library names can either be written in a compact form with a dot, as *Boost.Name", or in a long form as "the Boost Name library." For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Boost.Python serves a very different purpose from the Boost Graph library.</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The word "library" is not part of the name, and as such isn&#8217;t capitalized and may not be necessary.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Take care to avoid confusion in discussions between libraries that have been accepted into Boost and those that have not. Acceptance as a Boost library indicates that the code and design have passed through our peer-review process; failing to make the distinction devalues the hard work of library authors who&#8217;ve gone through that process. Here are some suggested ways to describe potential Boost libraries:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>"the Name library" (probably the best choice where applicable)</p>
+</li>
+<li>
+<p>"the proposed Boost Name library"</p>
+</li>
+<li>
+<p>"the Boost.Name candidate"</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>This policy only applies to discussions, not to the documentation, directory structure, or even identifiers in the code of potential Boost libraries.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../contributor-guide/getting-involved.html" class="xref page">Getting Involved</a></p>
+</li>
+<li>
+<p><a href="../contributor-guide/tweeting.html" class="xref page">Tweeting</a></p>
+</li>
+<li>
+<p><a href="reporting-issues.html" class="xref page">Reporting Issues</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/discussion-policy.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="reporting-issues.html">Reporting Issues</a></span>
+        <span class="next"><a href="bsl.html">The Boost Software License</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

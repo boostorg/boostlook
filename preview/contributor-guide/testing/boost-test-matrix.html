@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Test Matrix :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/testing/boost-test-matrix.html">
+    <link rel="prev" href="test-policy.html">
+    <link rel="next" href="regression-tests.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="test-policy.html">Test Policy</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Testing</li>
+    <li><a href="boost-test-matrix.html">Test Matrix</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="test-policy.html">
+      <span class="material-symbols-outlined" title="Previous: Test Policy">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="regression-tests.html">
+      <span class="material-symbols-outlined" title="Next: Local Regression Tests">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Test Matrix</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_introduction">Introduction</a></p>
+</li>
+<li>
+<p><a href="#_regression_dashboard">Regression Dashboard</a></p>
+</li>
+<li>
+<p><a href="#_handling_test_failures">Handling Test Failures</a></p>
+</li>
+<li>
+<p><a href="#_boost_build">Boost Build</a></p>
+</li>
+<li>
+<p><a href="#_test_process_feedback">Test Process Feedback</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Boost Test Matrix is an automated testing system that runs tests on Boost libraries across a wide range of platforms, compiler versions, and configurations. Its primary purpose is to ensure that the libraries work correctly under various conditions and to identify any compatibility issues.</p>
+</div>
+<div class="paragraph">
+<p>The Test Matrix includes tests run on different operating systems (Windows, Linux, macOS) and with various compilers (such as GCC, Clang, MSVC). This diversity helps in catching issues that might only appear in specific environments.</p>
+</div>
+<div class="paragraph">
+<p>For information on running regression tests locally, refer to <a href="regression-tests.html" class="xref page">Local Regression Tests</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_regression_dashboard"><a class="anchor" href="#_regression_dashboard"></a>Regression Dashboard</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The results of library tests are published on the
+<strong>Boost Regression Testing Dashboard</strong>:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Version</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Results</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Issues</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Develop branch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://regression.boost.org/develop/developer/summary.html">Summary</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://regression.boost.org/develop/developer/issues.html">Unresolved Issues</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Master branch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://regression.boost.org/master/developer/summary.html">Summary</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://regression.boost.org/master/developer/issues.html">Unresolved Issues</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>This dashboard is publicly accessible and provides detailed information about the test results for most libraries.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_handling_test_failures"><a class="anchor" href="#_handling_test_failures"></a>Handling Test Failures</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If your contribution causes test failures, it&#8217;s expected that you take responsibility for fixing them. This might involve making code adjustments or collaborating with others if the issue is complex, or affects multiple parts of Boost.</p>
+</div>
+<div class="paragraph">
+<p>On the dashboard, you will find a matrix of test results. The columns  represent different test runners (which correspond to different platforms, compiler versions, etc.), and the rows represent individual libraries.</p>
+</div>
+<div class="paragraph">
+<p>When you click on the Dashboard URL, you will see the test <strong>Summary</strong>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/test-matrix-summary.png" alt="test matrix summary">
+</div>
+</div>
+<div class="paragraph">
+<p>The table is large, and you will need to scroll up and down and left and right to view all relevant results. Note that some entries are underlined (even <strong>OK</strong> entries) which indicates they are links to further information.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/test-matrix-sample.png" alt="test matrix sample">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dashboard_legend"><a class="anchor" href="#_dashboard_legend"></a>Dashboard Legend</h3>
+<div class="paragraph">
+<p>The dashboard uses different colors or labels to indicate the status of the tests (such as 'pass', 'fail', or 'unresolved'). Understanding these labels is key to interpreting the test results correctly. Note that some tests are <em>expected</em> to fail.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/test-matrix-legend.png" alt="test matrix legend">
+</div>
+</div>
+<div class="paragraph">
+<p>By clicking on specific cells in the matrix, you can view detailed results for a particular library and test runner. This includes information about which tests passed, which failed, and often detailed logs of the test runs.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/test-matrix-sample-2.png" alt="test matrix sample 2">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example"><a class="anchor" href="#_example"></a>Example</h3>
+<div class="paragraph">
+<p>For example, click on the <a href="https://www.boost.org/libs/asio">Boost.Asio</a> entry in the left-hand column, and you will bring up the test matrix for the <strong>Asio/Master</strong> library.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/test-matrix-asio.png" alt="test matrix asio">
+</div>
+</div>
+<div class="paragraph">
+<p>Go deeper by clicking on the entries in the left-hand column, which are now individual tests, to bring up the test code. For example, click on <strong>any_completion_handler</strong> to view its source.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/test-matrix-asio-completion-handler.png" alt="test matrix asio completion handler">
+</div>
+</div>
+<div class="paragraph">
+<p>Selecting the column headers will bring up the configuration information that is being specified before each test in the column is run.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/test-matrix-teeks.png" alt="test matrix teeks">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_developer_report"><a class="anchor" href="#_developer_report"></a>Developer Report</h3>
+<div class="paragraph">
+<p>If you select the <strong>Report info</strong> entry, top left on the left-hand column, you can see some metrics for the overall test process:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/test-matrix-developer-report.png" alt="test matrix developer report">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boost_build"><a class="anchor" href="#_boost_build"></a>Boost Build</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Test Matrix uses <a href="https://www.bfgroup.xyz/b2/">B2</a> as its build system. Understanding how to write and modify Jamfiles (Boost.Build scripts) can be helpful for integrating your tests into the matrix.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_process_feedback"><a class="anchor" href="#_test_process_feedback"></a>Test Process Feedback</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you encounter issues with the testing infrastructure or have suggestions for improvement, engage with the Boost community (refer to <a href="../getting-involved.html" class="xref page">Getting Involved</a>). The testing process is continually evolving, and contributions to the testing infrastructure itself are valuable.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../release-process.html" class="xref page">Release Process</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/testing/boost-test-matrix.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="test-policy.html">Test Policy</a></span>
+        <span class="next"><a href="regression-tests.html">Local Regression Tests</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

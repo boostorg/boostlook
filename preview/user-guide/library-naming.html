@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Library Names and Organization :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/library-naming.html">
+    <link rel="prev" href="glossary.html">
+    <link rel="next" href="header-organization-compilation.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Reference</li>
+    <li><a href="library-naming.html">Library Names and Organization</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="glossary.html">
+      <span class="material-symbols-outlined" title="Previous: Glossary">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="header-organization-compilation.html">
+      <span class="material-symbols-outlined" title="Next: Header Organization and Compiled Binaries">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Library Names and Organization</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_introduction">Introduction</a></p>
+</li>
+<li>
+<p><a href="#_library_name_elements">Library Name Elements</a></p>
+</li>
+<li>
+<p><a href="#_installed_library_names">Installed Library Names</a></p>
+</li>
+<li>
+<p><a href="#_the_boost_distribution">The Boost Distribution</a></p>
+</li>
+<li>
+<p><a href="#_footnotes">Footnotes</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If your compiler supports auto-linking, such as Visual C++, then there is no need to understand the details of library binary naming.</p>
+</div>
+<div class="paragraph">
+<p>However, if auto-linking is not supported by your compiler, then, in order to choose the right binary for your build configuration you
+need to know how Boost binaries are named.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_library_name_elements"><a class="anchor" href="#_library_name_elements"></a>Library Name Elements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Each library filename is composed of a common sequence of elements that describe how it was built. For example, <code>libboost_regex-vc71-mt-d-x86-1_34.lib</code>  can be broken down into the following elements:</p>
+</div>
+<div id="footnote1-location" class="ulist">
+<ul>
+<li>
+<p><code>lib</code>:  <em>Prefix</em>: except on Microsoft Windows, every Boost library name begins with this string. On Windows, only ordinary static libraries use the <code>lib</code> prefix; import libraries and DLLs do not. <a href="#footnote1">(1)</a></p>
+</li>
+<li>
+<p><code>boost_regex</code>:  <em>Library name</em>: all boost library filenames begin with <code>boost_</code>.</p>
+</li>
+<li>
+<p><code>-vc71</code>:  <em>Toolset tag</em>: identifies the <a href="header-organization-compilation.html#toolset" class="xref page">toolset</a> and version used to build the binary.</p>
+</li>
+<li>
+<p><code>-mt</code>:  <em>Threading tag</em>: indicates that the library was built with multithreading support enabled. Libraries built without multithreading support can be identified by the absence of <code>-mt</code> .</p>
+</li>
+</ul>
+</div>
+<div id="footnote2-location" class="ulist">
+<ul>
+<li>
+<p><code>-d</code>:  <em>ABI tag</em>: encodes details that affect the library&#8217;s interoperability with other compiled code. For each such feature, a single letter is added to the tag:</p>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 62.5%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Use Case</th>
+<th class="tableblock halign-left valign-top">B2 Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>s</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Linking statically to the C++ standard library and compiler
+runtime support libraries.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>runtime-link=static</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>g</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Using debug versions of the standard and runtime support
+libraries.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>runtime-debugging=on</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>y</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Using a special <a href="https://www.boost.org/doc/libs/1_58_0/libs/python/doc/building.html">debug build of Python</a>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>python-debugging=on</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>d</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Building a debug version of your code. <a href="#footnote2">(2)</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>variant=debug</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>p</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Using the STLPort standard library rather than the default one
+supplied with your compiler.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stdlib=stlport</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>For example, if you build a debug version of your code for use with debug versions of the static runtime library and the STLPort standard library, the tag would be: <code>-sgdp</code> . If none of the above apply, the ABI tag is omitted.</p>
+</div>
+</li>
+<li>
+<p><code>-x86</code>: <em>Architecture and address model tag</em>: in the first letter, encodes the architecture as follows:</p>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Architecture</th>
+<th class="tableblock halign-left valign-top">B2 Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>x</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x86-32, x86-64</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>architecture=x86</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>a</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ARM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>architecture=arm</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>i</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IA-64</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>architecture=ia64</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>s</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sparc</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>architecture=sparc</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>m</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MIPS/SGI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>architecture=mips*</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>p</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RS/6000 &amp; PowerPC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>architecture=power</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The two digits following the letter encode the address model as follows:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Address Model</th>
+<th class="tableblock halign-left valign-top">B2 Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>32</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">32 bit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>address-model=32</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>64</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">64 bit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>address-model=64</code></p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><code>-1_34</code>: <em>Version tag</em>: the full Boost release number, with periods replaced by underscores. For example, version 1.31.1 would be tagged as <code>-1_31_1</code>.</p>
+</li>
+<li>
+<p><code>.lib</code>: <em>Extension</em>: determined according to the operating system&#8217;s usual convention. On most unix-style platforms the extensions are <code>.a</code> and <code>.so</code> for static libraries (archives) and shared libraries, respectively. On Windows, <code>.dll</code> indicates a shared library and <code>.lib</code> indicates a static or import library. Where supported by toolsets on unix variants, a full version extension is added (e.g. ".so.1.34") and a symbolic link to the library file, named without the trailing version number, will also be created.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installed_library_names"><a class="anchor" href="#_installed_library_names"></a>Installed Library Names</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When libraries are installed using the B2 app, the actual name can vary from the full name described above.</p>
+</div>
+<div class="paragraph">
+<p>The <code>--layout=&lt;layout&gt;</code> option determines how the library name is handled, and the appropriate header locations so that multiple versions of Boost, or multiple compilers, can be used on the same system.</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 60%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Layout</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>versioned</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The names of Boost binaries include the Boost version number, name and version of the compiler, and encoded build properties. Boost headers are installed in a subdirectory of <code>&lt;HDRDIR&gt;</code> whose name contains the Boost version number.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Windows</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tagged</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Names of boost binaries include the encoded build properties such as variant and threading, but do not including compiler name and version, or Boost version. This option is useful if you build several variants of Boost, using the same compiler.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>system</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Binaries names do not include the Boost version number or the name and version number of the compiler. Boost headers are installed directly into <code>&lt;HDRDIR&gt;</code>. This option is intended for system integrators building distribution packages.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unix</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_boost_distribution"><a class="anchor" href="#_the_boost_distribution"></a>The Boost Distribution</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After installing Boost, this is the resulting directory structure, in the <strong>boost_1_82_0</strong> root:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 66.6668%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Root Level</th>
+<th class="tableblock halign-left valign-top">Lower Level</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>bin.v2</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>libs</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mainly contains the compiled binaries for those libraries that require compilation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>boost</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">library folders</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All Boost header files</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>doc</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A subset of all Boost library docs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>libs</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">library folders</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tests, .cpps, docs, etc., by library</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>more</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>getting_started</strong>  <strong>writingdoc</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Policy, getting started, and Contributor Guide documentation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>stage</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>lib</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CMake files for each library</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>status</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost-wide test suite</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>tools</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tool folders</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Utilities: B2, quickbook, bcp, etc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>b2.exe</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost install app, and supporting files</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>index.htm</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A copy of www.boost.org starts here</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_footnotes"><a class="anchor" href="#_footnotes"></a>Footnotes</h2>
+<div class="sectionbody">
+<div id="footnote1" class="paragraph">
+<p><a href="#footnote1-location">(1)</a> This convention distinguishes the static version of a Boost library from the import library for an identically-configured Boost DLL, which would otherwise have the same name.</p>
+</div>
+<div id="footnote2" class="paragraph">
+<p><a href="#footnote2-location">(2)</a> These libraries were compiled without optimization or inlining, with full debug symbols enabled, and without <code>#define NDEBUG</code>. Although it&#8217;s true that sometimes these choices don&#8217;t affect binary compatibility with other compiled code, you can&#8217;t count on that with Boost libraries.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="header-organization-compilation.html" class="xref page">Header Organization and Compiled Binaries</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/library-naming.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="glossary.html">Glossary</a></span>
+        <span class="next"><a href="header-organization-compilation.html">Header Organization and Compiled Binaries</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

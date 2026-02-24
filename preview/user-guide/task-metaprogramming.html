@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Metaprogramming :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-metaprogramming.html">
+    <link rel="prev" href="task-machine-learning.html">
+    <link rel="next" href="task-natural-language-parsing.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Advanced Scenarios</li>
+    <li><a href="task-metaprogramming.html">Metaprogramming</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="task-machine-learning.html">
+      <span class="material-symbols-outlined" title="Previous: Machine Learning">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-natural-language-parsing.html">
+      <span class="material-symbols-outlined" title="Next: Natural Language">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Metaprogramming</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div id="footnote1-location" class="paragraph">
+<p>Boost provides several libraries that are highly useful in metaprogramming, and can greatly ease the process of building your own metaprogramming-based C++ library. You will need to clearly understand <em>heterogeneous types</em> <a href="#footnote1">(1)</a> and <em>tuples</em> <a href="#footnote2">(2)</a>.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_metaprogramming_applications">Metaprogramming Applications</a></p>
+</li>
+<li>
+<p><a href="#_automatic_code_generation_sample">Automatic Code Generation Sample</a></p>
+</li>
+<li>
+<p><a href="#_serialize_a_user_defined_struct">Serialize a User-Defined Struct</a></p>
+</li>
+<li>
+<p><a href="#_compile_time_type_checking">Compile-time Type Checking</a></p>
+</li>
+<li>
+<p><a href="#_add_tuple_processing_at_runtime">Add Tuple Processing at Runtime</a></p>
+</li>
+<li>
+<p><a href="#_footnotes">Footnotes</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Caution</dt>
+<dd>
+<p>Metaprogramming in C++ is a complex topic that can lead to complex code. It should be used judiciously, as it can make code more difficult to understand and maintain. Also, modern C++ (C++11 and later) provides many features, such as <code>constexpr</code> and <a href="https://en.wikipedia.org/wiki/Variadic_template">variadic templates</a>, that can achieve at runtime what was previously only possible with metaprogramming, so make sure to familiarize yourself with these features before delving too deeply into metaprogramming.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>: A metaprogramming library that provides a framework of compile-time algorithms, preprocessor directives, sequences and metafunctions, that can greatly facilitate metaprogramming tasks.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/hana">Boost.Hana</a>: This is a modern, high-level library for metaprogramming. Like <a href="https://www.boost.org/libs/fusion">Boost.Fusion</a>, it is used for working with heterogeneous collections, but it uses modern C++ features and can be easier to use than (and can be considered a successor to) both <a href="https://www.boost.org/libs/mpl">Boost.Mpl</a> and <a href="https://www.boost.org/libs/fusion">Boost.Fusion</a>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/type_traits">Boost.TypeTraits</a>: Provides a collection of templates for information about types. This can be useful in many metaprogramming tasks, as it allows for compile-time introspection of types.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/static_assert">Boost.StaticAssert</a>: Provides a macro for compile-time assertions. This can be useful to enforce constraints at compile time.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Notes</dt>
+<dd>
+<p><a href="https://www.boost.org/libs/mpl">Boost.Mpl</a>, <a href="https://www.boost.org/libs/fusion">Boost.Fusion</a> and <a href="https://www.boost.org/libs/preprocessor">Boost.Preprocessor</a>, all still available in the Boost library, have been superseded by <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> and <a href="https://www.boost.org/libs/hana">Boost.Hana</a>.</p>
+<div class="paragraph">
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0.</p>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_metaprogramming_applications"><a class="anchor" href="#_metaprogramming_applications"></a>Metaprogramming Applications</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Metaprogramming, the practice of writing code that generates or manipulates other code, has several powerful applications, particularly in languages like C++ that support compile-time metaprogramming. Be careful though, despite its power, metaprogramming can also lead to complex, hard-to-understand code and should be used judiciously. Here are some of the primary applications of metaprogramming:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>Code Generation: One of the most common uses of metaprogramming is to automatically generate code. This can help to reduce boilerplate, prevent repetition, and facilitate the adherence to the DRY (Don&#8217;t Repeat Yourself) principle.</p>
+</li>
+<li>
+<p>Optimization: Metaprogramming can be used to generate specialized versions of algorithms or data structures, which can lead to more efficient code. For example, in C++, template metaprogramming can be used to generate unrolled versions of loops, which can be faster because they eliminate the overhead of loop control.</p>
+</li>
+<li>
+<p>Domain Specific Languages (DSLs): Metaprogramming can be used to create domain-specific languages within a host language. This can make the code more expressive and easier to write and read in specific domains. A classic example in C++ is <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a>, a library for creating parsers directly in C++ code.</p>
+</li>
+<li>
+<p>Interface Generation: Metaprogramming can be used to generate interfaces, for example, serialization and deserialization methods for a variety of formats. This can greatly simplify the process of implementing such interfaces.</p>
+</li>
+<li>
+<p>Reflection and Introspection: Although C++ does not support reflection directly, metaprogramming can be used to emulate some aspects of reflection, such as type traits and type-based dispatch.</p>
+</li>
+<li>
+<p>Policy-based Design: This is a design paradigm in C++ where behavior is encapsulated in separate classes (policies), and classes are composed by specifying a set of policies as template parameters. This allows for high flexibility and reusability while maintaining performance.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_automatic_code_generation_sample"><a class="anchor" href="#_automatic_code_generation_sample"></a>Automatic Code Generation Sample</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The scenario is that we want to create a serializer for multiple types (<code>int</code>, <code>double</code>, <code>std::string</code>) without manually writing code for each one.</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll start by using <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> to generate a tuple of types at compile-time, and apply a function to each type automatically.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/mp11.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace mp = boost::mp11;
+
+// Example function to "serialize" different types
+template &lt;typename T&gt;
+void serialize(const T&amp; value) {
+    std::cout &lt;&lt; "Serializing: " &lt;&lt; value &lt;&lt; "\n";
+}
+
+// Generate and call functions for multiple types
+template &lt;typename... Types&gt;
+void auto_generate_serializers(std::tuple&lt;Types...&gt; data) {
+
+    // Iterate over each type and call serialize()
+    mp::mp_for_each&lt;std::tuple&lt;Types...&gt;&gt;([&amp;](auto type_wrapper) {
+        using T = decltype(type_wrapper);
+
+        serialize(std::get&lt;T&gt;(data));  // Automatically gets the correct type from tuple
+    });
+}
+
+int main() {
+
+    // Define a tuple of different types
+    std::tuple&lt;int, double, std::string&gt; data(42, 3.14, "Hello, MP11!");
+
+    // Automatically generate and call serializers
+    auto_generate_serializers(data);
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_output"><a class="anchor" href="#_output"></a>Output</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Serializing: 42
+Serializing: 3.14
+Serializing: Hello, MP11!</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The advantages of automatically generating correct functions include compile-time type safety, and eliminating runtime overhead of type checking.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_serialize_a_user_defined_struct"><a class="anchor" href="#_serialize_a_user_defined_struct"></a>Serialize a User-Defined Struct</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Our scenario makes more sense if we want to serialize a custom user-defined struct. A simple structure in this example, but it could be quite complex.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/mp11.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace mp = boost::mp11;
+
+// Custom struct
+struct Person {
+    std::string name;
+    int age;
+};
+
+// Overload `operator&lt;&lt;` to allow printing of Person objects
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Person&amp; p) {
+    return os &lt;&lt; "{ Name: " &lt;&lt; p.name &lt;&lt; ", Age: " &lt;&lt; p.age &lt;&lt; " }";
+}
+
+// Serialize function template
+template &lt;typename T&gt;
+void serialize(const T&amp; value) {
+    std::cout &lt;&lt; "Serializing: " &lt;&lt; value &lt;&lt; "\n";
+}
+
+// Specialization for Person (if needed)
+template &lt;&gt;
+void serialize(const Person&amp; p) {
+    std::cout &lt;&lt; "Serializing Person -&gt; Name: " &lt;&lt; p.name &lt;&lt; ", Age: " &lt;&lt; p.age &lt;&lt; "\n";
+}
+
+// Automatically process multiple types in a tuple
+template &lt;typename... Types&gt;
+void auto_generate_serializers(std::tuple&lt;Types...&gt; data) {
+    mp::mp_for_each&lt;std::tuple&lt;Types...&gt;&gt;([&amp;](auto type_wrapper) {
+        using T = decltype(type_wrapper);
+        serialize(std::get&lt;T&gt;(data));  // Extract correct type from tuple and serialize
+    });
+}
+
+int main() {
+
+    // Define a tuple with primitive types + a custom struct
+    std::tuple&lt;int, double, std::string, Person&gt; data(42, 3.14, "Hello, MP11!", {"Alice", 30});
+
+    // Automatically generate and call serializers
+    auto_generate_serializers(data);
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code supports <code>operator&lt;&lt;</code> for printing, and now <code>mp_for_each</code> automatically handles <code>Person</code> just like other types.</p>
+</dd>
+</dl>
+</div>
+<div class="sect2">
+<h3 id="_output_2"><a class="anchor" href="#_output_2"></a>Output</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Serializing: 42
+Serializing: 3.14
+Serializing: Hello, MP11!
+Serializing Person -&gt; Name: Alice, Age: 30</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The beauty of this approach is that you can just add more types to the tuple, and it just works!</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compile_time_type_checking"><a class="anchor" href="#_compile_time_type_checking"></a>Compile-time Type Checking</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s extend the sample to integrate <a href="https://www.boost.org/libs/type_traits">Boost.TypeTraits</a> to determine if a type is serializable at compile time. The functions we will use are <code>is_arithmetic&lt;T&gt;</code> to check if <code>T</code> is a number type (<code>int</code>, <code>double</code>, etc.), and <code>is_class&lt;T&gt;</code> to check if <code>T</code> is a user-defined class (<code>Person</code>, etc.). The idea is that the compile-time filtering ensures that the code can only process serializable types.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>A <code>void</code> is an example of a non-serializable type.</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/mp11.hpp&gt;
+#include &lt;boost/type_traits.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace mp = boost::mp11;
+
+// Custom struct
+struct Person {
+    std::string name;
+    int age;
+};
+
+// Overload `operator&lt;&lt;` to allow printing of Person objects
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Person&amp; p) {
+    return os &lt;&lt; "{ Name: " &lt;&lt; p.name &lt;&lt; ", Age: " &lt;&lt; p.age &lt;&lt; " }";
+}
+
+// Serialize function template
+template &lt;typename T&gt;
+void serialize(const T&amp; value) {
+    if constexpr (boost::is_arithmetic&lt;T&gt;::value || std::is_same&lt;T, std::string&gt;::value) {
+        std::cout &lt;&lt; "Serializing: " &lt;&lt; value &lt;&lt; "\n";
+    } else if constexpr (boost::is_class&lt;T&gt;::value) {
+        std::cout &lt;&lt; "Serializing Class -&gt; ";
+        std::cout &lt;&lt; value &lt;&lt; "\n"; // Uses operator&lt;&lt; overload
+    } else {
+        std::cout &lt;&lt; "Skipping unsupported type!\n";
+    }
+}
+
+// Automatically process serializable types in a tuple
+template &lt;typename... Types&gt;
+void auto_generate_serializers(std::tuple&lt;Types...&gt; data) {
+    mp::mp_for_each&lt;std::tuple&lt;Types...&gt;&gt;([&amp;](auto type_wrapper) {
+        using T = decltype(type_wrapper);
+
+        // Only serialize supported types
+        if constexpr (boost::is_arithmetic&lt;T&gt;::value || boost::is_class&lt;T&gt;::value || std::is_same&lt;T, std::string&gt;::value) {
+            serialize(std::get&lt;T&gt;(data));
+        } else {
+            std::cout &lt;&lt; "Skipping non-serializable type\n";
+        }
+    });
+}
+
+int main() {
+
+    // Define a tuple with primitive types, a custom struct, and an unsupported type
+    std::tuple&lt;int, double, std::string, Person, void*&gt; data(42, 3.14, "Boost Rocks!", {"Alice", 30}, nullptr);
+
+    // Automatically generate and call serializers
+    auto_generate_serializers(data);
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Uses <code>if constexpr</code> for compile-time filtering, and <code>std::string</code> is explicitly handled.</p>
+</dd>
+</dl>
+</div>
+<div class="sect2">
+<h3 id="_output_3"><a class="anchor" href="#_output_3"></a>Output</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Serializing: 42
+Serializing: 3.14
+Serializing: Boost Rocks!
+Serializing Class -&gt; { Name: Alice, Age: 30 }
+Skipping non-serializable type</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_tuple_processing_at_runtime"><a class="anchor" href="#_add_tuple_processing_at_runtime"></a>Add Tuple Processing at Runtime</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> is for pure type-based metaprogramming (so works only at compile time), whereas <a href="https://www.boost.org/libs/hana">Boost.Hana</a> takes a value-based metaprogramming approach (it works at both compile time and runtime). In a real application, you may well choose to use one of these two libraries, and not both!</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/hana">Boost.Hana</a> adds efficient tuple handling at runtime (for example, easier access and transformation), in addition to tag-based dispatching to categorize different types (arithmetic, class, etc.), and concise functional-style operations. To summarize when to use each library:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 12%;">
+<col style="width: 22%;">
+<col style="width: 66%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Feature</th>
+<th class="tableblock halign-left valign-top"><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a></th>
+<th class="tableblock halign-left valign-top"><a href="https://www.boost.org/libs/hana">Boost.Hana</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type-based Metaprogramming</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value-based Metaprogramming</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compile-time Transformations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Runtime Tuple Handling</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Easier Type Mapping</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Better Compile-Time Speed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No, Slower</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Let&#8217;s update our sample to include <em>tag dispatching</em>, so each type is classified at compile time, and <em>runtime tuple processing</em>, so the sample iterates over heterogeneous types at runtime. Not having all metaprogramming processes occur at the same time does add a level to your program complexity!</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/template-time-machine.png" alt="template time machine">
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/hana.hpp&gt;
+#include &lt;boost/mp11.hpp&gt;
+#include &lt;boost/type_traits.hpp&gt;
+#include &lt;iostream&gt;
+
+namespace hana = boost::hana;
+namespace mp = boost::mp11;
+
+// Custom struct
+struct Person {
+    std::string name;
+    int age;
+};
+
+// Overload `operator&lt;&lt;` for printing
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Person&amp; p) {
+    return os &lt;&lt; "{ Name: " &lt;&lt; p.name &lt;&lt; ", Age: " &lt;&lt; p.age &lt;&lt; " }";
+}
+
+// Tag-based dispatching
+auto classify = hana::make_map(
+    hana::make_pair(hana::type_c&lt;int&gt;, "Integer"),
+    hana::make_pair(hana::type_c&lt;double&gt;, "Floating Point"),
+    hana::make_pair(hana::type_c&lt;std::string&gt;, "String"),
+    hana::make_pair(hana::type_c&lt;Person&gt;, "Custom Struct")
+);
+
+// Serialize function
+template &lt;typename T&gt;
+void serialize(const T&amp; value) {
+    if constexpr (boost::is_arithmetic&lt;T&gt;::value || std::is_same&lt;T, std::string&gt;::value) {
+        std::cout &lt;&lt; "Serializing (" &lt;&lt; hana::find(classify, hana::type_c&lt;T&gt;).value() &lt;&lt; "): " &lt;&lt; value &lt;&lt; "\n";
+    } else if constexpr (boost::is_class&lt;T&gt;::value) {
+        std::cout &lt;&lt; "Serializing (Custom Struct) -&gt; " &lt;&lt; value &lt;&lt; "\n";
+    } else {
+        std::cout &lt;&lt; "Skipping non-serializable type!\n";
+    }
+}
+
+// Process a tuple
+template &lt;typename Tuple&gt;
+void auto_generate_serializers(Tuple data) {
+    hana::for_each(data, [](auto x) {
+        serialize(x);
+    });
+}
+
+int main() {
+
+    // Declare a tuple (runtime and compile-time)
+    auto data = hana::make_tuple(42, 3.14, "Boost Rocks!", Person{"Alice", 30});
+
+    // Automatically process serializable elements
+    auto_generate_serializers(data);
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Tag dispatching is handled by <code>hana::make_map</code>, and runtime tuple processing is managed by <code>hana::for_each</code>.</p>
+</dd>
+</dl>
+</div>
+<div class="sect2">
+<h3 id="_output_4"><a class="anchor" href="#_output_4"></a>Output</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Serializing (Integer): 42
+Serializing (Floating Point): 3.14
+Skipping non-serializable type!
+Serializing (Custom Struct) -&gt; { Name: Alice, Age: 30 }</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_footnotes"><a class="anchor" href="#_footnotes"></a>Footnotes</h2>
+<div class="sectionbody">
+<div id="footnote1" class="paragraph">
+<p><a href="#footnote1-location">(1)</a>
+<em>Heterogeneous</em> refers to data structures or operations that can handle multiple types, rather than being restricted to a single type. This is particularly useful in template-based programming, where different types can be stored and manipulated in a type-safe manner at compile time. A key example is <code>std::tuple</code> or <code>boost::hana::tuple</code>, which allow elements of different types to coexist in a single structure, enabling powerful compile-time computations and flexible generic programming.</p>
+</div>
+<div id="footnote2" class="paragraph">
+<p><a href="#footnote1-location">(2)</a>
+A <em>tuple</em> is a fixed-size, ordered collection of heterogeneous types, typically represented at compile-time using template-based constructs. Unlike runtime tuples (such as <code>std::tuple</code>), metaprogramming tuples primarily serve as type lists or compile-time containers, enabling static type manipulation, transformations, and computations. Metaprogramming tuples are frequently used in <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>, <a href="https://www.boost.org/libs/hana">Boost.Hana</a>, and <a href="https://www.boost.org/libs/fusion">Boost.Fusion</a>, where they allow for:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><em>Type introspection</em> - examining contained types at compile-time</p>
+</li>
+<li>
+<p><em>Type transformations</em> - modifying types before instantiation</p>
+</li>
+<li>
+<p><em>Static dispatching</em> - choosing behavior based on type properties</p>
+</li>
+<li>
+<p><em>Compile-time iteration</em> - for example, <code>mp_for_each</code> in <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For example, a metaprogramming tuple can represent a heterogeneous list of types:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">using my_types = boost::mp11::mp_list&lt;int, double, std::string&gt;;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This <code>mp_list</code> is a type-level tuple that can be manipulated without creating runtime instances.</p>
+</div>
+<div class="paragraph">
+<p>Unlike <code>std::tuple</code>, which holds actual values, metaprogramming tuples operate entirely at the type level, making them invaluable for zero-runtime-cost template metaprogramming.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Preprocessor">Category: Preprocessor Metaprogramming</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Metaprogramming">Category: Template Metaprogramming</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-metaprogramming.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="task-machine-learning.html">Machine Learning</a></span>
+        <span class="next"><a href="task-natural-language-parsing.html">Natural Language</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

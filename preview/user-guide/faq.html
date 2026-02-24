@@ -1,0 +1,3385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Frequently Asked Questions :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/faq.html">
+    <link rel="prev" href="explore-the-content.html">
+    <link rel="next" href="building-with-cmake.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="faq.html">FAQ</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="explore-the-content.html">
+      <span class="material-symbols-outlined" title="Previous: Explore the Content">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="building-with-cmake.html">
+      <span class="material-symbols-outlined" title="Next: Building with CMake">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Frequently Asked Questions</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section contains answers to the common questions that new developers to Boost often have.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_topics"><a class="anchor" href="#_topics"></a>Topics</h2>
+<div class="sectionbody">
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_c_library_programming">C++ Library Programming</a></p>
+</li>
+<li>
+<p><a href="#_combining_libraries">Combining Libraries</a></p>
+</li>
+<li>
+<p><a href="#_compatibility">Compatibility</a></p>
+</li>
+<li>
+<p><a href="#_debugging">Debugging</a></p>
+</li>
+<li>
+<p><a href="#dependencies">Dependencies</a></p>
+</li>
+<li>
+<p><a href="#documentation">Documentation</a></p>
+</li>
+<li>
+<p><a href="#_graphics_and_games">Graphics and Games</a></p>
+</li>
+<li>
+<p><a href="#isocommitteemeetings">ISO C++ Committee Meetings</a></p>
+</li>
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_licensing">Licensing</a></p>
+</li>
+<li>
+<p><a href="#_metaprogramming">Metaprogramming</a></p>
+</li>
+<li>
+<p><a href="#_modular_boost">Modular Boost</a></p>
+</li>
+<li>
+<p><a href="#_numbers">Numbers</a></p>
+</li>
+<li>
+<p><a href="#_other_languages">Other Languages</a></p>
+</li>
+<li>
+<p><a href="#_production_and_debug_builds">Production and Debug Builds</a></p>
+</li>
+<li>
+<p><a href="#_reflection">Reflection</a></p>
+</li>
+<li>
+<p><a href="#_releases">Releases</a></p>
+</li>
+<li>
+<p><a href="#_safe_c">Safe C++</a></p>
+</li>
+<li>
+<p><a href="#_smart_pointers">Smart Pointers</a></p>
+</li>
+<li>
+<p><a href="#_standard_library">Standard Library</a></p>
+</li>
+<li>
+<p><a href="#_templates">Templates</a></p>
+</li>
+<li>
+<p><a href="#_types">Types</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code samples in these topics was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_c_library_programming"><a class="anchor" href="#_c_library_programming"></a>C++ Library Programming</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What is involved in using a Boost header-only library?</strong></p>
+<div class="paragraph">
+<p>After installing the Boost libraries, not much, just include the libraries you want. Here is an example (<code>example1.cpp</code>) using <a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multiprecision/cpp_dec_float.hpp&gt;
+#include &lt;iostream&gt;
+
+// Alias for a high-precision floating-point type
+using namespace boost::multiprecision;
+using BigFloat = cpp_dec_float_50;
+
+int main() {
+    BigFloat a = 1.0 / 3.0;
+    BigFloat b = sqrt(BigFloat(2));
+
+    // Note that setprecision has been specified as slightly longer than the floating point numbers
+    std::cout &lt;&lt; "1/3 with high precision: " &lt;&lt; std::setprecision(51) &lt;&lt; a &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Square root of 2: " &lt;&lt; std::setprecision(51) &lt;&lt; b &lt;&lt; std::endl;
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Compile with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">g++ -std=c++17 example1.cpp -o example1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>No linking is required, just run the program!</p>
+</div>
+</li>
+<li>
+<p><strong>What is involved in using a Boost compiled-binary library?</strong></p>
+<div class="paragraph">
+<p>Using a compiled-binary library involves linking to the library, and any dependent libraries that are also compiled. Here is an example (<code>example2.cpp</code>) using <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/filesystem.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+
+namespace fs = boost::filesystem;
+
+int main() {
+    fs::path filePath("example.txt");
+
+    if (fs::exists(filePath)) {
+        std::cout &lt;&lt; "File exists: " &lt;&lt; filePath.string() &lt;&lt; std::endl;
+    } else {
+        std::cout &lt;&lt; "File does not exist, creating it..." &lt;&lt; std::endl;
+        std::ofstream file(filePath.string());
+        file &lt;&lt; "Hello, Boost.Filesystem!";
+        file.close();
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This requires an extra step before running, linking to both <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> <em>and</em> <a href="https://www.boost.org/libs/system">Boost.System</a>. We need to link to <a href="https://www.boost.org/libs/system">Boost.System</a> because <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> calls <code>boost::system::generic_category()</code> - for error handling - and this call is <em>only</em> defined in the compiled version of <a href="https://www.boost.org/libs/system">Boost.System</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">g++ -std=c++17 example2.cpp -o example2 -lboost_filesystem -lboost_system</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you can run your program.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Notes</dt>
+<dd>
+<p>The example compiler used here is GNU C++. If you are using the Clang compiler, simply replace <code>g++</code> with <code>clang++</code>. On macOS, if Boost is installed via Homebrew, you might need to specify the paths further:</p>
+<div class="paragraph">
+<p><code>clang++ -std=c++17 example2.cpp -o example2 -I/usr/local/include -L/usr/local/lib -lboost_filesystem -lboost_system</code></p>
+</div>
+<div class="paragraph">
+<p>If you are using MSVC, and the libraries are in the default path, then the command would be:</p>
+</div>
+<div class="paragraph">
+<p><code>cl /std:c++17 example2.cpp /Fe:example2.exe /link boost_filesystem.lib boost_system.lib</code></p>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>Given a choice, when should I use header-only or compiled-binary libraries?</strong></p>
+<div class="paragraph">
+<p>Depends on your priorities:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Priority</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Header-Only</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Compiled-Binary</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ease of Use</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes - Easier (just include)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No -  Requires linking</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compilation Time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No -  Slower</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes - Faster</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Binary Size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No -  Larger (possible code duplication)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes - Smaller</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes - Optimized via inlining</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes - Optimized via specialized builds</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Portability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes - Highly portable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No -  Requires platform-specific builds</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Debugging</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No -  Harder (complex errors with templated code)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes - Easier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ABI Stability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No -  Less stable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes - More stable</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Also, with a header-only library the compiler has full visibility of the code, allowing inlining and optimizations that might not be possible with separately compiled binaries. This can reduce function call overhead when optimizations are applied. Since no precompiled binaries are needed, projects using header-only libraries are easier to distribute and deploy.</p>
+</div>
+<div class="paragraph">
+<p>However, header-only libraries are compiled within each project, so any minor changes (even updates) can lead to unexpected behavior due to template changes. Shared libraries with well-defined Application Binary Interfaces (ABIs) offer better versioning control.</p>
+</div>
+<div class="paragraph">
+<p>Header-only libraries are certainly easier to get going with. To optimize for better stability and debugging, and reducing binary size, refer to the next few questions on how to create binaries for header-only code - typically, when your project is becoming stable.</p>
+</div>
+</li>
+<li>
+<p><strong>Can I use C++20 Modules to precompile header-only libraries and import them when needed?</strong></p>
+<div class="paragraph">
+<p>Not reliably or consistently. Boost libraries are not currently written as C++20 modules. They use traditional headers, macros, and complex template structures that don&#8217;t cooperate well with the C++20 export module syntax.</p>
+</div>
+<div class="paragraph">
+<p>As a workaround, consider using old-fashioned header files. For example, for <code>boost_module.hpp</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#pragma once
+#include &lt;boost/multiprecision/cpp_dec_float.hpp&gt;
+
+using BigFloat = boost::multiprecision::cpp_dec_float_50;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then for the main code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include "boost_module.hpp"
+#include &lt;iostream&gt;
+
+int main() {
+    BigFloat x = 1.0 / 3.0;
+    std::cout &lt;&lt; "1/3 with high precision: " &lt;&lt; std::setprecision(51) &lt;&lt; x &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Even if Boost were module-friendly, <code>cpp_dec_float_50</code> is a template instantiated from a header, and exporting it in a module interface would require exposing a lot of detail that header-only libraries don&#8217;t support out of the box.</p>
+</div>
+</li>
+<li>
+<p><strong>Can I create a Static Library from header-only libraries and link when needed?</strong></p>
+<div class="paragraph">
+<p>Yes, even if the library is header-only, you can wrap it in a <code>.cpp</code> file, compile it into a static <code>.a</code> or <code>.lib</code> file, and link it. Start by creating a wrapper source file (<code>boost_wrapper.cpp</code>) that includes the header-only Boost libraries:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multiprecision/cpp_dec_float.hpp&gt;
+
+boost::multiprecision::cpp_dec_float_50 dummy_function() {
+    return 1.0 / 3.0; // Forces compilation of template instantiation
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, compile it into a static library:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">g++ -c boost_wrapper.cpp -o boost_wrapper.o
+ar rcs libboost_wrapper.a boost_wrapper.o</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use it in your code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multiprecision/cpp_dec_float.hpp&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    boost::multiprecision::cpp_dec_float_50 x = 1.0 / 3.0;
+    std::cout &lt;&lt; "1/3: " &lt;&lt; x &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Compile and link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">g++ main.cpp -L. -lboost_wrapper -o main</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>One advantage of this approach is it avoids re-parsing and re-instantiating templates in every translation unit.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>Can I create a precompiled header (PCH) that imports Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Yes, a precompiled header should enable faster recompilation when only the main code changes. And, unlike modules, it works in older C++ versions.</p>
+</div>
+<div class="paragraph">
+<p>For example, create an hpp file (boost_pch.hpp) containing the required libraries:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// boost_pch.hpp
+#include &lt;boost/multiprecision/cpp_dec_float.hpp&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Precompile it into a <code>.gch</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">g++ -std=c++17 -x c++-header boost_pch.hpp -o boost_pch.hpp.gch</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use it in your code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include "boost_pch.hpp" // Uses precompiled header
+
+int main() {
+    boost::multiprecision::cpp_dec_float_50 x = 1.0 / 3.0;
+    std::cout &lt;&lt; "1/3: " &lt;&lt; x &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Typically, when your project starts becoming "large" use of compiled libraries becomes more relevant.</p>
+</div>
+</li>
+<li>
+<p><strong>In the programming world, what qualifies as a small, medium, or large project?</strong></p>
+<div class="paragraph">
+<p>While not perfect, <em>lines of code</em> is a quick way to classify project sizes:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Project Size</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Lines of Code Estimate</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Small</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">less than 10,000</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10,000 to 100,000</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Large</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100,000 to 1,000,000</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enterprise/Monolithic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">more than 1,000,000</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Or possibly classify a project by the number of developers:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Project Size</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Developers</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Small</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">less than 5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6 to 50</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Large</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">51+</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enterprise/Monolithic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hundreds, across multiple time-zones</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>There are other metrics too - if your incremental build takes minutes, it&#8217;s getting large. If a full rebuild takes hours, it&#8217;s definitely a large project. If the dependency tree is deep, requiring fine-grained modularization, it&#8217;s large.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Size alone is not a perfect measure of complexity. A templated metaprogramming-heavy project might be "large" in complexity but only a few thousand lines. Or a UI-heavy application might have tons of boilerplate but be relatively simple. Boost Libraries are available to help prevent a "large" project becoming a "beast"!</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>When does a coding project become a "beast"?</strong></p>
+<div class="paragraph">
+<p>A coding project becomes a beast when two or more of the following conditions are met:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Build times are measured in coffee breaks - if compiling takes longer than making (and drinking) a cup of coffee, it&#8217;s a beast!</p>
+</li>
+<li>
+<p>When you start considering distributed builds or caching everything, it&#8217;s serious.</p>
+</li>
+<li>
+<p>No one developer knows how everything works anymore.</p>
+</li>
+<li>
+<p>The project is in "dependency hell" - adding one more library requires resolving a cascade of conflicts. Or, you start saying, "Do we really need this feature?" just to avoid the dependency headache.</p>
+</li>
+<li>
+<p>Debugging feels like archaeology - code from years ago still exists, but no one remembers why. Or, comments like <code>// DO NOT TOUCH - IT JUST WORKS</code> litter the source code.</p>
+</li>
+<li>
+<p>Refactoring is a nightmare - a simple rename breaks hundreds of files, or "Let&#8217;s rewrite it from scratch" starts sounding reasonable.</p>
+</li>
+<li>
+<p>Multi-minute CI/CD pipelines - your test suite takes longer to run than a lunch break.</p>
+</li>
+<li>
+<p>Contributors live in fear of merge conflicts.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_combining_libraries"><a class="anchor" href="#_combining_libraries"></a>Combining Libraries</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Can you give me some examples of Boost libraries that developers have found work well together?</strong></p>
+<div class="paragraph">
+<p>Many Boost libraries are designed to be modular, yet complementary, and over the years, developers have discovered powerful combinations of libraries that work well together. Here are some groups:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you are building an <strong>Asynchronous Networking Stack</strong>, then the following libraries mesh naturally: <a href="https://www.boost.org/libs/asio">Boost.Asio</a> for core asynchronous I/O and networking, <a href="https://www.boost.org/libs/system">Boost.System</a> for error codes that are used in Asio error handling, <a href="https://www.boost.org/libs/thread">Boost.Thread</a> or <a href="https://www.boost.org/libs/fiber">Boost.Fiber</a> for managing threads or fibers in concurrent code, <a href="https://www.boost.org/libs/chrono">Boost.Chrono</a> for working with timeouts and deadlines, and <a href="https://www.boost.org/libs/bind">Boost.Bind</a> or <a href="https://www.boost.org/libs/function">Boost.Function</a> for callbacks and handler binding in Asio.</p>
+<div class="paragraph">
+<p>If the network supports financial systems, in particular high-frequency trading, then add <a href="https://www.boost.org/libs/lockfree">Boost.Lockfree</a> to support low-latency data structures, and <a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a> for high-precision arithmetic.</p>
+</div>
+</li>
+<li>
+<p>Say you are working on <strong>Compile-Time Metaprogramming and Reflection</strong>, then the following libraries enable expressive and powerful template code, with strong introspection and static analysis at compile time, reducing run-time cost: <a href="https://www.boost.org/libs/hana">Boost.Hana</a> or <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> for high-level metaprogramming, <a href="https://www.boost.org/libs/fusion">Boost.Fusion</a> provides sequence manipulation for structs and tuples at compile time, <a href="https://www.boost.org/libs/type_traits">Boost.TypeTraits</a> for query and transform types, and <a href="https://www.boost.org/libs/static_assert">Boost.StaticAssert</a> or <a href="https://www.boost.org/libs/assert">Boost.Assert</a> to validate assumptions during compile-time logic.</p>
+</li>
+<li>
+<p>A quite different field is <strong>Simulation, Geographic Information Systems (GIS), Robotics, and CAD</strong>. For this you need accurate, type-safe modeling of space, motion, and physical quantities, all interoperable in simulations or mathematical domains. The following provide this: <a href="https://www.boost.org/libs/geometry">Boost.Geometry</a> for the algorithms in 2D/3D spatial operations, <a href="https://www.boost.org/libs/units">Boost.Units</a> for strongly-typed physical units to prevent dimensional errors, <a href="https://www.boost.org/libs/qvm">Boost.Qvm</a> for lightweight vector and matrix algebra, <a href="https://www.boost.org/libs/math">Boost.Math</a> adds special functions, statistical distributions, numerical accuracy, and <a href="https://www.boost.org/libs/numeric/interval">Boost.Numeric/interval</a> can represent ranges of values that may contain uncertainty. In robotics in particular, you might need <a href="https://www.boost.org/libs/thread">Boost.Thread</a> to support parallel sensor processing. Also, <a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> might also help with state persistence.</p>
+</li>
+<li>
+<p>If you are building a <strong>Test Suite</strong>, say with unit testing and regression tests, consider adding to <a href="https://www.boost.org/libs/test">Boost.Test</a> the following: <a href="https://www.boost.org/libs/type_traits">Boost.TypeTraits</a> to inspect and verify types in test cases, <a href="https://www.boost.org/libs/optional">Boost.Optional</a> or <a href="https://www.boost.org/libs/variant">Boost.Variant</a> or <a href="https://www.boost.org/libs/outcome">Boost.Outcome</a> to represent and test optional or alternative outcomes, <a href="https://www.boost.org/libs/preprocessor">Boost.Preprocessor</a> to generate test cases or datasets at compile time, and finally <a href="https://www.boost.org/libs/format">Boost.Format</a> or <a href="https://www.boost.org/libs/locale">Boost.Locale</a> for diagnostics, error reporting, and  internationalized tests.</p>
+</li>
+<li>
+<p>On a similar vein to testing is <strong>Logging</strong>. Logging infrastructure is well supported by <a href="https://www.boost.org/libs/log">Boost.Log</a>. <a href="https://www.boost.org/libs/property_tree">Boost.PropertyTree</a> might help with configuration and data trees, <a href="https://www.boost.org/libs/circular_buffer">Boost.CircularBuffer</a> for bounded memory logging, and <a href="https://www.boost.org/libs/program_options">Boost.ProgramOptions</a> for a command-line interface (perhaps for embedded systems).</p>
+</li>
+<li>
+<p>As a final example consider <strong>Saving/Restoring State, Remote Procedure Calls (RPC), Configuration Files, Distributed Systems</strong>. The following collection covers all aspects of data flow - loading, storing, transforming, and parsing—all in a type-safe, extensible style: <a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> for the core for serializing C++ objects to/from streams, <a href="https://www.boost.org/libs/variant">Boost.Variant</a> or <a href="https://www.boost.org/libs/optional">Boost.Optional</a> to serialize complex, dynamic types, <a href="https://www.boost.org/libs/property_tree">Boost.PropertyTree</a> for easy access to config files (JSON, XML, or INI) and <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> for parsing domain-specific formats into structured data.</p>
+<div class="paragraph">
+<p>For deeper examples of multiple libraries, including working source code, refer to <a href="common-introduction.html" class="xref page">Common Scenarios</a> and <a href="advanced-introduction.html" class="xref page">Advanced Scenarios</a>.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>I want to build a cross-platform system, right from the start. What libraries should I use as core to that system?</strong></p>
+<div class="paragraph">
+<p>Desktop applications like text editors, project managers and utilities often need cross-platform compatibility, user input processing, and dynamic plugins via signal-slot mechanisms. Consider <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> to provide the file management, <a href="https://www.boost.org/libs/locale">Boost.Locale</a> for use in multiple regions, <a href="https://www.boost.org/libs/signals2">Boost.Signals2</a> to support an event system, and <a href="https://www.boost.org/libs/regex">Boost.Regex</a> for structured text parsing.</p>
+</div>
+</li>
+<li>
+<p><strong>Are there any combinations of Boost libraries that experience has shown do not play well together?</strong></p>
+<div class="paragraph">
+<p>Not in a broad sense, Boost C++ libraries are designed with a high degree of interoperability. However, there are always nuances when multiple libraries have overlapping functionality, conflicting macros, or different assumptions about thread safety, memory management, or initialization. Issues can usually be avoided with careful design, for example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/signals2">Boost.Signals2</a> internally uses <a href="https://www.boost.org/libs/thread">Boost.Thread</a> for managing asynchronous signal connections. However, there have been instances where thread safety issues arise when these two libraries are used in parallel. If not handled properly, it can lead to deadlocks or race conditions, especially in multithreaded environments. Always ensure that signals are disconnected properly and thread-safe operations are applied where needed.</p>
+</li>
+<li>
+<p>Both <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> and <a href="https://www.boost.org/libs/regex">Boost.Regex</a> perform some filesystem operations and string manipulation that can lead to conflicts when used in combination, especially if Regex is processing filenames or paths that contain special characters (for example, slashes or backslashes in Windows paths). When working with filenames and regular expressions, it&#8217;s best to sanitize the inputs carefully before passing them on.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> and <a href="https://www.boost.org/libs/hana">Boost.Hana</a> both work with metaprogramming, often with overlapping functionality, but their usage patterns can conflict. MP11 uses a more classic, compile-time only, and more explicit metaprogramming model, while Hana includes both compile-time and run-time metaprogramming functions, which introduce ambiguity when mixing the two libraries. Best to choose one of these libraries, unless you can ensure clean separation between the two.</p>
+</li>
+<li>
+<p>The interaction between <a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> (for serializing and deserializing objects) and <a href="https://www.boost.org/libs/python">Boost.Python</a> (for integrating C++ code with Python) can be tricky when serializing Python objects. Issues like memory management conflicts or incorrect serialization of Python objects can occur, especially with Python&#8217;s dynamic typing system. Wrapping Python objects in C++ classes with explicit serialization mechanisms may be necessary.</p>
+</li>
+<li>
+<p>When using asynchronous I/O with <a href="https://www.boost.org/libs/asio">Boost.Asio</a> and regular expressions with <a href="https://www.boost.org/libs/regex">Boost.Regex</a>, conflicts can arise, particularly with blocking operations in <code>boost::asio::io_service</code> or <code>boost::asio::strand</code>. Regex can be CPU-intensive and might block the main event loop of Asio, leading to performance issues or deadlocks. Use non-blocking or asynchronous alternatives (separate threads) for Regex operations in the context of Asio.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/pool">Boost.Pool</a> is a custom memory pool allocator that can cause issues when used with <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> (such as <code>boost::shared_ptr</code> or <code>boost::scoped_ptr</code>) since these smart pointers manage memory differently. The interaction between custom memory pools and reference-counted pointers can lead to memory leaks or double-free errors if not handled correctly. When using Pool with smart pointers, ensure that custom allocators are compatible with the reference-counting behavior of smart pointers. Consider using <code>boost::shared_ptr</code> with <code>boost::pool_allocator</code> if you&#8217;re using custom memory pools.</p>
+</li>
+<li>
+<p>Both <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> (a parsing library) and <a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> involve significant template metaprogramming, which can result in large compile times and potential conflicts in template instantiations. The combination of these libraries in the same project can exacerbate compilation times and, in rare cases, cause conflicts in template instantiation or symbol resolution. Use these libraries in different parts of your project and limit cross-dependencies.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/test">Boost.Test</a> is a robust testing framework, while <a href="https://www.boost.org/libs/thread">Boost.Thread</a> is used for threading. Problems can occur if your tests are not properly isolated from thread contexts, or if tests involving multiple threads cause race conditions or deadlocks that aren&#8217;t immediately visible. Use proper synchronization techniques in multi-threaded tests to avoid race conditions. When testing threaded code, use the correct testing tools provided by Test, such as <code>BOOST_THREAD_TEST</code>, to ensure proper isolation of tests and reduce flaky test results.</p>
+<div class="paragraph">
+<p>In general, to avoid problems, always test combinations of libraries early, to ensure proper synchronization and error handling.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Is there a checklist to work through to ensure I have covered my bases when combining libraries?</strong></p>
+<div class="paragraph">
+<p>The following checklist should be a good start:</p>
+</div>
+<div class="paragraph">
+<p><strong>Boost C++ Library Integration Checklist</strong></p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><strong>Build and Linking</strong></p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Confirm which Boost components are <strong>header-only</strong> vs <strong>require linking</strong>.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Use a <strong>consistent Boost version</strong> across the codebase.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Link required Boost libraries explicitly (for example, <code>-lboost_filesystem</code>, <code>-lboost_thread</code>).</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Use CMake&#8217;s <code>find_package(Boost REQUIRED COMPONENTS &#8230;&#8203;)</code> correctly if applicable.</p>
+<div class="paragraph">
+<p><strong>Dependencies and Size</strong></p>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Audit <strong>transitive dependencies</strong> with tools like the <a href="https://github.com/boostorg/bcp/">Boost Copy Tool (bcp)</a> and <a href="https://pdimov.github.io/boostdep-report/">Boost Dependency Report</a>.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Include <strong>only the headers you need</strong> to keep compile times fast and code lean.</p>
+<div class="paragraph">
+<p><strong>Preprocessor Macros</strong></p>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Check for key macros like <code>BOOST_NO_EXCEPTIONS</code>, <code>BOOST_ASSERT</code>, <code>BOOST_DISABLE_ASSERTS</code>.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Avoid macro name collisions (for example, <code>bind</code>, <code>min</code>, <code>max</code>) by careful header ordering or <code>#undef</code>.</p>
+<div class="paragraph">
+<p><strong>Thread Safety</strong></p>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Ensure Boost libraries used are <strong>thread-safe</strong> in your usage context.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Use thread-safe variants (<a href="https://www.boost.org/libs/signals2">Boost.Signals2</a>, <a href="https://www.boost.org/libs/log">Boost.Log</a> with thread-safe sinks) as needed.</p>
+<div class="paragraph">
+<p><strong>Clean Code Practices</strong></p>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Encapsulate low-level Boost operations behind clean APIs.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Apply <strong>RAII</strong> for all resource management (files, sockets, locks).</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Handle exceptions and error codes <strong>consistently</strong> across Boost modules.</p>
+<div class="paragraph">
+<p><strong>Debugging and Tooling</strong></p>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Prepare for <strong>template error verbosity</strong> (for example, with <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a>, <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>, <a href="https://www.boost.org/libs/hana">Boost.Hana</a>).</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Verify <strong>debug symbol generation</strong> and <strong>stack traces</strong> involving Boost types.</p>
+<div class="paragraph">
+<p><strong>Documentation and Discoverability</strong></p>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Document Boost macros and configuration choices in the build setup or source files.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Link to official Boost documentation: <a href="https://www.boost.org/doc/libs/" class="bare">https://www.boost.org/doc/libs/</a>.</p>
+<div class="paragraph">
+<p><strong>Testing and CI</strong></p>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Add <strong>unit tests</strong> for modules using Boost.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Test both <strong>success</strong> and <strong>failure</strong> paths (for example, file-not-found, timeout, parsing errors).</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Test across multiple Boost versions/platforms if possible in CI pipelines.</p>
+<div class="paragraph">
+<p><strong>Integration with Other Libraries</strong></p>
+</div>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Watch for macro conflicts or settings when combining Boost with libraries like <a href="https://www.qt.io/">Qt</a>, <a href="https://pocoproject.org/">Poco</a>, <a href="https://opencv.org/">OpenCV</a>.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Guard against <strong>duplicate symbols</strong> or <strong>conflicting linkage</strong> when using static/shared Boost libs.</p>
+<div class="paragraph">
+<p>Refer also to <a href="boost-macros.html" class="xref page">Boost Macros</a> and <a href="reduce-dependencies.html" class="xref page">Customize Builds to Reduce Dependencies</a>.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compatibility"><a class="anchor" href="#_compatibility"></a>Compatibility</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Can I use Boost with my existing C++ project?</strong></p>
+<div class="paragraph">
+<p>Yes, Boost is designed to work with your existing C++ code. You can add Boost libraries to any project that uses a compatible C++ compiler.</p>
+</div>
+</li>
+<li>
+<p><strong>Can I use Boost libraries with the new C++ standards?</strong></p>
+<div class="paragraph">
+<p>Yes, Boost libraries are designed to work with modern C++ standards including C++11, C++14, C++17, C++20, and C++23.</p>
+</div>
+</li>
+<li>
+<p><strong>What flavors of Linux are supported by the Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Boost libraries are generally compatible with most Linux distributions, provided that the distribution has an up-to-date C++ compiler. This includes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Ubuntu</p>
+</li>
+<li>
+<p>Fedora</p>
+</li>
+<li>
+<p>Debian</p>
+</li>
+<li>
+<p>CentOS</p>
+</li>
+<li>
+<p>Red Hat Enterprise Linux</p>
+</li>
+<li>
+<p>Arch Linux</p>
+</li>
+<li>
+<p>openSUSE</p>
+</li>
+<li>
+<p>Slackware</p>
+</li>
+<li>
+<p>Gentoo</p>
+</li>
+<li>
+<p>macOS</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>How can I be sure that a library I want to use is compatible with my OS?</strong></p>
+<div class="paragraph">
+<p>While Boost strives to ensure compatibility with a wide range of compilers and systems, not every library may work perfectly with every system or compiler due to the inherent complexities of software. The most reliable source of information is the specific <a href="https://www.boost.org/doc/libs/">Boost library&#8217;s documentation</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_debugging"><a class="anchor" href="#_debugging"></a>Debugging</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What support does Boost provide for debugging and testing?</strong></p>
+<div class="paragraph">
+<p>Boost provides <a href="https://www.boost.org/libs/test">Boost.Test</a> for unit testing, which can be an integral part of the debugging process. It also provides the <a href="https://www.boost.org/libs/stacktrace">Boost.Stacktrace</a> library that can be used to produce useful debug information during a crash or from a running application. Refer also to <a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Correctness">Category: Correctness and testing</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>How do I enable assertions in Boost?</strong></p>
+<div class="paragraph">
+<p>Boost uses its own set of assertion macros. By default, <code>BOOST_ASSERT</code> is enabled, but if it fails, it only calls <code>abort()</code>. If you define <code>BOOST_ENABLE_ASSERT_HANDLER</code> before including any Boost header, then you need to supply <code>boost::assertion_failed(msg, code, file, line)</code> and <code>boost::assertion_failed_msg(msg, code, file, line)</code> functions to handle failed assertions.</p>
+</div>
+</li>
+<li>
+<p><strong>How can I get a stack trace when my program crashes?</strong></p>
+<div class="paragraph">
+<p>You can use the <a href="https://www.boost.org/libs/stacktrace">Boost.Stacktrace</a> library to obtain a stack trace in your application. You can capture and print stack traces in your catch blocks, in signal handlers, or anywhere in your program where you need to trace the execution path.</p>
+</div>
+</li>
+<li>
+<p><strong>Can I use Boost with a debugger like GDB or Visual Studio?</strong></p>
+<div class="paragraph">
+<p>Yes, Boost libraries can be used with common debuggers like <a href="https://sourceware.org/gdb/">GDB</a> or <a href="https://visualstudio.microsoft.com/downloads/">Visual Studio</a>. You can set breakpoints in your code, inspect variables, and execute code step by step. Boost doesn&#8217;t interfere with these debugging tools.</p>
+</div>
+</li>
+<li>
+<p><strong>Are there any debugging tools specifically provided by Boost?</strong></p>
+<div class="paragraph">
+<p>Boost doesn&#8217;t provide a debugger itself. The libraries tend to make heavy use of assertions to catch programming errors, and they often provide clear and detailed error messages when something goes wrong.</p>
+</div>
+</li>
+<li>
+<p><strong>What are best practices when using Boost Asserts?</strong></p>
+<div class="paragraph">
+<p>Boost provides the assertion <code>boost::assert</code>. Best practices when using this are:</p>
+</div>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p><em>Use Assertions for Debugging and Development</em>: Boost assertions should primarily be used during the debugging and development phase of your application. Assertions are designed to catch programming errors, not user errors.</p>
+</li>
+<li>
+<p><em>Assert Conditions That Should Never Occur</em>: You should only assert conditions that you believe can never occur during normal operation of your application. If there&#8217;s a chance that a condition may occur, handle it as an exception or error rather than asserting.</p>
+</li>
+<li>
+<p><em>Provide Meaningful Assert Messages</em>: Boost assertions allow you to provide a message alongside your assertion. Use this feature to provide meaningful context about why an assertion failed.</p>
+</li>
+<li>
+<p><em>Consider Performance Impact</em>: Boost assertions can slow down your application. In performance-critical code, consider disabling them in the production version of your application.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>What is the recommended approach to logging, using <code>boost::log</code>?</strong></p>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p><em>Use Severity Levels</em>: <a href="https://www.boost.org/libs/log">Boost.Log</a> supports severity levels, which you can use to categorize and filter your log messages. This can help you control the amount of log output and focus on what&#8217;s important.</p>
+</li>
+<li>
+<p><em>Provide Context</em>: <a href="https://www.boost.org/libs/log">Boost.Log</a> allows you to attach arbitrary data to your log messages, such as thread IDs, timestamps, or file and line information. Use this feature to provide context that can help you understand the state of your application when the log message was generated.</p>
+</li>
+<li>
+<p><em>Use Asynchronous Logging</em>: If logging performance is a concern, consider using the asynchronous logging feature. This allows your application to continue executing while log messages are processed in a separate thread.</p>
+</li>
+<li>
+<p><em>Format Your Log Output</em>: <a href="https://www.boost.org/libs/log">Boost.Log</a> supports customizable log formatting. Use this feature to ensure that your log output is easy to read and contains all the information you need.</p>
+</li>
+<li>
+<p><em>Handle Log Rotation</em>: If your application produces a lot of log output, consider setting up log rotation, which is supported. This ensures that your log files don&#8217;t grow indefinitely.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dependencies"><a class="anchor" href="#dependencies"></a>Dependencies</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What is meant by a "dependency" and the phrase "dependency chain"?</strong></p>
+<div class="paragraph">
+<p>In the context of this FAQ, a <em>dependency</em> is any other library, Boost or Standard or third-party, that a Boost library requires. A <em>primary dependency</em> is a library the top-level library explicitly includes, a <em>secondary dependency</em> is a library that one of the primary, or other secondary dependency, includes.</p>
+</div>
+<div class="paragraph">
+<p>Boost libraries are modular, but they can depend on each other for various functionalities - for example, <a href="https://www.boost.org/libs/asio">Boost.Asio</a> relies on <a href="https://www.boost.org/libs/system">Boost.System</a> for error codes.</p>
+</div>
+<div class="paragraph">
+<p>In general, taking dependencies can add a lot of value and reduce development time considerably. Boost libraries are carefully reviewed and tested to minimize dependency issues.</p>
+</div>
+<div class="paragraph">
+<p>As often with powerful concepts, there are pitfalls. Dependencies can lead to "dependency chains," where including one library pulls in others that may not be needed by your project.</p>
+</div>
+</li>
+<li>
+<p><strong>What issues do library developers have to address when managing dependencies?</strong></p>
+<div class="paragraph">
+<p>This includes handling several awkward situations: <em>Version Conflicts</em> - when different dependencies require incompatible versions of the same library, <em>Transitive Dependencies</em> - when a library pulls in additional, indirect dependencies that you may not even realize are part of your project, <em>Bloat</em> - when the sheer number of dependencies makes the build or runtime environment large, slow, or error-prone, and <em>Security Risks</em> - when outdated or unnecessary dependencies introduce vulnerabilities.</p>
+</div>
+<div class="paragraph">
+<p>In forum posts you might come across the following phrases, each describing a frustration with dependencies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"Dependency creep" - the gradual accumulation of dependencies over time, often unnecessarily.</p>
+</li>
+<li>
+<p>"Library fatigue" - the exhaustion or frustration of constantly managing and keeping track of too many libraries.</p>
+</li>
+<li>
+<p>"Transitive dependency nightmare" - specifically refers to the frustration caused by indirect dependencies that you don&#8217;t directly control.</p>
+</li>
+<li>
+<p>"Package spaghetti" or "Dependency spaghetti" - a messy tangle of interconnected dependencies.</p>
+</li>
+<li>
+<p>"Build chain chaos" - can refer to the difficulties in managing the build process when dependencies are involved.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>What is meant by a "standalone" library?</strong></p>
+<div class="paragraph">
+<p>A <em>standalone</em> library is one where there are no dependencies (or, in reality, few), or the library depends only on the <a href="https://en.cppreference.com/w/cpp/standard_library">C++ Standard Library</a>. Sometimes separate standalone versions of specific libraries are available, though they might be lightweight versions and not have parity of functionality with the non-standalone version.</p>
+</div>
+</li>
+<li>
+<p><strong>What can I do to minimize the number and impact of dependencies?</strong></p>
+<div class="paragraph">
+<p>A simple question but with a non-trivial answer. Consider working through this list of strategies and carefully applying when you can:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Avoid including headers that aren&#8217;t directly needed. When building Boost with <a href="https://www.bfgroup.xyz/b2/">B2</a>, you can exclude certain parts of Boost to minimize dependencies. For example, use the <code>--with-[library]</code> flag to build only the libraries you need. Say you only want <a href="https://www.boost.org/libs/system">Boost.System</a> and <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a>, then enter: <code>./b2 --with-system --with-filesystem</code>. This will install only these two libraries, and their essential dependencies. Refer to <a href="building-with-cmake.html" class="xref page">Building with CMake</a> if you are using CMake as your build tool.</p>
+</li>
+<li>
+<p>Read the library documentation to find macros that are available to remove unneeded functionality. For example, when using <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, if support for timers or SSL are unneeded, then enter the statement: <code>#define BOOST_ASIO_DISABLE_SSL</code>. Refer to <a href="reduce-dependencies.html" class="xref page">Customize Builds to Reduce Dependencies</a> for many more examples.</p>
+</li>
+<li>
+<p>For powerful libraries like <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, you can include only the headers you need, such as <code>&lt;boost/asio/io_context.hpp&gt;</code> rather than its parent <code>&lt;boost/asio.hpp&gt;</code>.</p>
+</li>
+<li>
+<p>Use forward declarations where possible instead of including full headers.</p>
+</li>
+<li>
+<p>Use a <a href="https://en.cppreference.com/w/cpp/standard_library">C++ Standard Library</a> alternative if one exists, and has equivalent functionality and performance. For example, <a href="https://www.boost.org/libs/variant">Boost.Variant</a> could be replaced with <code>std::variant</code>.</p>
+</li>
+<li>
+<p>Use the Header-Only Mode (where possible). Many Boost libraries are header-only, meaning they don&#8217;t require linking against precompiled binaries or additional dependencies. Examples include <a href="https://www.boost.org/libs/optional">Boost.Optional</a>, <a href="https://www.boost.org/libs/variant">Boost.Variant</a>, and <a href="https://www.boost.org/libs/type_traits">Boost.TypeTraits</a>. For details of the binary requirements of Boost libraries refer to <a href="header-organization-compilation.html#compiled" class="xref page">Required Compiled Binaries</a> and <a href="header-organization-compilation.html#optionalcompiledbinaries" class="xref page">Optional Compiled Binaries</a>. For example, <a href="https://www.boost.org/libs/asio">Boost.Asio</a> has both header-only and compiled modes and you can configure it to work as header-only by defining the macro: <code>#define BOOST_ASIO_SEPARATE_COMPILATION</code>.</p>
+</li>
+<li>
+<p>For experienced developers only, consider commenting out unused code. This approach is possible but risky because it modifies library source code (Boost libraries are open-source), making updates and maintenance more challenging. It involves first identifying the parts of the library that introduce unnecessary dependencies and then commenting out the sections of source code or headers that you don&#8217;t need (such as unused features, optional functionality, error handling code). Finally, rebuild the library and check it compiles and links and runs without unwanted side-effects.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>Are there any tools specific to Boost that help manage dependencies?</strong></p>
+<div class="paragraph">
+<p>Yes, the <a href="https://github.com/boostorg/bcp/">Boost Copy Tool (bcp)</a> is designed to help with dependency management. It allows you to extract a subset of the libraries and their dependencies into a separate directory, minimizing what gets pulled into your project. Install the tool and run <code>bcp [library-name] [output-dir]</code>. Review the output directory to ensure that only the necessary dependencies are included. For example, if you&#8217;re using <a href="https://www.boost.org/libs/regex">Boost.Regex</a>, enter <code>bcp regex ./boost_subset</code> and review the contents of your <code>./boost_subset</code> directory.</p>
+</div>
+<div class="paragraph">
+<p>There is also the <a href="https://pdimov.github.io/boostdep-report/">Boost Dependency Report</a>, which goes into detail on the primary and secondary dependencies of all the libraries.</p>
+</div>
+</li>
+<li>
+<p><strong>Are there generally available tools that help with dependency issues?</strong></p>
+<div class="paragraph">
+<p>You can use static analysis tools, like <a href="https://clang.llvm.org/extra/clang-tidy/">Clang-Tidy</a> or <a href="https://cppcheck.sourceforge.io/">Cppcheck</a>, to analyze your application and see which parts of any dependency are actually being used. Once identified, you can both remove unnecessary headers or dependencies, and perhaps rewrite portions of your code to avoid unnecessary functionality.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="documentation"><a class="anchor" href="#documentation"></a>Documentation</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Who writes the documentation for a Boost library?</strong></p>
+<div class="paragraph">
+<p>The library authors are responsible for all the documentation specific to their library. The authors are clearly the most knowledgeable on the design decisions, architecture, API calls, inner workings, and potential limitations of their library. Contributor guidelines on documentation help maintain consistency in styling and content across the library collection. Refer to <a href="../contributor-guide/docs/layout.html" class="xref page">Documentation Guidelines</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>If I find an issue with the documentation, or would like to suggest an improvement, can I make a formal request?</strong></p>
+<div class="paragraph">
+<p>Yes you can, file an issue on the library. Typically library authors welcome feedback that enhances the useability of their work - refer to <a href="reporting-issues.html" class="xref page">Reporting Issues</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>Has any Boost library documentation been translated into languages other than English?</strong></p>
+<div class="paragraph">
+<p>There is no formal localization of library documentation. However, translation efforts have existed at various times for Japanese, Chinese and Russian. Most current effort is into Japanese - refer to <a href="https://boostjp.github.io/">boostjp</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>If I wanted to translate my favorite library documentation into my native language, who do contact to get started?</strong></p>
+<div class="paragraph">
+<p>The copyright ownership of library documentation remains with the documentation authors. Contact the authors via the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost Developers Mailing List</a> if you are inspired to take on this task.</p>
+</div>
+</li>
+<li>
+<p><strong>Have there ever been efforts to localize not just the documentation but the API calls themselves?</strong></p>
+<div class="paragraph">
+<p>Not for the Boost libraries. Microsoft did experiment with localized API calls many years ago, though the project was abandoned as way too complicated, unmaintainable, and not particularly useful.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_graphics_and_games"><a class="anchor" href="#_graphics_and_games"></a>Graphics and Games</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>If I wanted to use the Boost libraries in conjunction with a graphics library, to write a 3D game, what graphics library would be most compatible with Boost?</strong></p>
+<div class="paragraph">
+<p>The following libraries work well with Boost because they don&#8217;t impose custom build systems or incompatible runtime dependencies — they&#8217;re just C++ libraries, and that&#8217;s exactly Boost&#8217;s domain.</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Graphics Library</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Why It&#8217;s Compatible with Boost</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Ideal Boost Libraries to Pair</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/OGRECave"><strong>Ogre3D</strong></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modular, C++03/11 compatible, uses STL-style containers and patterns similar to Boost</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a>, <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a>, <a href="https://www.boost.org/libs/signals2">Boost.Signals2</a>, <a href="https://www.boost.org/libs/asio">Boost.Asio</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/bkaradzic/bgfx"><strong>bgfx</strong></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimal dependencies, works well with Boost threading and filesystem</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/thread">Boost.Thread</a>, <a href="https://www.boost.org/libs/lockfree">Boost.Lockfree</a>, <a href="https://www.boost.org/libs/system">Boost.System</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://magnum.graphics/"><strong>Magnum</strong></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modern, header-only components, great for C+17 and fits Boost idioms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/geometry">Boost.Geometry</a>, <a href="https://www.boost.org/libs/math">Boost.Math</a>, <a href="https://www.boost.org/libs/uuid">Boost.Uuid</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/buildaworldnet"><strong>IrrlichtBAW</strong></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Easy to integrate with Boost for physics, networking, or file I/O</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a>, <a href="https://www.boost.org/libs/serialization">Boost.Serialization</a>, <a href="https://www.boost.org/libs/program_options">Boost.ProgramOptions</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.vulkan.org/"><strong>Vulkan</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost helps manage complexity: asynchronous loading, configuration, math, logging</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/asio">Boost.Asio</a>, <a href="https://www.boost.org/libs/log">Boost.Log</a>, <a href="https://www.boost.org/libs/multi_array">Boost.MultiArray</a>, <a href="https://www.boost.org/libs/gil">Boost.Gil</a></p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>What would be the simplest solution to 3D graphics and Boost working in harmony?</strong></p>
+<div class="paragraph">
+<p>Probably the <a href="https://github.com/OGRECave"><strong>Ogre3D</strong></a>  graphics library, working with <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a> for asset control and <a href="https://www.boost.org/libs/asio">Boost.Asio</a> for networking.</p>
+</div>
+</li>
+<li>
+<p><strong>What games systems are well matched with Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Here&#8217;s how Boost might slot into a 3D game engine:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>System</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Boost Library</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asset Loading</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a>, <a href="https://www.boost.org/libs/iostreams">Boost.Iostreams</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cross-platform file handling</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Entity Updates</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/signals2">Boost.Signals2</a>, <a href="https://www.boost.org/libs/variant2">Boost.Variant2</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Event-driven game logic</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Network Multiplayer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/asio">Boost.Asio</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Async client/server or peer/peer communication</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/program_options">Boost.ProgramOptions</a>, <a href="https://www.boost.org/libs/property_tree">Boost.PropertyTree</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Game settings, config files</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logging</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/log">Boost.Log</a>, <a href="https://www.boost.org/libs/stacktrace">Boost.Stacktrace</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Diagnostics and crash reporting</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Physics or AI Math</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/numeric/ublas">Boost.Numeric/ublas</a> , <a href="https://www.boost.org/libs/geometry">Boost.Geometry</a>, <a href="https://www.boost.org/libs/random">Boost.Random</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Physics, spatial logic</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Texture/Image Manipulation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/gil">Boost.Gil</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Procedural textures, screenshots</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multithreading</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/libs/thread">Boost.Thread</a>, <a href="https://www.boost.org/libs/lockfree">Boost.Lockfree</a>, <a href="https://www.boost.org/libs/fiber">Boost.Fiber</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Game loop or rendering pipeline parallelism</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Are there any graphics libraries that are problematic when combined with Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Both <a href="https://www.learnqt.guide/qt-graphics-view-framework"><strong>Qt</strong></a> and <a href="https://www.unrealengine.com/en-US"><strong>Unreal Engine</strong></a> are heavy frameworks that conflict with Boost&#8217;s philosophy  - they replace parts of the STL and introduce their own type systems, both of which can cause serious compatibility issues. Also, <a href="https://www.thewindowsclub.com/directx-11-download-update-install"><strong>DirectX</strong></a> libraries might limit your portability and don&#8217;t align well with Boost&#8217;s cross-platform goals.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="isocommitteemeetings"><a class="anchor" href="#isocommitteemeetings"></a>ISO C++ Committee Meetings</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Who can attend ISO C++ Committee meetings?</strong></p>
+<div class="paragraph">
+<p>Members of <a href="https://www.incits.org/committees/pl22.16">PL22.16</a> (the INCITS/ANSI committee) or of <a href="https://www.open-std.org/jtc1/sc22/wg21/">JTC1/SC22/WG21 - The C++ Standards Committee - ISOCPP</a> member country committee (the "national body" in ISO-speak), can attend the meetings. You can also attend as a guest, or join in remotely through email. For details and contact information refer to <a href="https://isocpp.org/std/meetings-and-participation/">Meetings and Participation</a>.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.incits.org/">INCITS</a> has broadened PL22.16 membership requirements so anyone can join, regardless of nationality or employer, though there is a fee. Refer to <a href="https://www.incits.org/participation/apply-for-membership">Apply for Membership</a>.</p>
+</div>
+<div class="paragraph">
+<p>It is recommended that any non-member who would like to attend should check in with the <a href="https://www.incits.org/committees/pl22.16">PL22.16</a> chair or head of their national delegation. Boosters who are active on the committee can help smooth the way, so consider contacting the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers' mailing list</a> providing details of your interests.</p>
+</div>
+</li>
+<li>
+<p><strong>When and where are the next meetings?</strong></p>
+<div class="paragraph">
+<p>There are three meetings a year. Two are usually in North America, and one is usually outside North America. See <a href="https://isocpp.org/std/meetings-and-participation/upcoming-meetings">Upcoming Meetings</a>. Detailed information about a particular meeting, including hotel information, is usually provided in a paper appearing in one of mailings for the prior meeting. If there isn&#8217;t a link to it on the Meetings web page, you will have to go to the committee&#8217;s <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/">C++ Standards Committee Papers</a> page and search a bit.</p>
+</div>
+</li>
+<li>
+<p><strong>Is there a fee for attending meetings?</strong></p>
+<div class="paragraph">
+<p>No, but there can be a lot of incidental expenses like travel, lodging, and meals.</p>
+</div>
+</li>
+<li>
+<p><strong>What is the schedule?</strong></p>
+<div class="paragraph">
+<p>The meetings typically start at 9:00AM on Monday, and 8:30AM other days. It is best to arrive a half-hour early to grab a good seat, some coffee, tea, or donuts, and to say hello to people.</p>
+</div>
+<div class="paragraph">
+<p>Until the next standard ships most meetings are running through Saturday, although some end on Friday. The last day, the meeting is generally over much earlier than on other days. Because the last day&#8217;s formal meeting is for formal votes only, it is primarily of interest only to actual committee members.</p>
+</div>
+<div class="paragraph">
+<p>Sometimes there are evening technical sessions; the details aren&#8217;t usually available until the Monday morning meeting. There may be a reception one evening, and, yes, significant others are invited. Again, details usually become available Monday morning.</p>
+</div>
+</li>
+<li>
+<p><strong>What actually happens at the meetings?</strong></p>
+<div class="paragraph">
+<p>Monday morning an hour or two is spent in full committee on admin trivia, and then the committee breaks up into working groups (Core, Library, and Enhancements). The full committee also gets together later in the week to hear working group progress reports.</p>
+</div>
+<div class="paragraph">
+<p>The working groups are where most technical activities take place. Each active issue that appears on an <em>issues list</em> is discussed, as are papers from the mailing. Most issues are non-controversial and disposed of in a few minutes. Technical discussions are often led by long-term committee members, often referring to past decisions or longstanding working group practice. Sometimes a controversy erupts. It takes first-time attendees awhile to understand the discussions and how decisions are actually made. The working group chairperson moderates.</p>
+</div>
+<div class="paragraph">
+<p>Sometimes straw polls are taken. In a straw poll anyone attending can vote, in contrast to the formal votes taken by the full committee, where only voting members can vote.</p>
+</div>
+<div class="paragraph">
+<p>Lunch break is an hour and a half. Informal subgroups often lunch together; a lot of technical problems are discussed or actually solved at lunch, or later at dinner. In many ways these discussions involving only a few people are the most interesting. Sometimes during the regular meetings, a working group chair will break off a sub-group to tackle a difficult problem.</p>
+</div>
+</li>
+<li>
+<p><strong>Do I have to stay at the venue hotel?</strong></p>
+<div class="paragraph">
+<p>No, and committee members on tight budgets often stay at other, cheaper, hotels. The venue hotels are usually chosen because they have large meeting rooms available, and thus tend to be pricey. The advantage of staying at the venue hotel is that it is then easier to participate in the off-line discussions, which can be at least as interesting as what actually happens in the scheduled meetings.</p>
+</div>
+</li>
+<li>
+<p><strong>What do people wear at meetings?</strong></p>
+<div class="paragraph">
+<p>Programmer casual. No neckties to be seen.</p>
+</div>
+</li>
+<li>
+<p><strong>What should I bring to a meeting?</strong></p>
+<div class="paragraph">
+<p>It is almost essential to have a laptop computer. There is a meeting wiki and there is internet connectivity. Wireless connectivity has become the norm.</p>
+</div>
+</li>
+<li>
+<p><strong>What should I do to prepare for a meeting?</strong></p>
+<div class="paragraph">
+<p>It is helpful to have downloaded the mailing or individual papers for the meeting, and to have read any papers you are interested in. Familiarize yourself with the issues lists. Decide which of the working groups you want to attend.</p>
+</div>
+</li>
+<li>
+<p><strong>What is a "Paper"?</strong></p>
+<div class="paragraph">
+<p>An electronic document containing issues, proposals, or anything else the committee is interested in. Very little gets discussed at a meeting, much less acted upon, unless it is presented in a paper. Papers are available to anyone. Papers don&#8217;t just appear randomly; they become available four (lately six) times a year, before and after each meeting. Committee members often refer to a paper by saying what mailing it was in, for example: "See the pre-Redmond mailing."</p>
+</div>
+</li>
+<li>
+<p><strong>What is a "Mailing"?</strong></p>
+<div class="paragraph">
+<p>A mailing is the set of papers prepared before and after each meeting, or between meetings. It is physically just a .zip or .gz archive of all the papers for a meeting. Although the mailing&#8217;s archive file itself is only available to committee members and technical experts, the contents (except copies of the standard) are available to all as individual papers. The ways of ISO are inscrutable.</p>
+</div>
+</li>
+<li>
+<p><strong>What is a "Reflector"?</strong></p>
+<div class="paragraph">
+<p>The committee&#8217;s mailing lists are called "reflectors". There are a number of them; "all", "core", "lib", and "ext" are the main ones. As a courtesy, Boost technical experts can be added to committee reflectors at the request of a committee member.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What are smart pointers in Boost?</strong></p>
+<div class="paragraph">
+<p>Smart pointers are a feature of C++ that Boost provides in its <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> library. They are objects that manage the lifetime of other objects, automatically deleting the managed object when it is no longer needed. See the <a href="#_smart_pointers">Smart Pointers</a> section.</p>
+</div>
+</li>
+<li>
+<p><strong>Does Boost provide a testing framework?</strong></p>
+<div class="paragraph">
+<p>Yes, <a href="https://www.boost.org/libs/test">Boost.Test</a> is the unit testing framework provided by Boost. It includes tools for creating test cases, test suites, and for handling expected and unexpected exceptions. Refer to <a href="testing-debugging.html" class="xref page">Testing and Debugging</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>What is Boost.Asio?</strong></p>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a> is a library that provides support for <em>asynchronous</em> input/output (I/O), a programming concept that allows operations to be executed without blocking the execution of the rest of the program.</p>
+</div>
+</li>
+<li>
+<p><strong>What is Boost.MP11?</strong></p>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> (MetaProgramming Library for C++11) is a Boost library designed to bring powerful metaprogramming capabilities to C++ programs. It includes a variety of templates that can be used to perform compile-time computations and manipulations. Refer to <a href="#_metaprogramming">Metaprogramming</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>Does Boost provide a library for threading?</strong></p>
+<div class="paragraph">
+<p>Yes, <a href="https://www.boost.org/libs/thread">Boost.Thread</a> provides a C++ interface for creating and managing threads, as well as primitives for synchronization and inter-thread communication. In addition, <a href="https://www.boost.org/libs/atomic">Boost.Atomic</a> provides atomic operations and memory ordering primitives for working with shared data in multi-threaded environments. <a href="https://www.boost.org/libs/lockfree">Boost.Lockfree</a> provides lock-free data structures and algorithms for concurrent programming, allowing multiple threads to access shared data concurrently without explicit synchronization using locks or mutexes. For a lighter approach to multi-threading, consider <a href="https://www.boost.org/libs/fiber">Boost.Fiber</a>. Fibers offer a high-level threading abstraction that allows developers to write asynchronous, non-blocking code with minimal overhead compared to traditional kernel threads.</p>
+</div>
+</li>
+<li>
+<p><strong>What is the Boost Spirit library?</strong></p>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/spirit">Boost.Spirit</a> is a library for building recursive-descent parsers directly in C++. It uses template metaprogramming techniques to generate parsing code at compile time. Refer to <a href="#_metaprogramming">Metaprogramming</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>I like algorithms, can you pique my interest with some Boost libraries that support complex algorithms?</strong></p>
+<div class="paragraph">
+<p>Boost libraries offer a wide range of algorithmic and data structure support. Here are five libraries that you might find interesting:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/graph">Boost.Graph</a>: This library provides a way to represent and manipulate graphs. It includes algorithms for breadth-first search, depth-first search, <a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">Dijkstra&#8217;s shortest paths</a>, <a href="https://en.wikipedia.org/wiki/Kruskal%27s_algorithm">Kruskal&#8217;s minimum spanning tree</a>, and much more.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/geometry">Boost.Geometry</a>: This library includes algorithms and data structures for working with geometric objects. It includes support for spatial indexing, geometric algorithms (like area calculation, distance calculation, intersections, etc.), and data structures to represent points, polygons, and other geometric objects.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a>: If you need to perform computations with large or precise numbers, this library can help. It provides classes for arbitrary precision arithmetic, which can be much larger or more precise than the built-in types.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/compute">Boost.Compute</a>: This library provides a C++ interface to multi-core CPU and GPGPU (General Purpose GPU) computing platforms based on OpenCL. It includes algorithms for sorting, searching, and other operations, as well as containers like vectors and deques.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/spirit">Boost.Spirit</a>: If you&#8217;re interested in parsing or generating text, this library includes powerful tools based on formal grammar rules. It&#8217;s great for building compilers, interpreters, or other tools that need to understand complex text formats.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>I am tasked with building a real-time simulation of vehicles in C++. What Boost libraries might give me the performance I need for real-time work, and support a simulation?</strong></p>
+<div class="paragraph">
+<p>Refer to <a href="task-simulation.html" class="xref page">Real-Time Simulation</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_licensing"><a class="anchor" href="#_licensing"></a>Licensing</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What is the license for Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Most Boost libraries are licensed under the <a href="bsl.html" class="xref page">The Boost Software License</a> (BSL), a permissive free software license that allows you to use, modify, and distribute the software under minimal restrictions. It is not a <em>requirement</em> for a library to be licensed under the BSL, but its license must meet the <a href="../contributor-guide/requirements/license-requirements.html" class="xref page">License Requirements</a>. Refer to the documentation or source code of any specific library to determine which license applies.</p>
+</div>
+</li>
+<li>
+<p><strong>Can I use the Boost Logo, after I have built software using the Boost libraries, to help promote my product?</strong></p>
+<div class="paragraph">
+<p>Only with written permission from <a href="../contributor-guide/oversight-committee.html" class="xref page">The Fiscal Sponsorship Committee</a>. For full details refer to <a href="../contributor-guide/docs/logo-policy-media-guide.html" class="xref page">Logo Policy and Media Guide</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_metaprogramming"><a class="anchor" href="#_metaprogramming"></a>Metaprogramming</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What is metaprogramming in the context of Boost C++?</strong></p>
+<div class="paragraph">
+<p>Metaprogramming is a technique of programming that involves generating and manipulating programs. In the context of Boost and C++, metaprogramming often refers to <em>template metaprogramming</em>, which uses templates to perform computations at compile-time.</p>
+</div>
+</li>
+<li>
+<p><strong>What is Boost.MP11?</strong></p>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> is a Boost library designed for metaprogramming using C++11. It provides a set of templates and types for compile-time computations and manipulations, effectively extending the C++ template mechanism.</p>
+</div>
+</li>
+<li>
+<p><strong>What can I achieve with Boost.MP11?</strong></p>
+<div class="paragraph">
+<p>With <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>, you can perform computations and logic at compile-time, thus reducing runtime overhead. For example, you can manipulate types, perform iterations, make decisions, and do other computations during the compilation phase.</p>
+</div>
+</li>
+<li>
+<p><strong>What is a <code>typelist</code> and how can I use it with Boost.MP11?</strong></p>
+<div class="paragraph">
+<p>A <code>typelist</code> is a compile-time container of types. It&#8217;s a fundamental concept in C++ template metaprogramming where operations are done at compile time rather than runtime, and types are manipulated in the same way that values are manipulated in regular programming.</p>
+</div>
+<div class="paragraph">
+<p>In the context of the <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> library, a <code>typelist</code> is a template class that takes a variadic list of type parameters. Here&#8217;s an example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/mp11/list.hpp&gt;
+
+using my_typelist = boost::mp11::mp_list&lt;int, float, double&gt;;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, <code>my_typelist</code> is a <code>typelist</code> containing the types <code>int</code>, <code>float</code>, and <code>double</code>. Once you have a <code>typelist</code>, you can manipulate it using the metaprogramming functions provided by the library. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/mp11/list.hpp&gt;
+#include &lt;boost/mp11/algorithm.hpp&gt;
+
+using my_typelist = boost::mp11::mp_list&lt;int, float, double&gt;;
+
+// Get the number of types in the list
+constexpr std::size_t size = boost::mp11::mp_size&lt;my_typelist&gt;::value;
+
+// Check if a type is in the list
+constexpr bool contains_double = boost::mp11::mp_contains&lt;my_typelist, double&gt;::value;
+
+// Add a type to the list
+using extended_typelist = boost::mp11::mp_push_back&lt;my_typelist, char&gt;;
+
+// Get the second type in the list
+using second_type = boost::mp11::mp_at_c&lt;my_typelist, 1&gt;;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In these examples, <code>mp_size</code> is used to get the number of types in the list, <code>mp_contains</code> checks if a type is in the list, <code>mp_push_back</code> adds a type to the list, and <code>mp_at_c</code> retrieves a type at a specific index in the list. All these operations are done at compile time.</p>
+</div>
+</li>
+<li>
+<p><strong>What are some limitations or challenges of metaprogramming with Boost.MP11?</strong></p>
+<div class="paragraph">
+<p>Metaprogramming with <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> can lead to complex and difficult-to-understand code, especially for programmers unfamiliar with the technique. Compile errors can be particularly cryptic due to the way templates are processed. Additionally, heavy use of templates can lead to longer compile times.</p>
+</div>
+<div class="paragraph">
+<p>Other challenges include lack of runtime flexibility, as decisions are made at compile time. And perhaps issues with portability can occur (say, between compilers) as metaprogramming pushes the boundaries of a computer language to its limits.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> supersedes the earlier <a href="https://www.boost.org/libs/mpl">Boost.Mpl</a> and <a href="https://www.boost.org/libs/preprocessor">Boost.Preprocessor</a> libraries.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_modular_boost"><a class="anchor" href="#_modular_boost"></a>Modular Boost</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What is meant by "Modular Boost"?</strong></p>
+<div class="paragraph">
+<p>Technically, Modular Boost consists of the Boost super-project and separate projects for each individual library in Boost. In terms of Git, the Boost super-project treats the individual libraries as submodules. Currently (early 2024) when the Boost libraries are downloaded and installed, the build organization does <em>not</em> match the modular arrangement of the Git super-project. This is largely a legacy issue, and there are advantages to the build layout matching the super-project layout. This concept, and the effort behind it, is known as "Modular Boost".</p>
+</div>
+<div class="paragraph">
+<p>Refer to the <a href="../contributor-guide/superproject/overview.html" class="xref page">Super-Project Layout</a> topic (in the <a href="../contributor-guide/index.html" class="xref page">Contributor Guide</a>) for a full description of the super-project.</p>
+</div>
+</li>
+<li>
+<p><strong>Will a Modular Boost affect the thrice-yearly Boost Release?</strong></p>
+<div class="paragraph">
+<p>No. The collection of libraries is still a single release, and there are no plans to change the release cadence.</p>
+</div>
+</li>
+<li>
+<p><strong>Will this require that the current Boost source structure is changed?</strong></p>
+<div class="paragraph">
+<p>Yes. Unfortunately there is one restriction that adhering to a modular Boost requires - there can be no sub-libraries. That is, we can&#8217;t support having libraries in the <code>root/libs/&lt;group name&gt;/&lt;library&gt;</code> format. All libraries must be single libraries under the <code>root/libs</code> directory. There&#8217;s only a handful of libraries that currently do not conform to this already (notably the <code>root/libs/numeric/&lt;name&gt;</code> group of libraries).</p>
+</div>
+</li>
+<li>
+<p><strong>Why do we want a Modular Boost?</strong></p>
+<div class="paragraph">
+<p>It&#8217;s easier on everyone if we adopt a flat hierarchy. The user will experience a consistent process no matter which libraries they want to use. Similarly for contributors, the creation process will be consistent. Also, tools can be written that can parse and analyze libraries without an awkward range of exceptions. This includes tools written by Boost contributors. For example, the tools that are used to determine library dependencies. And any tool that a user might want to write for their own, or shared, use.</p>
+</div>
+<div class="paragraph">
+<p>Other advantages of a modular format include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Users of Boost can now choose to include only the specific modules they need for their project, rather than downloading and building the entire Boost framework. This can significantly reduce the size of the codebase and dependencies in a project, leading to faster compilation times and reduced resource usage.</p>
+</li>
+<li>
+<p>Individual modules can be updated and released on their own schedule, independent of the rest of the libraries. This allows for quicker updates and bug fixes to individual libraries without waiting for a full release.</p>
+</li>
+<li>
+<p>The structure aligns well with package managers like <a href="https://conan.io/">Conan</a>, <a href="https://vcpkg.io/en/">vcpkg</a>, or <a href="https://bazel.build/about">Bazel</a>, making it easier to manage Boost libraries within larger projects. Users can specify exactly which Boost libraries they need, and the package manager handles the inclusion and versioning.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Will the proposed changes be backwards-compatible from the user&#8217;s perspective. In particular, the public header inclusion paths will still be &lt;boost/numeric/&lt;name&gt;.hpp&gt; rather than, say, &lt;boost/numeric-conversion/&lt;name&gt;.hpp&gt;, correct?</strong></p>
+<div class="paragraph">
+<p>Correct - backwards-compatibility should be maintained.</p>
+</div>
+</li>
+<li>
+<p><strong>When will Modular Boost be available to users?</strong></p>
+<div class="paragraph">
+<p>An exact timeline requires issues to be resolved, though later in 2024 is the current plan-of-record.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_numbers"><a class="anchor" href="#_numbers"></a>Numbers</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Are there any Boost libraries that extend floating point precision, and at what cost?</strong></p>
+<div class="paragraph">
+<p>In C++, the precision of <code>float</code> and <code>double</code> types is determined by the IEEE 754 standard for floating-point arithmetic, which is used by nearly all modern compilers and hardware. A <code>float</code> (with 24 significant bits) is accurate to about 6 or 7 decimal places, a <code>double</code> (53 significant bits) to 15 to 17 decimal digits. A long double (80+ significant bits) extends this to 18 to 21 decimal digits.</p>
+</div>
+<div class="paragraph">
+<p>Boost does not replace these types, but extends your range of options using <a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a>. There are the predefined types <code>cpp_dec_float_50</code> and <code>cpp_dec_float_100</code>, and the unlimited type <code>cpp_dec_float_&lt;N&gt;</code>, where you decide the value of N. <code>cpp_dec_float_50</code> would obviously give 50 digits, and <code>cpp_dec_float_201</code> gives 201 digits. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multiprecision/cpp_dec_float.hpp&gt;
+#include &lt;iostream&gt;
+
+using namespace boost::multiprecision;
+
+int main() {
+    cpp_dec_float_50 pi("3.14159265358979323846264338327950288419716939937510");
+    auto result = pi * pi;
+
+    // Set the precision slightly higher than the number of digits
+    std::cout &lt;&lt; std::setprecision(51) &lt;&lt; result &lt;&lt; std::endl;
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multiprecision/cpp_dec_float.hpp&gt;
+#include &lt;iostream&gt;
+
+// Let's define a type to take pi to 200 decimal places, 201 including the initial "3"
+using cpp_dec_float_201 = boost::multiprecision::number&lt;boost::multiprecision::cpp_dec_float&lt;201&gt; &gt;;
+
+int main() {
+
+    cpp_dec_float_201 pi("3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679"
+        "8214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196");
+
+    std::cout &lt;&lt; std::setprecision(201) &lt;&lt; pi &lt;&lt; std::endl;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/math">Boost.Math</a> adds high-quality special functions that integrate well with these types from <a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a>. For example, <code>boost::math::gamma</code>, <code>boost::math::exp</code>, and <code>boost::math::lgamma</code> are available. Also, <a href="https://www.boost.org/libs/qvm">Boost.Qvm</a> (quaternions, vectors, matrices) supports these custom precision types.</p>
+</div>
+<div class="paragraph">
+<p>The cost as you can imagine is performance, the benefit is extreme accuracy. Under the hood, <code>cpp_dec_float&lt;N&gt;</code> stores <code>N</code> decimal digits of precision, using a base-10 representation, and uses an array of limbs to manage arbitrary-length mantissas.</p>
+</div>
+</li>
+<li>
+<p><strong>Is there a Boost library that can help me with numbers like infinity, or the imaginary number that is the square root of -1?</strong></p>
+<div class="paragraph">
+<p>Yes, there is support for <code>infinity</code>, <code>NaN</code> (Not a Number), and imaginary numbers through different libraries. <a href="https://www.boost.org/libs/math">Boost.Math</a> includes constants and utilities for working with <code>infinity</code> and <code>NaN</code>, which are part of IEEE 754 floating-point standards.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/math/constants/constants.hpp&gt;
+#include &lt;limits&gt;
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+
+int main() {
+    double inf = std::numeric_limits&lt;double&gt;::infinity();
+    double nan = std::numeric_limits&lt;double&gt;::quiet_NaN();
+
+    std::cout &lt;&lt; "Infinity: " &lt;&lt; inf &lt;&lt; "\n";
+    std::cout &lt;&lt; "NaN: " &lt;&lt; nan &lt;&lt; "\n";
+
+    // Or to test for them:
+    if (std::isinf(inf)) std::cout &lt;&lt; "This is infinity!\n";
+    if (std::isnan(nan)) std::cout &lt;&lt; "This is NaN!\n";
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The complex functions of <a href="https://www.boost.org/libs/math">Boost.Math</a> support imaginary numbers, such as the square root of -1.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/math/complex.hpp&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    std::complex&lt;double&gt; i(0.0, 1.0);
+    std::complex&lt;double&gt; result = std::sqrt(std::complex&lt;double&gt;(-1.0, 0.0));
+
+    std::cout &lt;&lt; "sqrt(-1) = " &lt;&lt; result &lt;&lt; "\n"; // outputs (0,1)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a> supports high-precision complex types, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multiprecision/cpp_dec_float.hpp&gt;
+#include &lt;boost/multiprecision/cpp_complex.hpp&gt;
+
+using namespace boost::multiprecision;
+using complex50 = cpp_complex_50;
+
+int main() {
+    complex50 c(0, 1);
+    auto r = sqrt(complex50(-1, 0));
+    std::cout &lt;&lt; r &lt;&lt; "\n";  // (0,1)
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Can Boost.Multiprecision help calcuate a huge number of prime numbers?</strong></p>
+<div class="paragraph">
+<p>Use the type <code>boost::multiprecision::cpp_int</code> to safely store large prime numbers beyond the capacity of the standard <code>int64_t</code>, and the core algorithm known as the <em>Sieve of Eratosthenes</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multiprecision/cpp_int.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cmath&gt;
+#include &lt;chrono&gt;
+
+using boost::multiprecision::cpp_int;
+
+std::vector&lt;cpp_int&gt; generate_primes(size_t count) {
+    // Rough upper bound for nth prime using approximation: n * log(n) * 1.2
+    size_t estimate = static_cast&lt;size_t&gt;(count * std::log(count) * 1.2);
+    std::vector&lt;bool&gt; is_prime(estimate + 1, true);
+    std::vector&lt;cpp_int&gt; primes;
+
+    is_prime[0] = is_prime[1] = false;
+
+    for (size_t i = 2; i &lt;= estimate &amp;&amp; primes.size() &lt; count; ++i) {
+        if (is_prime[i]) {
+            primes.emplace_back(i); // Store as cpp_int
+            for (size_t j = i * 2; j &lt;= estimate; j += i) {
+                is_prime[j] = false;
+            }
+        }
+    }
+
+    return primes;
+}
+
+int main() {
+    size_t prime_count = 100000; // adjust this to your needs (10 million may need 6+ GB of RAM)
+
+    auto start = std::chrono::high_resolution_clock::now();
+    std::vector&lt;cpp_int&gt; primes = generate_primes(prime_count);
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration&lt;double&gt; elapsed = end - start;
+    std::cout &lt;&lt; "Generated " &lt;&lt; primes.size() &lt;&lt; " primes.\n";
+    std::cout &lt;&lt; "Largest prime found: " &lt;&lt; primes.back() &lt;&lt; "\n";
+    std::cout &lt;&lt; "Time elapsed: " &lt;&lt; elapsed.count() &lt;&lt; " seconds.\n";
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running this code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Generated 100000 primes.
+Largest prime found: 1299709
+Time elapsed: 1.86556 seconds.</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p><code>cpp_int</code> is overkill for small primes, but essential if you&#8217;re working with large ones, such as 512-bit cryptographic primes.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>Am I right that Boost libraries do not improve on the performance of the standard floating point <code>double</code>?</strong></p>
+<div class="paragraph">
+<p>Correct. Use <code>double</code> if you can, and only use higher precision types when you&#8217;re accumulating billions of values and errors grow unbounded, or you need more than 17 digits of accuracy, or you&#8217;re solving numerically unstable equations, or you&#8217;re doing astronomy, cryptography, quantum physics, symbolic algebra, or working with scientific constants.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>A <em>numerically unstable equation</em> is one in which small changes or errors in input, or intermediate calculations, can lead to large errors in the final result due to the amplification of rounding or truncation errors in floating-point arithmetic. Numerical instability often arises when subtracting two nearly equal numbers (called <em>catastrophic cancellation</em>), dividing by very small numbers, performing many iterations where small errors accumulate, and poor choice of algorithm. A catastrophic cancellation might occur when subtracting 1.0000001 from 1.0000002 - precision and rounding errors might distort the result. Stable algorithms preserve significant digits and give reliable results even with floating-point limits.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>What scientific numbers, similar to pi, require precision beyond that provided by the standard <code>double</code>?</strong></p>
+<div class="paragraph">
+<p>Here is a table of the usual suspects:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 16.6666%;">
+<col style="width: 50.0001%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Constant</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Typical Digits Needed</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Why <code>double</code> Isn&#8217;t Enough</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">π (pi)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">50-100+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Needed with extreme accuracy in orbital mechanics, quantum computing, etc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">e (Euler&#8217;s number)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30-100+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used in high-precision financial models, calculus, and exponential growth systems.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">γ (Euler-Mascheroni constant)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">50-100+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Arises in analytic number theory and integrals.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">φ (Golden ratio)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used in precise design and algorithmic ratios.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Planck&#8217;s constant (h)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">25-100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Central to quantum mechanics; precise modeling demands high precision.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fine-structure constant (α)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30-80</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key in atomic physics and fundamental interactions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Avogadro&#8217;s number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Often stored as a float, but high-accuracy simulations may demand higher precision.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Speed of light (c)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For ultra-precise relativistic calculations.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gravitational constant (G)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20-100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Known only to limited digits experimentally, but simulations may push precision.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Riemann zeta constants</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30-200+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Arise in number theory and string theory.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Catalan&#8217;s constant</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">50+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Appears in combinatorics and integrals.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Apéry&#8217;s constant</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">50-200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Arises in irrationality proofs and advanced analysis.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Precision can become an obsession. Pi has been computed to over 100 trillion digits, but NASA&#8217;s orbital calculations use only around the first 15 digits of pi (so a <code>double</code> would work!).</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>To avoid floating point numbers altogether, I could use fractions. For example, storing a third as 1 over 3 avoids using 0.33333 ad infinitum. Is there a Boost library that would make sense of numbers stored only as integer fractions?</strong></p>
+<div class="paragraph">
+<p>Yes. <a href="https://www.boost.org/libs/rational">Boost.Rational</a> is a library designed specifically to represent and manipulate rational numbers — that is, numbers stored as fractions of two integers (such as, 1/3, 355/113).</p>
+</div>
+<div class="paragraph">
+<p>It avoids floating-point approximation entirely, preserving mathematical exactness throughout arithmetic operations. The library automatically normalizes (reduces) fractions - so 3/6 would be reduced to 1/2. And it can interoperate with <code>int</code>, <code>long</code>, or even <code>boost::multiprecision::cpp_int</code>. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/rational.hpp&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    boost::rational&lt;int&gt; a(1, 3);  // 1/3
+    boost::rational&lt;int&gt; b(2, 5);  // 2/5
+
+    auto sum = a + b;              // 1/3 + 2/5 = 11/15
+    auto product = a * b;          // 1/3 * 2/5 = 2/15
+
+    std::cout &lt;&lt; "Sum: " &lt;&lt; sum.numerator() &lt;&lt; "/" &lt;&lt; sum.denominator() &lt;&lt; "\n";
+    std::cout &lt;&lt; "Product: " &lt;&lt; product &lt;&lt; "\n";  // prints as 2/15
+
+    // Comparison
+    if (a &lt; b)
+        std::cout &lt;&lt; "a is less than b\n";
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Using rational numbers there is a risk of integer overflow, so consider using large integers for inputs (<code>boost::multiprecision::cpp_int</code> or similar), and this approach is not ideal for numbers known to be irrational (square root of 2, and the scientific constants listed above).</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>Can I use Boost.Multiprecision or Boost.Math to help with my project on RSA public-key encryption?</strong></p>
+<div class="paragraph">
+<p>Yes. Starting with the basic algorithm for RSA (Rivest-Shamir-Adleman - the authors of the algorithm) which follows these steps:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Choose two large prime numbers <code>p</code> and <code>q</code></p>
+</li>
+<li>
+<p>Compute <code>n = p * q</code></p>
+</li>
+<li>
+<p>Compute Euler&#8217;s totient <code>ϕ(n) = (p-1)(q-1)</code></p>
+</li>
+<li>
+<p>Choose public exponent <code>e</code> such that <code>1 &lt; e &lt; ϕ(n)</code> and <code>gcd(e,ϕ(n)) = 1</code></p>
+</li>
+<li>
+<p>Compute private exponent <code>d</code> such that <code>e⋅d ≡ 1 mod ϕ(n)</code></p>
+</li>
+<li>
+<p>Now you have: <code>public-key = (e,n)</code> and <code>private-key = (d,n)</code></p>
+<div class="paragraph">
+<p>We can now use <code>cpp_int</code> from <a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a> to handle arbitrary-precision integers. And, if need be, you can use <code>is_prime</code> from <a href="https://www.boost.org/libs/math">Boost.Math</a> for primality checks on larger randomly generated values (which you may want to add at a later date, using <a href="https://www.boost.org/libs/random">Boost.Random</a>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/multiprecision/cpp_int.hpp&gt;
+#include &lt;boost/integer/common_factor_rt.hpp&gt;
+#include &lt;iostream&gt;
+
+using namespace boost::multiprecision;
+
+// Compute modular inverse of a modulo m using Extended Euclidean Algorithm
+cpp_int modinv(cpp_int a, cpp_int m) {
+    cpp_int m0 = m, t, q;
+    cpp_int x0 = 0, x1 = 1;
+
+    while (a &gt; 1) {
+        q = a / m;
+        t = m;
+        m = a % m;
+        a = t;
+        t = x0;
+        x0 = x1 - q * x0;
+        x1 = t;
+    }
+
+    return (x1 &lt; 0) ? x1 + m0 : x1;
+}
+
+int main() {
+    // Small primes for demo
+    cpp_int p = 61;
+    cpp_int q = 53;
+
+    cpp_int n = p * q;                     // n = 3233
+    cpp_int phi = (p - 1) * (q - 1);       // φ(n) = 3120
+
+    cpp_int e = 17; // Common public exponent
+    cpp_int d = modinv(e, phi);            // Compute private key
+
+    // Display keys
+    std::cout &lt;&lt; "Public Key (e, n): (" &lt;&lt; e &lt;&lt; ", " &lt;&lt; n &lt;&lt; ")\n";
+    std::cout &lt;&lt; "Private Key (d, n): (" &lt;&lt; d &lt;&lt; ", " &lt;&lt; n &lt;&lt; ")\n";
+
+    // Create message
+    cpp_int message = 65;
+    std::cout &lt;&lt; "Initial message: " &lt;&lt; message &lt;&lt; "\n";
+
+    // Encrypt message
+    cpp_int encrypted = powm(message, e, n); // m^e mod n
+    std::cout &lt;&lt; "Encrypted message: " &lt;&lt; encrypted &lt;&lt; "\n";
+
+    // Decrypt message
+    cpp_int decrypted = powm(encrypted, d, n); // c^d mod n
+    std::cout &lt;&lt; "Decrypted message: " &lt;&lt; decrypted &lt;&lt; "\n";
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Consider using <code>independent_bits_engine</code> from <a href="https://www.boost.org/libs/random">Boost.Random</a> for a clean way to get large random integers of fixed bit-width, and then consider very large prime numbers of perhaps 1024 bits.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>What does a 1024-bit prime number look like?</strong></p>
+<div class="paragraph">
+<p>Here is one:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">cpp_int prime = 165918700393058288029118516503856682928352034064210292320510526037152431960844672521054555721941412725769027652540094762345484278576411078143188748708281181119556988860248537167684663864334811189453410905241474311369868568296877192226227785240656833746573473244854528133231976802973699288063056142727481235873</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>I need efficient memory storage for a real-time simulation. The use case is small counts, for example the number of carrier task forces operating in one ocean at any one time - a number which will never exceed 10 let alone 256?</strong></p>
+<div class="paragraph">
+<p>A full sized int or even a byte is comically oversized for this use case. You could use the standard: <code>std::uint8_t num_groups;</code>, however you might like to add some range-safety. Consider the following code as it&#8217;s memory footprint is exacty 3 bytes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;cstdint&gt;
+#include &lt;boost/endian/arithmetic.hpp&gt;
+#include &lt;boost/numeric/conversion/cast.hpp&gt;
+
+struct OceanStatus {
+    boost::endian::little_uint8_t carrier_groups; // 1 byte on disk
+    boost::endian::little_uint8_t submarine_groups;
+    boost::endian::little_uint8_t air_wings;
+
+    void set_carrier_groups(int x) {
+
+        // Guarantee 0–10 range at runtime
+        if (x &lt; 0 || x &gt; 10)
+            throw std::out_of_range("carrier group count must be 0-10");
+
+        // Safe cast to uint8_t
+        carrier_groups = boost::numeric_cast&lt;std::uint8_t&gt;(x);
+    }
+};</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>What library should I look at to help pack really small integers (say 2 to 4 bits each) into the minimum number of bytes possible?</strong></p>
+<div class="paragraph">
+<p>The libary to evaluate is <a href="https://www.boost.org/libs/dynamic_bitset">Boost.DynamicBitset</a>, it gives you stable bit indexing, easy clearing/writing slices, guaranteed predictable ordering, and portability across CPU architectures. In particular, check out the function <code>to_block_range</code> for exporting packed blocks. This should be easier - and safer - than hand-rolling your own masks and shifts.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_other_languages"><a class="anchor" href="#_other_languages"></a>Other Languages</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Have developers written applications in languages such as Python that have successfully used the Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Yes, developers have successfully used Boost libraries in applications written in languages other than C++ by leveraging language interoperability features and creating bindings or wrappers.</p>
+</div>
+<div class="paragraph">
+<p>The most notable example is the use of <a href="https://www.boost.org/libs/python">Boost.Python</a>, a library specifically designed to enable seamless interoperability between C++ and Python. <a href="https://www.boost.org/libs/python">Boost.Python</a> allows developers to expose C++ classes, functions, and objects to Python, enabling the use of the libraries from Python code. This has been used extensively in scientific computing, game development, and other fields where the performance of C++ is combined with the ease of Python.</p>
+</div>
+</li>
+<li>
+<p><strong>What real world applications have combined Python with the Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Here are some examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.blender.org/">Blender</a> is a widely-used open-source 3D creation suite. It supports the entirety of the 3D pipeline, including modeling, rigging, animation, simulation, rendering, compositing, and motion tracking. Blender uses Boost libraries for various purposes, including memory management, string manipulation, and other utility functions. Blender&#8217;s Python API, which allows users to script and automate tasks, integrates with C++ code using <a href="https://www.boost.org/libs/python">Boost.Python</a>.</p>
+</li>
+<li>
+<p><a href="https://pytorch.org/">PyTorch</a> is an open-source machine learning library based on the Torch library. It is used for applications such as natural language processing and computer vision. PyTorch uses several Boost libraries to handle low-level operations efficiently. <a href="https://www.boost.org/libs/python">Boost.Python</a> is used to create bindings between C++ and Python, allowing PyTorch to provide a seamless interface for Python developers.</p>
+</li>
+<li>
+<p><a href="https://opencv.org/">OpenCV</a> (Open Source Computer Vision Library) is an open-source computer vision and machine learning software library. OpenCV&#8217;s Python bindings use <a href="https://www.boost.org/libs/python">Boost.Python</a> to interface between the C++ core and Python. This allows Python developers to use OpenCV&#8217;s powerful C++ functions with Python syntax.</p>
+</li>
+<li>
+<p><a href="https://docs.enthought.com/canopy/2.1/index.html">Enthought Canopy</a> is a comprehensive Python analysis environment and distribution for scientific and analytic computing. It includes a Python distribution, an integrated development environment (IDE), and many additional tools and libraries.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Are there some solid examples of real world applications that have combined C# with the Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Here are some great examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the world of game development, several projects use C++ for performance-critical components and C# for scripting and higher-level logic. The Boost libraries are often used in the C++ components, in particular to leverage their algorithms, and data structures. <a href="https://unity.com/">Unity</a> allows the use of native plugins written in pass[C++]. These plugins can use Boost libraries for various functionalities, such as pathfinding algorithms or custom data structures, and then be called from C# scripts within Unity.</p>
+</li>
+<li>
+<p>Financial applications often require high performance and reliability. They may use C++ for core processing and Boost libraries for tasks like date-time calculations, serialization, and multithreading. C# is used for GUI and integration with other enterprise systems. Trading platforms and risk management systems sometimes use Boost libraries for backend processing and interoperate with C# components for the user interface and data reporting.</p>
+</li>
+<li>
+<p>Scientific computing applications that need high-performance computation often use C++ for core algorithms. C# is great for visualization, user interaction, and orchestration. Computational chemistry and physics applications sometimes use Boost for numerical computations and data handling, while C# provides the tools for managing simulations and visualizing results.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Can I see some sample code of how to wrap Boost functions to be available for use in a C# app?</strong></p>
+<div class="paragraph">
+<p>The following code shows how to create a wrapper for a C++ class that uses Boost, and then calls this class from a C# application. The handling of return values and exceptions are shown too. All the class does is convert a string to upper case.</p>
+</div>
+<div class="paragraph">
+<p><em>The following code was written and tested using Visual Studio 2022, with Boost version 1.88. Visual Studio has been installed with tools to create both native C++ and .NET C# apps.</em></p>
+</div>
+<div class="paragraph">
+<p>In Visual Studio, create a C++ <strong>Dynamic Link Library (DLL)</strong> project, <code>MyDLL</code>, and in the project properties make sure the <strong>Additional Include Directories</strong> has the path to your Boost <code>include</code> files, and <strong>Additional Library Directories</strong> has the path to your Boost <code>lib</code> files. Most importantly in the <strong>Configuration Properties/Advanced</strong> section, make sure the <strong>Common Language Runtime Support</strong> setting is <strong>.NET Framework Runtime Support (/clr)</strong>. Delete the default <code>dllmain.cpp</code> file.</p>
+</div>
+<div class="paragraph">
+<p>Create a header file, <code>MyClass.h</code>, and copy in the following code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#pragma once
+#include &lt;string&gt;
+
+class MyClass {
+public:
+    std::string to_upper(const std::string&amp; input);
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create a second header file, <code>MyClassWrapper.h</code>, and copy in:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#pragma once
+
+#include "MyClass.h"
+
+using namespace System;
+
+public ref class MyClassWrapper {
+private:
+    MyClass* instance;
+
+public:
+    MyClassWrapper();
+    ~MyClassWrapper();
+    !MyClassWrapper();
+
+    String^ ToUpper(String^ input);
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create a new source file, <code>MyClass.cpp</code>, and copy in:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include "pch.h"
+#include "MyClass.h"
+#include &lt;boost/algorithm/string.hpp&gt;
+#include &lt;stdexcept&gt;
+
+std::string MyClass::to_upper(const std::string&amp; input) {
+    if (input.empty()) {
+        throw std::runtime_error("Input string is empty");
+    }
+    return boost::to_upper_copy(input);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We use <a href="https://www.boost.org/libs/algorithm">Boost.Algorithm</a> here, to show how to engage our libraries.</p>
+</div>
+<div class="paragraph">
+<p>Next, create a second source file, <code>MyClassWrapper.cpp</code>, to expose the class to .NET:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include "pch.h"
+#include "MyClassWrapper.h"
+#include &lt;msclr/marshal_cppstd.h&gt;
+#include &lt;stdexcept&gt;
+
+using namespace msclr::interop;
+using namespace System::Runtime::InteropServices;
+
+MyClassWrapper::MyClassWrapper() {
+    instance = new MyClass();
+}
+
+MyClassWrapper::~MyClassWrapper() {
+    this-&gt;!MyClassWrapper();
+}
+
+MyClassWrapper::!MyClassWrapper() {
+    delete instance;
+}
+
+String^ MyClassWrapper::ToUpper(String^ input) {
+    try {
+        std::string nativeInput = marshal_as&lt;std::string&gt;(input);
+        std::string result = instance-&gt;to_upper(nativeInput);
+        return gcnew String(result.c_str());
+    }
+    catch (const std::exception&amp; e) {
+        throw gcnew ExternalException(gcnew String(e.what()));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, build your DLL, and hopefully it will build correctly. If it does, close that solution. Errors are usually because of missing components, rather than faulty code.</p>
+</div>
+<div class="paragraph">
+<p>Now create the C# application that uses the wrapper. In Visual Studio, create a C# Console app, <code>CppCsharp</code>, noting that a .NET framework is part of the project, and overwrite the default with the following code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-csharp hljs" data-lang="csharp">using System;
+
+class Program
+{
+    static void Main()
+    {
+        MyClassWrapper myClass = new MyClassWrapper();
+
+        try
+        {
+            string result = myClass.ToUpper("hello world");
+            Console.WriteLine("Result: " + result);
+
+            // Test with an empty string to trigger the exception
+            result = myClass.ToUpper("");
+            Console.WriteLine("Result: " + result);
+
+        }
+        catch (System.Runtime.InteropServices.ExternalException e)
+        {
+            Console.WriteLine("Caught an exception: " + e.Message);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You will notice that the <code>MyClassWrapper</code> declaration is marked as erroneous.</p>
+</div>
+<div class="paragraph">
+<p>In Visual Studio, in the <strong>Project</strong> menu, select <strong>Add Project Reference</strong>, and then use the <strong>Browse</strong> option to locate your <code>MyDLL.dll</code>. You should notice the error marks disappear.</p>
+</div>
+<div class="paragraph">
+<p>Run the program, noting the initial string is converted to upper case, and the second call correctly returns the exception:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Result: HELLO WORLD
+Caught an exception: Input string is empty</pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Does the Java Native Interface (JNI) work with the Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Through the use of the Java Native Interface (JNI) or Java Native Access (JNA), developers can call Boost libraries from Java applications. It involves creating native methods in Java that are implemented in C++ and using Boost libraries as part of those implementations.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Similar techniques can be applied to other languages, such as R, Ruby, Perl, and Lua, using their respective foreign function interfaces (FFI) or binding libraries.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>What is the industry consensus for the expected remaining lifespan for C++, and does any other language look like it might become the replacement for it?</strong></p>
+<div class="paragraph">
+<p>The expected remaining lifespan of the C++ programming language is generally considered to be long, probably spanning several decades. While it&#8217;s difficult to assign a precise number of years, here&#8217;s an overview of the factors contributing to this consensus:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>C++ is deeply embedded in many critical systems, including operating systems, game engines, real-time systems, financial systems, and large-scale infrastructure projects. The massive amount of existing code ensures that the language will be relevant for a long time as maintaining, updating, and interacting with this codebase will remain necessary.</p>
+</li>
+<li>
+<p>The Boost libraries and the C++ Standard place a strong emphasis on backward compatibility, which helps ensure that older code continues to work with new versions of the language.</p>
+</li>
+<li>
+<p>The C++ language continues to evolve, with regular updates to the standard (for example, C++11, C++14, C++17, C++20, and C++23). These updates introduce new features and improvements that keep the language modern and competitive.</p>
+</li>
+<li>
+<p>The C++ community, including the ISO C++ committee and Boost users, are highly active, ensuring that the language adapts to new programming paradigms, hardware architectures, and developer needs.</p>
+</li>
+<li>
+<p>High Performance - C++ remains one of the go-to languages for applications where performance is critical, such as gaming, high-frequency trading, and embedded systems. Its ability to provide low-level memory and hardware control while still supporting high-level abstractions makes it difficult to replace.</p>
+</li>
+<li>
+<p>For system-level programming and scenarios where fine-grained control over system resources is necessary, C++ is still unmatched.</p>
+</li>
+<li>
+<p>C++ is still widely taught in universities, especially in courses related to systems programming, algorithms, and data structures. As a teaching language, it instills principles of memory management, performance optimization, and object-oriented programming, which are valuable across many programming domains.</p>
+</li>
+<li>
+<p>C++ has a strong presence in specialized domains such as aerospace, robotics, telecommunications, and automotive software, where reliability, real-time performance, and low-level hardware access are critical. For example, some current EV manufacturers are using C++ and Unreal Engine to develop their in-car infotainment and control systems.</p>
+</li>
+<li>
+<p>While newer languages may rise in popularity for certain use cases, no other language currently offers the same combination of performance, control, and ecosystem that C++ provides, making it unlikely to be replaced any time soon.</p>
+<div class="paragraph">
+<p>Future technological shifts, such as advances in quantum computing or entirely new programming paradigms, could influence (increase or decrease) the lifespan of C++. However, given its adaptability and entrenched role in many industries, C++ is expected to evolve alongside these changes rather than be replaced by them.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>If I was to learn one other language, in addition to C++, what should it be to best prepare myself for an uncertain future?</strong></p>
+<div class="paragraph">
+<p>Python is often the top recommendation due to its versatility, simplicity, and wide application in growing fields like artificial intelligence (AI), machine learning (ML), rapid prototyping, and data science. And <a href="https://www.boost.org/libs/python">Boost.Python</a> is there to help you integrate with the Boost libraries. Rust is another strong contender, especially if you are interested in systems programming and are looking for reliability and security. If you see the future as more cloud computing, then Go makes a strong case for itself.  And let&#8217;s not forget that so much computing is now web based, so JavaScript deserves a mention here too. All of these languages offer valuable resources that complement C++ and prepare you for an uncertain future.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_production_and_debug_builds"><a class="anchor" href="#_production_and_debug_builds"></a>Production and Debug Builds</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What is the value of using <code>BOOST_ASSERT</code> or <code>BOOST_STATIC_ASSERT</code> over the Standard Library assert macros?</strong></p>
+<div class="paragraph">
+<p>There are a few advantages of using the Boost asserts, available in <code>&lt;boost/assert.hpp&gt;</code>, including that <code>BOOST_ASSERT</code> is fully customizable using <code>BOOST_ENABLE_ASSERT_HANDLER</code>, which can be used to log extra data or stack traces, and there is better integration with <a href="https://www.boost.org/libs/test">Boost.Test</a>. <code>BOOST_STATIC_ASSERT</code> is best utilized when using older C++ standards (pre-C++17), or you are using deeply templated code. You might also prefer the Boost macros if you are engaging the features of other Boost libraries and are looking for consistent tooling. For a fuller discussion, refer to <a href="boost-macros.html" class="xref page">Boost Macros</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>For maximum performance, is it good practice to remove, or comment out, the `BOOST_ASSERT`s for the final production code, or do they simply not get compiled into anything so there is no performance cost for leaving them as is?</strong></p>
+<div class="paragraph">
+<p>By default, <code>BOOST_ASSERT</code> macros are completely removed from the compiled binary when <code>NDEBUG</code> is defined, just like the standard assert macro. If <code>NDEBUG</code> is not defined a <code>BOOST_ASSERT(x)</code> will expand, usually to an <code>assertion_failed()</code> if the assert condition fails. If NDEBUG is defined it expands to <code>((void)0)</code> so nothing is generated. Boost does provide the <code>BOOST_DISABLE_ASSERTS</code> macro, which has the same effect on Boost asserts as <code>NDEBUG</code> - but will leave other asserts alone.</p>
+</div>
+</li>
+<li>
+<p><strong>What is usually considered to be best practices in handling assertions that fire with a production build?</strong></p>
+<div class="paragraph">
+<p>Instead of throwing an exception when an assert fails, it is often the best practice to log the failure. For example, here is a custom assert handler using the features of <a href="https://www.boost.org/libs/log">Boost.Log</a> to record the event:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/assert.hpp&gt;
+#include &lt;boost/log/trivial.hpp&gt;
+#include &lt;boost/log/utility/setup/file.hpp&gt;
+#include &lt;boost/log/utility/setup/console.hpp&gt;
+#include &lt;boost/log/utility/setup/common_attributes.hpp&gt;
+#include &lt;boost/log/expressions.hpp&gt;
+#include &lt;sstream&gt;
+#include &lt;cstdlib&gt;
+
+namespace logging = boost::log;
+
+// Configure Boost.Log (call once at startup)
+void init_logging() {
+    logging::add_common_attributes();
+
+    // Console output
+    logging::add_console_log(
+        std::clog,
+        logging::keywords::format = "[%TimeStamp%] [%Severity%] %Message%"
+    );
+
+    // File output
+    logging::add_file_log(
+        logging::keywords::file_name = "assert_failures_%N.log",
+        logging::keywords::rotation_size = 10 * 1024 * 1024, // 10 MB
+        logging::keywords::format = "[%TimeStamp%] [%Severity%] %Message%"
+    );
+}
+
+// Custom handler for BOOST_ASSERT
+namespace boost {
+    void assertion_failed(char const* expr, char const* function, char const* file, long line) {
+        std::ostringstream oss;
+        oss &lt;&lt; "BOOST_ASSERT failed!\n"
+            &lt;&lt; "  Expression: " &lt;&lt; expr &lt;&lt; "\n"
+            &lt;&lt; "  Function:   " &lt;&lt; function &lt;&lt; "\n"
+            &lt;&lt; "  File:       " &lt;&lt; file &lt;&lt; "\n"
+            &lt;&lt; "  Line:       " &lt;&lt; line;
+
+        BOOST_LOG_TRIVIAL(error) &lt;&lt; oss.str();
+
+        std::abort(); // Optional: comment out if soft fail is desired
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An example use of this handler would be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/assert.hpp&gt;
+#include &lt;iostream&gt;
+
+// Declare logging initializer
+void init_logging();
+
+void test_logic(int value) {
+    BOOST_ASSERT(value &gt;= 0);
+    std::cout &lt;&lt; "Value is: " &lt;&lt; value &lt;&lt; std::endl;
+}
+
+int main() {
+    init_logging();
+
+    std::cout &lt;&lt; "Testing BOOST_ASSERT with value = 42..." &lt;&lt; std::endl;
+    test_logic(42);
+
+    std::cout &lt;&lt; "Testing BOOST_ASSERT with value = -1..." &lt;&lt; std::endl;
+    test_logic(-1); // Logs to file and console, then aborts
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>What should I be aware of when moving from a Debug to a Production release?</strong></p>
+<div class="paragraph">
+<p>Use this checklist to ensure your application correctly integrates Boost libraries across <strong>Debug</strong> and <strong>Release</strong> configurations.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><strong>Linking and Compatibility</strong></p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Link with the correct Boost library variant (<code>-gd</code> for Debug, none for Release).</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Ensure runtime settings (Debug CRT or Release CRT) match Boost binaries.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Avoid mixing Debug-built Boost libraries with Release-built applications.</p>
+</li>
+<li>
+<p><strong>Macro Definitions and Configuration</strong></p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Define <code>BOOST_DEBUG</code> in Debug builds to enable extra runtime checks (if applicable).</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Define <code>BOOST_DISABLE_ASSERTS</code> in Release builds to remove <code>BOOST_ASSERT</code> checks.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Optionally define <code>BOOST_ENABLE_ASSERT_HANDLER</code> to install custom assertion handlers.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Review conditional macros like <code>BOOST_NO_EXCEPTIONS</code>, <code>BOOST_NO_RTTI</code>, etc.</p>
+</li>
+<li>
+<p><strong>Assertions and Diagnostics</strong></p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Use <code>BOOST_ASSERT</code> for critical development-time checks.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Consider diagnostic logging using <code>BOOST_LOG_TRIVIAL</code>.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Ensure failing assertions are tested and logged in Debug builds.</p>
+</li>
+<li>
+<p><strong>Debugging and Tooling</strong></p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Run AddressSanitizer, Valgrind, or Visual Leak Detector in Debug builds. Refer to <a href="../contributor-guide/testing/sanitizers.html" class="xref page">Contributor Guide: Sanitizers</a>.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Confirm <a href="https://www.boost.org/libs/pool">Boost.Pool</a>, <a href="https://www.boost.org/libs/container">Boost.Container</a>, and alloc-heavy libraries don&#8217;t leak memory.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Validate <a href="https://www.boost.org/libs/thread">Boost.Thread</a>, <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, and <a href="https://www.boost.org/libs/fiber">Boost.Fiber</a> components using thread sanitizers.</p>
+</li>
+<li>
+<p><strong>Performance Awareness</strong></p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Avoid benchmarking with Debug builds — optimization is disabled.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Use Release builds to test compile times for <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>, <a href="https://www.boost.org/libs/spirit">Boost.Spirit</a>, and any heavy use of templates.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Validate any <code>BOOST_FORCEINLINE</code> or <code>BOOST_NOINLINE</code> effects in both builds.</p>
+</li>
+<li>
+<p><strong>Unit Testing</strong></p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Run the full suite of unit tests in both Debug and Release.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Ensure no logic is only covered by Debug-only paths or assertions.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Use <a href="https://www.boost.org/libs/test">Boost.Test</a> to validate results across optimization levels.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Typically, how should I set up a CMake file to handle Debug and Release builds?</strong></p>
+<div class="paragraph">
+<p>Here&#8217;s an example of how to set up your <code>CMakeLists.txt</code> to handle <code>BOOST_ASSERT</code> correctly by toggling behavior based on the build type (Debug or Release). The example includes linking with some sample libraries (<a href="https://www.boost.org/libs/log">Boost.Log</a>, <a href="https://www.boost.org/libs/system">Boost.System</a> and <a href="https://www.boost.org/libs/thread">Boost.Thread</a>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">cmake_minimum_required(VERSION 3.10)
+project(MyBoostApp)
+
+# Set your C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Enable debug symbols for Debug mode
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+
+# Link Boost (adjust components as needed)
+find_package(Boost REQUIRED COMPONENTS log log_setup system thread)
+
+target_link_libraries(MyBoostApp PRIVATE
+    Boost::log
+    Boost::log_setup
+    Boost::system
+    Boost::thread
+)
+
+add_executable(MyBoostApp main.cpp)
+
+target_include_directories(MyBoostApp PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(MyBoostApp PRIVATE ${Boost_LIBRARIES})
+
+# Enable BOOST_ASSERT in Debug, disable in Release
+target_compile_definitions(MyBoostApp PRIVATE
+    $&lt;$&lt;CONFIG:Debug&gt;:BOOST_ENABLE_ASSERT_HANDLER&gt;
+    $&lt;$&lt;CONFIG:Release&gt;:NDEBUG&gt;
+)
+
+# Optional: You can define a custom assert handler in debug builds
+# by linking a file like the assert handler shown above that defines `boost::assertion_failed`</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reflection"><a class="anchor" href="#_reflection"></a>Reflection</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Is there a native library or system that approximates the capabilities of .NET System.Reflection?</strong></p>
+<div class="paragraph">
+<p>Reflection in .NET is the ability of a program to inspect and manipulate its own structure and metadata at runtime. Think of reflection as a runtime mirror — it lets a program look at itself and act accordingly. Boost does not have a full runtime reflection system like .NET&#8217;s System.Reflection, but it does include several libraries and utilities that provide partial or compile-time reflection capabilities — the kind that are most practical and efficient in C++. The closest Boost comes to real reflection is encapsualted in <a href="https://www.boost.org/libs/describe">Boost.Describe</a>. This library allows you to describe the structure of a class — its members, base classes, and enums — at compile time, so you can iterate over them generically. Internally, <a href="https://www.boost.org/libs/describe">Boost.Describe</a> uses the features of <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>.</p>
+</div>
+<div class="paragraph">
+<p>Other libraries that you might find value in include <a href="https://www.boost.org/libs/pfr">Boost.Pfr</a> (<em>Precise Function Reflection</em>), which lets you reflect on structure fields without macros or metadata, using clever template magic. For richer type information there is <a href="https://www.boost.org/libs/type_index">Boost.TypeIndex</a> and <a href="https://www.boost.org/libs/callable_traits">Boost.CallableTraits</a>, and for metaprogramming there is <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>, <a href="https://www.boost.org/libs/fusion">Boost.Fusion</a>, and <a href="https://www.boost.org/libs/hana">Boost.Hana</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>Are there plans to extend Reflection further into Boost or the Standard C++ Library?</strong></p>
+<div class="paragraph">
+<p>The short answer is yes, into the Standard, but not yet. There are some niggling downsides to enabling full reflection, including slower than normal code, more difficult code maintenance and debugging, and string related issues (as string names are relied on). The standard work is known as the Reflection TS (<em>Technical Specification</em>).</p>
+</div>
+</li>
+<li>
+<p><strong>Can you show me example code demonstrating how to use Boost.Describe for Reflection?</strong></p>
+<div class="paragraph">
+<p>The following example shows how <a href="https://www.boost.org/libs/describe">Boost.Describe</a> and <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> work together to achieve something close to automatic runtime reflection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/describe.hpp&gt;
+#include &lt;boost/mp11.hpp&gt;
+#include &lt;iostream&gt;
+
+
+// Describe a simple struct
+struct User {
+    int id;
+    std::string name;
+};
+
+// Generate reflection metadata
+BOOST_DESCRIBE_STRUCT(User, (), (id, name))
+
+// Print fields using Boost.MP11 iteration
+template &lt;typename T&gt;
+void print_fields(const T&amp; obj) {
+    boost::mp11::mp_for_each&lt;boost::describe::describe_members&lt;T, boost::describe::mod_public&gt;&gt;(
+        [&amp;](auto D) {
+            std::cout &lt;&lt; D.name &lt;&lt; " = " &lt;&lt; obj.*D.pointer &lt;&lt; "\n";
+        });
+}
+
+int main() {
+    User u{ 42, "Ada" };
+    print_fields(u);
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Can you show me example code demonstrating how to use Boost.PFR for Reflection?</strong></p>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/pfr">Boost.Pfr</a> provides the <code>io</code> function for automatic input/output stream operators (<code>&lt;&lt;</code> and <code>&gt;&gt;</code>) for aggregate types — meaning you can print or read structs directly without manually defining stream operators. It reflects all public fields of a type at compile time (without macros or boilerplate), producing readable output like {field1, field2, field3} automatically, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/pfr.hpp&gt;
+#include &lt;iostream&gt;
+
+struct User {
+    int id;
+    std::string name;
+    double balance;
+};
+
+int main() {
+    User u{ 42, "Alice", 100.5 };
+
+    std::cout &lt;&lt; "As tuple: " &lt;&lt; boost::pfr::io(u) &lt;&lt; "\n";
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_releases"><a class="anchor" href="#_releases"></a>Releases</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>How do I download the latest libraries?</strong></p>
+<div class="paragraph">
+<p>Go to <a href="https://www.boost.org/users/download/">Boost Downloads</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>What do the Boost version numbers mean?</strong></p>
+<div class="paragraph">
+<p>The scheme is x.y.z, where x is incremented only for massive changes, such as a reorganization of many libraries, y is incremented whenever a new library is added, and z is incremented for maintenance releases. y and z are reset to 0 if the value to the left changes</p>
+</div>
+</li>
+<li>
+<p><strong>Is there a formal relationship between Boost.org and the C++ Standards Committee?</strong></p>
+<div class="paragraph">
+<p>No, although there is a strong informal relationship in that many members of the committee participate in Boost, and the people who started Boost were all committee members.</p>
+</div>
+</li>
+<li>
+<p><strong>Will the Boost.org libraries become part of the next C++ Standard?</strong></p>
+<div class="paragraph">
+<p>Some might, but that is up to the standards committee. Committee members who also participate in Boost will definitely be proposing at least some Boost libraries for standardization. Libraries which are "existing practice" are most likely to be accepted by the C++ committee for future standardization. Having a library accepted by Boost is one way to establish existing practice.</p>
+</div>
+</li>
+<li>
+<p><strong>Is the Boost web site a commercial business?</strong></p>
+<div class="paragraph">
+<p>No. It is a non-profit.</p>
+</div>
+</li>
+<li>
+<p><strong>Why do Boost headers have a .hpp suffix rather than .h or none at all?</strong></p>
+<div class="paragraph">
+<p>File extensions communicate the "type" of the file, both to humans and to computer programs. The '.h' extension is used for C header files, and therefore communicates the wrong thing about C++ header files. Using no extension communicates nothing and forces inspection of file contents to determine type. Using <code>.hpp</code> unambiguously identifies it as C++ header file, and works well in practice.</p>
+</div>
+</li>
+<li>
+<p><strong>How do I contribute a library?</strong></p>
+<div class="paragraph">
+<p>Refer to the <a href="../contributor-guide/index.html" class="xref page">Contributor Guide</a>. Note that shareware libraries, commercial libraries, or libraries requiring restrictive licensing are all not acceptable. Your library must be provided free, with full source code, and have an acceptable license. There are other ways of contributing too, providing feedback, testing, submitting suggestions for new features and bug fixes, for example. There are no fees for submitting a library.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_safe_c"><a class="anchor" href="#_safe_c"></a>Safe C++</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>I use Boost Libraries in my current projects. What do I need to know about Safe C++?</strong></p>
+<div class="paragraph">
+<p>Retrofitting the C++ language with memory-safe constructs has proven to be daunting. The <a href="https://safecpp.org/P3390R0.html">Safe C++</a> proposal for a memory-safe set of operations is currently in a state of indefinite hiatus. For more information, including current safe coding practices, refer to <a href="../contributor-guide/contributors-faq.html#safecpp" class="xref page">Contributors FAQ: Safe C++</a>. For terminology - refer to <a href="glossary.html#s" class="xref page">Glossary: S</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_smart_pointers"><a class="anchor" href="#_smart_pointers"></a>Smart Pointers</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What different types of smart pointers are there?</strong></p>
+<div class="paragraph">
+<p>The <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> library provides a set of smart pointers that helps in automatic and appropriate resource management. They are particularly useful for managing memory and provide a safer and more efficient way of handling dynamically allocated memory. The library provides the following types of smart pointers:</p>
+</div>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p><code>boost::scoped_ptr</code>: A simple smart pointer for sole ownership of single objects that must be deleted. It&#8217;s neither copyable nor movable. Deletion occurs automatically when the <code>scoped_ptr</code> goes out of scope.</p>
+</li>
+<li>
+<p><code>boost::scoped_array</code>: Similar to <code>scoped_ptr</code>, but for arrays instead of single objects. Deletion occurs automatically when the <code>scoped_array</code> goes out of scope.</p>
+</li>
+<li>
+<p><code>boost::shared_ptr</code>: A reference-counted smart pointer for single objects or arrays, which automatically deletes the object when the reference count reaches zero. Multiple <code>shared_ptr</code> can point to the same object, and the object is deleted when the last <code>shared_ptr</code> referencing it is destroyed.</p>
+</li>
+<li>
+<p><code>boost::shared_array</code>: Similar to <code>shared_ptr</code>, but for arrays instead of single objects.</p>
+</li>
+<li>
+<p><code>boost::weak_ptr</code>: A companion to <code>shared_ptr</code> that holds a non-owning ("weak") reference to an object that is managed by <code>shared_ptr</code>. It must be converted to <code>shared_ptr</code> in order to access the referenced object.</p>
+</li>
+<li>
+<p><code>boost::intrusive_ptr</code>: A smart pointer that uses intrusive reference counting. Intrusive reference counting relies on the object to maintain the reference count, rather than the smart pointer. This can provide performance benefits in certain situations, but it requires additional support from the referenced objects.</p>
+</li>
+<li>
+<p><code>boost::enable_shared_from_this</code>: Provides member function <code>shared_from_this</code>, which enables an object that&#8217;s already managed by a <code>shared_ptr</code> to safely generate more <code>shared_ptr</code> instances that all share ownership of the same object.</p>
+</li>
+<li>
+<p><code>boost::unique_ptr</code>: A smart pointer that retains exclusive ownership of an object through a pointer. It&#8217;s similar to <code>std::unique_ptr</code> in the C++ Standard Library.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Can you give me a brief coding overview of how to use smart pointers efficiently?</strong></p>
+<div class="paragraph">
+<p>There are several types of smart pointers with different characteristics and use cases, so use them appropriately according to your program&#8217;s requirements. Here are some common examples:</p>
+</div>
+<div class="paragraph">
+<p>A <code>shared_ptr</code> is a reference-counting smart pointer, meaning it retains shared ownership of an object through a pointer. When the last <code>shared_ptr</code> to an object is destroyed, the pointed-to object is automatically deleted. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/shared_ptr.hpp&gt;
+
+void foo() {
+    boost::shared_ptr&lt;int&gt; sp(new int(10));
+    // Now 'sp' owns the 'int'.
+    // When 'sp' is destroyed, the 'int' will be deleted.
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that <code>shared_ptr</code> objects can be copied, meaning ownership of the memory can be shared among multiple pointers. The memory will be freed when the last remaining <code>shared_ptr</code> is destroyed. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/shared_ptr.hpp&gt;
+
+void foo() {
+    boost::shared_ptr&lt;int&gt; sp1(new int(10));
+    // Now 'sp1' owns the 'int'.
+    boost::shared_ptr&lt;int&gt; sp2 = sp1;
+    // Now 'sp1' and 'sp2' both own the same 'int'.
+    // The 'int' will not be deleted until both 'sp1' and 'sp2' are destroyed.
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A <code>weak_ptr</code> is a smart pointer that holds a non-owning ("weak") reference to an object managed by a <code>shared_ptr</code>. It must be converted to <code>shared_ptr</code> in order to access the object. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/shared_ptr.hpp&gt;
+#include &lt;boost/weak_ptr.hpp&gt;
+
+void foo() {
+    boost::shared_ptr&lt;int&gt; sp(new int(10));
+    boost::weak_ptr&lt;int&gt; wp = sp;
+    // 'wp' is a weak pointer to the 'int'.
+    // If 'sp' is destroyed, 'wp' will be able to detect it.
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A <code>unique_ptr</code> is a smart pointer that retains exclusive ownership of an object through a pointer. It&#8217;s similar to <code>std::unique_ptr</code> in the C++ Standard Library. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/interprocess/smart_ptr/unique_ptr.hpp&gt;
+
+void foo() {
+    boost::movelib::unique_ptr&lt;int&gt; up(new int(10));
+    // Now 'up' owns the 'int'.
+    // When 'up' is destroyed, the 'int' will be deleted.
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_standard_library"><a class="anchor" href="#_standard_library"></a>Standard Library</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Where can I find the most complete documentation on the C++ Standard Library?</strong></p>
+<div class="paragraph">
+<p>Here, the <a href="https://en.cppreference.com/w/cpp/standard_library">C++ Standard Library</a>. The Search feature is useful for locating individual components.</p>
+</div>
+</li>
+<li>
+<p><strong>How can I be sure when I should use a Boost library or a component of the Standard Library?</strong></p>
+<div class="paragraph">
+<p>Most Boost libraries provide useful and advanced functionality unavailable in the Standard Library. A few Boost libraries have indeed been superseded by the Standard Library, but remain in Boost for backwards compatibility. To determine which you should use, given the choice, consider working through the following process.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>When a Boost library is included in the Standard Library, not <em>all</em> of the functionality provided is necessarily standardized. For example, <a href="https://www.boost.org/libs/system">Boost.System</a> has been standardized but still contains additional functionality not available in the standard. Although standardization might include all of the functionality of a Boost library, performance is not always identical and it can be of value to use the Boost version for higher performance (for example, <a href="https://www.boost.org/libs/regex">Boost.Regex</a>). In a few cases, the whole of the Boost library is standardized and the Boost version does not improve on performance (for example, <a href="https://www.boost.org/libs/thread">Boost.Thread</a>).</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Check the Boost library documentation, as their relationship to the Standard Library is sometimes documented. Both the Overview and the Release Notes are good sources of information for mentions of standardization.</p>
+</li>
+<li>
+<p>The <a href="https://en.cppreference.com/w/cpp/standard_library">C++ Standard Library</a> is also well documented. Check to see if the functionality you are looking for is now part of the standard. If you have specific features in mind, comparing the Boost and Standard library functions and classes should provide you with a definitive answer on which to use.</p>
+</li>
+<li>
+<p>If you are less certain of the specific features you need, developers often discuss the status and relevance of Boost libraries in comparison to the standard. Browse, or ask a question in, <a href="https://stackoverflow.com/search?q=Boost&amp;s=f447efbc-2ea3-4846-a5d3-0f8676b3f65c">Stack Overflow</a>, <a href="https://www.reddit.com/search/?q=Boost+libraries&amp;type=link&amp;cId=28644139-c8b3-48a5-87b6-0c9822188ed4&amp;iId=7f450c5d-6180-4538-a39f-7df7876df4e9&amp;onetap_auto=true&amp;one_tap=true">Reddit</a>, or the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost Developers Mailing List</a>.</p>
+</li>
+<li>
+<p>If you want to dig into the source code, check the activity in the <a href="https://github.com/boostorg/boost/tree/master/libs">Boost library&#8217;s GitHub repository</a>. Libraries that have been largely superseded have less recent activity compared to those still actively developed and extended. Also check Release Notes for mentions of deprecations or recommendations.</p>
+</li>
+<li>
+<p>Current examples of libraries where you should now use the Standard Library include <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a> (use <code>std::shared_ptr</code>, <code>std::unique_ptr</code> etc.), <a href="https://www.boost.org/libs/thread">Boost.Thread</a> (use <code>std::thread</code>), <a href="https://www.boost.org/libs/chrono">Boost.Chrono</a> (use <code>std::chrono</code>), and <a href="https://www.boost.org/libs/random">Boost.Random</a> (use <code>std::rand</code>). Referring to the documentation for these might help show the language used when discussing the relationship with the Standard Library.</p>
+</li>
+</ol>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><strong>Are there any Boost libraries currently being considered for inclusion in the Standard Library?</strong></p>
+<div class="paragraph">
+<p>Yes, currently the functionality of two Boost libraries are being considered:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><a href="https://www.boost.org/libs/lambda2">Boost.Lambda2</a> : for details refer to <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3171r0.html">Adding functionality to placeholder types</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/fiber">Boost.Fiber</a> : for details refer to <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p0876r17.pdf">fiber_context - fibers without scheduler</a></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>What is the current status of the Standard Library and when is the next release?</strong></p>
+<div class="paragraph">
+<p><strong>C++ 2026</strong> is slated as the next full release, for details refer to <a href="https://isocpp.org/std/status">Current Status</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_templates"><a class="anchor" href="#_templates"></a>Templates</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>What are C++ templates?</strong></p>
+<div class="paragraph">
+<p>C++ templates are a powerful feature of the language that allows for generic programming. They enable the creation of functions or classes that can operate on different data types without having to duplicate code.</p>
+</div>
+</li>
+<li>
+<p><strong>What are function templates in C++?</strong></p>
+<div class="paragraph">
+<p>Function templates are functions that can be used with any data type. You define them using the keyword template followed by the template parameters. Function templates allow you to create a single function that can operate on different data types.</p>
+</div>
+</li>
+<li>
+<p><strong>What is template specialization in C++?</strong></p>
+<div class="paragraph">
+<p>Template specialization is a feature of C++ templates that allows you to define a different implementation of a template for a specific type or set of types. It can be used with both class and function templates.</p>
+</div>
+</li>
+<li>
+<p><strong>What are the benefits and drawbacks of using templates in C++?</strong></p>
+<div class="paragraph">
+<p>The benefits of using templates include code reusability, type safety, and the ability to use generic programming paradigms. The drawbacks include potentially increased compile times, difficult-to-understand error messages, and complexities associated with template metaprogramming.</p>
+</div>
+</li>
+<li>
+<p><strong>How can I use templates to implement a generic sort function in C++?</strong></p>
+<div class="paragraph">
+<p>Here&#8217;s an example of how you might use a function template to implement a generic sort function, working with <a href="https://www.boost.org/libs/range">Boost.Range</a>, so any type that is supported by this library can be sorted using the following function:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/range/iterator_range.hpp&gt;
+
+// Bubble sort using Boost.Range-compatible interface
+template&lt;typename Range&gt;
+void bubble_sort_range(Range&amp; r) {
+    using std::begin;
+    using std::end;
+
+    using Iterator = typename boost::range_iterator&lt;Range&gt;::type;
+    using Category = typename std::iterator_traits&lt;Iterator&gt;::iterator_category;
+
+    // Enforce random access iterators at compile time
+    BOOST_STATIC_ASSERT((std::is_base_of&lt;std::random_access_iterator_tag, Category&gt;::value));
+
+    Iterator first = boost::begin(r);
+    Iterator last = boost::end(r);
+
+    if (first == last) return;
+
+    bool swapped = true;
+    while (swapped) {
+        swapped = false;
+        for (Iterator it = first; it + 1 != last; ++it) {
+            if (*(it + 1) &lt; *it) {
+                std::iter_swap(it, it + 1);
+                swapped = true;
+            }
+        }
+        --last;
+    }
+}
+
+// Usage example:
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+int main() {
+    std::vector&lt;int&gt; nums = { 9, 3, 7, 1, 4, 6, 12, 21, 14, 13, 11, 9, -1, -4 };
+    bubble_sort_range(nums);
+
+    for (int n : nums)
+        std::cout &lt;&lt; n &lt;&lt; " ";
+    std::cout &lt;&lt; "\n";
+
+    std::vector&lt;std::string&gt; names = { "charlie", "alice", "bob", "pete", "vanessa", "dave", "alexi"};
+    bubble_sort_range(names);
+
+    for (const auto&amp; name : names)
+        std::cout &lt;&lt; name &lt;&lt; " ";
+    std::cout &lt;&lt; "\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running the example you should get the output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">-4 -1 1 3 4 6 7 9 9 11 12 13 14 21
+alexi alice bob charlie dave pete vanessa</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>This use of templates is given as an example only, the <code>std::sort</code>, <code>std::stable_sort</code>, and <code>std::spreadsort</code> are super efficient and should be used whenever possible. However, if you have a special process you would like to apply to different types of ranges, this templated approach may work well for you. For specialized sorts, refer to <a href="https://www.boost.org/libs/sort">Boost.Sort</a>.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_types"><a class="anchor" href="#_types"></a>Types</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>The Boost Libraries have been criticized for using Boost-specific types, do all the libraries use Boost types or do some use standard integers, floats, and strings to name a few of the most-used types?</strong></p>
+<div class="paragraph">
+<p>This question comes up often when people start using Boost seriously. The short answer is "no", not all Boost libraries use Boost-specific types. In fact, many Boost libraries rely primarily on standard types such as <code>int</code>, <code>double</code>, <code>std::string</code>, and <code>std::vector</code>. Boost types generally appear only where they add functionality the standard library didn&#8217;t have at the time — or still doesn&#8217;t.</p>
+</div>
+<div class="paragraph">
+<p>Most libraries use standard types, such as: <a href="https://www.boost.org/libs/math">Boost.Math</a>, <a href="https://www.boost.org/libs/algorithm">Boost.Algorithm</a>, <a href="https://www.boost.org/libs/random">Boost.Random</a>, <a href="https://www.boost.org/libs/accumulators">Boost.Accumulators</a>, <a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a>, <a href="https://www.boost.org/libs/range">Boost.Range</a>, <a href="https://www.boost.org/libs/geometry">Boost.Geometry</a>, <a href="https://www.boost.org/doc/libs/master/doc/html/boost_pfr.html">Boost.PFR</a>, <a href="https://www.boost.org/libs/describe">Boost.Describe</a>.</p>
+</div>
+<div class="paragraph">
+<p>A few libraries use minimal specific types, such as <a href="https://www.boost.org/libs/system">Boost.System</a>, <a href="https://www.boost.org/libs/program_options">Boost.ProgramOptions</a>.</p>
+</div>
+<div class="paragraph">
+<p>The following libraries were introducted <em>before</em> Standard C++ introduced equivalents: <a href="https://www.boost.org/libs/optional">Boost.Optional</a>, <a href="https://www.boost.org/libs/variant">Boost.Variant</a>, <a href="https://www.boost.org/libs/function">Boost.Function</a>, <a href="https://www.boost.org/libs/any">Boost.Any</a>, <a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a>, <a href="https://www.boost.org/libs/smart_ptr">Boost.SmartPtr</a>.</p>
+</div>
+<div class="paragraph">
+<p>In some libraries Boost-specfic types are needed for some issues like portability, allocator support, or async control. Such libraries inlude the popular <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, and others including <a href="https://www.boost.org/libs/coroutine2">Boost.Coroutine2</a>, <a href="https://www.boost.org/libs/context">Boost.Context</a>, <a href="https://www.boost.org/libs/lockfree">Boost.Lockfree</a>.</p>
+</div>
+<div class="paragraph">
+<p>For the libraries that require meta-types at compile time, these do require mostly Boost-specific types: <a href="https://www.boost.org/libs/mp11">Boost.Mp11</a>, <a href="https://www.boost.org/libs/hana">Boost.Hana</a>, <a href="https://www.boost.org/libs/type_index">Boost.TypeIndex</a>, <a href="https://www.boost.org/libs/static_assert">Boost.StaticAssert</a>.</p>
+</div>
+</li>
+<li>
+<p><strong>Can you give me some examples of types added to Boost libraries?</strong></p>
+<div class="paragraph">
+<p>In <a href="https://www.boost.org/libs/asio">Boost.Asio</a> the type <code>boost::asio::context</code> was added to support a low-level async framework, though does use standard-compatible I/O buffers. In <a href="https://www.boost.org/libs/system">Boost.System</a>, <code>boost::system::error_code</code> was added to support location metadata not available in the standard. In <a href="https://www.boost.org/libs/optional">Boost.Optional</a> there is the type <code>boost::optional&lt;T&gt;</code>, which is now available in the standard library as <code>std::optional</code> - but was not available at the time <a href="https://www.boost.org/libs/optional">Boost.Optional</a> was released.</p>
+</div>
+</li>
+<li>
+<p><strong>If I am updating an older version of a codebase, but am not updating the C++ Standard used for that codebase, does it make sense to use Boost libraries?</strong></p>
+<div class="paragraph">
+<p>Boost libraries will provide you with some version independance. For example <code>std::shared_ptr</code> and <code>std::optional</code> are not available before the C++ 11 Standard, using <a href="https://www.boost.org/libs/shared_ptr">Boost.SharedPtr</a> and <a href="https://www.boost.org/libs/optional">Boost.Optional</a> should provide a robust approach to an update of older code.</p>
+</div>
+</li>
+<li>
+<p><strong>What are the issues with <code>std::string</code> that are addressed by Boost libraries such as Static-String, String-Algo, or String-View?</strong></p>
+<div class="paragraph">
+<p>The <code>std::string</code> is great for general-purpose English or programming string handling, but has limitations in several key areas: performance (it requires frequent heap allocations and copies), immutability/safety (it can be unintentionally modified or shared), internationization (foreign languages), and feature gaps (it lacks certain high-level string algorithms or fixed-capacity behavior).</p>
+</div>
+<div class="paragraph">
+<p>For embedded systems, real-time applications, and performance-critical loops consider using <a href="https://www.boost.org/libs/static_string">Boost.StaticString</a> as it provides a compile-time fixed-capacity string (<code>boost::static_string&lt;N&gt;</code>) that eliminates heap allocations.</p>
+</div>
+<div class="paragraph">
+<p>For multi-language software and UTF-8 processing, consider using <a href="https://www.boost.org/libs/locale">Boost.Locale</a> for locale-aware comparisons, formatting, and conversions.</p>
+</div>
+<div class="paragraph">
+<p>When working with configuration files, command-line tools, log or protocol parsing - or more advanced tasks such as data validation and pattern recognition - consider the <a href="https://www.boost.org/doc/libs/1_83_0/doc/html/string_algo.html">Boost.StringAlgo</a>, <a href="https://www.boost.org/libs/regex">Boost.Regex</a>, <a href="https://www.boost.org/libs/xpressive">Boost.Xpressive</a>, or <a href="https://www.boost.org/libs/lexical_cast">Boost.LexicalCast</a> libraries. These libraries offer hundreds of algorithms, views, conversions that will avoid the tedious task of reimplementing string utilities.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="https://www.boost.org/libs/utility/doc/html/utility/utilities">Boost.StringView</a> library has now been superceded by <code>std::string_view</code>, available from C++ 17.</p>
+</div>
+</li>
+<li>
+<p><strong>Can you show me example code where standard integers and Boost.Multiprecision code work well together?</strong></p>
+<div class="paragraph">
+<p>The following code shows automatic promotion (<code>big_int += small_int</code>), arbitrary precision (<code>cpp_int</code> grows as large as is needed), high-precision floating point (<code>area = high_precision_pi * radius * radius</code>), and interoperability (<code>approx_area</code> conversion):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/multiprecision/cpp_int.hpp&gt;
+#include &lt;boost/multiprecision/cpp_dec_float.hpp&gt;
+
+namespace mp = boost::multiprecision;
+
+int main() {
+
+    // --- 1. Standard integer and multiprecision integer ---
+    std::int64_t small_int = 42;
+    mp::cpp_int big_int = 1;
+
+    // Multiply big_int by a large factor
+    for (int i = 0; i &lt; 50; ++i)
+        big_int *= 10; // No overflow — arbitrary precision!
+
+    // Add standard integer directly — implicit promotion works
+    big_int += small_int;
+
+    std::cout &lt;&lt; "Big integer (with 42 added): " &lt;&lt; big_int &lt;&lt; "\n\n";
+
+    // --- 2. Using multiprecision floats with standard numeric types ---
+    mp::cpp_dec_float_50 high_precision_pi = 3.14159265358979323846264338327950288419716939937510;
+    double radius = 2.5;
+
+    // You can mix standard and multiprecision floats seamlessly
+    mp::cpp_dec_float_50 area = high_precision_pi * radius * radius;
+
+    std::cout &lt;&lt; std::setprecision(40);
+    std::cout &lt;&lt; "Area of circle (high precision): " &lt;&lt; area &lt;&lt; "\n\n";
+
+    // --- 3. Conversion back to standard types ---
+    // Note: Narrowing conversions can lose precision
+    double approx_area = static_cast&lt;double&gt;(area);
+    std::cout &lt;&lt; "Area (as double): " &lt;&lt; std::setprecision(16) &lt;&lt; approx_area &lt;&lt; "\n";
+
+    // --- 4. Interoperation example: sum of large values ---
+    mp::cpp_int total = 0;
+    for (std::int64_t i = 1; i &lt;= 1'000'000; ++i)
+        total += i; // summing using high-precision integer
+
+    std::cout &lt;&lt; "\nSum of first 1,000,000 integers: " &lt;&lt; total &lt;&lt; "\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running this code should give you:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Big integer (with 42 added): 100000000000000000000000000000000000000000000000042
+
+Area of circle (high precision): 19.63495408493620697498727167840115725994
+
+Area (as double): 19.63495408493621
+
+Sum of first 1,000,000 integers: 500000500000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a> is designed to seamlessly extend the built-in numeric types, so you can mix <code>std::int</code>, <code>std::uint64_t</code>, <code>double</code>, and multiprecision types freely — the library&#8217;s operator overloads handle promotion automatically. Typically, in scientific computing (very large floating point numbers) <code>cpp_dec_float_50</code> is combined with <code>double</code>, and for working with very large integers (say boundary values), combine <code>cpp_int</code> with <code>std::int64_t</code> or <code>std::size_t</code>.</p>
+</div>
+</li>
+<li>
+<p><strong>I am having trouble with a multi-platfrom project that requires strings in UTF-8 format, but with Windows APIs requiring UTF-16?</strong></p>
+<div class="paragraph">
+<p>You should conside using <a href="https://www.boost.org/libs/nowide">Boost.Nowide</a>, a library that makes Windows Unicode handling sane! This library provides UTF-8 versions of <code>fopen</code>, <code>std::cout</code>, as well as file I/O and environmental variables. It also provides the crucial automatic conversion to UTF-16 when calling Windows APIs. You might also find <a href="https://www.boost.org/libs/locale">Boost.Locale</a> useful if internationalization is required, <a href="https://www.boost.org/libs/static_string">Boost.StaticString</a>, and the <code>small_vector</code> type of <a href="https://www.boost.org/libs/container">Boost.Container</a> for efficient short-string handling.</p>
+</div>
+</li>
+<li>
+<p><strong>Storage space is of the essence in the real-time app I am building, are there Boost libraries that can provide <em>small</em> integers, specifying 8 or 16 bits and no more storage than that is allocated?</strong></p>
+<div class="paragraph">
+<p>For byte level efficiency look at <a href="https://www.boost.org/libs/endian">Boost.Endian</a>, this library gives you precise control over both integer size and alignment. It also provides cross-platfrom compatibility, if that is important. For example, <code>boost::endian::little_int8_t  smallCount;</code> will always be 8 bit. <a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a> does provide for declaring small integers as low as 8 bits, but is not so memory efficient. If your goal is to save overall memory, not just per-number bytes, check out <a href="https://www.boost.org/libs/container">Boost.Container</a>, as it supports small-vector optimization and no heap allocations.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../contributor-guide/contributors-faq.html" class="xref page">Contributor Guide FAQ</a></p>
+</li>
+<li>
+<p><a href="explore-the-content.html" class="xref page">Explore the Content</a></p>
+</li>
+<li>
+<p><a href="glossary.html" class="xref page">Glossary</a></p>
+</li>
+<li>
+<p><a href="resources.html" class="xref page">Resources</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/faq.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="explore-the-content.html">Explore the Content</a></span>
+        <span class="next"><a href="building-with-cmake.html">Building with CMake</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Getting Started :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/getting-started.html">
+    <link rel="prev" href="intro.html">
+    <link rel="next" href="explore-the-content.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="getting-started.html">Getting Started</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="intro.html">
+      <span class="material-symbols-outlined" title="Previous: Introduction">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="explore-the-content.html">
+      <span class="material-symbols-outlined" title="Next: Explore the Content">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Getting Started</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section explains how to get your first Boost app running.
+Here&#8217;s a step-by-step guide for installing from source.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The only prerequisite for installing boost is a C++ compiler.
+If you already have that set-up, please skip to the <a href="#binaries">Binaries</a> or <a href="#from-source">From Source</a> section.</p>
+</div>
+<div class="paragraph">
+<p>If you don&#8217;t have access to a C++ compiler yet, here are a few ways to get started:</p>
+</div>
+<div id="_tabs_1" class="openblock tabs is-sync data-sync-group-id=os is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_1_windows" class="tab">
+<p>Windows</p>
+</li>
+<li id="_tabs_1_linux" class="tab">
+<p>Linux</p>
+</li>
+<li id="_tabs_1_macos" class="tab">
+<p>macOS</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_1_windows--panel" class="tabpanel" aria-labelledby="_tabs_1_windows">
+<div class="paragraph">
+<p>Users on Windows usually get started with the Visual Studio compiler.
+You can download the <a href="https://visualstudio.microsoft.com/downloads/">Microsoft Visual Studio 2022</a> (Community Edition) as the IDE and C++ compiler in these examples.</p>
+</div>
+</div>
+<div id="_tabs_1_linux--panel" class="tabpanel" aria-labelledby="_tabs_1_linux">
+<div class="paragraph">
+<p>Users on Linux usually get started with GCC.
+You can check if GCC is already installed with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">g++ --version</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Otherwise, you need to install the necessary build tools and libraries.
+For Ubuntu or Debian-based distributions, use the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo apt update
+sudo apt install build-essential python3 libbz2-dev libz-dev libicu-dev</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For Fedora systems, use the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo dnf update
+sudo dnf install gcc-c++ python3 bzip2-devel zlib-devel libicu-devel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For Redhat-based systems (RHEL, CentOS Stream, etc.), use the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo yum update
+sudo yum install gcc-c++ python3 bzip2-devel zlib-devel libicu-devel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For Arch-based systems (Arch Linux, Manjaro, etc.), use the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo pacman -Syu
+sudo pacman -S base-devel python3 bzip2 zlib icu</code></pre>
+</div>
+</div>
+</div>
+<div id="_tabs_1_macos--panel" class="tabpanel" aria-labelledby="_tabs_1_macos">
+<div class="paragraph">
+<p>Users on macOS usually get started with Clang.
+You can check if Clang is already installed with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">clang++ --version</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="binaries"><a class="anchor" href="#binaries"></a>Binaries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Installing Boost with a package manager might simplify the process and ensure that all dependencies are installed correctly.
+In this guide, we will discuss two types of package managers: <a href="#cpp-package-managers">C++ Package Managers</a> package managers such as Conan and Vcpkg, and <a href="#_system_level_installation">System Package Managers</a>, such as APT and Homebrew.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>While using a package manager can simplify the installation process, there are some potential downsides to consider, such as a lack of control over the installation process and potential version conflicts with other installed software.
+We will discuss these in more detail in the sections below.</p>
+</div>
+<div class="paragraph">
+<p>If you want to ensure you have the latest version Boost, see the instructions to build and install Boost <a href="#from-source">from source</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="cpp-package-managers"><a class="anchor" href="#cpp-package-managers"></a>C++ Package Managers</h3>
+<div class="paragraph">
+<p>C++ package managers are a popular choice for managing dependencies in C++ projects.
+They provide a simple and consistent way to download, configure, and install libraries as a process that is replicable on various platforms.</p>
+</div>
+<div id="_tabs_2" class="openblock tabs is-sync is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_2_vcpkg" class="tab">
+<p>Vcpkg</p>
+</li>
+<li id="_tabs_2_conan" class="tab">
+<p>Conan</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_2_vcpkg--panel" class="tabpanel" aria-labelledby="_tabs_2_vcpkg">
+<div class="paragraph">
+<p>To install Boost with Vcpkg, you can run a command like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">vcpkg install boost</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or adding <code>boost</code> to your <code>vcpkg.json</code> manifest file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "my-application",
+    "version": "0.15.2",
+    "dependencies": [
+        "boost"
+    ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also install individual boost modules by providing their names as a suffix:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">vcpkg install boost-variant2 boost-describe</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or adding the modules to your <code>vcpkg.json</code> manifest file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "my-application",
+    "version": "0.15.2",
+    "dependencies": [
+        "boost-variant2",
+        "boost-describe"
+    ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For most users, Vcpkg recommends Manifest mode.
+Follow the instructions in <a href="https://learn.microsoft.com/en-us/vcpkg/users/manifests">the introduction guide</a> to manifest files.</p>
+</div>
+<div class="paragraph">
+<p>To consume the libraries transparently from CMake, one can use the <a href="https://learn.microsoft.com/en-us/vcpkg/users/buildsystems/cmake-integration">Vcpkg toolchain</a> with the <code>CMAKE_TOOLCHAIN_FILE</code> configuration option.</p>
+</div>
+</div>
+<div id="_tabs_2_conan--panel" class="tabpanel" aria-labelledby="_tabs_2_conan">
+<div class="paragraph">
+<p>You can install Boost with Conan through the <a href="https://conan.io/center/recipes/boost">boost</a> package.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>However, these installation methods are not officially supported, which means the packages are not regularly tested by Boost authors.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_system_level_installation"><a class="anchor" href="#_system_level_installation"></a>System-Level Installation</h3>
+<div class="paragraph">
+<p>Depending on your operating system, you may have different package managers available.
+For instance, on Debian-based Linux distributions, APT is a popular choice, while macOS users often use Homebrew, and Windows users may prefer Chocolatey.
+Depending on your variant of Unix, you can use a package manager such as <strong>apt</strong>, <strong>dnf</strong>, <strong>yum</strong>, or <strong>pacman</strong>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>While using a system package manager has its advantages, there are also some drawbacks to consider.
+These include lack of control over the installation process, and the high likelihood of using outdated or unsupported versions of the Boost libraries, which may be several years old.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="_tabs_3" class="openblock tabs is-sync is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_3_ubuntu" class="tab">
+<p>Ubuntu</p>
+</li>
+<li id="_tabs_3_fedora" class="tab">
+<p>Fedora</p>
+</li>
+<li id="_tabs_3_centos" class="tab">
+<p>CentOS</p>
+</li>
+<li id="_tabs_3_arch" class="tab">
+<p>Arch</p>
+</li>
+<li id="_tabs_3_homebrew" class="tab">
+<p>Homebrew</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_3_ubuntu--panel" class="tabpanel" aria-labelledby="_tabs_3_ubuntu">
+<div class="paragraph">
+<p>To install the Boost C++ libraries onto Debian-based systems (such as Debian, Ubuntu), you can use the package manager apt.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># Update your package list
+sudo apt update
+# Install the Boost development libraries
+sudo apt install libboost-all-dev</code></pre>
+</div>
+</div>
+</div>
+<div id="_tabs_3_fedora--panel" class="tabpanel" aria-labelledby="_tabs_3_fedora">
+<div class="paragraph">
+<p>To install the Boost C++ libraries on Fedora, you can use the package manager <strong>dnf</strong>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># Update your package list
+sudo dnf update
+# Install the Boost development libraries
+sudo dnf install boost-devel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Boost libraries are usually available as pre-compiled packages in the official Fedora repositories.</p>
+</div>
+</div>
+<div id="_tabs_3_centos--panel" class="tabpanel" aria-labelledby="_tabs_3_centos">
+<div class="paragraph">
+<p>To install the Boost C++ libraries on CentOS, you can use the package manager <strong>yum</strong>.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>If you are using CentOS 8 or later, you might need to enable the PowerTools repository to get the Boost development libraries:</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">sudo yum config-manager --set-enabled powertools</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># Update your package list
+sudo yum update
+# Install the Boost development libraries
+sudo yum install boost-devel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Boost libraries are usually available as pre-compiled packages in the official CentOS repositories.</p>
+</div>
+</div>
+<div id="_tabs_3_arch--panel" class="tabpanel" aria-labelledby="_tabs_3_arch">
+<div class="paragraph">
+<p>To install the Boost C++ libraries onto Arch-based systems (such as Arch Linux, Manjaro), you can use the package manager <strong>pacman</strong>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># Update your package list
+sudo yum update
+# Install the Boost development libraries
+sudo pacman -S boost</code></pre>
+</div>
+</div>
+</div>
+<div id="_tabs_3_homebrew--panel" class="tabpanel" aria-labelledby="_tabs_3_homebrew">
+<div class="paragraph">
+<p><a href="https://brew.sh/" target="_blank" rel="noopener">Homebrew</a> is a package manager for macOS that allows users to easily install, manage, and update a wide range of software packages and libraries from the command line.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># Update your package list
+brew update
+brew upgrade
+# Install the Boost development libraries
+brew install boost</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Homebrew will download and install the Boost libraries and their dependencies.
+To verify that the Boost libraries are installed correctly, you can run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">brew list boost</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Once the installation is complete, the Boost libraries will be installed on your system, typically in <code>/usr</code>.
+To verify that the Boost libraries have been installed correctly, you can check the version number:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">cat /usr/include/boost/version.hpp | grep "BOOST_LIB_VERSION"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command should output the Boost version installed on your system.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="from-source"><a class="anchor" href="#from-source"></a>From Source</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_download_boost"><a class="anchor" href="#_download_boost"></a>Download Boost</h3>
+<div id="_tabs_4" class="openblock tabs is-sync data-sync-group-id=build is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_4_b2_recommended" class="tab">
+<p>B2 (Recommended)</p>
+</li>
+<li id="_tabs_4_cmake" class="tab">
+<p>CMake</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_4_b2_recommended--panel" class="tabpanel" aria-labelledby="_tabs_4_b2_recommended">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <a href="https://www.boost.org/users/download/" class="bare">https://www.boost.org/users/download/</a> and under <strong>Current Release/Downloads</strong>, download the Boost distribution.
+For instance:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Windows: <a href="https://archives.boost.io/release/1.89.0/source/boost_1_89_0.zip">boost_1_89_0.zip</a></p>
+</li>
+<li>
+<p>Unix variants: <a href="https://archives.boost.io/release/1.89.0/source/boost_1_89_0.tar.bz2">boost_1_89_0.tar.bz2</a></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>After the download has completed in your <strong>Downloads</strong> folder, right-click on the compressed file and extract it to a folder.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<a href="https://www.bfgroup.xyz/b2/">B2</a> is the officially supported build system used by the Boost libraries.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="_tabs_4_cmake--panel" class="tabpanel" aria-labelledby="_tabs_4_cmake">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <a href="https://github.com/boostorg/boost/releases" class="bare">https://github.com/boostorg/boost/releases</a> and under <strong>Releases</strong>, download the Boost distribution.
+For instance:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Windows: <a href="https://github.com/boostorg/boost/releases/download/boost-1.89.0/boost-1.89.0.zip">boost-1_89_0.zip</a></p>
+</li>
+<li>
+<p>Unix variants: <a href="https://github.com/boostorg/boost/releases/download/boost-1.89.0/boost-1.89.0.tar.gz">boost-1_89_0.tar.bz2</a></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>After the download has completed in your <strong>Downloads</strong> folder, right-click on the compressed file and extract it to a folder.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You don&#8217;t need to <strong>build</strong> Boost with CMake to be able to <strong>use</strong> Boost with CMake.
+CMake integration will work fine even if you install Boost with <a href="https://www.bfgroup.xyz/b2/">B2</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Or you can streamline the whole process directly from the command line:</p>
+</div>
+<div id="_tabs_5" class="openblock tabs is-sync data-sync-group-id=os is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_5_windows" class="tab">
+<p>Windows</p>
+</li>
+<li id="_tabs_5_linux" class="tab">
+<p>Linux</p>
+</li>
+<li id="_tabs_5_macos" class="tab">
+<p>macOS</p>
+</li>
+<li id="_tabs_5_git" class="tab">
+<p>Git</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_5_windows--panel" class="tabpanel" aria-labelledby="_tabs_5_windows">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">curl https://archives.boost.io/release/1.89.0/source/boost_1_89_0.zip <i class="conum" data-value="1"></i><b>(1)</b>
+tar -xf boost_1_89_0.zip <i class="conum" data-value="2"></i><b>(2)</b>
+cd boost_1_89_0 <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Download the boost distribution <code>boost_1_89_0.zip</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Extract the files into <code>boost_1_89_0</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Change the current working directory to <code>boost_1_89_0</code>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>These instructions assume you have <a href="https://curl.se/" target="_blank" rel="noopener">Curl</a> and <a href="https://gnuwin32.sourceforge.net/packages/gtar.htm" target="_blank" rel="noopener">Tar</a> installed on your system, and your OS is Windows 10 or later.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+</table>
+</div>
+</div>
+<div id="_tabs_5_linux--panel" class="tabpanel" aria-labelledby="_tabs_5_linux">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">wget https://archives.boost.io/release/1.89.0/source/boost_1_89_0.tar.bz2 <i class="conum" data-value="1"></i><b>(1)</b>
+tar xf boost_1_89_0.tar.bz2 <i class="conum" data-value="2"></i><b>(2)</b>
+cd boost_1_89_0 <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Download the boost distribution <code>boost_1_89_0.tar.bz2</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Extract the files into <code>boost_1_89_0</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Change the current working directory to <code>boost_1_89_0</code></td>
+</tr>
+</table>
+</div>
+</div>
+<div id="_tabs_5_macos--panel" class="tabpanel" aria-labelledby="_tabs_5_macos">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl https://archives.boost.io/release/1.89.0/source/boost_1_89_0.tar.bz2 <i class="conum" data-value="1"></i><b>(1)</b>
+tar xf boost_1_89_0.tar.bz2 <i class="conum" data-value="2"></i><b>(2)</b>
+cd boost_1_89_0 <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Download the boost distribution <code>boost_1_89_0.tar.bz2</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Extract the files into <code>boost_1_89_0</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Change the current working directory to <code>boost_1_89_0</code></td>
+</tr>
+</table>
+</div>
+</div>
+<div id="_tabs_5_git--panel" class="tabpanel" aria-labelledby="_tabs_5_git">
+<div class="paragraph">
+<p>You can clone and initialize the complete Boost super-project directly from GitHub with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone https://github.com/boostorg/boost.git -b boost-1.89.0 boost_1_89_0 --depth 1 <i class="conum" data-value="1"></i><b>(1)</b>
+cd boost_1_89_0
+git submodule update --depth 1 --init --recursive <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Clone the Boost super-project</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Initialize all boost modules</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_individual_modules"><a class="anchor" href="#_individual_modules"></a>Individual Modules</h3>
+<div class="paragraph">
+<p>The process above downloads all boost libraries, which is the usual process in a local installation.
+In projects where only a subset of the Boost libraries is required, which is usually desired in Continuous Integration Systems, the following procedure can be used:</p>
+</div>
+<div class="listingblock">
+<div class="title">Downloading <a href="https://www.boost.org/libs/unordered">Boost.Unordered</a> and internal dependencies</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone https://github.com/boostorg/boost.git -b boost-1.89.0 boost_1_89_0 --depth 1 <i class="conum" data-value="1"></i><b>(1)</b>
+git submodule update --depth 1 -q --init tools/boostdep <i class="conum" data-value="2"></i><b>(2)</b>
+git submodule update --depth 1 -q --init libs/unordered <i class="conum" data-value="3"></i><b>(3)</b>
+python tools/boostdep/depinst/depinst.py -X test -g "--depth 1" unordered <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Download the Boost super-project, which contains references to all Boost libraries</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Initialize <a href="https://www.boost.org/tools/boostdep">Boost.Boostdep</a> used to determine internal boost dependencies</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Initialize <a href="https://www.boost.org/libs/unordered">Boost.Unordered</a>.
+Repeat this step for any other modules you need.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Initialize any dependencies of <a href="https://www.boost.org/libs/unordered">Boost.Unordered</a>.
+Repeat this step for any other modules you need.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This procedure requires <code>git</code> and <code>python</code>.
+The following steps in this document apply to both methods of installing Boost.
+The only difference is what libraries will be available.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bootstrap"><a class="anchor" href="#_bootstrap"></a>Bootstrap</h3>
+<div class="paragraph">
+<p>If you followed the steps above, your current working directory should be <code>boost_1_89_0</code>.
+Otherwise, open up a command line terminal, and navigate to the boost folder you extracted.</p>
+</div>
+<div id="_tabs_6" class="openblock tabs is-sync data-sync-group-id=build is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_6_b2_recommended" class="tab">
+<p>B2 (Recommended)</p>
+</li>
+<li id="_tabs_6_cmake" class="tab">
+<p>CMake</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_6_b2_recommended--panel" class="tabpanel" aria-labelledby="_tabs_6_b2_recommended">
+<div class="paragraph">
+<p>The Boost libraries are built using a custom build app called <a href="https://www.bfgroup.xyz/b2/">B2</a>.
+This app itself is built by running the bootstrap script.</p>
+</div>
+<div class="paragraph">
+<p>This is the usual procedure to configure, build and install Boost with <a href="https://www.bfgroup.xyz/b2/">B2</a>:</p>
+</div>
+<div class="paragraph">
+<p>If your location has a space in the name, you will need to surround the path in quotes in the commands that follow.</p>
+</div>
+<div class="paragraph">
+<p>Windows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">bootstrap.bat
+b2
+b2 install --prefix=C:\Boost</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you get an error during the build process such as the following, you probably do not have an up to date and full installation of C++ on your machine.
+Go back to <a href="#_prerequisites">Prerequisites</a> and install or update your version of Visual Studio.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/cpp-runtime-error.png" alt="cpp runtime error">
+</div>
+</div>
+<div class="paragraph">
+<p>Unix variants:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">./bootstrap.sh --prefix=/usr/local
+./b2
+./b2 install</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can adjust the installation <code>prefix</code> to your preference in this command.</p>
+</div>
+<div class="paragraph">
+<p>The build process creates all variants of each library.
+For example, there may be <em>Release</em> and <em>Debug</em> variants, or possibly <em>Multithreaded</em> and <em>Static</em> runtime variants.
+Also, libraries that are <em>header-only</em> (in other words, do not require being built) are copied to your installation folder.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Instead of building everything, you can specify which libraries to build using the <code>--with-libraries=librarya,libraryb</code> option for <code>bootstrap.sh</code>. Use the <code>--show-libraries</code> to see which libraries need to be built.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="_tabs_6_cmake--panel" class="tabpanel" aria-labelledby="_tabs_6_cmake">
+<div class="paragraph">
+<p>You can also build the Boost libraries with CMake.
+This is the usual procedure to build and install Boost with CMake:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">mkdir __build
+cd __build
+cmake ..
+cmake --build .
+cmake --build . --target install</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you are using a multi-config generator, such as Visual Studio, you can install the Debug and Release variants of the library separately with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">cmake --build . --target install --config Debug
+cmake --build . --target install --config Release</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Although both the <a href="https://www.bfgroup.xyz/b2/">B2</a> and the CMake scripts work fine, the final installed libraries will have different layouts for historical reasons.
+Both the CMake integration scripts and the libraries will be installed under different paths and this can create incompatibilities between Boost installations.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You don&#8217;t need to <strong>build</strong> Boost with CMake to be able to <strong>use</strong> Boost with CMake.
+CMake integration will work fine even if you install Boost with <a href="https://www.bfgroup.xyz/b2/">B2</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can find more information about the limitations of a CMake infrastructure on <a href="https://github.com/boostorg/cmake" target="_blank" rel="noopener">boostorg/cmake</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_environment_variables"><a class="anchor" href="#_environment_variables"></a>Environment variables</h3>
+<div class="paragraph">
+<p>We recommend you update your environment variables after installing Boost.
+When you update your environment variables, you are telling your operating system and other tools where to look for the Boost libraries and headers.</p>
+</div>
+<div id="_tabs_7" class="openblock tabs is-sync data-sync-group-id=os is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_7_windows" class="tab">
+<p>Windows</p>
+</li>
+<li id="_tabs_7_linux" class="tab">
+<p>Linux</p>
+</li>
+<li id="_tabs_7_macos" class="tab">
+<p>macOS</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_7_windows--panel" class="tabpanel" aria-labelledby="_tabs_7_windows">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">set BOOST_ROOT=C:\boost <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Specify the root directory of the Boost C++ libraries so other tools can find it</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Replace <code>C:\boost</code> with the prefix directory you specified during the installation, if different.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="_tabs_7_linux--panel" class="tabpanel" aria-labelledby="_tabs_7_linux">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export BOOST_ROOT=/usr/local <i class="conum" data-value="1"></i><b>(1)</b>
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH <i class="conum" data-value="2"></i><b>(2)</b>
+export CPLUS_INCLUDE_PATH=/usr/local/include:$CPLUS_INCLUDE_PATH <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Specify the root directory of the Boost C++ libraries so other tools can find it</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Specify additional directories to search for shared libraries when executing a program</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Specify additional directories to search for C++ header files</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Replace <code>/usr/local</code> with the prefix directory you specified during the installation, if different.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can add these <code>export</code> commands to your <code>~/.bashrc</code> or <code>~/.profile</code> file to make the changes permanent.</p>
+</div>
+</div>
+<div id="_tabs_7_macos--panel" class="tabpanel" aria-labelledby="_tabs_7_macos">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export BOOST_ROOT=/usr/local <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Specify the root directory of the Boost C++ libraries so other tools can find it</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Replace <code>/usr/local</code> with the prefix directory you specified during the installation, if different.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can add these <code>export</code> commands to your <code>~/.bashrc</code> or <code>~/.profile</code> file to make the changes permanent.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="your-first-app"><a class="anchor" href="#your-first-app"></a>Your First App</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_header_only_libraries"><a class="anchor" href="#_header_only_libraries"></a>Header-only libraries</h3>
+<div class="paragraph">
+<p>Let&#8217;s start by using a header-only library.
+Copy the following program into a file called <code>example.cpp</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">example.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-C++ hljs" data-lang="C++">// Include a header from the Boost.Lambda library
+#include &lt;boost/lambda/lambda.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+
+int main()
+{
+    using namespace boost::lambda;
+    typedef std::istream_iterator&lt;int&gt; in;
+
+    std::cout &lt;&lt; "Enter numbers: ";
+
+    // Read a sequence of integers from standard input, use Boost.Lambda to multiply each number by three, then write it to the standard output
+    std::for_each(
+        in(std::cin), in(), std::cout &lt;&lt; (_1 * 3) &lt;&lt; " ");
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can now compile this program:</p>
+</div>
+<div id="_tabs_8" class="openblock tabs is-sync data-sync-group-id=build is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_8_cmake" class="tab">
+<p>CMake</p>
+</li>
+<li id="_tabs_8_visual_studio" class="tab">
+<p>Visual Studio</p>
+</li>
+<li id="_tabs_8_by_hand" class="tab">
+<p>By Hand</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_8_cmake--panel" class="tabpanel" aria-labelledby="_tabs_8_cmake">
+<div class="paragraph">
+<p>You can use <a href="https://cmake.org/" target="_blank" rel="noopener">CMake</a> to configure a project to use Boost and your <code>example.cpp</code>.
+Here&#8217;s an example <code>CMakeLists.txt</code> file that uses Boost:</p>
+</div>
+<div class="listingblock">
+<div class="title">CMakeLists.txt</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">cmake_minimum_required(VERSION 3.8...3.31)
+project(MyProject)
+
+find_package(Boost REQUIRED)
+add_executable(MyProject example.cpp)
+target_link_libraries(MyProject Boost::headers)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Store this file next to your <code>example.cpp</code> and run the basic CMake workflow:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">mkdir build <i class="conum" data-value="1"></i><b>(1)</b>
+cd build <i class="conum" data-value="2"></i><b>(2)</b>
+cmake .. -D BOOST_ROOT=path/to/boost_1_89_0 <i class="conum" data-value="3"></i><b>(3)</b>
+cmake --build . <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Create a <code>build</code> directory which should store the results</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Change the current working directory to <code>build</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Run the CMake configure step, providing it with the Boost directory</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Build the project</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If using CMake &gt;=3.13, this can be simplified to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">cmake -S . -B build -D BOOST_ROOT=path/to/boost_1_89_0
+cmake --build build</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In either case, the resulting executable should be available in the <code>build</code> directory.</p>
+</div>
+</div>
+<div id="_tabs_8_visual_studio--panel" class="tabpanel" aria-labelledby="_tabs_8_visual_studio">
+<div class="ulist">
+<ul>
+<li>
+<p>Open Visual Studio and select <strong>Create a new project</strong></p>
+</li>
+<li>
+<p>Choose <strong>Console App</strong> from the range of project templates.</p>
+</li>
+<li>
+<p>Change the names in the <strong>Configure your new project</strong> dialog, or leave the defaults, and click <strong>Create</strong>.</p>
+</li>
+<li>
+<p>Replace all the boilerplate content of the .cpp file with the contents of the <code>example.cpp</code> file, noting the inclusion of the header from Boost: <strong>lambda.hpp</strong>.</p>
+</li>
+<li>
+<p>Right-click on the name of the project in the <strong>Solution Explorer</strong> pane, and select <strong>Properties</strong>.</p>
+</li>
+<li>
+<p>Under <strong>C/C++</strong> select <strong>General</strong>, then click on <strong>Additional Include Directories</strong></p>
+</li>
+<li>
+<p>Add the path to your Boost <strong>include</strong> folder, that will have been built in the previous section.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/additional-include-directories.png" alt="additional include directories">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Next, still in the project properties, select <strong>Linker</strong>, then <strong>General</strong>, and locate the <strong>Additional Library Directories</strong></p>
+</li>
+<li>
+<p>Add the path to the Boost <strong>lib</strong> folder.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/additional-library-directories.png" alt="additional library directories">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click <strong>OK</strong> to accept your input.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can already run your example from Visual Studio:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the <strong>Debug</strong> menu, select <strong>Start Without Debugging</strong>, or press the F5 key.</p>
+</li>
+<li>
+<p>A Command Prompt should open up, so enter a list of numbers separated by spaces, and then <strong>Enter</strong>.</p>
+</li>
+<li>
+<p>You should get a line of numbers, your originals multiplied by 3.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/first-app-running.png" alt="first app running"></span></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Visual Studio provides support for CMake since Visual Studio 2017. CMake is a cross-platform build system that can generate build files for a variety of build tools, including Visual Studio solutions, makefiles, and ninja files.
+By supporting CMake, Visual Studio is able to provide a consistent development experience across multiple platforms and build tools.
+Additionally, the ability to generate CMake projects from Visual Studio allows developers to take advantage of Visual Studio&#8217;s debugging and profiling tools while still using their preferred build system.</p>
+</div>
+<div class="paragraph">
+<p>While Visual Studio provides a user friendly environment for building software, it may not always be the best choice for managing complex projects with multiple dependencies.
+In such cases, it is recommended to consider using CMake, a popular and flexible build system that can generate build files for a variety of build tools.
+You can have the option of using CMake to manage your complex projects, while still using Visual Studio&#8217;s robust development and debugging features.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="_tabs_8_by_hand--panel" class="tabpanel" aria-labelledby="_tabs_8_by_hand">
+<div class="paragraph">
+<p>In the directory where you saved <strong>example.cpp</strong>, issue the following command:</p>
+</div>
+<div class="paragraph">
+<p>Visual Studio Compiler:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">cl /I C:\boost\include example.cpp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>GCC:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">g++ -I /usr/local/include example.cpp -o example</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Clang:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">clang++ -I /usr/local/include example.cpp -o example</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Replace <code>C:\boost</code> or <code>/usr/local</code> with your Boost installation prefix if necessary.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>It is generally not recommended to use these commands by hand for complex projects, as managing all the compile and link options can quickly become unwieldy.
+Using a build system like CMake or Make can greatly simplify the process of building and managing a project, particularly when dealing with large codebases or dependencies.</p>
+</div>
+<div class="paragraph">
+<p>Using a build system also has other advantages, such as easier dependency management, the ability to easily configure the build for different platforms or compilers, and the ability to easily integrate with other tools such as version control systems and automated testing frameworks.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To test the result, run the executable from the path where it was built:</p>
+</div>
+<div id="_tabs_9" class="openblock tabs is-sync data-sync-group-id=os is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_9_windows" class="tab">
+<p>Windows</p>
+</li>
+<li id="_tabs_9_linux" class="tab">
+<p>Linux</p>
+</li>
+<li id="_tabs_9_macos" class="tab">
+<p>macOS</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_9_windows--panel" class="tabpanel" aria-labelledby="_tabs_9_windows">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">echo 1 2 3 | example</code></pre>
+</div>
+</div>
+</div>
+<div id="_tabs_9_linux--panel" class="tabpanel" aria-labelledby="_tabs_9_linux">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">echo 1 2 3 | ./example</code></pre>
+</div>
+</div>
+</div>
+<div id="_tabs_9_macos--panel" class="tabpanel" aria-labelledby="_tabs_9_macos">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">echo 1 2 3 | ./example</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Did you get the expected result?</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compiled_libraries"><a class="anchor" href="#_compiled_libraries"></a>Compiled Libraries</h3>
+<div class="paragraph">
+<p>In this section, we will locate an example from GitHub, and then build and run a project based on the example.</p>
+</div>
+<div class="paragraph">
+<p>For most Boost libraries, there is an <code>example</code> sub-folder containing a range of examples.
+For this guide, we will locate an example that reads a JSON file, and pretty-prints its contents.</p>
+</div>
+<div class="paragraph">
+<p>Copy all the code from <a href="https://github.com/boostorg/json/blob/develop/example/pretty.cpp" target="_blank" rel="noopener"><code>json/example/pretty.cpp</code></a> into your <code>example.cpp</code>.
+Let&#8217;s compile it:</p>
+</div>
+<div id="_tabs_10" class="openblock tabs is-sync data-sync-group-id=build is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_10_cmake" class="tab">
+<p>CMake</p>
+</li>
+<li id="_tabs_10_visual_studio" class="tab">
+<p>Visual Studio</p>
+</li>
+<li id="_tabs_10_by_hand" class="tab">
+<p>By Hand</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_10_cmake--panel" class="tabpanel" aria-labelledby="_tabs_10_cmake">
+<div class="paragraph">
+<p>Edit the contents of <code>CMakeLists.txt</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">CMakeLists.txt</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">cmake_minimum_required(VERSION 3.8...3.31)
+project(MyProject)
+
+find_package(Boost REQUIRED COMPONENTS json)
+add_executable(MyProject main.cpp)
+target_link_libraries(MyProject Boost::json)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, we explicitly require <code>json</code> as <a href="https://www.boost.org/libs/json">Boost.Json</a> is a compiled library.
+Compiled libraries need to be explicitly required and linked separately.</p>
+</div>
+<div class="paragraph">
+<p>Run the commands for the usual CMake workflow once more to build the executable.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Note how the difference between header-only and compiled libraries is transparent when using a build system.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="_tabs_10_visual_studio--panel" class="tabpanel" aria-labelledby="_tabs_10_visual_studio">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new Visual Studio C++ Console App.
+Name it JsonPrint.</p>
+</li>
+<li>
+<p>Update both the additional include directories, and additional library directories, as you did for the previous section.</p>
+</li>
+<li>
+<p>Copy all the code from <a href="https://github.com/boostorg/json/blob/develop/example/pretty.cpp" class="bare">https://github.com/boostorg/json/blob/develop/example/pretty.cpp</a>, and use it to replace all the default content of the project&#8217;s cpp file.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You can already run your example from Visual Studio:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Search your computer for any JSON file, unless you have one you would like to use already.
+Record the full path to that file.</p>
+</li>
+<li>
+<p>In Visual Studio, locate and select <strong>Build Solution</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You should get neatly formatted output:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/json-example-running.png" alt="json example running"></span></p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>If your JSON included symbols such as the umlaut, these will not be rendered correctly unless you change the format of your Command Prompt to UTF-8. By default, a Command Prompt supports a code page numbered 437. To change the code page to UTF-8, type <code>chcp 65001</code>.</p>
+</li>
+<li>
+<p>If you get compile errors such as <code>cannot open file 'libboost_json-vc143-mt-gd-x64-1_81.lib'</code> you have probably not entered the <strong>Additional Library Directories</strong> correctly.</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="_tabs_10_by_hand--panel" class="tabpanel" aria-labelledby="_tabs_10_by_hand">
+<div class="paragraph">
+<p>Repeat the instructions to read the compile the executable:</p>
+</div>
+<div class="paragraph">
+<p>In the directory where you saved <code>example.cpp</code>, issue the following command:</p>
+</div>
+<div class="paragraph">
+<p>Visual Studio Compiler:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">cl /I C:\boost\include /link C:\boost\lib\libboost_json-vc71-mt-d-x86-1_34.lib example.cpp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>GCC:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">g++ -I /usr/local/include example.cpp -L /usr/local/libboost_json.a -o example</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Clang:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">clang++ -I /usr/local/include example.cpp -L /usr/local/lib -l boost_json -o example</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Replace <code>C:\boost</code> or <code>/usr/local</code> with your Boost installation prefix if necessary.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>As <a href="https://www.boost.org/libs/json">Boost.Json</a> is a compiled library, we need the linker option in our example.
+The name of the library file might vary according to your architecture and the options provided to <code>b2</code> while installing boost.
+Check the <code>lib</code> in your installation prefix.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Search your computer for any JSON file, unless you have one you would like to use already.
+Record the full path to that file and run the example with:</p>
+</div>
+<div id="_tabs_11" class="openblock tabs is-sync data-sync-group-id=os is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_11_windows" class="tab">
+<p>Windows</p>
+</li>
+<li id="_tabs_11_linux" class="tab">
+<p>Linux</p>
+</li>
+<li id="_tabs_11_macos" class="tab">
+<p>macOS</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_11_windows--panel" class="tabpanel" aria-labelledby="_tabs_11_windows">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">example "path/to/json/file.json"</code></pre>
+</div>
+</div>
+</div>
+<div id="_tabs_11_linux--panel" class="tabpanel" aria-labelledby="_tabs_11_linux">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">./example "path/to/json/file.json"</code></pre>
+</div>
+</div>
+</div>
+<div id="_tabs_11_macos--panel" class="tabpanel" aria-labelledby="_tabs_11_macos">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">./example "path/to/json/file.json"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Did you get the expected result?</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h3>
+<div class="paragraph">
+<p>Although the samples you have now built and run are quite simple, if you have got this far successfully, it means your build, installation and project linking are all working correctly.
+Great job!</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h3>
+<div class="paragraph">
+<p>You might like to scan the examples folders of some of the other libraries that you are interested in, and create and run projects to get them running.</p>
+</div>
+<div class="paragraph">
+<p>Once you are more experienced with Boost, you might like to build and install only those libraries you require. To this end, it can be helpful to know the <em>dependencies</em> that your target libraries have. This includes both <em>primary dependencies</em> (the libraries directly referenced by your target library) and <em>secondary dependencies</em> (the libraries not referenced by your target library, but referenced by the primary or other secondary libraries). To aid you in determining this information, refer to the <a href="https://pdimov.github.io/boostdep-report/">Boost Dependency Report</a>. This report is updated with each public release of Boost.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="common-introduction.html" class="xref page">Common Scenarios</a></p>
+</li>
+<li>
+<p><a href="advanced-introduction.html" class="xref page">Advanced Scenarios</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/getting-started.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="intro.html">Introduction</a></span>
+        <span class="next"><a href="explore-the-content.html">Explore the Content</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

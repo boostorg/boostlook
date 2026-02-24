@@ -80,6 +80,10 @@
     <link rel="stylesheet" href="../../_/css/boostlook.css">
     <link rel="stylesheet" href="../../_/css/site.css">
     <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <style>
+      .nav-container, .nav-toggle, .toolbar { display: none !important; }
+      #content { margin-left: 0 !important; padding: 2rem !important; max-width: 960px; margin-inline: auto; }
+    </style>
     <script>
     (function() {
       if (window.self !== window.top) return;
@@ -230,48 +234,10 @@
 </style>
 
   </head>
-  <body class="article toc2 toc-left">
+  <body class="article">
     <div class="boostlook">
-  <div id="header">
-      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
-  <aside class="nav">
-    <button class="nav-close"></button>
-    <div class="panels">
-      <div class="nav-panel-menu is-active" data-panel="menu">
-  <nav class="nav-menu">
-      <div class="title-row">
-        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
-        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
-  <i class="fas fa-sun theme-icon-light"></i>
-  <i class="fas fa-moon theme-icon-dark"></i>
-</button>      </div>
-      <ul class="nav-list">
-        <ul class="nav-list">
-        <li class=" is-current-page" data-depth="0">
-            <a class="nav-link" href="index.html" style="font-weight: 600; color: var(--text-main-text-link-blue)">Style Guide</a>
-        </li>
-        </ul>
-  </ul>
-  </nav>
-</div>
-    </div>
-  </aside>
-</div>
-  </div>  <div id="content">
+  <div id="content" style="margin-left: 0;">
     <article class="doc max-width-reset">
-  <div class="toolbar" role="navigation">
-<button class="nav-toggle"></button>
-<nav class="breadcrumbs" aria-label="breadcrumbs">
-  <ul>
-    <li>
-      <a href="../index.html" aria-label="Home: Boost.Capy">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
-      </a>
-    </li>
-    <li><a href="index.html">Style Guide</a></li>
-  </ul>
-</nav>
-</div>
     <h1 class="page">Boostlook Style Guide</h1>
 
   <div id="preamble">
@@ -1259,16 +1225,9 @@ This is an <strong>important</strong> admonition. Use it for essential informati
 </div>
 </div>
 
-      <nav class="pagination">
-        <span class="prev"><a href="../index.html">Introduction</a></span>
-        <span class="next"><a href="../why-capy.html">Why Capy?</a></span>
-    </nav>
 </article>
 </div>
-  <div id="footer">
+</div>
   <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
-<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
-</div>
-</div>
   </body>
 </html>

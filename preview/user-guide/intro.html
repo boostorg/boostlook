@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Introduction :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/intro.html">
+    <link rel="prev" href="index.html">
+    <link rel="next" href="getting-started.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="intro.html">Introduction</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="index.html">
+      <span class="material-symbols-outlined" title="Previous: User Guide">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="getting-started.html">
+      <span class="material-symbols-outlined" title="Next: Getting Started">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Introduction</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost is a collection of high-quality and peer-reviewed libraries that aims to make C++ development highly productive.</p>
+</div>
+<div class="paragraph">
+<p>Boost is publicly released three times per year (April, August, and December). Each release has updates to existing libraries, and any new libraries that have passed the rigorous acceptance process. Currently, there are over 180 libraries covering a myriad of programming tasks.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="advantages-of-using-boost"><a class="anchor" href="#advantages-of-using-boost"></a>Advantages of using Boost</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are many advantages to using Boost in your C++ projects, the main one being using Boost avoids reinventing the wheel if there is a library that implements functions that you would otherwise have to write yourself. In addition:</p>
+</div>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p>Boost libraries are peer reviewed, well designed, and extensively tested prior to release.</p>
+</li>
+<li>
+<p>Boost does not compete with the <a href="https://en.cppreference.com/w/cpp/standard_library">C++ Standard Library</a>. Rather it complements the Standard with exciting additional functionality. Many components of the Standard started as components of Boost libraries.</p>
+</li>
+<li>
+<p>Boost is open-source, and available for you to use in any of your projects. It is free, including for commercial projects. Refer to <a href="bsl.html" class="xref page">The Boost Software License</a>.</p>
+</li>
+<li>
+<p>Boost allows for cross-platform development, with single source code. Boost supports Windows, Linux variants, Apple OS X, IOS, Android, and Xbox.</p>
+</li>
+<li>
+<p>The Boost Libraries are designed to be as independent as possible so that users can pick and choose the libraries they need without being forced to include unnecessary code. If a library has dependencies these other libraries are loaded automatically if just a subset of the full collection of libraries is being installed.</p>
+</li>
+<li>
+<p>Particular strengths of the libraries include extensive documentation, ease of installing and updating, many libraries are header-only, and that less-common use cases are often covered.</p>
+</li>
+<li>
+<p>Through <em>template metaprogramming</em> Boost libraries are a good platform for building other libraries.</p>
+</li>
+<li>
+<p>Boost can be used in conjunction with graphics and games SDKs, such as OpenGL, Vulkan,  and DirectX, and with game development engines such as the Unreal Engine.</p>
+</li>
+<li>
+<p>It is easy to ask questions and share your Boost experiences with other programmers, via the <a href="user-community-introduction.html" class="xref page">User Community</a>.</p>
+</li>
+<li>
+<p>A developer can gain knowledge of what is available. A library may be of no current use, but knowledge of its existence can help in future awareness and planning.</p>
+</li>
+<li>
+<p>Bugs, though rare, and other issues can be filed on the library authors, refer to <a href="reporting-issues.html" class="xref page">Reporting Issues</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="considerations-when-using-boost"><a class="anchor" href="#considerations-when-using-boost"></a>Considerations when using Boost</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The libraries implement a modern approach to C++ programming, generally prioritizing performance, correctness, cross-platform portability, efficiency and reusability. Boost offers building blocks, rather than a high-level app framework.</p>
+</div>
+<div class="paragraph">
+<p>Boost is template-heavy, in order to provide maximum portability and reusability, which can make for dense syntax, which takes some getting used to.</p>
+</div>
+<div class="paragraph">
+<p>Boost libraries are written by one, or a small team, of independent developers. There will be minor differences in portability, standards, documentation, error reporting, and other aspects, between the libraries. The stringent review process does help minimize these differences.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="library-categories"><a class="anchor" href="#library-categories"></a>Library Categories</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The current Boost libraries are categorized as follows - the count shows the number of current libraries in the category.</p>
+</div>
+<table class="tableblock frame-none grid-none stripes-even stretch">
+<colgroup>
+<col style="width: 26.6666%;">
+<col style="width: 6.6666%;">
+<col style="width: 66.6668%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Category</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Count</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Algorithms">Algorithms</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A range of libraries including several for 2D geometry, graphs, performance when iterating, sorting, string efficiency, and miscellaneous utility algorithms.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Workarounds">Broken compiler workarounds</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Addresses compiler idiosyncrasies, and help for non-conforming standard libraries.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Concurrent">Concurrent Programming</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Libraries that address concurrency, threads, networking, sockets, context switching, memory, and other multi-threading functions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Containers">Containers</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Includes coverage of arrays, buffers, graphs, JSON, heaps, properties, stacks, and other storage constructs and issues.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Correctness">Correctness and testing</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Includes coverage of asserts, contracting, integer correctness, tracing, and unit testing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Data">Data structures</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Supports a wide range of data structures, including maps, containers, heaps, JSON, optional objects, pointers, polygons, properties, and stacks.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Domain">Domain Specific</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers date and time utilities, cyclic redundancy code (CRC), unit analysis, and unique identifiers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Error-handling">Error handling and recovery</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers asserts, error reporting and handling, and an infrastructure for throwing exceptions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Function-objects">Function objects and higher-order programming</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers binding, function wrapping, function overloading, lambda functions, generic functions, and callback functions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Generic">Generic Programming</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A range of generalized libraries, including for passing parameters, function template overloads, handling operators and iterators, generic types and templates, and parallel extensions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Image-processing">Image processing</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A single library for generic image processing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#IO">Input/Output</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Features include portable networking, conversions for correct byte-ordering, formatting, streams, JSON, serialization, and URL parsing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Inter-language">Inter-language support</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A single library providing a framework for interfacing Python with C++.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Iterators">Iterators</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers iterations in images, graphs, arithmetic classes, and tokens.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Emulation">Language Features Emulation</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers language features such as reflection, exceptions, semantics, deterministic failure, parameters, scope, types, and <code>typeof</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Math">Math and numerics</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers many math issues, such as statistics, types and conversions, geometry, histograms, trigonometry, common factors, Quaternions, n-dimensional arrays, equations, operators, polygons, vectors, matrices, random numbers, ratios, rational numbers, safe integers, and linear algebra.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Memory">Memory</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Memory functions including for alignment, allocators, traits, pool management, smart pointers, and non-copyable classes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Parsing">Parsing</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Libraries providing a parsing framework, covering grammars, primitives, directives, and other language features.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Patterns">Patterns and Idioms</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers design patterns, empty member optimization, deterministic failure, callbacks, and non-copyable classes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Preprocessor">Preprocessor Metaprogramming</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers macro parameters, repetition, recursion, and macro data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Programming">Programming Interfaces</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers object wrappers for deferred calls or callbacks, deterministic failure, parameters, Python bindings, and error reporting.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#State">State Machines</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers high-performance, and arbitrarily complex finite state machines.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#String">String and text processing</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Covers type conversion, string formatting, streams, localization, regular expressions, parsing, tokens, and string algorithms.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#System">System</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time utilities, context switching, handling libraries, threads, a smart file system, processes, backtraces, and errors.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Metaprogramming">Template Metaprogramming</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Libraries to support the development of higher-level libraries, with features such as callable traits, reflection, function types, tuples, higher-order functions, parsing, sequences, metafunctions, static assertions, introspection, properties, and expressions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Miscellaneous">Miscellaneous</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Libraries for numerical type and text conversion, byte-ordering, logging, swapping, timing, initialization, and many other utilities.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>One library may appear in more than one category.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="summary"><a class="anchor" href="#summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The purpose of the Boost libraries is to evangelize and support C++ development. You can take advantage of thousands of lines of high performance code.</p>
+</div>
+<div class="sect2">
+<h3 id="next-steps"><a class="anchor" href="#next-steps"></a>Next Steps</h3>
+<div class="paragraph">
+<p>If you are new to Boost, the recommended next step is to download the entire library for your selected OS, and build a few sample programs.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="getting-started.html" class="xref page">Getting Started</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/intro.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="index.html">User Guide</a></span>
+        <span class="next"><a href="getting-started.html">Getting Started</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

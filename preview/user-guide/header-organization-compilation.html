@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Header Organization and Compiled Binaries :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/header-organization-compilation.html">
+    <link rel="prev" href="library-naming.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Reference</li>
+    <li><a href="header-organization-compilation.html">Header Organization and Compiled Binaries</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="library-naming.html">
+      <span class="material-symbols-outlined" title="Previous: Library Names and Organization">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+</div></div>
+    <h1 class="page">Header Organization and Compiled Binaries</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section covers the basics of the organization of Boost libraries in the folder structure, a list of libraries requiring compilation into binaries, or optionally using compilation, and the tools which you might use to compile the headers.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_header_organization"><a class="anchor" href="#_header_organization"></a>Header Organization</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The organization of Boost library headers isn&#8217;t entirely uniform, but most libraries follow a few patterns:</p>
+</div>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p>Some older libraries and most very small libraries place all public headers directly into Boost.</p>
+</li>
+<li>
+<p>Most libraries' public headers live in a subdirectory of <strong>boost</strong>, named after the library.
+For example, you&#8217;ll find the Python library&#8217;s
+<code>def.hpp</code> header in <code>boost/python/def.hpp</code>.</p>
+</li>
+<li>
+<p>Some libraries have an “aggregate header” in boost that includes all of the library&#8217;s other headers.
+For example,
+<a href="https://www.boost.org/libs/python">Boost.Python</a>'s aggregate header is <code>boost/python.hpp</code>.</p>
+</li>
+<li>
+<p>Most libraries place private headers in a subdirectory called
+<strong>detail</strong>, or <strong>aux</strong>.
+Don&#8217;t expect to find anything you can use in these directories.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It&#8217;s important to note the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The path to the <strong>boost root directory</strong> (often
+<strong>/usr/local/boost_1_82_0</strong>) is sometimes referred to as <code>$BOOST_ROOT</code>
+in documentation and mailing lists.</p>
+</li>
+<li>
+<p>To compile anything in Boost, you need a directory containing the
+<strong>boost</strong> subdirectory in your <code>#include</code> path.</p>
+</li>
+<li>
+<p>Since all of Boost&#8217;s header files have the <code>.hpp</code> extension, and live in the <strong>boost</strong> subdirectory of the boost root, your Boost <code>#include</code>
+directives will look like: <code>#include &lt;boost/whatever.hpp&gt;</code> or <code>#include "boost/whatever.hpp"</code>, depending on your preference regarding the use of angle bracket includes.</p>
+</li>
+<li>
+<p>Don&#8217;t be distracted by the <strong>doc</strong> subdirectory; it only contains a subset of the Boost documentation.
+Start with <code>libs/index.html</code> if you&#8217;re looking for the whole enchilada.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="compiled"><a class="anchor" href="#compiled"></a>Required Compiled Binaries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Most Boost libraries are <strong>header-only</strong>: they consist <em>entirely of header files</em> containing templates and inline functions, and require no separately-compiled library binaries or special treatment when linking.</p>
+</div>
+<div class="paragraph">
+<p>The only Boost libraries that <em>must</em> be built separately are:</p>
+</div>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p><a href="https://www.boost.org/libs/atomic">Boost.Atomic</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/chrono">Boost.Chrono</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/container">Boost.Container</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/context">Boost.Context</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/contract">Boost.Contract</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/coroutine">Boost.Coroutine</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/date_time">Boost.DateTime</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/fiber">Boost.Fiber</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/filesystem">Boost.Filesystem</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/graph_parallel">Boost.GraphParallel</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/iostreams">Boost.Iostreams</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/json">Boost.Json</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/locale">Boost.Locale</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/log">Boost.Log</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/mpi">Boost.Mpi</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/nowide">Boost.Nowide</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/program_options">Boost.ProgramOptions</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/python">Boost.Python</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/regex">Boost.Regex</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/serialization">Boost.Serialization</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/stacktrace">Boost.Stacktrace</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/thread">Boost.Thread</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/timer">Boost.Timer</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/type_erasure">Boost.TypeErasure</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/url">Boost.URL</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/wave">Boost.Wave</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="optionalcompiledbinaries"><a class="anchor" href="#optionalcompiledbinaries"></a>Optional Compiled Binaries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A few libraries have optional separately-compiled binaries:</p>
+</div>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p><a href="https://www.boost.org/libs/exception">Boost.Exception</a> provides non-intrusive implementation of exception_ptr for 32-bit <code>_MSC_VER==1310</code>
+and <code>_MSC_VER==1400</code> which requires a separately-compiled binary.
+This is enabled by <code>#define BOOST_ENABLE_NON_INTRUSIVE_EXCEPTION_PTR</code>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/graph">Boost.Graph</a> also has a binary component that is only needed if you intend to parse GraphViz files.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/math">Boost.Math</a> has binary components for the TR1 and C99 cmath functions.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/random">Boost.Random</a> has a binary component which is only needed if you&#8217;re using <code>random_device</code>.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/system">Boost.System</a> is header-only since Boost 1.69. A stub library is still built for compatibility, but linking to it is no longer necessary.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/test">Boost.Test</a> can be used in “header-only” or “separately compiled” mode, although <strong>separate compilation is recommended for serious use</strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_identify_your_toolset"><a class="anchor" href="#_identify_your_toolset"></a>Identify Your Toolset</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to build binaries from source, find the toolset corresponding to your compiler in the following table (an up-to-date list is also available in <a href="https://www.boost.org/build/doc/html/bbv2/reference/tools.html">Builtin tools</a>).</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>If you previously chose a toolset for the purposes of building b2, you should assume it won&#8217;t work and instead choose newly from the table below.</p>
+</dd>
+</dl>
+</div>
+<table id="toolset" class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 12%;">
+<col style="width: 22%;">
+<col style="width: 66%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Toolset Name</th>
+<th class="tableblock halign-left valign-top">Vendor</th>
+<th class="tableblock halign-left valign-top">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>acc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hewlett Packard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only very recent versions are known to work
+well with Boost</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>borland</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Borland</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>como</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Comeau Computing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Using this toolset may require configuring another toolset to act as its backend.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>darwin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Apple Computer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Apple&#8217;s version of the GCC toolchain with support for Darwin and MacOS X features such as frameworks.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gcc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Gnu Project</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Includes support for Cygwin and MinGW compilers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hp_cxx</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hewlett Packard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Targeted at the Tru64 operating system.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>intel</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Intel</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msvc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Microsoft</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sun</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only very recent versions are known to work well with
+Boost. Note that the Oracle/Sun compiler has a large number of options
+which effect binary compatibility. It is vital that the libraries are
+built with the same options that your application will use. In particular
+be aware that the default standard library may not work well with Boost,
+unless you are building for Cpp11.</p>
+<p class="tableblock">The particular compiler options you need can be injected with the b2 command line options <code>cxxflags=</code> and <code>linkflags=</code>. For example to build with the Apache standard library in Cpp03 mode use:</p>
+<p class="tableblock"><code>b2 cxxflags=-library=stdcxx4 linkflags=-library=stdcxx4</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vacpp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IBM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The VisualAge C++ compiler.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If you have multiple versions of a particular compiler installed, you can append the version number to the toolset name, preceded by a hyphen, e.g. <code>intel-9.0</code>  or <code>borland-5.4.3</code>.</p>
+</div>
+<div class="paragraph">
+<p>On Windows, append a version number even if you only have one version installed (unless you are using the msvc or gcc toolsets, which have special version detection code) or auto-linking will fail.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="library-naming.html" class="xref page">Library Names and Organization</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/header-organization-compilation.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="library-naming.html">Library Names and Organization</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

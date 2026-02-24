@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Finance :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-finance.html">
+    <link rel="prev" href="common-introduction.html">
+    <link rel="next" href="task-networking.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Common Scenarios</li>
+    <li><a href="task-finance.html">Finance</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="common-introduction.html">
+      <span class="material-symbols-outlined" title="Previous: Introduction">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-networking.html">
+      <span class="material-symbols-outlined" title="Next: Networking">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Finance</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div id="footnote1-location" class="paragraph">
+<p>Financial applications typically need functionality like secure storage for storing balances and transaction history, networking for interacting with <em>blockchain</em> <a href="#footnote1">(1)</a> or other financial APIs, cryptography for secure signing and verifying transactions, and configuration management for handling user settings.</p>
+</div>
+<div class="paragraph">
+<p>Of course, we should add highly accurate numerical calculations as an essential feature.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_signing_transactions">Signing Transactions</a></p>
+</li>
+<li>
+<p><a href="#_sample_wallet_with_ed25519_signing">Sample Wallet with Ed25519 Signing</a></p>
+</li>
+<li>
+<p><a href="#_wallet_with_foreign_currency_exchange">Wallet with Foreign Currency Exchange</a></p>
+</li>
+<li>
+<p><a href="#_next_steps">Next Steps</a></p>
+</li>
+<li>
+<p><a href="#_footnotes">Footnotes</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Many Boost libraries should assist you in building a finance app, here are some to consider:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/libs/uuid">Boost.Uuid</a> : A useful utility library for generating unique identifiers.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> : To save and restore data.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/hash2">Boost.Hash2</a> : <a href="https://www.boost.org/doc/libs/master/libs/hash2/doc/html/hash2.html">Boost.Hash2</a> : Hashing algorithms play a crucial role in financial applications by ensuring data integrity, authentication, and security in various transactions and records. Hashing enables fingerprinting of transactions, invoices, and records to detect duplicate or modified entries. Boost.Hash2 is a new library, first available in Boost version 1.88.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/interprocess">Boost.Interprocess</a> : Allows for shared memory communication and synchronization between processes. It&#8217;s useful for creating shared memory regions, handling inter-process communication, managing shared objects, and synchronizing processes.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/multiprecision">Boost.Multiprecision</a> : For extended precision arithmetic.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a> : If your app has network-related features, and its hard to envisage a finance app that does not, this library provides a consistent asynchronous model for network programming.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/beast">Boost.Beast</a> : Built on top of <a href="https://www.boost.org/libs/asio">Boost.Asio</a> this library provides implementations of HTTP and WebSocket. These are common protocols for network programming.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/json">Boost.Json</a> : An efficient library for parsing, serializing, and manipulating JSON data. This is useful specifically in client-server communication and web services. Also, if you are working with large JSON payloads, there is support for incremental parsing, so you can feed data to the parser as it arrives over the network.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/program_options">Boost.ProgramOptions</a> : Allows program options to be defined, with types and default values, and their values to be retrieved from the command line, from config files, and programmatically.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/date_time">Boost.DateTime</a> or <a href="https://www.boost.org/libs/chrono">Boost.Chrono</a>: If you need to timestamp changes or edits, or if you&#8217;re implementing a version history feature, these libraries provide the required functions.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/property_tree">Boost.PropertyTree</a> : Provides a hierarchical data structure for representing and manipulating structured data, such as XML, JSON, INI, or property list formats. You can use it to parse, validate, and sanitize input data in various formats, ensuring that it conforms to expected schema or constraints before further processing.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Notes</dt>
+<dd>
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0.</p>
+<div class="paragraph">
+<p>In Visual Studio, the C++ Language Standard (in the Project Properties C++ Language section) has been set to <code>ISO C17 Standard (/std:c17)</code>. The <strong>libsodium</strong> library has been installed with the following Git Bash commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+./bootstrap-vcpkg.bat
+./vcpkg install libsodium
+./vcpkg integrate install</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, the location of the libsodium headers has been added to the Additional Include Libraries section of the Project Properties.</p>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_signing_transactions"><a class="anchor" href="#_signing_transactions"></a>Signing Transactions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Encrypting and securing transactions, one of the first tasks developers of a financial app should investigate, is a never-ending journey.</p>
+</div>
+<div class="paragraph">
+<p><em>Public-key cryptography</em>, also known as asymmetric cryptography, was first conceptualized in the 1970s by Whitfield Diffie and Martin Hellman, who introduced the idea of key pairs — one public and one private — for secure communication. This breakthrough solved a major problem in cryptography: how to securely share encryption keys over an untrusted channel. Shortly after, Rivest, Shamir, and Adleman developed the RSA algorithm, which became one of the earliest widely used public-key systems, relying on the mathematical difficulty of factoring large prime numbers.</p>
+</div>
+<div id="footnote2-location" class="paragraph">
+<p>As cryptography evolved, new methods based on elliptic curves gained popularity due to their superior security per bit compared to RSA. The ECDSA or <em>Elliptic Curve Digital Signature Algorithm</em> <a href="#footnote2">(2)</a> emerged as a widely adopted standard, particularly in financial applications and cryptocurrencies like Bitcoin. However, ECDSA has limitations in security and performance, leading to the development of EdDSA or <em>Edwards-curve Digital Signature Algorithm</em>  <a href="#footnote3">(3)</a>, which offers improved speed, security, and resistance to side-channel attacks. The most well-known variant, <strong>Ed25519</strong>, is now favored in many modern cryptographic applications for its efficiency and robust security guarantees.</p>
+</div>
+<div class="paragraph">
+<p>If you are writing a serious financial app, then you could also research <em>Schnorr Signatures</em>. Unlike ECDSA, where an attacker can slightly modify a valid signature to create a new one, <em>Schnorr Signatures</em> prevent this, improving security in blockchain applications. And in addition, ECDSA (and all elliptic curve cryptography) and possibly Ed25519 can be broken by large-scale quantum computers - <em>Post-Quantum Cryptography</em> (PQC) is designed to resist this by replacing these schemes with lattice-based, hash-based, multivariate, and code-based cryptography - and is a currently developing story!</p>
+</div>
+<div class="paragraph">
+<p>The following sample shows signing of a transaction, using Ed25519 public/private key signing with the libsodium library, supported by <a href="https://www.boost.org/libs/uuid">Boost.Uuid</a> and <a href="https://www.boost.org/libs/serialization">Boost.Serialization</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;sodium.h&gt;
+#include &lt;boost/archive/text_oarchive.hpp&gt;
+#include &lt;boost/archive/text_iarchive.hpp&gt;
+#include &lt;boost/serialization/string.hpp&gt;
+#include &lt;boost/uuid/uuid.hpp&gt;
+#include &lt;boost/uuid/uuid_generators.hpp&gt;
+#include &lt;boost/uuid/uuid_io.hpp&gt;
+
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+
+
+// Transaction Structure
+struct Transaction {
+    std::string sender;
+    std::string receiver;
+    double amount;
+    boost::uuids::uuid tx_id;
+
+    template&lt;class Archive&gt;
+    void serialize(Archive&amp; ar, const unsigned int) {
+        ar&amp; sender;
+        ar&amp; receiver;
+        ar&amp; amount;
+        ar&amp; tx_id;
+    }
+};
+
+// Serialization Utility
+std::string serialize_transaction(const Transaction&amp; tx) {
+    std::ostringstream oss;
+    boost::archive::text_oarchive oa(oss);
+    oa &lt;&lt; tx;
+    return oss.str();
+}
+
+// Signing and Verifying
+bool sign_transaction(const std::string&amp; serialized_tx,
+    std::array&lt;unsigned char, crypto_sign_BYTES&gt;&amp; signature,
+    const std::array&lt;unsigned char, crypto_sign_SECRETKEYBYTES&gt;&amp; sk) {
+    return crypto_sign_detached(signature.data(),
+        nullptr,
+        reinterpret_cast&lt;const unsigned char*&gt;(serialized_tx.data()),
+        serialized_tx.size(),
+        sk.data()) == 0;
+}
+
+bool verify_transaction(const std::string&amp; serialized_tx,
+    const std::array&lt;unsigned char, crypto_sign_BYTES&gt;&amp; signature,
+    const std::array&lt;unsigned char, crypto_sign_PUBLICKEYBYTES&gt;&amp; pk) {
+    return crypto_sign_verify_detached(signature.data(),
+        reinterpret_cast&lt;const unsigned char*&gt;(serialized_tx.data()),
+        serialized_tx.size(),
+        pk.data()) == 0;
+}
+
+// Main Flow
+int main() {
+    if (sodium_init() &lt; 0) {
+        std::cerr &lt;&lt; "Failed to initialize libsodium\n";
+        return 1;
+    }
+
+    // Key pair
+    std::array&lt;unsigned char, crypto_sign_PUBLICKEYBYTES&gt; pk;
+    std::array&lt;unsigned char, crypto_sign_SECRETKEYBYTES&gt; sk;
+    crypto_sign_keypair(pk.data(), sk.data());
+
+    // Create a sample transaction
+    Transaction tx{
+        "alice@example.com",
+        "bob@example.com",
+        100.5,
+        boost::uuids::random_generator()()
+    };
+
+    // Serialize the transaction
+    std::string serialized = serialize_transaction(tx);
+
+    // Sign it
+    std::array&lt;unsigned char, crypto_sign_BYTES&gt; signature;
+    if (!sign_transaction(serialized, signature, sk)) {
+        std::cerr &lt;&lt; "Signing failed.\n";
+        return 1;
+    }
+
+    std::cout &lt;&lt; "Transaction signed with Ed25519.\n";
+    std::cout &lt;&lt; "Transaction ID: " &lt;&lt; tx.tx_id &lt;&lt; "\n";
+
+    // Verify the signature
+    if (verify_transaction(serialized, signature, pk)) {
+        std::cout &lt;&lt; "Signature verified\n";
+    }
+    else {
+        std::cout &lt;&lt; "Signature verification failed\n";
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the program and you should get a verified signature:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Transaction signed with Ed25519.
+Transaction ID: 77f104be-815d-4800-b424-244d0e8ee7c0
+Signature verified</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sample_wallet_with_ed25519_signing"><a class="anchor" href="#_sample_wallet_with_ed25519_signing"></a>Sample Wallet with Ed25519 Signing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s start with a simple wallet that enables transactions from a <em>sender</em> to a <em>receiver</em>, using Ed25519 signing as before.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#pragma once
+#include &lt;sodium.h&gt;
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;sstream&gt;
+#include &lt;boost/uuid/uuid.hpp&gt;
+#include &lt;boost/uuid/random_generator.hpp&gt;
+#include &lt;boost/uuid/uuid_io.hpp&gt;
+#include &lt;boost/serialization/string.hpp&gt;
+#include &lt;boost/serialization/array.hpp&gt;
+#include &lt;boost/archive/text_oarchive.hpp&gt;
+#include &lt;boost/archive/text_iarchive.hpp&gt;
+
+class Wallet {
+public:
+    Wallet() {
+        crypto_sign_keypair(public_key.data(), private_key.data());
+        id = boost::uuids::to_string(boost::uuids::random_generator()());
+    }
+
+    std::string get_id() const { return id; }
+    const std::array&lt;unsigned char, crypto_sign_PUBLICKEYBYTES&gt;&amp; pubkey() const { return public_key; }
+    const std::array&lt;unsigned char, crypto_sign_SECRETKEYBYTES&gt;&amp; privkey() const { return private_key; }
+
+private:
+    std::string id;
+    std::array&lt;unsigned char, crypto_sign_PUBLICKEYBYTES&gt; public_key{};
+    std::array&lt;unsigned char, crypto_sign_SECRETKEYBYTES&gt; private_key{};
+};
+
+
+struct Transaction {
+    std::string sender_id;
+    std::string recipient_id;
+    double amount;
+    std::array&lt;unsigned char, crypto_sign_BYTES&gt; signature{};
+
+    Transaction() = default;
+    Transaction(const std::string&amp; sender, const std::string&amp; recipient, double amt)
+        : sender_id(sender), recipient_id(recipient), amount(amt) {
+    }
+
+    std::string serialize_data() const {
+        std::ostringstream oss;
+        oss &lt;&lt; sender_id &lt;&lt; "|" &lt;&lt; recipient_id &lt;&lt; "|" &lt;&lt; std::fixed &lt;&lt; std::setprecision(2) &lt;&lt; amount;
+        return oss.str();
+    }
+
+    void sign(const std::array&lt;unsigned char, crypto_sign_SECRETKEYBYTES&gt;&amp; sk) {
+        std::string msg = serialize_data();
+        crypto_sign_detached(signature.data(),
+            nullptr,
+            reinterpret_cast&lt;const unsigned char*&gt;(msg.data()),
+            msg.size(),
+            sk.data());
+    }
+
+    bool verify(const std::array&lt;unsigned char, crypto_sign_PUBLICKEYBYTES&gt;&amp; pk) const {
+        std::string msg = serialize_data();
+        return crypto_sign_verify_detached(signature.data(),
+            reinterpret_cast&lt;const unsigned char*&gt;(msg.data()),
+            msg.size(),
+            pk.data()) == 0;
+    }
+
+private:
+    friend class boost::serialization::access;
+    template&lt;class Archive&gt;
+    void serialize(Archive&amp; ar, const unsigned int) {
+        ar&amp; sender_id;
+        ar&amp; recipient_id;
+        ar&amp; amount;
+        ar&amp; signature;
+    }
+};
+
+int main() {
+    if (sodium_init() &lt; 0) {
+        std::cerr &lt;&lt; "libsodium initialization failed\n";
+        return 1;
+    }
+
+    Wallet sender;
+    Wallet recipient;
+
+    std::cout &lt;&lt; "Created wallets:\n";
+    std::cout &lt;&lt; "Sender ID: " &lt;&lt; sender.get_id() &lt;&lt; "\n";
+    std::cout &lt;&lt; "Recipient ID: " &lt;&lt; recipient.get_id() &lt;&lt; "\n";
+
+    Transaction tx(sender.get_id(), recipient.get_id(), 123.45);
+    tx.sign(sender.privkey());
+
+    if (tx.verify(sender.pubkey())) {
+        std::cout &lt;&lt; "Signature verified successfully.\n";
+    }
+    else {
+        std::cout &lt;&lt; "Signature verification failed.\n";
+    }
+
+    // Block the write code to ensure the write buffers are flushed
+    {
+        std::ofstream ofs("transactions.dat");
+        boost::archive::text_oarchive oa(ofs);
+        oa &lt;&lt; tx;
+    }
+    std::cout &lt;&lt; "Transaction saved.\n";
+
+    Transaction loaded_tx;
+    std::ifstream ifs("transactions.dat");
+    boost::archive::text_iarchive ia(ifs);
+    ia &gt;&gt; loaded_tx;
+
+    std::cout &lt;&lt; "Loaded transaction: " &lt;&lt; loaded_tx.sender_id &lt;&lt; " -&gt; "
+        &lt;&lt; loaded_tx.recipient_id &lt;&lt; ", $" &lt;&lt; loaded_tx.amount &lt;&lt; "\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A sample run of the program might be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Created wallets:
+Sender ID: 782ded6c-4eda-47d6-a62c-d87bcf2c8f79
+Recipient ID: 48ff8851-f638-4bfc-ad39-33547d82fbcb
+Signature verified successfully.
+Transaction saved.
+Loaded transaction: 782ded6c-4eda-47d6-a62c-d87bcf2c8f79 -&gt; 48ff8851-f638-4bfc-ad39-33547d82fbcb, $123.45</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_wallet_with_foreign_currency_exchange"><a class="anchor" href="#_wallet_with_foreign_currency_exchange"></a>Wallet with Foreign Currency Exchange</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For a more functional wallet, we should add foreign currency exchange. In this sample the rates are hard-coded, however the <a href="#_next_steps">Next Steps</a> section includes information on how to access live currency exchange rates.</p>
+</div>
+<div class="paragraph">
+<p><strong>Sender</strong>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/digital-wallet.png" alt="Digital Wallet">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Recipient</strong>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/digital-wallet-empty.png" alt="Digital Wallet">
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;sodium.h&gt;
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;sstream&gt;
+#include &lt;boost/uuid/uuid.hpp&gt;
+#include &lt;boost/uuid/random_generator.hpp&gt;
+#include &lt;boost/uuid/uuid_io.hpp&gt;
+#include &lt;boost/serialization/string.hpp&gt;
+#include &lt;boost/serialization/map.hpp&gt;
+#include &lt;boost/archive/text_oarchive.hpp&gt;
+#include &lt;boost/archive/text_iarchive.hpp&gt;
+
+enum class Currency { USD, EUR, JPY };
+
+inline std::string to_string(Currency c) {
+    switch (c) {
+    case Currency::USD: return "USD";
+    case Currency::EUR: return "EUR";
+    case Currency::JPY: return "JPY";
+    }
+    return "UNK";
+}
+
+inline Currency from_string(const std::string&amp; s) {
+    if (s == "USD") return Currency::USD;
+    if (s == "EUR") return Currency::EUR;
+    if (s == "JPY") return Currency::JPY;
+    throw std::runtime_error("Unknown currency");
+}
+
+static const std::map&lt;std::pair&lt;Currency, Currency&gt;, double&gt; exchange_rates = {
+    {{Currency::USD, Currency::EUR}, 0.91},
+    {{Currency::EUR, Currency::USD}, 1.10},
+    {{Currency::USD, Currency::JPY}, 146.0},
+    {{Currency::JPY, Currency::USD}, 0.0068},
+    {{Currency::EUR, Currency::JPY}, 160.0},
+    {{Currency::JPY, Currency::EUR}, 0.0062}
+};
+
+class Wallet {
+public:
+    Wallet(double usd, double eur, double jpy) {
+        crypto_sign_keypair(public_key.data(), private_key.data());
+        id = boost::uuids::to_string(boost::uuids::random_generator()());
+        balances[Currency::USD] = usd;
+        balances[Currency::EUR] = eur;
+        balances[Currency::JPY] = jpy;
+    }
+
+    void credit(Currency cur, double amt) {
+        balances[cur] += amt;
+    }
+
+    bool debit(Currency cur, double amt) {
+        if (balances[cur] &gt;= amt) {
+            balances[cur] -= amt;
+            return true;
+        }
+        return false;
+    }
+
+    void print_balances() const {
+        std::cout &lt;&lt; "\nBalances for " &lt;&lt; id &lt;&lt; ":\n";
+        for (const auto&amp; [cur, val] : balances) {
+            std::cout &lt;&lt; "  " &lt;&lt; to_string(cur) &lt;&lt; ": " &lt;&lt; val &lt;&lt; "\n";
+        }
+    }
+
+    std::string get_id() const { return id; }
+    const std::array&lt;unsigned char, crypto_sign_PUBLICKEYBYTES&gt;&amp; pubkey() const { return public_key; }
+    const std::array&lt;unsigned char, crypto_sign_SECRETKEYBYTES&gt;&amp; privkey() const { return private_key; }
+
+private:
+    std::string id;
+    std::array&lt;unsigned char, crypto_sign_PUBLICKEYBYTES&gt; public_key{};
+    std::array&lt;unsigned char, crypto_sign_SECRETKEYBYTES&gt; private_key{};
+    std::map&lt;Currency, double&gt; balances;
+};
+
+struct Transaction {
+    std::string sender_id;
+    std::string recipient_id;
+    double amount;
+    Currency sender_currency;
+    Currency recipient_currency;
+    std::array&lt;unsigned char, crypto_sign_BYTES&gt; signature{};
+
+    Transaction() = default;
+    Transaction(const std::string&amp; s, const std::string&amp; r, double amt, Currency scur, Currency rcur)
+        : sender_id(s), recipient_id(r), amount(amt), sender_currency(scur), recipient_currency(rcur) {
+    }
+
+    std::string serialize_data() const {
+        std::ostringstream oss;
+        oss &lt;&lt; sender_id &lt;&lt; "|" &lt;&lt; recipient_id &lt;&lt; "|" &lt;&lt; std::fixed &lt;&lt; std::setprecision(2)
+            &lt;&lt; amount &lt;&lt; "|" &lt;&lt; to_string(sender_currency) &lt;&lt; "|" &lt;&lt; to_string(recipient_currency);
+        return oss.str();
+    }
+
+    double converted_amount() const {
+        if (sender_currency == recipient_currency) return amount;
+        auto it = exchange_rates.find({ sender_currency, recipient_currency });
+        if (it != exchange_rates.end()) return amount * it-&gt;second;
+        throw std::runtime_error("No exchange rate available.");
+    }
+
+    void sign(const std::array&lt;unsigned char, crypto_sign_SECRETKEYBYTES&gt;&amp; sk) {
+        std::string msg = serialize_data();
+        crypto_sign_detached(signature.data(), nullptr,
+            reinterpret_cast&lt;const unsigned char*&gt;(msg.data()),
+            msg.size(), sk.data());
+    }
+
+    bool verify(const std::array&lt;unsigned char, crypto_sign_PUBLICKEYBYTES&gt;&amp; pk) const {
+        std::string msg = serialize_data();
+        return crypto_sign_verify_detached(signature.data(),
+            reinterpret_cast&lt;const unsigned char*&gt;(msg.data()),
+            msg.size(), pk.data()) == 0;
+    }
+
+private:
+    friend class boost::serialization::access;
+    template&lt;class Archive&gt;
+    void serialize(Archive&amp; ar, const unsigned int) {
+        ar&amp; sender_id&amp; recipient_id&amp; amount;
+        std::string scur = to_string(sender_currency);
+        std::string rcur = to_string(recipient_currency);
+        ar&amp; scur&amp; rcur;
+        sender_currency = from_string(scur);
+        recipient_currency = from_string(rcur);
+        ar&amp; signature;
+    }
+};
+
+void make_transaction(Wallet &amp;sender, Wallet &amp;recipient, double amount, Currency scur, Currency rcur)
+{
+    Transaction tx(sender.get_id(), recipient.get_id(), amount, scur, rcur);
+    tx.sign(sender.privkey());
+
+    if (tx.verify(sender.pubkey())) {
+        std::cout &lt;&lt; "\nTransaction verified.\n";
+        if (sender.debit(tx.sender_currency, tx.amount)) {
+            recipient.credit(tx.recipient_currency, tx.converted_amount());
+        }
+        else {
+            std::cout &lt;&lt; "Sender has insufficient funds.\n";
+        }
+    }
+    else {
+        std::cout &lt;&lt; "Transaction verification failed.\n";
+    }
+    sender.print_balances();
+    recipient.print_balances();
+}
+
+int main() {
+    if (sodium_init() &lt; 0) {
+        std::cerr &lt;&lt; "libsodium initialization failed\n";
+        return 1;
+    }
+
+    Wallet sender = Wallet(500, 300, 5000);
+    Wallet recipient = Wallet(0, 0, 0);
+    std::cout &lt;&lt; "Created wallets:\n";
+    std::cout &lt;&lt; "Sender ID: " &lt;&lt; sender.get_id() &lt;&lt; "\n";
+    std::cout &lt;&lt; "Recipient ID: " &lt;&lt; recipient.get_id() &lt;&lt; "\n";
+
+    make_transaction(sender, recipient, 100.0, Currency::EUR, Currency::USD);
+    make_transaction(sender, recipient, 2500.0, Currency::JPY, Currency::USD);
+    make_transaction(recipient, sender, 50.0, Currency::USD, Currency::EUR);
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Wallets contain three amounts, one for each currency. If a transaction is made from a currency the Wallet does not have enough of, amounts are not transferred from the other currencies to cover it. On receipt of a transaction, the amounts are converted to the specified currency.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Run the program:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Created wallets:
+Sender ID: 48b711fd-8197-4e39-bbaf-06e931ab9cc3
+Recipient ID: fdda420d-820a-4670-99a9-3320864ef990
+
+Transaction verified.
+
+Balances for 48b711fd-8197-4e39-bbaf-06e931ab9cc3:
+  USD: 500
+  EUR: 200
+  JPY: 5000
+
+Balances for fdda420d-820a-4670-99a9-3320864ef990:
+  USD: 110
+  EUR: 0
+  JPY: 0
+
+Transaction verified.
+
+Balances for 48b711fd-8197-4e39-bbaf-06e931ab9cc3:
+  USD: 500
+  EUR: 200
+  JPY: 2500
+
+Balances for fdda420d-820a-4670-99a9-3320864ef990:
+  USD: 127
+  EUR: 0
+  JPY: 0
+
+Transaction verified.
+
+Balances for fdda420d-820a-4670-99a9-3320864ef990:
+  USD: 77
+  EUR: 0
+  JPY: 0
+
+Balances for 48b711fd-8197-4e39-bbaf-06e931ab9cc3:
+  USD: 500
+  EUR: 245.5
+  JPY: 2500</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Consider using <a href="https://www.boost.org/libs/beast">Boost.Beast</a> to make an HTTP request to a public exchange rate API and fetch live rates for currency conversion. The JSON response can be parsed using <a href="https://www.boost.org/libs/json">Boost.Json</a>.</p>
+</div>
+<div class="paragraph">
+<p>Consider adding a user interface to the wallet to allow you to make deposits, withdrawals, transfers, and balance checks.</p>
+</div>
+<div class="paragraph">
+<p>For some ideas on how to expand this app with remote access, refer to the samples in <a href="task-networking.html" class="xref page">Networking</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_footnotes"><a class="anchor" href="#_footnotes"></a>Footnotes</h2>
+<div class="sectionbody">
+<div id="footnote1" class="paragraph">
+<p><a href="#footnote1-location">(1)</a>
+<em>Blockchain</em> : A technology that provides a decentralized, tamper-resistant ledger that ensures transparency, security, and trust in digital transactions. By distributing records across a network of nodes and using cryptographic techniques, like hashing and digital signatures, blockchain eliminates the need for intermediaries, reducing fraud and operational costs. Its applications extend beyond cryptocurrencies to areas such as supply chain tracking, smart contracts, secure identity verification, and financial services. The immutability and auditability make it particularly valuable for industries requiring verifiable and trustless interactions, though challenges like scalability and energy consumption remain areas of active development.</p>
+</div>
+<div id="footnote2" class="paragraph">
+<p><a href="#footnote2-location">(2)</a>
+<em>ECDSA</em> : An <em>Elliptic Curve Digital Signature Algorithm</em> creates a public and private key pair. ECDSA provides a variant of digital signature algorithms that use <em>elliptic-curve cryptography</em> to provide an additional level of complexity to the private key. However, care should be taken when implementing this algorithm - in particular, high-quality randomness in signatures is an absolutely essential.</p>
+</div>
+<div id="footnote3" class="paragraph">
+<p><a href="#footnote2-location">(3)</a>
+<em>Ed25519</em> : A high-performance, secure, and efficient public-key signature algorithm based on the <em>Edwards-curve Digital Signature Algorithm</em> (EdDSA), specifically designed for the Curve25519 elliptic curve. It offers 128-bit security, is resistant to side-channel attacks, and provides fast signing and verification speeds while maintaining small key and signature sizes (32-byte public keys and 64-byte signatures). Unlike ECDSA, Ed25519 does not require a secure random k value for signing, eliminating a major source of vulnerabilities. Widely adopted in cryptographic protocols like SSH, TLS, and cryptocurrency systems, Ed25519 is favored for its robustness, simplicity, and efficiency in modern security applications.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Concurrent">Category: Concurrent Programming</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#IO">Category: Input/Output</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Math">Category: Math and numerics</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-finance.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="common-introduction.html">Introduction</a></span>
+        <span class="next"><a href="task-networking.html">Networking</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

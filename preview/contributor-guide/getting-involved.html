@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Getting Involved :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/getting-involved.html">
+    <link rel="prev" href="index.html">
+    <link rel="next" href="contributors-faq.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="getting-involved.html">Getting Involved</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="index.html">
+      <span class="material-symbols-outlined" title="Previous: Contributor Guide">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="contributors-faq.html">
+      <span class="material-symbols-outlined" title="Next: Contributors FAQ">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Getting Involved</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are many ways to get involved with Boost, up to and including submitting your own library. In roughly ascending order of time and work commitment, here are the ways you can contribute to Boost:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_participate_in_the_boost_developers_mailing_list">Participate in the Boost Developers Mailing List</a></p>
+</li>
+<li>
+<p><a href="#_report_issues_and_suggest_improvements">Report Issues and Suggest Improvements</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_to_report_an_issue_with_a_library">To Report an Issue with a Library</a></p>
+</li>
+<li>
+<p><a href="#_to_report_an_issue_with_an_outside_source">To Report an Issue with an Outside Source</a></p>
+</li>
+<li>
+<p><a href="#createnewissue">To Report an Issue with this Website</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="#_engage_in_the_review_process">Engage in the Review Process</a></p>
+</li>
+<li>
+<p><a href="#contribute">Contribute to an Existing Library</a></p>
+</li>
+<li>
+<p><a href="#_maintain_an_existing_library">Maintain an Existing Library</a></p>
+</li>
+<li>
+<p><a href="#_contribute_a_new_library">Contribute a New Library</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_participate_in_the_boost_developers_mailing_list"><a class="anchor" href="#_participate_in_the_boost_developers_mailing_list"></a>Participate in the Boost Developers Mailing List</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Boost mailing list is a platform for discussions and communications related to the Boost Libraries. The mailing list serves several key purposes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Announcements</strong>: The mailing list is a channel for updates, announcements about new releases, bug fixes, events, or any other relevant news.</p>
+</li>
+<li>
+<p><strong>Collaboration</strong>: The mailing list also serves as a platform for collaboration, fostering connections between developers and encouraging team-based projects.</p>
+</li>
+<li>
+<p><strong>Discussion</strong>: Developers discuss ideas, techniques, issues, and potential improvements related to Boost libraries.</p>
+</li>
+<li>
+<p><strong>Support</strong>: Newcomers or users encountering difficulties can seek help from the community. Experienced members provide solutions, advice, and share their experiences.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you do join, follow the <a href="../user-guide/discussion-policy.html" class="xref page">Boost Discussion Policy</a> of the mailing list, as it helps in maintaining a respectful and productive environment.</p>
+</div>
+<div class="paragraph">
+<p>To subscribe to the Developers Mailing List go <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers' mailing list</a>.</p>
+</div>
+<div class="paragraph">
+<p>There are other mailing lists you might want to join, such as the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost-users">Boost Users mailing list</a>, or project-specific lists. Visit <a href="https://www.boost.org/community/groups.html">Boost Mailing Lists</a> for more details.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_report_issues_and_suggest_improvements"><a class="anchor" href="#_report_issues_and_suggest_improvements"></a>Report Issues and Suggest Improvements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are different locations to report issues, depending on which content needs updated.</p>
+</div>
+<div class="sect2">
+<h3 id="_to_report_an_issue_with_a_library"><a class="anchor" href="#_to_report_an_issue_with_a_library"></a>To Report an Issue with a Library</h3>
+<div class="paragraph">
+<p>To formally report an issue on an individual library, locate the repo for that library. Many of these repos exist in the <a href="https://github.com/cppalliance/boost/tree/master/libs">Boost Super-project</a> on GitHub. Search under the <code>libs</code> folder. For example, to file an issue on the <a href="https://www.boost.org/libs/json">Boost.Json</a> library, click <strong>New Issue</strong> at <a href="https://github.com/boostorg/json/issues" class="bare">https://github.com/boostorg/json/issues</a>. If you have difficulty locating the correct repo, then ask the question of the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers' mailing list</a>.</p>
+</div>
+<div class="paragraph">
+<p>Before filing an issue, it is good practice to identify the admins (authors or maintainers) of a library. This information can be found in the <code>meta</code> folder for the library. For example: <a href="https://github.com/boostorg/json/blob/develop/meta/libraries.json" class="bare">https://github.com/boostorg/json/blob/develop/meta/libraries.json</a> contains the authors for the <a href="https://www.boost.org/libs/json">Boost.Json</a> library. Also, library documentation and commit history may well specify who is actively involved. Make a connection first to ensure the library admins are open to updates.</p>
+</div>
+<div class="paragraph">
+<p>Whichever list you add your issue to, the issue will be triaged and addressed appropriately. Providing full details, examples and screenshots where appropriate, should give you a quicker response.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_to_report_an_issue_with_an_outside_source"><a class="anchor" href="#_to_report_an_issue_with_an_outside_source"></a>To Report an Issue with an Outside Source</h3>
+<div class="paragraph">
+<p>There are sources of information on the Boost libraries outside of this website and the library documentation, including:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Boost_(C%2B%2B_libraries)">The Wikipedia page</a></p>
+</li>
+<li>
+<p><a href="https://www.linkedin.com/company/boostlibs/">The LinkedIn page</a></p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/tagged/boost">Stack Overflow: Boost</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you notice content that needs updated in these sources, perhaps out-of-date information, incorrect or missing information, or perhaps just language that could be improved, then complete the same process as <strong>To Report an Issue with this Website</strong>. Feedback like this is welcome.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="createnewissue"><a class="anchor" href="#createnewissue"></a>To Report an Issue with this Website</h3>
+<div class="paragraph">
+<p>To report an issue with the website, including this documentation, click the <strong>New Issue</strong> button on GitHub page: <a href="https://github.com/boostorg/website-v2-docs/issues">website-v2-docs/issues</a>.</p>
+</div>
+<div class="paragraph">
+<p>After clicking <strong>New Issue</strong>, you will be able to add a <strong>Title</strong> and <strong>Description</strong>. Provide as much detail as possible, including links where helpful and suggestions for the updated content.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_engage_in_the_review_process"><a class="anchor" href="#_engage_in_the_review_process"></a>Engage in the Review Process</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All libraries are reviewed by the community before becoming part of Boost. There are several roles in the review process, from managing the steps of the review process, to testing and providing feedback.  Read the <a href="../formal-reviews/index.html" class="xref page">Formal Review Guide</a> for details.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contribute"><a class="anchor" href="#contribute"></a>Contribute to an Existing Library</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rather than report an issue, or suggested improvement, and wait for another developer to address it, you can make the code changes yourself (after verifying with the library admins that they are open to updates). To be successful you will need to be familiar with GitHub, and obviously a competent C++ developer. After finding the issue, you will need to go to the GitHub repository for that library, and create a fork and clone the library.</p>
+</div>
+<div class="paragraph">
+<p>With your fork of the library in your own GitHub account, you can make any changes and updates you wish. It is certainly recommended to thoroughly test the changes, and be aware of the test matrix for the library. It is also recommended you thoroughly comment your code changes, potentially every line of code you add should be commented as to its purpose.</p>
+</div>
+<div class="paragraph">
+<p>When you are satisfied you have met the bar for testing, you can commit the changes, push them to GitHub, and create a Pull Request. Most libraries have Continuous Integration (CI) set up, and will check your changes on several operating systems and compilers. If CI is not set up, there will be more onus on you and your testers to verify the test matrix.</p>
+</div>
+<div class="paragraph">
+<p>After this, you can take a step back, and the owners or maintainers of the library will review your code. They might ask for some modifications or improvements. Incorporate the feedback provided by the reviewers and push your modifications.</p>
+</div>
+<div class="paragraph">
+<p>If all goes well, your changes will be merged by the library admins, and you will have made a welcome contribution.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_maintain_an_existing_library"><a class="anchor" href="#_maintain_an_existing_library"></a>Maintain an Existing Library</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There may be an existing library that you have a deep interest in, that for some reason no longer has an active owner or maintainer. Or, perhaps, is being less well maintained than might be ideal. Find what you can out by asking questions of the existing maintainers (listed in the <a href="requirements/library-metadata.html" class="xref page">Library Metadata</a> json file) and, if no reply, on the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers' mailing list</a>. If the replies suggest you could take a role, consider requesting, again via the mailing list, to become a library maintainer. For larger libraries there can certainly be more than one maintainer.</p>
+</div>
+<div class="paragraph">
+<p>Maintaining an existing library is similar in steps to <a href="#contribute">Contribute to an Existing Library</a>, in that you will have to create a fork and clone the library. However, more is expected. You will have to spend time educating yourself on the full functionality of the library, and be prepared to make changes to the code anywhere changes are needed.</p>
+</div>
+<div class="paragraph">
+<p>For a larger library this education can turn out to be a significant, and perhaps onerous task. It can be quite difficult to reverse engineer in your mind the processes and purpose of code written by another developer, with all the expected personal style and idiosyncrasies that make their way into source code. However, that being said, it can be a valuable contribution to take an existing, but not fully maintained, library you are interested in and give it a new lease of life.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+All libraries in Boost are tested when the super-project is tested, so even without a dedicated maintainer the libraries must pass a series of automated tests.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contribute_a_new_library"><a class="anchor" href="#_contribute_a_new_library"></a>Contribute a New Library</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is the big dog of contributions. There are developers who have contributed several libraries to Boost. Start by reading the <a href="requirements/library-requirements.html" class="xref page">Library Requirements</a> section, and make sure to engage the Boost community <em>before</em> getting too deep into a massive coding project.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="contributor-community-introduction.html" class="xref page">Introduction to the Contributor Community</a></p>
+</li>
+<li>
+<p><a href="../formal-reviews/index.html" class="xref page">Formal Review Guide</a></p>
+</li>
+<li>
+<p><a href="../user-guide/user-community-introduction.html" class="xref page">Introduction to the User Community</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/getting-involved.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="index.html">Contributor Guide</a></span>
+        <span class="next"><a href="contributors-faq.html">Contributors FAQ</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

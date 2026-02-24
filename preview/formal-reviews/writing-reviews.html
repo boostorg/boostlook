@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Writing Reviews :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/formal-reviews/writing-reviews.html">
+    <link rel="prev" href="managing-reviews.html">
+    <link rel="next" href="review-results.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="formal-reviews" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Formal Reviews</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="submissions.html">Submission Process</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="contributor-checklist.html">Contributor Checklist</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="managing-reviews.html">Managing Reviews</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="writing-reviews.html">Writing Reviews</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="review-results.html">Review Schedule</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Formal Reviews">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="writing-reviews.html">Writing Reviews</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="managing-reviews.html">
+      <span class="material-symbols-outlined" title="Previous: Managing Reviews">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="review-results.html">
+      <span class="material-symbols-outlined" title="Next: Review Schedule">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Writing Reviews</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The goal of a Boost library review is to improve a candidate library through constructive criticism. At the end a decision must be made: <em>is the candidate library good enough at this point to accept into Boost?</em> If not, we hope to have provided enough constructive criticism for it to be improved and accepted at a later time. The <a href="https://www.boost.org/libs/serialization">Boost.Serialization</a> library is a good example of a library that was originally rejected, but constructive criticism led to revisions resulting in an excellent library that was accepted in its second review.</p>
+</div>
+<div class="paragraph">
+<p>Your comments may be brief or lengthy. The review manager needs your evaluation of the library. If you identify problems during your evaluation, try to categorize them as <em>minor</em>, <em>serious</em>, or <em>showstoppers</em>.</p>
+</div>
+<div class="paragraph">
+<p>Ask questions for the library authors, on the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost Developers Mailing List</a>, so all interested parties can see it. Authors are interested in defending their library. If you don&#8217;t get a response to your question quickly, be patient; if it takes too long or you don&#8217;t get an answer you feel is sufficient, ask again or try to rephrase the question. Clarity is important, English is not the native language of many Boost developers. Try to get your questions answered before you submit your review.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s a structured approach to writing a review of a library, covering all the bases:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_introduction">Introduction</a></p>
+</li>
+<li>
+<p><a href="#_design_and_architecture">Design and Architecture</a></p>
+</li>
+<li>
+<p><a href="#_implementation">Implementation</a></p>
+</li>
+<li>
+<p><a href="#_documentation">Documentation</a></p>
+</li>
+<li>
+<p><a href="#_conclusion">Conclusion</a></p>
+</li>
+<li>
+<p><a href="#_review_template">Review Template</a></p>
+</li>
+<li>
+<p><a href="#bestpractices">Best Practices</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Introduce yourself, and your knowledge of the problem domain. Remember that input from a newcomer to a domain is valuable. Briefly introduce the library and its purpose as you see it.</p>
+</div>
+<div class="sect2">
+<h3 id="_scope"><a class="anchor" href="#_scope"></a>Scope</h3>
+<div class="paragraph">
+<p>Describe the scope of your review, such as a focus on any particular area of the API, or any particular type of problem within the domain. Be clear on the level of commitment you made to the evaluation (a quick reading, in-depth testing of the API or a subset of it, focus on any particular area such as documentation, tutorials, portability, or similar).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_affiliation"><a class="anchor" href="#_affiliation"></a>Affiliation</h3>
+<div class="paragraph">
+<p>Make it clear if you are affiliated with any organization involved with C++.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_design_and_architecture"><a class="anchor" href="#_design_and_architecture"></a>Design and Architecture</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Evaluate the design principles and architectural decisions of the library. Discuss the modularity, extensibility, and flexibility of the library&#8217;s design. Assess how well the design aligns with Boost&#8217;s guidelines and best practices.</p>
+</div>
+<div class="sect2">
+<h3 id="_similar_libraries"><a class="anchor" href="#_similar_libraries"></a>Similar Libraries</h3>
+<div class="paragraph">
+<p>Discuss other Boost, or Standard, libraries that cover similar areas to this library. Note the differences, improvements, regressions, that the design suggests.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementation"><a class="anchor" href="#_implementation"></a>Implementation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Provide an overview of the key functionality and features offered by the library. Evaluate the completeness and robustness of the feature set. Discuss any unique or innovative features that differentiate this library from existing alternatives.</p>
+</div>
+<div class="paragraph">
+<p>Evaluate the usability of the library from your developer&#8217;s perspective. Discuss the ease of integration, API usability, and critically the learning curve.</p>
+</div>
+<div class="sect2">
+<h3 id="_performance"><a class="anchor" href="#_performance"></a>Performance</h3>
+<div class="paragraph">
+<p>If you wrote some test code, which is highly recommended, assess the performance characteristics of the library, including not only runtime efficiency but resource usage. Include code snippets from your test code in your evaluation, in particular highlighting the code you wrote to prepare for an API call into the library, and the code following the call to handle the result/data/errors appropriately.</p>
+</div>
+<div class="paragraph">
+<p>If possible, benchmark the library against similar solutions or existing libraries in terms of speed, memory footprint, and scalability.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_and_reliability"><a class="anchor" href="#_testing_and_reliability"></a>Testing and Reliability</h3>
+<div class="paragraph">
+<p>Assess the reliability and stability of the library, including error handling and corner case handling. Discuss any known issues, limitations, or areas for improvement in terms of reliability. It is key to address the clarity and usefulness of error messages, and how they helped or hindered you in locating any particular problem.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_portability_and_compatibility"><a class="anchor" href="#_portability_and_compatibility"></a>Portability and Compatibility</h3>
+<div class="paragraph">
+<p>If you are able, evaluate the portability of the library across different platforms, compilers, and environments. Give precise details on the tools or environment you used. Assess the library&#8217;s compatibility with relevant C++ standards and other Boost libraries. Discuss any platform-specific issues, considerations or dependencies that you encountered.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_documentation"><a class="anchor" href="#_documentation"></a>Documentation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Assess the quality and comprehensiveness of the documentation, including tutorials, examples, and API reference materials. Include comments on the ease of navigation within the documentation, the structure of the documentation, and how easy or difficult it was to find what you were looking for.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion"><a class="anchor" href="#_conclusion"></a>Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Briefly summarize the strengths and weaknesses of the candidate library. Critically, provide a recommendation regarding the suitability of the library for inclusion in Boost. If the library falls short in some way, offer suggestions for  improvements or areas of focus that would bring the library up to the standard for a positive recommendation for inclusion.</p>
+</div>
+<div class="sect2">
+<h3 id="_community_and_adoption"><a class="anchor" href="#_community_and_adoption"></a>Community and Adoption</h3>
+<div class="paragraph">
+<p>Assess the likelihood of adoption by developers and organizations within the C++ community.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_review_template"><a class="anchor" href="#_review_template"></a>Review Template</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If it&#8217;s helpful, cut and paste the following template into your email text when you have completed your review:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">1. Introduce yourself
+* Are you knowledgeable about the problem domain?
+* How much effort did you put into your evaluation? A glance? A quick reading? In-depth study?
+* Do you have an affiliation to disclose?
+
+2. What is your evaluation of the design and architecture?
+* What is your evaluation of the potential usefulness of the library?
+* Is the feature set, or subset, of the library available in another Boost or Standard library?
+
+3. What is your evaluation of the implementation?
+* Did you try to use the library? With what compiler? Did you have any problems (minor, series, showstoppers)?
+* Can you highlight any performance issues?
+* Any feedback on testing and reliability?
+* Did you investigate portability and compatibility?
+
+4. What is your evaluation of the documentation?
+* Any thoughts on the introduction, tutorials, API reference, completeness, helpfulness?
+
+5. My conclusion
+* How do you think the community will react?
+* What is your verdict: Yes, No, or Yes with changes?</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="bestpractices"><a class="anchor" href="#bestpractices"></a>Best Practices</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From experience, there a number of more common pitfalls when writing reviews and engaging in review feedback discussions, so keep the following in mind:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Literally, keep on the same page. Submissions, discussions, comment should always be on the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost Developers Mailing List</a> and not on Slack, Reddit, in personal email, or any other media.</p>
+</li>
+<li>
+<p>Elaborate in full. If you have series technical feedback on a library then explain yourself in detail. Try to avoid "teaser" type comments where other developers might feel you are onto something, but they are just not sure what.</p>
+</li>
+<li>
+<p>Reviews needs to be self-contained. It&#8217;s not a starting point for a discussion. Nobody is obligated to ask you clarifying questions, and there should be no missing parts that you fill in later in subsequent posts. This means that if you have questions about the library that you feel need to be answered by the author or review manager, you should ask these questions <em>before</em> you submit your review.</p>
+</li>
+<li>
+<p>Do not expect complete agreement. Too much compromise, consensus, in engineering endeavors leads to poorer design.</p>
+</li>
+<li>
+<p>Refer to the <a href="managing-reviews.html#realitycheck" class="xref page">Reality Check</a> section in the topic on Review Managers for clarity on the role of your review.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../contributor-guide/getting-involved.html" class="xref page">Getting Involved</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/formal-reviews/modules/ROOT/pages/writing-reviews.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="managing-reviews.html">Managing Reviews</a></span>
+        <span class="next"><a href="review-results.html">Review Schedule</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

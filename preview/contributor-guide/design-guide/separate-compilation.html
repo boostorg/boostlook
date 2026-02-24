@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Separate Compilation :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/design-guide/separate-compilation.html">
+    <link rel="prev" href="backwards-compatibility.html">
+    <link rel="next" href="dependencies.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Design</li>
+    <li><a href="separate-compilation.html">Separate Compilation</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="backwards-compatibility.html">
+      <span class="material-symbols-outlined" title="Previous: Backwards Compatibility">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="dependencies.html">
+      <span class="material-symbols-outlined" title="Next: Dependencies">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Separate Compilation</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>These guidelines are designed for authors of Boost libraries which have separate sources that need compiling in order to use the library. Throughout, this guide refers to a fictitious "whatever" library, so replace all occurrences of "whatever" (or "WHATEVER") with your own library&#8217;s name when copying the examples.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="changes-affecting-source-code"><a class="anchor" href="#changes-affecting-source-code"></a>Changes Affecting Source Code</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="preventing-compiler-abi-clashes"><a class="anchor" href="#preventing-compiler-abi-clashes"></a>Preventing Compiler ABI Clashes</h3>
+<div class="paragraph">
+<p>There are some compilers (mostly Microsoft Windows compilers), which feature a range of compiler switches that alter the (Application Binary Interface) ABI of C++ classes and functions. By way of example, consider Borland&#8217;s compiler which has the following options:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-b</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on or off - effects enum sizes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-Vx</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on or off - empty members</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-Ve</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on or off - empty base classes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-aX</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">alignment - 5 options</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-pX</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Calling convention - 4 options</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-VmX</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">member pointer size and layout - 5 options</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-VC</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on or off, changes name mangling</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-Vl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on or off, changes <code>struct</code> layout</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>These options are provided in addition to those affecting which runtime library is used (more later); the total number of combinations of options can be obtained by multiplying together the individual options above, so that gives <strong>2x2x2x5x4x5x2x2 = 3200</strong> combinations!</p>
+</div>
+<div class="paragraph">
+<p>The problem is that users often expect to be able to build the Boost libraries and then just link to them and have everything just plain work, no matter what their project settings are. Irrespective of whether this is a reasonable expectation or not, without some means of managing this issue, the user may well find that their program will experience strange and hard to track down crashes at runtime unless the library they link to was built with the same options as their project (changes to the default alignment setting are a prime culprit). One way to manage this is with "prefix and suffix" headers: these headers invoke compiler specific <code>#pragma</code> directives to instruct the compiler that whatever code follows was built (or is to be built) with a specific set of compiler ABI settings.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/config">Boost.Config</a> provides the macro <code>BOOST_HAS_ABI_HEADERS</code> which is set whenever there are prefix and suffix headers available for the compiler in use, typical usage in a header like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#ifndef BOOST_WHATEVER_HPP
+#define BOOST_WHATEVER_HPP
+
+#include &lt;boost/config.hpp&gt;
+
+// this must occur after all of the includes and before any code appears:
+#ifdef BOOST_HAS_ABI_HEADERS
+#  include BOOST_ABI_PREFIX
+#endif
+//
+// this header declares one class, and one function by way of examples:
+//
+class whatever
+{
+   // details.
+};
+
+whatever get_whatever();
+
+// the suffix header occurs after all of our code:
+#ifdef BOOST_HAS_ABI_HEADERS
+#  include BOOST_ABI_SUFFIX
+#endif
+
+#endif</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can include this code in your library source files as well if you want, although you probably shouldn&#8217;t need to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you <strong>don&#8217;t</strong> use these in the library source files (but do in your library&#8217;s headers) and the user attempts to compile the library source with a non-default ABI setting, then they will get compiler errors if there are any conflicts.</p>
+</li>
+<li>
+<p>If you <strong>do</strong> include them in both the library&#8217;s headers and the library source files, then the code should always compile no matter what the compiler settings used, although the result might not match what the user was expecting: since we&#8217;ve forced the ABI back into default mode.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="rationale"><a class="anchor" href="#rationale"></a>Rationale</h3>
+<div class="paragraph">
+<p>Without some means of managing this issue, users often report bugs along the line of "Your silly library always crashes when I try and call it" and so on. These issues can be extremely difficult and time consuming to track down, only to discover in the end that it&#8217;s a compiler setting that&#8217;s changed the ABI of the class and/or function types of the program compared to those in the pre-compiled library. The use of prefix/suffix headers can minimize this problem, although probably not remove it completely.</p>
+</div>
+<div class="sect3">
+<h4 id="counter-argument-1"><a class="anchor" href="#counter-argument-1"></a>Counter Argument #1</h4>
+<div class="paragraph">
+<p>Trust the user, if they want 13-byte alignment (!) let them have it.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="counter-argument-2"><a class="anchor" href="#counter-argument-2"></a>Counter Argument #2</h4>
+<div class="paragraph">
+<p>Prefix/suffix headers have a tendency to "spread" to other boost libraries - for example if <code>boost::shared_ptr&lt;&gt;</code> forms part of your class&#8217;s ABI, then including prefix/suffix headers in your code will be of no use unless <code>shared_ptr.hpp</code> also uses them. Authors of header-only boost libraries may not be so keen on this solution - with some justification - since they don&#8217;t face the same problem.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="static-or-dynamic-libraries"><a class="anchor" href="#static-or-dynamic-libraries"></a>Static or Dynamic Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When the users runtime is dynamically linked the Boost libraries can be built either as dynamic libraries (<code>.so</code> on Unix platforms, <code>.dll</code> on Windows, <code>.dylib</code> on macOS) or as static libraries (<code>.a</code> on Unix or macOS, <code>.lib</code> on Windows). So we have a choice as to which is supported by default:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On Unix platforms it typically makes no difference to the code: the user just selects in their makesfile which library they prefer to link to.</p>
+</li>
+<li>
+<p>On Windows platforms, the code has to be specially annotated to support DLL&#8217;s, so we need to pick one option as the default and one as an alternative.</p>
+</li>
+<li>
+<p>On Windows platforms, we can inject special code to automatically select which library variant to link against: so again we need to decide which is to be the default (see the section on <a href="#auto-linking">Auto-linking</a> below).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The recommendation is to pick static linking by default.</p>
+</div>
+<div class="sect2">
+<h3 id="rationale-2"><a class="anchor" href="#rationale-2"></a>Rationale</h3>
+<div class="paragraph">
+<p>There is no one policy that fits all here.</p>
+</div>
+<div class="paragraph">
+<p>The rationale for the current behaviour was inherited from <a href="https://www.boost.org/libs/regex">Boost.Regex</a> (and it&#8217;s ancestor regex++): this library originally used dynamic linking by default whenever the runtime was dynamic. It&#8217;s actually safer that way should you be using regex from a dll for example. However, this behavior brought a persistent stream of user complaints: mainly about deployment, all asking if static linking could be the default. After regex changed behavior the complaints stopped, and the author hasn&#8217;t had one complaint about static linking by default being the wrong decision.</p>
+</div>
+<div class="paragraph">
+<p>Note that other libraries might need to make other choices: for example libraries that are intended to be used to implement dll pluggin&#8217;s would like need to use dynamic linking in almost all cases.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="supporting-windows-dlls"><a class="anchor" href="#supporting-windows-dlls"></a>Supporting Windows Dll&#8217;s</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>On most Unix-like platforms no special annotations of source code are required in order for that source to be compiled as a shared library because all external symbols are exposed. However the majority of Windows compilers require that symbols that are to be imported or exported from a dll, be prefixed with <code><em>declspec(dllimport)</code> or <code></em>declspec(dllexport)</code>. Without this mangling of source code, it is not possible to correctly build shared libraries on Windows (historical note - originally these declaration modifiers were required on 16-bit Windows where the memory layout for exported classes was different from that of "local" classes - although this is no longer an issue, there is still no way to instruct the linker to "export everything", it also remains to be seen whether 64-bit Windows will resurrect the segmented architecture that led to this problem in the first place. Note also that the mangled names of exported symbols are different from non-exported ones, so <code>__declspec(dllimport)</code> is required in order to link to code within a dll).</p>
+</div>
+<div class="paragraph">
+<p>In order to support the building of shared libraries on MS Windows your code will have to prefix all the symbols that your library exports with a macro (lets call it <code>BOOST_WHATEVER_DECL</code>) that your library will define to expand to either <code><em>declspec(dllexport)</code> or <code></em>declspec(dllimport)</code> or nothing, depending upon how your library is being built or used. Typical usage would look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#ifndef BOOST_WHATEVER_HPP
+#define BOOST_WHATEVER_HPP
+
+#include &lt;boost/config.hpp&gt;
+
+#ifdef BOOST_HAS_DECLSPEC // defined in config system
+// we need to import/export our code only if the user has specifically
+// asked for it by defining either BOOST_ALL_DYN_LINK if they want all boost
+// libraries to be dynamically linked, or BOOST_WHATEVER_DYN_LINK
+// if they want just this one to be dynamically liked:
+#if defined(BOOST_ALL_DYN_LINK) || defined(BOOST_WHATEVER_DYN_LINK)
+// export if this is our own source, otherwise import:
+#ifdef BOOST_WHATEVER_SOURCE
+# define BOOST_WHATEVER_DECL __declspec(dllexport)
+#else
+# define BOOST_WHATEVER_DECL __declspec(dllimport)
+#endif  // BOOST_WHATEVER_SOURCE
+#endif  // DYN_LINK
+#endif  // BOOST_HAS_DECLSPEC
+//
+// if BOOST_WHATEVER_DECL isn't defined yet define it now:
+#ifndef BOOST_WHATEVER_DECL
+#define BOOST_WHATEVER_DECL
+#endif
+
+//
+// this header declares one class, and one function by way of examples:
+//
+class BOOST_WHATEVER_DECL whatever
+{
+   // details.
+};
+
+BOOST_WHATEVER_DECL whatever get_whatever();
+
+#endif</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And then in the source code for this library one would use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">//
+// define BOOST_WHATEVER SOURCE so that our library's
+// setup code knows that we are building the library (possibly exporting code),
+// rather than using it (possibly importing code):
+//
+#define BOOST_WHATEVER_SOURCE
+#include &lt;boost/whatever.hpp&gt;
+
+// class members don't need any further annotation:
+whatever::whatever() { }
+// but functions do:
+BOOST_WHATEVER_DECL whatever get_whatever()
+{
+   return whatever();
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="importingexporting-dependencies"><a class="anchor" href="#importingexporting-dependencies"></a>Importing/Exporting Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As well as exporting your main classes and functions (those that are actually documented), Microsoft Visual C++ will warn loudly and often if you try to import/export a class whose dependencies are not also exported. Dependencies include: any base classes, any user defined types used as data members, plus all of the dependencies of your dependencies and so on. This causes particular problems when a dependency is a template class, because although it is technically possible to export these, it is not at all easy, especially if the template itself has dependencies which are implementation-specific details. In most cases it&#8217;s probably better to simply suppress the warnings using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#ifdef BOOST_MSVC
+#  pragma warning(push)
+#  pragma warning(disable : 4251 4231 4660)
+#endif
+
+// code here
+
+#ifdef BOOST_MSVC
+#pragma warning(pop)
+#endif</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is safe provided that there are no dependencies that are (template) classes with non-constant static data members, these really do need exporting, otherwise there will be multiple copies of the static data members in the program, and that&#8217;s really really bad.</p>
+</div>
+<div class="paragraph">
+<p>Historical note: on 16-bit Windows you really did have to export all dependencies or the code wouldn&#8217;t work, however since the latest Visual Studio .NET supports the import/export of individual member functions, it&#8217;s a reasonably safe bet that Windows compilers won&#8217;t do anything nasty - like changing the class&#8217;s ABI - when importing/exporting a class.</p>
+</div>
+<div class="sect2">
+<h3 id="rationale-3"><a class="anchor" href="#rationale-3"></a>Rationale</h3>
+<div class="paragraph">
+<p><strong>Why bother - doesn&#8217;t the import/export mechanism take up more code that the classes themselves?</strong></p>
+</div>
+<div class="paragraph">
+<p>A good point, and probably true, however there are some circumstances where library code must be placed in a shared library - for example when the application consists of multiple dll&#8217;s as well as the executable, and more than one those dll&#8217;s link to the same Boost library - in this case if the library isn&#8217;t dynamically linked and it contains any global data (even if that data is private to the internals of the library) then really bad things can happen - even without global data, we will still get a code bloating effect. Incidentally, for larger applications, splitting the application into multiple dll&#8217;s can be highly advantageous - by using Microsoft&#8217;s "delay load" feature the application will load only those parts it really needs at any one time, giving the impression of a much more responsive and faster-loading application.</p>
+</div>
+<div class="paragraph">
+<p><strong>Why static linking by default?</strong></p>
+</div>
+<div class="paragraph">
+<p>In the worked example above, the code assumes that the library will be statically linked unless the user asks otherwise. Most users seem to prefer this (there are no separate dll&#8217;s to distribute, and the overall distribution size is often significantly smaller this way as well: i.e. you pay for what you use and no more), but this is a subjective call, and some libraries may even only be available in dynamic versions (<a href="https://www.boost.org/libs/thread">Boost.Thread</a> for example).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="automatic-library"><a class="anchor" href="#automatic-library"></a>Automatic Library</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes selection and linking with <code>auto_link.hpp</code> (find this file in the <code>boost/config</code> folder after installation).</p>
+</div>
+<div class="paragraph">
+<p>Many Windows compilers ship with multiple runtime libraries - for example Microsoft Visual Studio .NET comes with 6 versions of the C and C++ runtime. It is essential that the Boost library that the user links to is built against the same C runtime as the program is built against. If that is not the case, then the user will experience linker errors at best, and runtime crashes at worst. The Boost build system manages this by providing different build variants, each of which is build against a different runtime, and gets a slightly different mangled name depending upon which runtime it is built against. For example the regex libraries get named as follows when built with Visual Studio .NET 2003:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">boost_regex-vc71-mt-1_31.lib
+boost_regex-vc71-mt-gd-1_31.lib
+libboost_regex-vc71-mt-1_31.lib
+libboost_regex-vc71-mt-gd-1_31.lib
+libboost_regex-vc71-mt-s-1_31.lib
+libboost_regex-vc71-mt-sgd-1_31.lib
+libboost_regex-vc71-s-1_31.lib
+libboost_regex-vc71-sgd-1_31.lib</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The difficulty now is selecting which of these the user should link his or her code to.</p>
+</div>
+<div class="paragraph">
+<p>In contrast, most Unix compilers typically only have one runtime (or sometimes two if there is a separate thread safe option). For these systems the only choice in selecting the right library variant is whether they want debugging info, and possibly thread safety.</p>
+</div>
+<div class="paragraph">
+<p>Historically Microsoft Windows compilers have managed this issue by providing a #pragma option that allows the header for a library to automatically select the library to link to. This makes everything automatic and extremely easy for the end user: as soon as they include a header file that has separate source code, the name of the right library build variant gets embedded in the object file, and as long as that library is in the linker search path, it will get pulled in by the linker without any user intervention.</p>
+</div>
+<div class="paragraph">
+<p>Automatic library selection and linking can be enabled for a Boost library by including the header <code>&lt;boost/config/auto_link.hpp&gt;</code>, after first defining <code>BOOST_LIB_NAME</code> and, if applicable, <code>BOOST_DYN_LINK</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">//
+// Automatically link to the correct build variant where possible.
+//
+#if !defined(BOOST_ALL_NO_LIB) &amp;&amp; !defined(BOOST_WHATEVER_NO_LIB) &amp;&amp; !defined(BOOST_WHATEVER_SOURCE)
+//
+// Set the name of our library, this will get undef'ed by auto_link.hpp
+// once it's done with it:
+//
+#define BOOST_LIB_NAME boost_whatever
+//
+// If we're importing code from a dll, then tell auto_link.hpp about it:
+//
+#if defined(BOOST_ALL_DYN_LINK) || defined(BOOST_WHATEVER_DYN_LINK)
+#  define BOOST_DYN_LINK
+#endif
+//
+// And include the header that does the work:
+//
+#include &lt;boost/config/auto_link.hpp&gt;
+#endif  // auto-linking disabled</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The library&#8217;s user documentation should note that the feature can be disabled by defining either <code>BOOST_ALL_NO_LIB</code> or <code>BOOST_WHATEVER_NO_LIB</code>:</p>
+</div>
+<div class="paragraph">
+<p>If for any reason you need to debug this feature, the header <code>&lt;boost/config/auto_link.hpp&gt;</code> will output some helpful diagnostic messages if you first define <code>BOOST_LIB_DIAGNOSTIC</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="changes-affecting-the-build-system"><a class="anchor" href="#changes-affecting-the-build-system"></a>Changes Affecting the Build System</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="creating-the-library-jamfile"><a class="anchor" href="#creating-the-library-jamfile"></a>Creating the Library Jamfile</h3>
+<div class="paragraph">
+<p>The Jamfile for building library "whatever" typically lives in <code>boost-root/libs/whatever/build</code>, the only extra step required is to add a <code>&lt;define&gt;</code> requirement to the library target so that your code knows whether it&#8217;s building a dll or static library, a typical Jamfile would like like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">lib boost_regex : ../src/whatever.cpp :
+  &lt;link&gt;shared:&lt;define&gt;BOOST_WHATEVER_DYN_LINK=1 ;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="auto-linking"><a class="anchor" href="#auto-linking"></a>Auto-linking</h3>
+<div class="paragraph">
+<p>Testing the auto-link feature is somewhat convoluted, and requires access to a compiler that supports the feature: refer to the jamfile.v2 file for the type_traits library (in the <code>libs\type_traits\test</code> folder) for an example.</p>
+</div>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/design-guide/separate-compilation.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="backwards-compatibility.html">Backwards Compatibility</a></span>
+        <span class="next"><a href="dependencies.html">Dependencies</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

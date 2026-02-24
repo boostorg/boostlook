@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Introduction to Boost Diagnostics :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/diagnostics.html">
+    <link rel="prev" href="reduce-dependencies.html">
+    <link rel="next" href="user-community-introduction.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Development</li>
+    <li><a href="diagnostics.html">Diagnostics</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="reduce-dependencies.html">
+      <span class="material-symbols-outlined" title="Previous: Reduce Dependencies">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="user-community-introduction.html">
+      <span class="material-symbols-outlined" title="Next: Introduction">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Introduction to Boost Diagnostics</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Diagnostics in C++ programming refers to the set of tools, techniques, and facilities that help developers detect, report, and investigate errors and unexpected behavior in their code. While the C++ Standard Library provides a minimal set of mechanisms—most notably <code>assert</code>, <code>std::error_code</code>, and exception handling—these are intentionally simple. For serious application development, especially in large-scale or cross-platform projects, many developers turn to the Boost C++ Libraries.</p>
+</div>
+<div class="paragraph">
+<p>Boost offers a rich collection of utilities that significantly improve diagnostic capabilities, making it easier to identify the root causes of problems, provide better runtime feedback, and write robust, maintainable code. This introduction highlights some of the most important diagnostic facilities Boost provides, focusing on four pillars:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>BOOST_ASSERT</code> - a configurable replacement for <code>std::assert</code>. See <a href="#_configurable_assertions">Configurable Assertions</a>.</p>
+</li>
+<li>
+<p><code>BOOST_VERIFY</code> - a unique runtime verification macro with no Standard equivalent. See <a href="#_release_mode_expression_checking">Release-Mode Expression Checking</a>.</p>
+</li>
+<li>
+<p><code>boost::throw_exception</code> - an exception throwing facility that captures more diagnostic information and supports no-exception builds. See <a href="#_exception_handling_with_context">Exception Handling with Context</a>.</p>
+</li>
+<li>
+<p><code>boost::system::error_code</code> - an enriched error reporting type that improves upon <code>std::error_code</code> by attaching source location information. See <a href="#_richer_error_reporting">Richer Error Reporting</a>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Each of these features demonstrates why Boost remains an invaluable companion to modern C++ developers concerned with diagnostics and instrumentation.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code in this topic was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0. Refer to libraries <a href="https://www.boost.org/libs/assert">Boost.Assert</a>, <a href="https://www.boost.org/libs/exception">Boost.Exception</a>, and <a href="https://www.boost.org/libs/system">Boost.System</a>.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configurable_assertions"><a class="anchor" href="#_configurable_assertions"></a>Configurable Assertions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Assertions are one of the oldest diagnostic tools in programming. They allow developers to state conditions that must hold true at runtime. If the condition is false, the program halts immediately, signaling a bug.</p>
+</div>
+<div class="paragraph">
+<p>The C++ Standard Library provides the macro <code>assert(expr)</code>, defined in <code>&lt;cassert&gt;</code>. While useful, it is limited. If the assertion fails, the program usually prints a simple message including the failed expression, the file, and line number, and then aborts. Crucially, the behavior of <code>assert</code> is fixed. There is no standard way to intercept an assertion failure, customize the reporting, or change what happens afterward.</p>
+</div>
+<div class="paragraph">
+<p>Boost addresses this with <code>BOOST_ASSERT</code>, a macro that behaves like <code>assert</code> by default but is fully configurable. By defining the macro <code>BOOST_ENABLE_ASSERT_HANDLER</code>, developers can redirect failed assertions to a custom handler. This handler can log the error to a file, throw an exception, integrate with a testing framework, or trigger application-specific recovery code.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_ENABLE_ASSERT_HANDLER   // Must be defined before including &lt;boost/assert.hpp&gt;
+
+#include &lt;boost/assert.hpp&gt;
+#include &lt;iostream&gt;
+
+// Provide your own handler
+namespace boost {
+    void assertion_failed(char const* expr, char const* function,
+        char const* file, long line) {
+        std::cerr &lt;&lt; "Custom assert failed:\n"
+            &lt;&lt; "  Expression: " &lt;&lt; expr &lt;&lt; "\n"
+            &lt;&lt; "  Function:   " &lt;&lt; function &lt;&lt; "\n"
+            &lt;&lt; "  Location:   " &lt;&lt; file &lt;&lt; ":" &lt;&lt; line &lt;&lt; "\n";
+
+        // Maybe throw an exception here
+    }
+}
+
+int main() {
+    int x = -1;
+    BOOST_ASSERT(x &gt;= 0);  // This calls the custom handler
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the program:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Custom assert failed:
+  Expression: x &gt;= 0
+  Function:   int __cdecl main(void)
+  Location:   &lt;PATH TO YOUR SOURCE FILE&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here, rather than letting the system&#8217;s default behavior decide what happens, the programmer gains full control. This flexibility makes <code>BOOST_ASSERT</code> far more suitable for production systems, where diagnostic output must be carefully managed.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>As an alternative to <code>#define BOOST_ENABLE_ASSERT_HANDLER</code>, you can pass <code>-DBOOST_ENABLE_ASSERT_HANDLER</code> as a compiler flag.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>You can take customization one step further with <code>BOOST_ASSERT_MSG</code>. This call is designed to work in Debug builds (when <code>NDEBUG</code> is not defined). In Release builds (when <code>NDEBUG</code> is defined) the macro compiles to nothing so there is no runtime cost, not even an evaluation of the condition.</p>
+</div>
+<div class="paragraph">
+<p>In the following example, the library function is designed to safely index into a container, and we need to guard against invalid indices.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#define BOOST_ENABLE_ASSERT_DEBUG_HANDLER
+
+#include &lt;boost/assert.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+// Custom handler for BOOST_ASSERT_MSG
+namespace boost {
+    void assertion_failed_msg(char const* expr, char const* msg,
+        char const* function,
+        char const* file, long line) {
+        std::cerr &lt;&lt; "[Boost assert triggered]\n"
+            &lt;&lt; "  Expression: " &lt;&lt; expr &lt;&lt; "\n"
+            &lt;&lt; "  Message:    " &lt;&lt; msg &lt;&lt; "\n"
+            &lt;&lt; "  Function:   " &lt;&lt; function &lt;&lt; "\n"
+            &lt;&lt; "  File:       " &lt;&lt; file &lt;&lt; ":" &lt;&lt; line &lt;&lt; "\n";
+        throw std::out_of_range(msg);
+    }
+}
+
+// A "Boost-style" utility: Safe access with asserts
+template &lt;typename T&gt;
+T&amp; safe_at(std::vector&lt;T&gt;&amp; v, std::size_t idx) {
+    BOOST_ASSERT_MSG(idx &lt; v.size(),
+        "safe_at: Index out of range");
+    return v[idx];
+}
+
+int main() {
+    std::vector&lt;int&gt; numbers{ 10, 20, 30 };
+
+    try {
+        std::cout &lt;&lt; "numbers[1] = " &lt;&lt; safe_at(numbers, 1) &lt;&lt; "\n";  // valid
+        std::cout &lt;&lt; "numbers[5] = " &lt;&lt; safe_at(numbers, 5) &lt;&lt; "\n";  // invalid
+    }
+    catch (const std::exception&amp; e) {
+        std::cerr &lt;&lt; "Caught exception: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the program:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">numbers[1] = 20
+[Boost assert triggered]
+  Expression: idx &lt; v.size()
+  Message:    safe_at: Index out of range
+  Function:   int &amp;__cdecl safe_at&lt;int&gt;(class std::vector&lt;int,class std::allocator&lt;int&gt; &gt; &amp;,unsigned __int64)
+  File:        &lt;PATH TO YOUR SOURCE FILE&gt;
+Caught exception: safe_at: Index out of range</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_release_mode_expression_checking"><a class="anchor" href="#_release_mode_expression_checking"></a>Release-Mode Expression Checking</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The macro <code>BOOST_VERIFY</code> is another diagnostic tool unique to Boost, with no direct Standard Library equivalent. At first glance, it looks similar to <code>BOOST_ASSERT</code>, but it serves a different purpose.</p>
+</div>
+<div class="paragraph">
+<p>Whereas both <code>assert</code> and <code>BOOST_ASSERT</code> are disabled in Release mode (when <code>NDEBUG</code> is defined), <code>BOOST_VERIFY</code> always evaluates its expression, even in Release builds. The purpose is to ensure that any side effects in the expression are not accidentally compiled out.</p>
+</div>
+<div class="paragraph">
+<p>Consider this example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/assert.hpp&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    const char* filename = "temp.txt";
+
+    // Create a file safely using fopen_s
+    FILE* f = nullptr;
+    errno_t err = fopen_s(&amp;f, filename, "w"); // "w" = write mode
+    if (err == 0 &amp;&amp; f != nullptr) {
+        std::fputs("temporary data", f);
+        std::fclose(f);
+    }
+    else {
+        std::cerr &lt;&lt; "Failed to create file: " &lt;&lt; filename &lt;&lt; "\n";
+        return 1;
+    }
+
+    BOOST_VERIFY(std::remove(filename) == 0);
+
+    std::cout &lt;&lt; "File removal attempted.\n";
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To show the mechanism at work, we&#8217;ll write some broken code, and run it in Debug then Release modes. The following example tries to remove a file twice.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">//#define NDEBUG
+
+#include &lt;boost/assert.hpp&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    const char* filename = "nonexistent_file.txt";
+
+    // Try opening a file in write mode (this will succeed, so we create it)
+    FILE* f = nullptr;
+    errno_t err = fopen_s(&amp;f, filename, "w");
+    if (err == 0 &amp;&amp; f != nullptr) {
+        std::fputs("temporary data", f);
+        std::fclose(f);
+    } else {
+        std::cerr &lt;&lt; "Failed to create file: " &lt;&lt; filename &lt;&lt; "\n";
+        return 1;
+    }
+
+    // First removal works
+    if (std::remove(filename) == 0) {
+        std::cout &lt;&lt; "File successfully removed the first time.\n";
+    }
+
+    // Second removal should fail (file no longer exists)
+    std::cout &lt;&lt; "Now trying to remove the file again...\n";
+
+    // This will assert in Debug mode, because std::remove() != 0
+    BOOST_VERIFY(std::remove(filename) == 0);
+
+    std::cout &lt;&lt; "If you see this line in Release mode, BOOST_VERIFY still ran remove().\n";
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the code as is, and you should get an assertion:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">File successfully removed the first time.
+Now trying to remove the file again...
+Assertion failed: std::remove(filename) == 0, file &lt;PATH TO YOUR SOURCE FILE&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next, uncomment the first line (<code>//#define NDEBUG</code>), and run the program in Release mode:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">File successfully removed the first time.
+Now trying to remove the file again...
+If you see this line in Release mode, BOOST_VERIFY still ran remove().</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The second attempt to remove the file still went ahead, but the program continued to run normally. This kind of behavior can be required in embedded processes, systems, and similar, low-level programming.</p>
+</div>
+<div class="paragraph">
+<p>In short, <code>BOOST_VERIFY</code> lets developers combine the clarity of an assertion with the necessity of always executing safety-critical expressions. This is particularly useful in resource acquisition, API contract validation, and error-sensitive code paths where skipping checks in Release mode would be unacceptable.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_exception_handling_with_context"><a class="anchor" href="#_exception_handling_with_context"></a>Exception Handling with Context</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Exception handling is another diagnostic cornerstone of C++. Throwing exceptions with throw is straightforward, but the Standard Library&#8217;s mechanism offers limited control. For example, there is no standard way to automatically attach additional diagnostic information, such as the function in which the exception originated.</p>
+</div>
+<div class="paragraph">
+<p>Boost improves this with <code>boost::throw_exception</code>. This utility function throws exceptions in a controlled manner, with two major advantages:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Function name capture: when throwing an exception, <code>boost::throw_exception</code> automatically records the name of the function from which it was thrown. This provides better traceability when diagnosing runtime errors.</p>
+</li>
+<li>
+<p>Support for no-exception builds: some embedded or performance-critical environments disable exceptions entirely. In these cases, <code>boost::throw_exception</code> can be configured to take alternative actions, such as calling <code>std::terminate</code> or invoking a user-supplied handler. This allows the same codebase to be used in both exception-enabled and exception-disabled builds.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For example, let&#8217;s write a file loader with fallback behavior:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">//#define BOOST_NO_EXCEPTIONS
+
+#include &lt;boost/throw_exception.hpp&gt;
+#include &lt;fstream&gt;
+#include &lt;iostream&gt;
+
+// ===============================================
+// Custom handler when exceptions are disabled
+// ===============================================
+#ifdef BOOST_NO_EXCEPTIONS
+namespace boost {
+    [[noreturn]] void throw_exception(std::exception const&amp; e,
+        boost::source_location const&amp; loc = BOOST_CURRENT_LOCATION)
+    {
+        // This could log the error in a file
+        std::cerr &lt;&lt; "FATAL ERROR: " &lt;&lt; e.what() &lt;&lt; "\n"
+            &lt;&lt; "  at " &lt;&lt; loc.file_name() &lt;&lt; ":" &lt;&lt; loc.line() &lt;&lt; "\n"
+            &lt;&lt; "  in function " &lt;&lt; loc.function_name() &lt;&lt; "\n";
+
+        // Consider a graceful shutdown instead of throw
+    }
+}
+#endif
+
+// ===============================================
+// Function that might fail
+// ===============================================
+std::string load_file(const std::string&amp; filename) {
+    std::ifstream file(filename);
+    if (!file) {
+
+        // Instead of `throw std::runtime_error(...)`, use Boost
+        boost::throw_exception(
+            std::runtime_error("Failed to open file: " + filename),
+            BOOST_CURRENT_LOCATION
+        );
+    }
+
+    std::string content((std::istreambuf_iterator&lt;char&gt;(file)),
+        std::istreambuf_iterator&lt;char&gt;());
+    return content;
+}
+
+// ===============================================
+// Demo
+// ===============================================
+int main() {
+    try {
+        std::string data = load_file("missing.txt");
+        std::cout &lt;&lt; "File contents: " &lt;&lt; data &lt;&lt; "\n";
+    }
+    catch (const std::exception&amp; e) {
+
+        // Normal C++ exception handling if enabled
+        std::cerr &lt;&lt; "Caught exception: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The macro BOOST_CURRENT_LOCATION, used twice in the code above, is defined in <code>&lt;boost/throw_exception.hpp&gt;</code> to return the current file location.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Run this program as is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Caught exception: Failed to open file: missing.txt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, uncomment the first line (<code>//#define BOOST_NO_EXCEPTIONS</code>), and run the program again:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">FATAL ERROR: Failed to open file: missing.txt
+  at &lt;PATH TO YOUR SOURCE FILE&gt;
+  in function class std::basic_string&lt;char,struct std::char_traits&lt;char&gt;,class std::allocator&lt;char&gt; &gt; __cdecl load_file(const class std::basic_string&lt;char,struct std::char_traits&lt;char&gt;,class std::allocator&lt;char&gt; &gt; &amp;)
+File contents:</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice the last line (<code>File contents:</code>) is output as the exception is caught but the program continues, which may well be a better situation in an embedded system (flight control software, for example) or kernel code - which should just keep running.</p>
+</div>
+<div class="paragraph">
+<p>By using <code>boost::throw_exception</code>, developers gain additional context in their diagnostics, making it much easier to identify the precise source of an error during debugging.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_richer_error_reporting"><a class="anchor" href="#_richer_error_reporting"></a>Richer Error Reporting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Error codes remain a lightweight alternative to exceptions, particularly in performance-sensitive or low-level programming. Both Boost and the Standard Library provide an error_code type, but the Boost version has some critical advantages.</p>
+</div>
+<div class="paragraph">
+<p>While <code>std::error_code</code> simply associates an integer value with an error category, <code>boost::system::error_code</code> can attach a <code>boost::source_location</code>, providing details such as file, line, and function where the error originated. This makes error codes far more useful in diagnostics, since they carry not only the “what went wrong” but also the “where it happened.”</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/system/error_code.hpp&gt;
+#include &lt;iostream&gt;
+
+void simulate_error(boost::system::error_code&amp; ec,
+    boost::source_location loc = BOOST_CURRENT_LOCATION) {
+    ec.assign(5, boost::system::system_category());
+    std::cerr &lt;&lt; "Error at " &lt;&lt; loc.file_name()
+        &lt;&lt; ":" &lt;&lt; loc.line() &lt;&lt; " in "
+        &lt;&lt; loc.function_name() &lt;&lt; "\n";
+}
+
+int main() {
+    boost::system::error_code ec;
+    simulate_error(ec);
+    if (ec) {
+        std::cerr &lt;&lt; "Error value: " &lt;&lt; ec.value() &lt;&lt; "\n";
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this program:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Error at &lt;PATH TO YOUR SOURCE FILE&gt; in int __cdecl main(void)
+Error value: 5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This capability goes far beyond what <code>std::error_code</code> offers. By associating source locations with error codes, Boost enables a hybrid model: the lightweight efficiency of error codes with much of the traceability typically reserved for exceptions.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion"><a class="anchor" href="#_conclusion"></a>Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Diagnostics are the lifeblood of reliable software. Without effective tools to check assumptions, verify behavior, throw meaningful exceptions, and track error codes, debugging becomes guesswork. While the C++ Standard Library provides the bare essentials, the Boost C++ Libraries offer a suite of powerful enhancements tailored for serious development.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>BOOST_ASSERT</code> gives you control over assertions, allowing custom handlers instead of being locked into the system&#8217;s defaults.</p>
+</li>
+<li>
+<p><code>BOOST_VERIFY</code> ensures critical expressions are always executed, even in Release mode — a feature absent in the Standard Library.</p>
+</li>
+<li>
+<p><code>boost::throw_exception</code> enriches exception handling with function name capture and configurable behavior for no-exception environments.</p>
+</li>
+<li>
+<p><code>boost::system::error_code</code> extends the Standard&#8217;s error codes with the ability to attach source locations, dramatically improving traceability.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Together, these facilities form a compelling case for using Boost in diagnostic and instrumentation work. They bring flexibility, consistency, and depth that the Standard Library alone does not provide. For developers committed to building robust C++ applications, Boost&#8217;s diagnostic utilities are not just helpful—they are often essential.</p>
+</div>
+<div class="sect2">
+<h3 id="_diagnostics_summary"><a class="anchor" href="#_diagnostics_summary"></a>Diagnostics Summary</h3>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Boost Facility</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Standard Equivalent</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>BOOST_ASSERT(expr)</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assert(expr)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configurable: can redirect to custom handler (<code>BOOST_ENABLE_ASSERT_HANDLER</code>). Standard <code>assert</code> is fixed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>BOOST_VERIFY(expr)</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>None</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Always evaluates expression, even in Release mode. Ensures side effects (like <code>fopen()</code>) are not lost.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>BOOST_ASSERT_MSG(expr, msg)</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>None</strong> (C++ has no <code>assert_msg</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adds developer-supplied diagnostic message for clarity. Standard <code>assert</code> lacks this.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>boost::throw_exception(e)</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>throw e;</code> (no wrapper)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Captures function name; configurable for no-exception builds. Standard throw gives no extra context.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>boost::system::error_code</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>std::error_code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Can attach <code>boost::source_location</code> for “where it happened.” Standard only provides value + category.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>boost::source_location</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>std::source_location</code> (C++20)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Available earlier than C++20; integrates with other Boost diagnostics (for example, error_code, throw_exception).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>BOOST_STATIC_ASSERT(expr)</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>static_assert(expr)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Historically portable pre-C++11; still useful in legacy builds. Functionally superseded by Standard now.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>BOOST_STATIC_ASSERT_MSG(expr,msg)</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>None</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Debug mode equivalent of <code>BOOST_STATIC_ASSERT</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>BOOST_THROW_EXCEPTION(e)</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>None</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Macro that adds source location info to exceptions automatically. Easier than manually passing context.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>boost::exception</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>std::exception</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Can store arbitrary diagnostic data (file, line, errno, custom info). Standard exceptions lack extensibility.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><code>BOOST_ERROR(code)</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>None</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reports runtime errors without aborting the test suite. Standard testing needs external frameworks.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="boost-macros.html" class="xref page">Boost Macros</a></p>
+</li>
+<li>
+<p><a href="exception-safety.html" class="xref page">Exception-Safety in Generic Components</a></p>
+</li>
+<li>
+<p><a href="testing-debugging.html" class="xref page">Testing and Debugging</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/diagnostics.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="reduce-dependencies.html">Reduce Dependencies</a></span>
+        <span class="next"><a href="user-community-introduction.html">Introduction</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

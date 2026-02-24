@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Mastering Debug Visualizers in MSVC and GDB :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/debug-visualisers.html">
+    <link rel="prev" href="best-practices.html">
+    <link rel="next" href="testing/intro.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="best-practices.html">Best Practices</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Development</li>
+    <li><a href="debug-visualisers.html">Debug Visualizers</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="best-practices.html">
+      <span class="material-symbols-outlined" title="Previous: Best Practices">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="testing/intro.html">
+      <span class="material-symbols-outlined" title="Next: Introduction">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Mastering Debug Visualizers in MSVC and GDB</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Debug Visualizers offer a powerful way to simplify the debugging process by allowing developers to see complex data structures in a more understandable format. In this section, we explore how to use and write Debug Visualizers for both <a href="https://visualstudio.microsoft.com/">Microsoft Visual Studio (MSVC)</a> and the <a href="https://sourceware.org/gdb/">GNU Debugger (GDB)</a>, two of the most popular debugging tools available today.</p>
+</div>
+<div class="paragraph">
+<p>Debug Visualizers are tools that allow developers to customize how complex data structures are displayed during a debugging session. Instead of manually parsing through raw data, Visualizers can present information in a human-readable format, making it easier to understand the state of a program and identify issues.</p>
+</div>
+<div class="paragraph">
+<p>For example, if you&#8217;re working with a linked list, a Debug Visualizer can display the elements of the list in a clear, ordered format rather than as a series of memory addresses. This can significantly reduce the time and effort required to diagnose and fix bugs.</p>
+</div>
+<div class="paragraph">
+<p>This section covers:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_debug_visualizers_in_msvc">Debug Visualizers in MSVC</a></p>
+</li>
+<li>
+<p><a href="#_debug_visualizers_in_gdb">Debug Visualizers in GDB</a></p>
+</li>
+<li>
+<p><a href="#_comparing_msvc_and_gdb_debug_visualizers">Comparing MSVC and GDB Debug Visualizers</a></p>
+</li>
+<li>
+<p><a href="#_real_world_use_cases">Real-World Use Cases</a></p>
+</li>
+<li>
+<p><a href="#_using_debug_visualizers_with_synchronous_boost_libraries">Using Debug Visualizers with Synchronous Boost Libraries</a></p>
+</li>
+<li>
+<p><a href="#_visualizing_boost_asio">Visualizing Boost Asio</a></p>
+</li>
+<li>
+<p><a href="#_next_steps">Next Steps</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_debug_visualizers_in_msvc"><a class="anchor" href="#_debug_visualizers_in_msvc"></a>Debug Visualizers in MSVC</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Microsoft Visual Studio comes with built-in support for Debug Visualizers. MSVC includes several built-in Visualizers for common data types like <code>std::vector</code>, <code>std::map</code>, and <code>std::string</code>. However, one of the most powerful features of Visual Studio is the ability to create custom Visualizers to suit your specific needs. These Visualizers are often referred to as Natvis files, - short for Native Visualizer - a script-style display language for <a href="https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022">creating custom views of C++ objects</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_using_built_in_visualizers"><a class="anchor" href="#_using_built_in_visualizers"></a>Using Built-in Visualizers</h3>
+<div class="paragraph">
+<p>Using built-in Visualizers in Visual Studio is straightforward. When you hit a breakpoint or pause the execution of your program, the debugger will automatically use the appropriate Visualizer to display the contents of variables.</p>
+</div>
+<div class="paragraph">
+<p>For example, if you&#8217;re debugging a <code>std::vector</code>, Visual Studio will show the number of elements, their values, and the current capacity of the vector in a neatly organized format. You can also hover over variables to see a quick summary, or expand them in the Watch window to see more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writing_custom_visualizers_in_msvc"><a class="anchor" href="#_writing_custom_visualizers_in_msvc"></a>Writing Custom Visualizers in MSVC</h3>
+<div class="paragraph">
+<p>To create a custom Visualizer, you need to write a Natvis file. Natvis files are XML files that allow you to present data in a way that makes sense for your application, whether that means showing a simplified view or expanding complex structures, and annotating the output appropriately.</p>
+</div>
+<div class="sect3">
+<h4 id="_natvis_syntax"><a class="anchor" href="#_natvis_syntax"></a>Natvis Syntax</h4>
+<div class="paragraph">
+<p>The syntax of a Natvis file is both straightforward and flexible. Here&#8217;s a basic structure of a Natvis file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010"&gt;
+  &lt;Type Name="MyNamespace::MyClass"&gt;
+    &lt;DisplayString&gt;{{m_member1}}, {{m_member2}}&lt;/DisplayString&gt;
+    &lt;Expand&gt;
+      &lt;Item Name="Member 1"&gt;m_member1&lt;/Item&gt;
+      &lt;Item Name="Member 2"&gt;m_member2&lt;/Item&gt;
+    &lt;/Expand&gt;
+  &lt;/Type&gt;
+&lt;/AutoVisualizer&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, the <code>DisplayString</code> element defines a simple summary of the data that will be shown when you hover over a variable of type <code>MyClass</code>. The <code>Expand</code> element defines what will be shown when you expand the variable in the debugger.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_visualizer"><a class="anchor" href="#_example_visualizer"></a>Example Visualizer</h4>
+<div class="paragraph">
+<p>Let&#8217;s consider an example where you have a custom linked list class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">namespace MyNamespace {
+    struct Node {
+        int value;
+        Node* next;
+    };
+
+    class LinkedList {
+    public:
+        Node* head;
+    };
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, write a Natvis file to visualize this linked list in a user-friendly manner:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010"&gt;
+  &lt;Type Name="MyNamespace::LinkedList"&gt;
+    &lt;DisplayString&gt;LinkedList with head at {head}&lt;/DisplayString&gt;
+    &lt;Expand&gt;
+      &lt;Item Name="Head"&gt;head&lt;/Item&gt;
+      &lt;LinkedListItems&gt;
+        &lt;Size&gt;size&lt;/Size&gt;
+        &lt;ValuePointer&gt;head&lt;/ValuePointer&gt;
+        &lt;NextPointer&gt;next&lt;/NextPointer&gt;
+      &lt;/LinkedListItems&gt;
+    &lt;/Expand&gt;
+  &lt;/Type&gt;
+&lt;/AutoVisualizer&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This Natvis file will show the head of the linked list and allow you to expand it to see all the elements in a list format.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deploy_and_test"><a class="anchor" href="#_deploy_and_test"></a>Deploy and Test</h4>
+<div class="paragraph">
+<p>Once you have written your Natvis file, you can deploy it in Visual Studio by placing it in the <code>My Documents\Visual Studio &lt;Version&gt;\Visualizers</code> directory or by including it directly in your project. After loading your project and hitting a breakpoint, Visual Studio will use your custom Visualizer automatically.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tips_and_best_practices"><a class="anchor" href="#_tips_and_best_practices"></a>Tips and Best Practices</h4>
+<div class="paragraph">
+<p>When writing Natvis files, keep the following best practices in mind:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Visualizers should simplify the debugging process, so avoid overly complex representations.</p>
+</li>
+<li>
+<p>Visualizers run during debugging, so inefficient Natvis files can slow down the debugger.</p>
+</li>
+<li>
+<p>Ensure that your Visualizer works correctly with all possible states of the data structure, including having a single entry, or a NULL empty state, or being highly populated.</p>
+</li>
+<li>
+<p>Document and comment your Natvis file so that others (or your future self) can understand and maintain them.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_debug_visualizers_in_gdb"><a class="anchor" href="#_debug_visualizers_in_gdb"></a>Debug Visualizers in GDB</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>GNU Debugger (GDB) is a powerful and flexible debugger that is widely used in the open-source Unix community. While GDB does not have a direct equivalent to MSVC&#8217;s Natvis files, it supports a feature called pretty-printers, which serve a similar purpose. Pretty-printers are written in Python and allow developers to customize the output of data structures during debugging.</p>
+</div>
+<div class="paragraph">
+<p>GDB comes with several built-in pretty-printers, particularly for standard library containers like <code>std::vector</code> and <code>std::map</code>. These pretty-printers can be enabled by loading the appropriate scripts during your debugging session.</p>
+</div>
+<div class="paragraph">
+<p>For example, to enable STL pretty-printers, you might add the following to your <code>.gdbinit</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">python
+import sys
+sys.path.insert(0, '/usr/share/gcc-&lt;version&gt;/python')
+from libstdcxx.v6.printers import register_libstdcxx_printers
+register_libstdcxx_printers(gdb.current_objfile())
+end</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once enabled, GDB will automatically use these pretty-printers to display STL containers in a more readable format.</p>
+</div>
+<div class="sect2">
+<h3 id="_writing_custom_pretty_printers_in_gdb"><a class="anchor" href="#_writing_custom_pretty_printers_in_gdb"></a>Writing Custom Pretty-Printers in GDB</h3>
+<div class="paragraph">
+<p>Here&#8217;s a simple Python template for a GDB pretty-printer:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">class MyClassPrinter:
+    "Print a MyNamespace::MyClass"
+
+    def __init__(self, val):
+        self.val = val
+
+    def to_string(self):
+        return "MyClass: member1 = {}, member2 = {}".format(
+            self.val['member1'], self.val['member2'])
+
+def lookup_function(val):
+    if str(val.type) == "MyNamespace::MyClass":
+        return MyClassPrinter(val)
+    return None
+
+gdb.pretty_printers.append(lookup_function)</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_pretty_printer"><a class="anchor" href="#_example_pretty_printer"></a>Example Pretty-Printer</h4>
+<div class="paragraph">
+<p>Let&#8217;s write a pretty-printer for the same linked list example used in the MSVC section:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">class LinkedListPrinter:
+    "Print a MyNamespace::LinkedList"
+
+    class Iterator:
+        def __init__(self, head):
+            self.node = head
+
+        def __iter__(self):
+            return self
+
+        def __next__(self):
+            if self.node == 0:
+                raise StopIteration
+            value = self.node['value']
+            self.node = self.node['next']
+            return value
+
+    def __init__(self, val):
+        self.val = val
+
+    def to_string(self):
+        return "LinkedList"
+
+    def children(self):
+        return enumerate(self.Iterator(self.val['head']))
+
+def lookup_function(val):
+    if str(val.type) == "MyNamespace::LinkedList":
+        return LinkedListPrinter(val)
+    return None
+
+gdb.pretty_printers.append(lookup_function)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This script will allow GDB to display the elements of the linked list in a way that is easy to understand.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deploy_and_test_2"><a class="anchor" href="#_deploy_and_test_2"></a>Deploy and Test</h4>
+<div class="paragraph">
+<p>To deploy the pretty-printer, you can add it to your <code>.gdbinit</code> file or load it manually during a debugging session. Once loaded, GDB will use the pretty-printer to display the linked list whenever it encounters the <code>LinkedList</code> type.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tips_and_best_practices_2"><a class="anchor" href="#_tips_and_best_practices_2"></a>Tips and Best Practices</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Write modular pretty-printers that can be easily extended or reused.</p>
+</li>
+<li>
+<p>Keep performance in mind, as pretty-printers run in real-time during debugging.</p>
+</li>
+<li>
+<p>Ensure that your pretty-printer works correctly with all possible states of the data structure, including having a single entry, or a NULL empty state, or being highly populated.</p>
+</li>
+<li>
+<p>Document and comment your pretty-printers so that others (or your future self) can understand and maintain them.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_comparing_msvc_and_gdb_debug_visualizers"><a class="anchor" href="#_comparing_msvc_and_gdb_debug_visualizers"></a>Comparing MSVC and GDB Debug Visualizers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>While both MSVC and GDB support custom visualization of data structures during debugging, they differ significantly in their approach:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Natvis files are XML-based and tightly integrated with the Visual Studio IDE, offering a more graphical and user-friendly experience.</p>
+</li>
+<li>
+<p>GDB&#8217;s pretty-printers are written in Python, providing greater flexibility but requiring more manual setup and scripting.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_real_world_use_cases"><a class="anchor" href="#_real_world_use_cases"></a>Real-World Use Cases</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Debug Visualizers are particularly useful in scenarios where data structures are complex and difficult to interpret from raw memory views. This includes debugging custom containers, graphical objects, or any data structure with a non-trivial internal representation.</p>
+</div>
+<div class="paragraph">
+<p>Consider a case where a developer is working on a 3D game engine. The engine uses complex data structures to represent scenes, including trees of graphical objects and spatial partitions. Without Debug Visualizers, diagnosing issues with these structures would involve manually traversing pointers and interpreting binary data. With custom Visualizers, the developer can see these structures as they are meant to be seen, such as a tree view of the scene graph or a grid of spatial partitions, making it much easier to identify and fix problems.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_debug_visualizers_with_synchronous_boost_libraries"><a class="anchor" href="#_using_debug_visualizers_with_synchronous_boost_libraries"></a>Using Debug Visualizers with Synchronous Boost Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following examples refer to <a href="https://www.boost.org/libs/optional">Boost.Optional</a>, <a href="https://www.boost.org/libs/variant">Boost.Variant</a>, and <a href="https://www.boost.org/libs/container">Boost.Container</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_visualizing_boostoptional"><a class="anchor" href="#_visualizing_boostoptional"></a>Visualizing boost::optional</h3>
+<div class="paragraph">
+<p>The <code>boost::optional</code> type represents an object that may or may not contain a value. When debugging code that uses <code>boost::optional</code>, it&#8217;s helpful to quickly see whether a value is present and, if so, what that value is.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s an example of a Natvis file that visualizes <code>boost::optional</code> in MSVC:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010"&gt;
+  &lt;Type Name="boost::optional&lt;*&gt;" Priority="High"&gt;
+    &lt;DisplayString Condition="!is_initialized"&gt;empty&lt;/DisplayString&gt;
+    &lt;DisplayString Condition="is_initialized"&gt;Value = {*(this-&gt;storage_.data_)}&lt;/DisplayString&gt;
+    &lt;Expand&gt;
+      &lt;Item Name="Value" Condition="is_initialized"&gt;*(this-&gt;storage_.data_)&lt;/Item&gt;
+    &lt;/Expand&gt;
+  &lt;/Type&gt;
+&lt;/AutoVisualizer&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This Visualizer checks if the <code>boost::optional</code> contains a value using the <code>is_initialized</code> method. If a value is present, it displays the content; otherwise, it shows "empty".</p>
+</div>
+<div class="paragraph">
+<p>For GDB, you can create a pretty-printer in Python:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">class OptionalPrinter:
+    "Print a boost::optional"
+
+    def __init__(self, val):
+        self.val = val
+
+    def to_string(self):
+        is_initialized = self.val['m_initialized']
+        if is_initialized:
+            return "Value = {}".format(self.val['m_storage']['m_storage']['data'])
+        else:
+            return "empty"
+
+def lookup_function(val):
+    if str(val.type).startswith('boost::optional'):
+        return OptionalPrinter(val)
+    return None
+
+gdb.pretty_printers.append(lookup_function)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This pretty-printer works similarly to the Natvis example, displaying either the value stored in the <code>boost::optional</code> or indicating that it is empty.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_visualizing_boostvariant"><a class="anchor" href="#_visualizing_boostvariant"></a>Visualizing boost::variant</h3>
+<div class="paragraph">
+<p><code>boost::variant</code> is a type-safe union that can hold one of several types. Visualizing it during debugging can be tricky, as you need to see which type is currently stored and what its value is.</p>
+</div>
+<div class="paragraph">
+<p>The following Natvis file visualizes <code>boost::variant</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010"&gt;
+  &lt;Type Name="boost::variant&lt;*&gt;"&gt;
+    &lt;DisplayString&gt;{ which = {which}, value = {*(void*)&amp;storage_ + 16} }&lt;/DisplayString&gt;
+    &lt;Expand&gt;
+      &lt;Item Name="Which"&gt;which&lt;/Item&gt;
+      &lt;Item Name="Value"&gt;{*(void*)&amp;storage_ + 16}&lt;/Item&gt;
+    &lt;/Expand&gt;
+  &lt;/Type&gt;
+&lt;/AutoVisualizer&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This Visualizer displays the active type stored in the <code>boost::variant</code> and its value. The <code>which</code> member determines which of the possible types is currently in use, and the corresponding value is extracted and displayed.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s how you might implement a pretty-printer for <code>boost::variant</code> in GDB:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">class VariantPrinter:
+    "Print a boost::variant"
+
+    def __init__(self, val):
+        self.val = val
+
+    def to_string(self):
+        which = self.val['which_']
+        value = gdb.parse_and_eval('((void*)&amp;{})-&gt;boost::detail::variant::which_types::types[{}]'.format(self.val.address, which))
+        return "which = {}, value = {}".format(which, value)
+
+def lookup_function(val):
+    if str(val.type).startswith('boost::variant'):
+        return VariantPrinter(val)
+    return None
+
+gdb.pretty_printers.append(lookup_function)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This pretty-printer identifies the active type using <code>which_</code> and displays its value.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_visualizing_boostcontainervector"><a class="anchor" href="#_visualizing_boostcontainervector"></a>Visualizing boost::container::vector</h3>
+<div class="paragraph">
+<p><code>boost::container::vector</code> is a drop-in replacement for <code>std::vector</code> with improved performance in certain scenarios. Like <code>std::vector</code>, it benefits greatly from a Visualizer that can show the contents of the container in a user-friendly way.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s a Natvis file for visualizing <code>boost::container::vector</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010"&gt;
+  &lt;Type Name="boost::container::vector&lt;*&gt;"&gt;
+    &lt;DisplayString&gt;Size = {size()}&lt;/DisplayString&gt;
+    &lt;Expand&gt;
+      &lt;Item Name="[size() elements]"&gt;[ptr_, ptr_ + size()]&lt;/Item&gt;
+    &lt;/Expand&gt;
+  &lt;/Type&gt;
+&lt;/AutoVisualizer&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This Visualizer displays the size of the vector, and allows you to expand the vector to see all its elements.</p>
+</div>
+<div class="paragraph">
+<p>For GDB, you can use the following pretty-printer:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-Python hljs" data-lang="Python">class BoostVectorPrinter:
+    "Print a boost::container::vector"
+
+    def __init__(self, val):
+        self.val = val
+
+    def to_string(self):
+        size = self.val['m_holder']['m_size']
+        return "Size = {}".format(size)
+
+    def children(self):
+        size = int(self.val['m_holder']['m_size'])
+        start = self.val['m_holder']['m_start']
+        return (('[{}]'.format(i), start[i]) for i in range(size))
+
+def lookup_function(val):
+    if str(val.type).startswith('boost::container::vector'):
+        return BoostVectorPrinter(val)
+    return None
+
+gdb.pretty_printers.append(lookup_function)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This pretty-printer shows the size of the <code>boost::container::vector</code>, and lists its elements.</p>
+</div>
+<div class="paragraph">
+<p>Now, let&#8217;s look at debugging a more complex library.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_visualizing_boost_asio"><a class="anchor" href="#_visualizing_boost_asio"></a>Visualizing Boost Asio</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a> is a powerful and widely used library, with the challenge of debugging asynchronous code. Debug Visualizers can make this process significantly easier by providing insights into the state of your Asio objects during debugging.</p>
+</div>
+<div class="paragraph">
+<p>The <code>boost::asio::io_context</code> (formerly <code>io_service</code>) is a core component of the library, used to initiate and manage asynchronous operations. When debugging, it can be helpful to see the state of the <code>io_context</code>, including the number of pending tasks and whether it is currently running.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s an example of a Natvis file that visualizes <code>boost::asio::io_context</code> in MSVC:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010"&gt;
+  &lt;Type Name="boost::asio::io_context"&gt;
+    &lt;DisplayString&gt;Work = {this-&gt;impl_.work_count_}, Threads = {this-&gt;impl_.thread_count_}&lt;/DisplayString&gt;
+    &lt;Expand&gt;
+      &lt;Item Name="Work Count"&gt;this-&gt;impl_.work_count_&lt;/Item&gt;
+      &lt;Item Name="Thread Count"&gt;this-&gt;impl_.thread_count_&lt;/Item&gt;
+    &lt;/Expand&gt;
+  &lt;/Type&gt;
+&lt;/AutoVisualizer&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This Visualizer displays the number of pending tasks (<code>work_count_</code>) and the number of threads currently running in the <code>io_context</code>. This information is crucial for understanding the load and activity level of the <code>io_context</code>.</p>
+</div>
+<div class="paragraph">
+<p>For GDB, you can create a pretty-printer in Python:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-Python hljs" data-lang="Python">class IoContextPrinter:
+    "Print a boost::asio::io_context"
+
+    def __init__(self, val):
+        self.val = val
+
+    def to_string(self):
+        work_count = self.val['impl_']['work_count_']
+        thread_count = self.val['impl_']['thread_count_']
+        return "Work = {}, Threads = {}".format(work_count, thread_count)
+
+def lookup_function(val):
+    if str(val.type).startswith('boost::asio::io_context'):
+        return IoContextPrinter(val)
+    return None
+
+gdb.pretty_printers.append(lookup_function)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This pretty-printer provides similar information as the Natvis file, showing the number of pending tasks and threads in the <code>io_context</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_visualizing_boostasiosteady_timer"><a class="anchor" href="#_visualizing_boostasiosteady_timer"></a>Visualizing boost::asio::steady_timer</h3>
+<div class="paragraph">
+<p>The <code>boost::asio::steady_timer</code> is used for scheduling asynchronous operations to occur after a specified time period. Visualizing its state can help you understand when the next operation is scheduled to run.</p>
+</div>
+<div class="paragraph">
+<p>The following Natvis file visualizes <code>boost::asio::steady_timer</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010"&gt;
+  &lt;Type Name="boost::asio::steady_timer"&gt;
+    &lt;DisplayString&gt;Expires At = {this-&gt;impl_.expiry_}&lt;/DisplayString&gt;
+    &lt;Expand&gt;
+      &lt;Item Name="Expiry Time"&gt;this-&gt;impl_.expiry_&lt;/Item&gt;
+    &lt;/Expand&gt;
+  &lt;/Type&gt;
+&lt;/AutoVisualizer&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This Visualizer displays the time at which the timer is set to expire, helping you to easily track the timing of scheduled operations.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s a pretty-printer for <code>boost::asio::steady_timer</code> in GDB:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-Python hljs" data-lang="Python">class SteadyTimerPrinter:
+    "Print a boost::asio::steady_timer"
+
+    def __init__(self, val):
+        self.val = val
+
+    def to_string(self):
+        expiry_time = self.val['impl_']['expiry_']
+        return "Expires At = {}".format(expiry_time)
+
+def lookup_function(val):
+    if str(val.type).startswith('boost::asio::steady_timer'):
+        return SteadyTimerPrinter(val)
+    return None
+
+gdb.pretty_printers.append(lookup_function)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This pretty-printer shows when the timer is set to expire, similar to the Natvis Visualizer.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_visualizing_boostasiosocket"><a class="anchor" href="#_visualizing_boostasiosocket"></a>Visualizing boost::asio::socket</h3>
+<div class="paragraph">
+<p>Sockets are one of the most commonly used components in <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, allowing for network communication. Visualizing socket states and addresses during debugging can provide clarity on the connections being managed.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s a Natvis file that visualizes a TCP socket:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010"&gt;
+  &lt;Type Name="boost::asio::ip::tcp::socket"&gt;
+    &lt;DisplayString&gt;Local = {this-&gt;impl_.socket_.local_address_}:{this-&gt;impl_.socket_.local_port_}, Remote = {this-&gt;impl_.socket_.remote_address_}:{this-&gt;impl_.socket_.remote_port_}&lt;/DisplayString&gt;
+    &lt;Expand&gt;
+      &lt;Item Name="Local Address"&gt;{this-&gt;impl_.socket_.local_address_}:{this-&gt;impl_.socket_.local_port_}&lt;/Item&gt;
+      &lt;Item Name="Remote Address"&gt;{this-&gt;impl_.socket_.remote_address_}:{this-&gt;impl_.socket_.remote_port_}&lt;/Item&gt;
+    &lt;/Expand&gt;
+  &lt;/Type&gt;
+&lt;/AutoVisualizer&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This Visualizer shows the local and remote addresses and ports for a TCP socket, giving you immediate insight into the connection being managed.</p>
+</div>
+<div class="paragraph">
+<p>A pretty-printer for a TCP socket in GDB might look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-Python hljs" data-lang="Python">class TcpSocketPrinter:
+    "Print a boost::asio::ip::tcp::socket"
+
+    def __init__(self, val):
+        self.val = val
+
+    def to_string(self):
+        local_address = self.val['impl_']['socket_']['local_address_']
+        local_port = self.val['impl_']['socket_']['local_port_']
+        remote_address = self.val['impl_']['socket_']['remote_address_']
+        remote_port = self.val['impl_']['socket_']['remote_port_']
+        return "Local = {}:{}, Remote = {}:{}".format(local_address, local_port, remote_address, remote_port)
+
+def lookup_function(val):
+    if str(val.type).startswith('boost::asio::ip::tcp::socket'):
+        return TcpSocketPrinter(val)
+    return None
+
+gdb.pretty_printers.append(lookup_function)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This pretty-printer displays the local and remote addresses and ports, providing clear information about the socket&#8217;s connections.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By understanding how to use and write Debug Visualizers, you can gain deeper insights into your code, catch bugs more quickly, and ultimately produce higher-quality software. Whether you&#8217;re new to debugging or an experienced developer, taking the time to master these tools will pay off in the long run.</p>
+</div>
+<div class="paragraph">
+<p>Consider downloading sample Natvis and Python pretty-printer files from the <a href="https://github.com/boostorg/boost/tree/master/libs">Boost library&#8217;s GitHub repository</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://sourceware.org/gdb/current/onlinedocs/gdb.html/Python-API.html">GDB Python API</a></p>
+</li>
+<li>
+<p><a href="https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022">Natvis Language Reference</a></p>
+</li>
+<li>
+<p><a href="testing/boost-test-matrix.html" class="xref page">Test Matrix</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/debug-visualisers.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="best-practices.html">Best Practices</a></span>
+        <span class="next"><a href="testing/intro.html">Introduction</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

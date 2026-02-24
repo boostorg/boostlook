@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Antora Guide :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/docs/antora.html">
+    <link rel="prev" href="components.html">
+    <link rel="next" href="asciidoc.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="components.html">Components</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Writing Documentation</li>
+    <li><a href="antora.html">Antora Guide</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="components.html">
+      <span class="material-symbols-outlined" title="Previous: Components">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="asciidoc.html">
+      <span class="material-symbols-outlined" title="Next: AsciiDoc Style Guide">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Antora Guide</h1>
+  <div class="sect1">
+<h2 id="antora"><a class="anchor" href="#antora"></a>Antora</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre> https://antora.org/[Antora] is a static site generator designed for creating documentation sites from AsciiDoc content.
+The tool renders the documentation for Boost modules whose documentation are defined as components in the Antora playbook.</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="installing-antora"><a class="anchor" href="#installing-antora"></a>Installing Antora</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="dependencies"><a class="anchor" href="#dependencies"></a>Dependencies</h3>
+<div class="paragraph">
+<p>Antora requires <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ node -v</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command should return the Node.js version number:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">v16.18.0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Antora requires Node.js version 16 or later.
+If you have Node.js installed but need to upgrade it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ nvm install --lts</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following instructions also require <a href="https://git-scm.com/" target="_blank" rel="noopener">Git</a> to clone the repository:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ git --version</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command should return the Git version number:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">git version 2.25.1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="cloning-the-repository"><a class="anchor" href="#cloning-the-repository"></a>Cloning the repository</h3>
+<div class="paragraph">
+<p>To clone the repository that defines the Antora playbook for the Boost documentation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ git clone https://www.github.com/boostorg/website-v2-docs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command clones the repository into a directory named <code>website-v2-docs</code>.
+This directory contains the Antora playbook files <code>site.playbook.yml</code> (website documentation) and <code>libs.playbook.yml</code> (library documentation).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="running-antora"><a class="anchor" href="#running-antora"></a>Running Antora</h3>
+<div class="paragraph">
+<p>After cloning the project, you need to install its dependencies using the Node.js package manager, npm:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ npm ci</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then build the Antora UI bundle used for the documentation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ cd antora-ui
+$ npx gulp
+$ cd ..</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>npx</code> command, which comes with npm, can be used to build any of the playbooks in the repository.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ npx antora --fetch libs.playbook.yml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or to build the website documentation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ npx antora --fetch site.playbook.yml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This commands will build the documentation in the <code>build/</code> directory.</p>
+</div>
+<div class="paragraph">
+<p><code>npx</code> will download the Antora CLI and the Antora site generator, and then run the <code>antora</code> command with the specified playbook.
+These dependencies are cached locally, so the next time you run <code>npx antora</code>, it will be faster.</p>
+</div>
+<div class="paragraph">
+<p>In the release process, Antora is called with extra attributes used by the documentation components.
+For instance:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ npx antora --fetch --attribute page-boost-branch=master --attribute page-boost-ui-branch=master --attribute page-commit-id=151c2ac libs.playbook.yml</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Instead of using the Antora versioning control system, we render the documentation for a single version by setting <code>version: ~</code> in the <code>antora.yml</code> file.
+The <code>--attribute</code> options let us render the playbook for a single documentation version with context about the current version.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>libdoc.sh</code> script simplifies the process by building the UI bundle, identifying these attributes, and running the Antora command with the specified playbook.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ ./libdoc.sh master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or to build the website documentation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ ./sitedoc.sh master</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">Site generation complete!
+Open file:///home/user/path/to/antora/build/master/doc in a browser to view your site.
+Site generation complete!
+Open file:///home/user/path/to/antora/build/doc in a browser to view your site.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>build.sh</code> script identifies the branch of the current repository and runs the <code>sitedoc.sh</code> script with the branch name as an argument:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ ./build.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Although not necessary, you also have the option of installing Antora globally so that the antora command is available on your <code>PATH</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ npm i -g @antora/cli @antora/site-generator</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ antora -v</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Read more about antora on their <a href="https://docs.antora.org/antora/latest/install-and-run-quickstart/" target="_blank" rel="noopener">Quickstart guide</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="playbook-components"><a class="anchor" href="#playbook-components"></a>Playbook Components</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The website is composed of components defined in the <code>content.sources</code> field of its playbook file
+<code>site.playbook.yml</code>.
+All components of the website are relative to the website-v2-docs repository.</p>
+</div>
+<div class="paragraph">
+<p>The process for generating the documentation for all libraries is similar.
+However, the components are defined in the <code>libs.playbook.yml</code> file and their URLs are relative to the <code>boostorg</code> organization.
+Each library documentation is defined as a component in the playbook file <code>libs.playbook.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">content:
+  sources:
+    - url: https://github.com/boostorg/url
+      start_path: doc
+  # ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The complete <code>libdoc.sh</code> command syntax is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">Usage: ./libdoc.sh { branch | version | 'release' | 'all' }...
+
+    branch : 'develop' | 'master' | 'release'
+    version: [0-9]+ '.' [0-9]+ '.' [0-9]+
+    'release': builds master to build/doc/html
+    'all': rebuilds develop, master, and every version
+
+Examples:
+
+    ./libdoc.sh develop master      # build develop and master
+    ./libdoc.sh 1.83.0              # build tagged version boost-1.83.0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first positional argument is the only parameter, which identifies which version should be built.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>branch</code>: valid arguments are <code>master</code> or <code>develop</code>.
+Builds the <code>master</code> or <code>develop</code> versions of the documentation in <code>build/master/libs</code> or <code>build/develop/libs</code>.
+It checks out all libraries in their <code>master</code> or <code>develop</code> branches.</p>
+</li>
+<li>
+<p><code>version</code>: a semver version, such as <code>1.82.0</code> describing a Boost version.
+This allows us to generate the documentation content of an old Boost version with the current version of the Antora UI.</p>
+</li>
+<li>
+<p><code>'release'</code>: generate the <code>master</code> version to <code>build/doc/html</code> with the <code>release</code> UI layout.
+This layout omits the header, Google analytics, and Edit this Page.
+This version of the documentation is meant to be distributed with sources files in the Boost release.</p>
+</li>
+<li>
+<p><code>'all'</code>: retroactively iterate and generate the documentation for all versions of Boost
+with the most recent Antora UI. This command iterates each playbook in the <code>history</code> directory.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The master/develop branches of the library documentation are designed to co-exist alongside the per-release documentation and thus the branch name (or release version) does appear in its URLs.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="component-layout"><a class="anchor" href="#component-layout"></a>Component Layout</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Each Antora-enabled library includes the <a href="https://docs.antora.org/antora/latest/organize-content-files/">component version descriptor file</a> <code>doc/antora.yml</code>.
+Each library should contain an <code>antora.yml</code> describing the component.
+For instance,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">name: mp11
+title: Boost.Mp11
+version: ~
+nav:
+  - modules/ROOT/nav.adoc</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After defining the <code>doc/antora.yml</code> file, the source files should be organized in the <code>modules</code> directory.
+Typically, <code>doc/modules/ROOT/nav.adoc</code> is the main navigation file for the library documentation and <code>doc/modules/ROOT/pages/index.adoc</code> is the main page.
+You can find more information about the <a href="https://docs.antora.org/antora/latest/component-version-descriptor/" target="_blank" rel="noopener">Component Version Descriptor</a> and <a href="https://docs.antora.org/antora/latest/page/" target="_blank" rel="noopener">Pages</a> in the Antora documentation.</p>
+</div>
+<div class="paragraph">
+<p>Once these files are in place, the library can be registered as a component in the <code>libs.playbook.yml</code> file with a Pull Request to the <code>website-v2-docs</code> repository:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">content:
+  sources:
+  # ...
+    - &lt;library-name&gt;: https://github.com/boostorg/&lt;library-name&gt;
+      start_path: doc</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="local-playbooks"><a class="anchor" href="#local-playbooks"></a>Local playbooks</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When working locally on an individual component, it&#8217;s usually desirable to create a local playbook for your project so that you can render the documentation locally for a single component.
+The local playbook is a copy of the main playbook that removes all components except the one you are working on.</p>
+</div>
+<div class="paragraph">
+<p>For instance, you can create a copy of <code>libs.playbook.yml</code> as <code>doc/local-playbook.yml</code>, remove all components except the one you are working on, and adjust the component URL to point to your local filesystem:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml"># ...
+content:
+  sources:
+    - url: ..
+      start_path: doc
+      edit_url: 'https://github.com/boostorg/&lt;library-name&gt;/edit/{refname}/{path}'
+# ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This way, you can render the documentation locally for your component without having to render the entire Boost documentation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ npx antora --fetch local-playbook.yml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When writing a Boost library proposal, include your library in this local playbook.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="antora-extensions"><a class="anchor" href="#antora-extensions"></a>Antora Extensions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Antora supports <a href="https://docs.antora.org/antora/latest/extend/extensions/" target="_blank" rel="noopener">extensions</a> that can be used to augment the functionality of the generator.
+The playbooks in the <code>website-v2-docs</code> repository include a number of extensions that are available to all components.</p>
+</div>
+<div class="sect2">
+<h3 id="c-tagfiles-extension"><a class="anchor" href="#c-tagfiles-extension"></a>C&#43;&#43; Tagfiles Extension</h3>
+<div class="paragraph">
+<p>The <a href="https://www.npmjs.com/package/@cppalliance/antora-cpp-tagfiles-extension" target="_blank" rel="noopener">@cppalliance/antora-cpp-tagfiles-extension</a> extension allows components to include links to C&#43;&#43; symbols defined in the library or external libraries.</p>
+</div>
+<div class="paragraph">
+<p>For instance, <code><code><a href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank" rel="noopener">std::string</a></code></code> will generate a link to the <code>std::string</code> symbol in the documentation.
+Note that after the <code>cpp:</code> prefix from custom inline macros, the syntax is similar to the one used to generate regular links in AsciiDoc, where the link is replaced by the symbol name.</p>
+</div>
+<div class="paragraph">
+<p>The link for each symbol is generated from a tagfile provided by the main playbook or by the extension.
+The playbook can define tagfiles for other libraries by including the <code>cpp-tagfiles</code> field in the extension configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">antora:
+  extensions:
+    # ...
+    - require: '@cppalliance/antora-cpp-tagfiles-extension'
+      cpp-tagfiles:
+        files:
+          - file: ./doc/tagfiles/boost-url-doxygen.tag.xml
+            base_url: 'xref:reference:'
+          - file: ./doc/tagfiles/boost-system-doxygen.tag.xml
+            base_url: https://www.boost.org/doc/libs/master/libs/system/doc/html/
+        using-namespaces:
+          - 'boost::'
+    # ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the <code>files</code> field is a list of tagfiles that are used to generate links to symbols in the documentation.
+These tagfiles can be generated by other tools like Doxygen or MrDocs.
+In some cases, users might want to write their own tagfiles to include symbols from other libraries.
+As tagfiles only describe relative links to symbols, the <code>base_url</code> field is used to generate the full URL to the symbol.</p>
+</div>
+<div class="paragraph">
+<p>Also note the <code>using-namespaces</code> field, which is a list of namespaces that are used to generate links to symbols in the documentation.
+In the example above, <code><code>small_vector</code></code> will generate a link to the <code>boost::small_vector</code> symbol in the documentation unless there&#8217;s a tagfile that defines a symbol with the same name in the global namespace.</p>
+</div>
+<div class="paragraph">
+<p>Each component can also define its own tagfiles by including the <code>cpp-tagfiles</code> field in the component descriptor file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">ext:
+  cpp-tagfiles:
+      files:
+        - file: ./doc/tagfiles/boost-url-doxygen.tag.xml
+          base_url: 'xref:reference:'
+        - file: ./doc/tagfiles/boost-system-doxygen.tag.xml
+          base_url: https://www.boost.org/doc/libs/master/libs/system/doc/html/
+        - file: ./doc/tagfiles/boost-core-doxygen.tag.xml
+          base_url: https://www.boost.org/doc/libs/master/libs/core/doc/html/
+        - file: ./doc/tagfiles/boost-filesystem-doxygen.tag.xml
+          base_url: https://www.boost.org/doc/libs/master/libs/filesystem/doc/
+      using-namespaces:
+        - boost::urls
+        - boost::urls::grammar
+        - boost::system
+        - boost::core</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Files and namespaces defined in components are only applied to that component.</p>
+</div>
+<div class="paragraph">
+<p>More information about the extension can be found in <a href="https://github.com/cppalliance/antora-cpp-tagfiles-extension" target="_blank" rel="noopener">its repository</a> and issues should be reported in <a href="https://github.com/cppalliance/antora-cpp-tagfiles-extension/issues" target="_blank" rel="noopener">its issue tracker</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="c-reference-extension"><a class="anchor" href="#c-reference-extension"></a>C&#43;&#43; Reference Extension</h3>
+<div class="paragraph">
+<p>The <a href="https://www.npmjs.com/package/@cppalliance/antora-cpp-reference-extension" target="_blank" rel="noopener">@cppalliance/antora-cpp-reference-extension</a> extension generates reference documentation for C&#43;&#43; symbols in your codebase and creates an Antora module with its pages.
+The asciidoc documentation pages are generated with MrDocs and populated in the <code>reference</code> Antora module.</p>
+</div>
+<div class="paragraph">
+<p>This means, the generated reference pages can be linked in your <code>doc/modules/ROOT/nav.adoc</code> file as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-adoc hljs" data-lang="adoc">// ...
+* Reference
+** xref:reference:index.adoc[]
+// ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To enable the extension for your component, include the extension configuration in the <code>antora.yml</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml"># ...
+ext:
+  cpp-reference:
+    config: doc/mrdocs.yml
+# ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>mrdocs.yml</code> file will typically include parameters to generate a <code>compile_commands.json</code> file used to generate the reference documentation.
+For more information about MrDocs and configuration files, see <a href="https://www.mrdocs.com/docs" class="bare" target="_blank" rel="noopener">https://www.mrdocs.com/docs</a>.</p>
+</div>
+<div class="paragraph">
+<p>The process to generate <code>compile_commands.json</code> typically depends on third-party libraries used to compile the project.
+In the case of Boost libraries, other Boost libraries should be available to the command that generates the <code>compile_commands.json</code> file.
+The dependencies available to components are defined in the <code>libs.playbook.yml</code> file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">antora:
+  extensions:
+    - require: '@cppalliance/antora-cpp-reference-extension'
+      dependencies:
+        - name: 'boost'
+          repo: 'https://github.com/boostorg/boost.git'
+          tag: 'develop'
+          variable: 'BOOST_SRC_DIR'
+          system-env: 'BOOST_SRC_DIR'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The extension will download each dependency defined in this list and expose it to the MrDocs environment via the environment variable defined in <code>variable</code>.
+If the library is already available in the system, the <code>system-env</code> field can be used to expose it to Antora, so it uses this existing path instead of downloading the library.</p>
+</div>
+<div class="paragraph">
+<p>More information about the extension can be found in <a href="https://github.com/cppalliance/antora-cpp-reference-extension" target="_blank" rel="noopener">its repository</a> and issues should be reported in <a href="https://github.com/cppalliance/antora-cpp-reference-extension/issues" target="_blank" rel="noopener">its issue tracker</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="boost-links-extension"><a class="anchor" href="#boost-links-extension"></a>Boost Links Extension</h3>
+<div class="paragraph">
+<p>The <a href="https://www.npmjs.com/package/@cppalliance/asciidoctor-boost-links" target="_blank" rel="noopener">@cppalliance/asciidoctor-boost-links</a> extension allows component pages to include links to Boost libraries and tools.
+For instance:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">boost:core[]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will render as if the equivalent AsciiDoc code was used:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">https://www.boost.org/libs/core[Boost.Core]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When processed by Asciidoc, this renders as "<a href="https://www.boost.org/libs/core">Boost.Core</a>":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-html hljs" data-lang="html">&lt;a href="https://www.boost.org/libs/core"&gt;Boost.Core&lt;/a&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The extension supports Boost libraries and tools.
+When no custom text is provided, the extension will use the library name in <code>PascalCase</code> as the link text.
+When a Boost author has a preference for a different default link text, these are implemented directly in the extension.</p>
+</div>
+<div class="paragraph">
+<p>More information about the extension can be found in <a href="https://github.com/cppalliance/asciidoctor-boost-links" target="_blank" rel="noopener">its repository</a> and issues should be reported in <a href="https://github.com/cppalliance/asciidoctor-boost-links/issues" target="_blank" rel="noopener">its issue tracker</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="playbook-macros-extension"><a class="anchor" href="#playbook-macros-extension"></a>Playbook Macros Extension</h3>
+<div class="paragraph">
+<p>The <a href="https://www.npmjs.com/package/@cppalliance/antora-playbook-macros-extension" target="_blank" rel="noopener">@cppalliance/antora-playbook-macros-extension</a> extension allows playbooks to include macros that can be used to generate content in the playbook.
+Each macro has a default value that can be overridden with environment variables, the Antora <code>--attribute</code> command line option, or directly in the playbook with the <code>asciidoc.attributes</code> field.</p>
+</div>
+<div class="paragraph">
+<p>The macro is used to implement the branch functionality described in section <a href="#running-antora">Running Antora</a>.
+More information about the extension can be found in <a href="https://github.com/cppalliance/antora-playbook-macros-extension" target="_blank" rel="noopener">its repository</a> and issues should be reported in <a href="https://github.com/cppalliance/antora-playbook-macros-extension/issues" target="_blank" rel="noopener">its issue tracker</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="antora-ui-bundle"><a class="anchor" href="#antora-ui-bundle"></a>Antora UI Bundle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Each Antora playbook includes a UI bundle that defines the layout of the documentation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">ui:
+  bundle:
+    url: ./antora-ui/build/ui-bundle.zip
+    snapshot: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This provides a consistent layout across all components of the playbook.</p>
+</div>
+<div class="paragraph">
+<p>The source code for the UI bundle is located in the <code>antora-ui</code> directory of the repository.</p>
+</div>
+<div class="paragraph">
+<p>The bundle includes a few options to customize the Boost UI by setting the following options in the main playbook:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">asciidoc:
+  attributes:
+    # Enable pagination
+    page-pagination: ''
+    # Remove the sidenav and include TOC in index.adoc page
+    remove-sidenav: ''
+    # Include the contents panel with the TOC for the current page
+    page-toc: ''</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, all options are disabled.
+Setting the options to any string (including the empty string) enables it.
+This is a convention used by Antora to enable/disable options in bundles.</p>
+</div>
+<div class="paragraph">
+<p>The settings defined in the playbook apply to all documentation components.</p>
+</div>
+<div class="paragraph">
+<p>The UI bundle documentation is available in the <code>antora-ui/README.adoc</code> file. This file describes the structure of the UI bundle and how to customize it.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/docs/antora.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="components.html">Components</a></span>
+        <span class="next"><a href="asciidoc.html">AsciiDoc Style Guide</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

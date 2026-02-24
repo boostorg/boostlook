@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Documentation Content Structure :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/docs/content.html">
+    <link rel="prev" href="layout.html">
+    <link rel="next" href="components.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../testing/fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="layout.html">Guidelines</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Writing Documentation</li>
+    <li><a href="content.html">Content</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="layout.html">
+      <span class="material-symbols-outlined" title="Previous: Guidelines">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="components.html">
+      <span class="material-symbols-outlined" title="Next: Components">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Documentation Content Structure</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is not a <em>requirement</em> for a Boost library for the documentation to adhere to the following structure.
+However, it is listed here as a guide, if needed.</p>
+</div>
+<div class="paragraph">
+<p>The following structure for Boost library documentation should work for most libraries.
+Take each section in the order listed below, and fill in the details for your library.
+Alternatively, if you want your documentation to be closer to the C++ Standard, refer to <a href="components.html" class="xref page">Documentation Components</a>.</p>
+</div>
+<div class="paragraph">
+<p>Although library documentation can use any format in
+<a href="layout.html#standalone-documentation" class="xref page">standalone documentation</a>, the instructions on this page will use AsciiDoc as the format.
+Visit <a href="https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/" target="_blank" rel="noopener">AsciiDoc Syntax Quick Reference</a> for more information on AsciiDoc syntax.</p>
+</div>
+<div class="paragraph">
+<p>Where you see <code>&lt;LibraryName&gt;</code> in the templates below, replace with the name of your library.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Provide a brief overview of the focus and features of your library.</p>
+</div>
+<div class="paragraph">
+<p>Mention the portability of the library, platforms and compilers.
+List dependencies.</p>
+</div>
+<div class="paragraph">
+<p>A developer should have a good idea if the library is right for their project, after reading your Overview.</p>
+</div>
+<div class="paragraph">
+<p>Note that footnote references link to the footnotes section, and the entries in the footnote section link back to the references.</p>
+</div>
+<div class="sect2">
+<h3 id="_overview_template"><a class="anchor" href="#_overview_template"></a>Overview Template</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">== Overview
+
+Add an introduction to your library here. Refer to previous libraries on the content of an Overview.
+
+== First Topic
+
+[#footnote1-location]
+text
+text that requires a footnote. link:#footnote1[(1)]
+
+== Second Topic
+
+[#footnote2-location]
+text
+text that requires a footnote. link:#footnote2[(2)]
+
+== Third Topic
+
+text
+
+== Footnotes
+
+[#footnote1]
+link:#footnote1-location[(1)]: footnote 1 text
+
+[#footnote2]
+link:#footnote2-location[(2)]: footnote 2 text</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_design_rationale"><a class="anchor" href="#_design_rationale"></a>Design Rationale</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A Rationale provides a description of the motivation behind the library.
+Describe the current problems that exist, and the goals of the library in addressing those problems.</p>
+</div>
+<div class="sect2">
+<h3 id="_rationale_template"><a class="anchor" href="#_rationale_template"></a>Rationale Template</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">== Introduction
+
+Add an introduction to the rationale for your library here. Refer to previous libraries on the content of a Rationale.
+
+== First Topic
+
+[#footnote1-location]
+text
+text that requires a footnote. link:#footnote1[(1)]
+
+== Second Topic
+
+[#footnote2-location]
+text
+text that requires a footnote. link:#footnote2[(2)]
+
+== Third Topic
+
+text
+
+
+== Footnotes
+
+[#footnote1]
+link:#footnote1-location[(1)]: footnote 1 text
+
+[#footnote2]
+link:#footnote2-location[(2)]: footnote 2 text</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_guide"><a class="anchor" href="#_guide"></a>Guide</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The contents of the guide should be enough to get a new user up and running with your library.</p>
+</div>
+<div class="sect2">
+<h3 id="_guide_template"><a class="anchor" href="#_guide_template"></a>Guide Template</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">== Guide to &lt;LibraryName&gt;
+
+Intro text
+
+=== Basic Tutorials and Examples
+
+Add simple tutorials and/or examples.
+
+=== How to Compile and Link
+
+text
+
+=== How to Test and Debug
+
+text</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>Reference</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Provide a complete API reference to your library, without duplicating the contents of the <a href="#_configuration">Configuration</a> or <a href="#_definitions">Definitions</a> sections, which follow.</p>
+</div>
+<div class="sect2">
+<h3 id="_reference_template"><a class="anchor" href="#_reference_template"></a>Reference Template</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">== Introduction
+
+Introductory text
+
+== Macros
+
+=== Macro1
+
+=== Macro2
+
+== Values
+
+=== Value1
+
+=== Value2
+
+== Types
+
+=== Type1
+
+=== Type2
+
+== Classes
+
+=== Class `class name`
+
+class overview text
+
+==== Class `class name` synopsis
+
+....
+namespace boost
+{
+    class &lt;class name&gt;
+        {
+        };
+};
+....
+
+==== Class `class name` constructors and destructor
+
+....
+constructor
+....
+
+*Requires:* text
+
+*Effects:* text
+
+*Post-conditions:* text
+
+*Returns:* text
+
+*Throws:* text
+
+*Complexity:* text
+
+*Note:* text
+
+*Danger:* text
+
+*Rationale:* text
+
+....
+destructor
+....
+
+*Requires:* text
+
+*Effects:* text
+
+*Post-conditions:* text
+
+*Returns:* text
+
+*Throws:* text
+
+*Complexity:* text
+
+*Note:* text
+
+*Danger:* text
+
+*Rationale:* text
+
+==== Class `class name` comparison functions
+
+....
+comparison-function
+....
+
+*Requires:* text
+
+*Effects:* text
+
+*Post-conditions:* text
+
+*Returns:* text
+
+*Throws:* text
+
+*Complexity:* text
+
+*Note:* text
+
+*Danger:* text
+
+*Rationale:* text
+
+==== Class `class name` modifier functions
+
+....
+modifier-function
+....
+
+*Requires:* text
+
+*Effects:* text
+
+*Post-conditions:* text
+
+*Returns:* text
+
+*Throws:* text
+
+*Complexity:* text
+
+*Note:* text
+
+*Danger:* text
+
+*Rationale:* text
+
+==== Class `class name` observer functions
+
+....
+observer-function
+....
+
+*Requires:* text
+
+*Effects:* text
+
+*Post-conditions:* text
+
+*Returns:* text
+
+*Throws:* text
+
+*Complexity:* text
+
+*Note:* text
+
+*Danger:* text
+
+*Rationale:* text
+
+==== Class `class name` static functions
+
+....
+static-function
+....
+
+*Requires:* text
+
+*Effects:* text
+
+*Post-conditions:* text
+
+*Returns:* text
+
+*Throws:* text
+
+*Complexity:* text
+
+*Note:* text
+
+*Danger:* text
+
+*Rationale:* text
+
+== Functions
+
+....
+function1
+....
+
+*Requires:* text
+
+*Effects:* text
+
+*Post-conditions:* text
+
+*Returns:* text
+
+*Throws:* text
+
+*Complexity:* text
+
+*Note:* text
+
+*Danger:* text
+
+*Rationale:* text
+
+== Objects
+
+== Object specifications
+
+== Examples</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If your documentation is defined as an Antora component, the <code>@cppalliance/antora-cpp-reference-extension</code> extension can be used to generate the reference documentation from the source code.
+Refer to <a href="antora.html" class="xref page">Antora Guide</a> for more details.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration"><a class="anchor" href="#_configuration"></a>Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Describe the configuration macros that are used in your library.</p>
+</div>
+<div class="sect2">
+<h3 id="_configuration_template"><a class="anchor" href="#_configuration_template"></a>Configuration Template</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">== `&lt;LibraryName&gt;`  Configuration
+
+== Introduction
+
+`&lt;LibraryName&gt;` uses several configuration macros in
+http://www.boost.org/libs/config/config.htm[&lt;boost/config.hpp&gt;], as well as configuration macros meant to be supplied by the application. These macros are documented here.
+
+== Application Defined Macros
+
+These are the macros that may be defined by an application using `&lt;LibraryName&gt;`.
+
+[cols="1,2",options="header",stripes=even,frame=none]
+|===
+| *Macro*  | *Meaning*
+|`macro` |meaning text
+|`macro` |meaning text
+|===
+
+== Public Library Defined Macros
+
+These macros are defined by `&lt;LibraryName&gt;`, but are also expected to be used by application code.
+
+[cols="1,2",options="header",stripes=even,frame=none]
+|===
+| *Macro*  | *Meaning*
+|`macro` |meaning text
+|`macro` |meaning text
+|===
+
+== Library Defined Implementation Macros
+
+These macros are defined by `&lt;LibraryName&gt;` and are implementation details of interest only to implementers.
+
+[cols="1,2",options="header",stripes=even,frame=none]
+|===
+| *Macro*  | *Meaning*
+|`macro` |meaning text
+|`macro` |meaning text
+|===</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Example</dt>
+<dd>
+<p><strong>Application Defined Macros</strong></p>
+<div class="paragraph">
+<p>These are the macros that may be defined by an application using <code>&lt;LibraryName&gt;</code>, for example:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Macro</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Meaning</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add(x,y)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The x and y values are added together.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mult(x,y)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The x and Y values are multiplied together.</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_definitions"><a class="anchor" href="#_definitions"></a>Definitions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If your library uses any terminology that might benefit from a description, consider adding a "Definitions" page to your documentation.</p>
+</div>
+<div class="paragraph">
+<p>Each definition is typically preceded by an anchor, so can be linked to from any other section of your documentation.
+This can help reduce duplication of explanations: link to your definitions rather than repeat explanations.</p>
+</div>
+<div class="sect2">
+<h3 id="_definitions_template"><a class="anchor" href="#_definitions_template"></a>Definitions Template</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">==  &lt;LibraryName&gt; Definitions
+
+Introductory text.
+
+== Definitions
+
+[#definition-term1]
+*Term1*::
+definition-text1
+
+[#definition-term2]
+*Term2*::
+definition-text2</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Example</dt>
+<dd>
+<p>Assume there is a String-Container library, and that String container algorithms work using some pre-defined concepts:</p>
+</dd>
+<dt class="hdlist1"><strong>Finder Concept</strong></dt>
+<dd>
+<p>A Finder is a function which searches for an arbitrary part of a container.
+For example (add example logic here).</p>
+</dd>
+<dt class="hdlist1"><strong>Formatter Concept</strong></dt>
+<dd>
+<p>Formatters are used by string replace algorithms.
+For example (add example logic here).</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_advanced_topics"><a class="anchor" href="#_advanced_topics"></a>Advanced Topics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Advanced topics include advanced tutorials or examples, and also cover porting, customization, synchronization, and performance tuning.</p>
+</div>
+<div class="sect2">
+<h3 id="_advanced_topics_template"><a class="anchor" href="#_advanced_topics_template"></a>Advanced Topics Template</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">== Advanced Use of &lt;LibraryName&gt;
+
+Intro text
+
+=== Porting Guide
+
+text
+
+=== Customization
+
+text
+
+=== Synchronization
+
+text
+
+=== Performance Tuning
+
+text
+
+=== Complex Examples
+
+text
+
+=== Troubleshooting
+
+text</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_frequently_asked_questions_faqs"><a class="anchor" href="#_frequently_asked_questions_faqs"></a>Frequently Asked Questions (FAQs)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A Frequently Asked Questions (FAQ) section might add value to your documentation, by aiding developers with answers to known issues or complexities.</p>
+</div>
+<div class="paragraph">
+<p>If there are a large number of questions and answers, group them into sections with headings such as <strong>Errors and Exceptions</strong>, <strong>Performance</strong>, and so on.</p>
+</div>
+<div class="paragraph">
+<p>Note that every question is in bold, and always ends with a question mark.</p>
+</div>
+<div class="sect2">
+<h3 id="_faq_template"><a class="anchor" href="#_faq_template"></a>FAQ Template</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">=== FAQ
+
+==== *question1?*
+
+answer1
+
+==== *question2?*
+
+answer2</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Example</dt>
+<dd>
+<div class="paragraph">
+<p><strong>Does this library work with COM methods?</strong></p>
+</div>
+<div class="paragraph">
+<p>Yes, if you add <code>#define BOOST_ENABLE_STDCALL</code> to your code.</p>
+</div>
+<div class="paragraph">
+<p><strong>Does this library support Windows earlier than Windows 10?</strong></p>
+</div>
+<div class="paragraph">
+<p>No, the only supported versions of Windows supported are 10 and 11.</p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_versioning_and_release_notes"><a class="anchor" href="#_versioning_and_release_notes"></a>Versioning and Release Notes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Make sure to version your library correctly, and provide release notes for each release.
+Refer to <a href="../version-control.html" class="xref page">Version Control</a> and <a href="../release-notes.html" class="xref page">Release Notes</a> for details.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bibliography"><a class="anchor" href="#_bibliography"></a>Bibliography</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If bibliographic references are required in your documentation for your library, add a bibliography to the documentation.</p>
+</div>
+<div class="paragraph">
+<p>The book title can be text, or can be a link to a site too if the text of the book is available online.
+The ISBN number can be replaced by another reference number if the reference is to an academic paper, or other reference that is not published in book form.</p>
+</div>
+<div class="paragraph">
+<p>Ideally, list the bibliography in alphabetical order.</p>
+</div>
+<div class="sect2">
+<h3 id="_bibliography_template"><a class="anchor" href="#_bibliography_template"></a>Bibliography Template</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">=== Bibliography
+[Surname/s] Authors full names. _Book title_. ISBN number, Publication date.
+[Surname/s] Authors full names. _Book title_. ISBN number, Publication date.</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Example</dt>
+<dd>
+<p>[Turcan, Wasson] Peter Turcan, Mike Wasson. <em>Fundamentals of Audio and Video Programming for Games</em>.
+ISBN: 073561945X, 2003.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_acknowledgements"><a class="anchor" href="#_acknowledgements"></a>Acknowledgements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If acknowledgements are required for your library, add an acknowledgements section to the documentation.
+As a rule of thumb, the acknowledgements should be ordered with the most important contributions coming first.
+Links can be included, if required.</p>
+</div>
+<div class="sect2">
+<h3 id="_acknowledgements_template"><a class="anchor" href="#_acknowledgements_template"></a>Acknowledgements Template</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">=== Acknowledgements
+
+The author appreciates the contributions to the library made by the following:
+
+* text1
+* text2</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Example</dt>
+<dd>
+<p>The author appreciates the contributions to the library made by the following:</p>
+<div class="ulist disc">
+<ul class="disc">
+<li>
+<p>John Doe and Jane Doe for editing the original draft documentation.</p>
+</li>
+<li>
+<p>John Doe for input on the architecture and design of the API interfaces.</p>
+</li>
+<li>
+<p>Jane Doe for numerous improvements and suggestions on the text of the error messages.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_other_appendices"><a class="anchor" href="#_other_appendices"></a>Other Appendices</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If any other appendices are needed, add them here.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="asciidoc.html" class="xref page">AsciiDoc Style Guide</a></p>
+</li>
+<li>
+<p><a href="../site-docs-style-guide.html" class="xref page">Site-docs Style Guide</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><em>Revised April, 2023</em></p>
+</div>
+<div class="paragraph">
+<p><em>Distributed under the Boost Software License, Version 1.0. Refer to <a href="http://www.boost.org/LICENSE_1_0.txt" class="bare">http://www.boost.org/LICENSE_1_0.txt</a></em>.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/docs/content.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="layout.html">Guidelines</a></span>
+        <span class="next"><a href="components.html">Components</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

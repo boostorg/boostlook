@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Implementation Variation Techniques :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/implementation-variations.html">
+    <link rel="prev" href="counted-body.html">
+    <link rel="next" href="reduce-dependencies.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Development</li>
+    <li><a href="implementation-variations.html">Implementation Variations</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="counted-body.html">
+      <span class="material-symbols-outlined" title="Previous: Counted Body">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="reduce-dependencies.html">
+      <span class="material-symbols-outlined" title="Next: Reduce Dependencies">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Implementation Variation Techniques</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This topic discusses the separation of interface and implementation.</p>
+</div>
+<div class="paragraph">
+<p>The interface specifications for boost.org library components (as well as for quality software in general) are conceptually separate from implementations of those interfaces. This may not be obvious, particularly when a component is implemented entirely within a header, but this separation of interface and implementation is always assumed. From the perspective of those concerned with software design, portability, and standardization, the interface is what is important, while the implementation is just a detail.</p>
+</div>
+<div class="paragraph">
+<p>Dietmar Kühl, one of the original Boost contributors, comments <em>"The main contribution is the interface, which is augmented with an implementation, proving that it is possible to implement the corresponding class and providing a free implementation."</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementation_variations"><a class="anchor" href="#_implementation_variations"></a>Implementation Variations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There may be a need for multiple implementations of an interface, to accommodate either platform dependencies or performance tradeoffs. Examples of platform dependencies include compiler shortcomings, file systems, thread mechanisms, and graphical user interfaces. The classic example of a performance tradeoff is a fast implementation that uses a lot of memory versus a slower implementation which uses less memory.</p>
+</div>
+<div class="paragraph">
+<p>Boost libraries generally use a configuration header, <code>boost/config.hpp</code>, to capture compiler and platform dependencies. Although the use of <code>boost/config.hpp</code> is not required, it is the preferred approach for simple configuration problems.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boost_policy"><a class="anchor" href="#_boost_policy"></a>Boost Policy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Boost policy is to avoid platform dependent variations in interface specifications, but supply implementations which are usable over a wide range of platforms and applications. That means Boost libraries will use the techniques below described as appropriate for dealing with platform dependencies.</p>
+</div>
+<div class="paragraph">
+<p>The Boost policy toward implementation variations designed to enhance performance is to avoid them unless the benefits greatly exceed the full costs. The term <em>full costs</em> is intended to include both tangible costs like extra maintenance, and intangible cost like increased difficulty in user understanding.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_techniques_for_providing_implementation_variations"><a class="anchor" href="#_techniques_for_providing_implementation_variations"></a>Techniques for Providing Implementation Variations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Several techniques may be used to provide implementation variations. Each is appropriate in some situations, and not appropriate in others.</p>
+</div>
+<div class="sect2">
+<h3 id="_single_general_purpose_implementation"><a class="anchor" href="#_single_general_purpose_implementation"></a>Single General Purpose Implementation</h3>
+<div class="paragraph">
+<p>The first technique is to simply not provide implementation variation at all. Instead, provide a single general-purpose implementation, and forgo the increased complexity implied by all other techniques.</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Appropriate</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When it is possible to write a single portable implementation which has reasonable performance across a wide range of platforms. Particularly appropriate when alternative implementations differ only in esoteric ways.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Not appropriate</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When implementation requires platform specific features, or when there are multiple implementations possible with widely differing performance characteristics.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In design discussions, some implementation is often alleged to be much faster than another, yet a timing test discovers no significant difference. The lesson is that while algorithmic differences may affect speed dramatically, coding differences such as changing a class from virtual to non-virtual members or removing a level of indirection are unlikely to make any measurable difference unless deep in an inner loop. And even in an inner loop, modern CPUs often execute such competing code sequences in the same number of clock cycles! A single general purpose implementation is often just fine.</p>
+</div>
+<div class="paragraph">
+<p>Or as Donald Knuth said in <em>Computing Surveys, vol 6, #4, p 268</em>, <em>"Premature optimization is the root of all evil."</em>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_macros"><a class="anchor" href="#_macros"></a>Macros</h3>
+<div class="paragraph">
+<p>While the evils of macros are well known, there remain a few cases where macros are the preferred solution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Preventing multiple inclusion of headers via <code>#include</code> guards.</p>
+</li>
+<li>
+<p>Passing minor configuration information from a configuration header to other files.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-none grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Appropriate</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For small compile-time variations that would otherwise be costly or confusing to install, use, or maintain. More appropriate to communicate within and between library components than to communicate with library users.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Not appropriate</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If other techniques will do.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>To minimize the negative aspects of macros:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Only use macros when they are clearly superior to other techniques. Otherwise they should be viewed as a last resort.</p>
+</li>
+<li>
+<p>Names should be all uppercase and begin with the namespace name. This will minimize the chance of name collisions. For example, the <code>#include</code> guard for a boost header called <code>foobar.h</code> might be named <code>BOOST_FOOBAR_H</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_separate_files"><a class="anchor" href="#_separate_files"></a>Separate Files</h3>
+<div class="paragraph">
+<p>A library component can have multiple variations, each contained in its own separate file or files. The files for the most appropriate variation are copied to the appropriate include or implementation directories at installation time.</p>
+</div>
+<div class="paragraph">
+<p>The way to provide this approach in Boost libraries is to include specialized implementations as separate files in separate sub-directories in the .ZIP distribution file. For example, the structure within the .ZIP distribution file for a library named <code>foobar</code> which has both default and specialized variations might look something like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">foobar.h                // The default header file
+foobar.cpp              // The default implementation file
+readme.txt              // Readme explains when to use which files
+self_contained/foobar.h // A variation with everything in the header
+linux/foobar.cpp        // Implementation file to replace the default
+win32/foobar.h          // Header file to replace the default
+win32/foobar.cpp        // Implementation file to replace the default</code></pre>
+</div>
+</div>
+<table class="tableblock frame-none grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Appropriate</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When different platforms require different implementations, or when there are major performance differences between possible implementations.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Not appropriate</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When it makes sense to use more that one of the variations in the same installation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_separate_components"><a class="anchor" href="#_separate_components"></a>Separate Components</h3>
+<div class="paragraph">
+<p>Rather than have several implementation variations of a single component, supply several separate components. For example, the Boost library currently supplies <code>scoped_ptr</code> and <code>shared_ptr</code> classes rather than a single <code>smart_ptr</code> class parameterized to distinguish between the two cases. There are several ways to make the component choice:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Hardwired by the programmer during coding.</p>
+</li>
+<li>
+<p>Chosen by programmer written runtime logic (trading off some extra space, time, and program complexity for the ability to select the implementation at run-time.)</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-none grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Appropriate</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When the interfaces for the variations diverge, and when it is reasonable to use more than one of the variations. When run-time selection of implementation is called for.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Not appropriate</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When the variations are data type, traits, or specialization variations which can be better handled by making the component a template. Also not appropriate when choice of variation is best done by some setup or installation mechanism outside of the program itself. Thus usually not appropriate to cope with platform differences.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>There is a related technique where the interface is specified as an abstract (pure virtual) base class (or an interface definition language), and the implementation choice is passed off to some third-party, such as a dynamic-link library or object-request broker. While that is a powerful technique, it is way beyond the scope of this discussion.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_template_based_approaches"><a class="anchor" href="#_template_based_approaches"></a>Template-Based Approaches</h3>
+<div class="paragraph">
+<p>Turning a class or function into a template is often an elegant way to cope with variations. Template-based approaches provide optimal space and time efficiency in return for constraining the implementation selection to compile time.</p>
+</div>
+<div class="paragraph">
+<p>Important template techniques include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Data type parameterization</em>: this allows a single component to operate on a variety of data types and is why templates were originally invented.</p>
+</li>
+<li>
+<p><em>Traits parameterization</em>; if parameterization is complex, bundling up aspects into a single traits helper class can allow great variation while hiding messy details. The C++ Standard Library provides several examples of this idiom, such as <code>iterator_traits&lt;&gt;</code> (24.3.1 lib.iterator.traits) and <code>char_traits&lt;&gt;</code> (21.2 lib.char.traits).</p>
+</li>
+<li>
+<p><em>Specialization</em>: a template parameter can be used purely for the purpose of selecting a specialization. For example:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">SomeClass&lt;fast&gt;  my_fast_object;  // fast and small are empty classes
+SomeClass&lt;small&gt; my_small_object; // used just to select specialization</code></pre>
+</div>
+</div>
+<table class="tableblock frame-none grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Appropriate</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When the need for variation is due to data type or traits or is performance-related like selecting among several algorithms, and when a program might reasonably use more than one of the variations.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Not appropriate</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When the interfaces for variations are different, or when choice of variation is best done by some mechanism outside of the program itself. Thus usually not appropriate to cope with platform differences.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_acknowledgements"><a class="anchor" href="#_acknowledgements"></a>Acknowledgements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This topic was originally written by <a href="in-memoriam-beman-dawes.html" class="xref page">Beman Dawes</a>, in 2001.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following libraries demonstrate the importance of separating interfaces from implementations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/any">Boost.Any</a> : the implementation internally uses type erasure techniques to hide the actual type of the stored value, decoupling the interface from the concrete implementation details.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/function">Boost.Function</a> : the implementation internally uses type erasure techniques to store and invoke callable objects polymorphically, decoupling the interface from the specific callable object type.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/optional">Boost.Optional</a> : the implementation internally uses <em>tag dispatching</em> techniques to handle the presence or absence of the optional value, decoupling the interface from the concrete implementation details.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Tag dispatching is a technique used to select different implementations of a function, or algorithm, based on the types or properties of its arguments.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/iterator">Boost.Iterator</a> : the implementation internally uses iterator traits and type traits to provide a generic interface for working with iterators, decoupling the interface from the specific iterator type and implementation.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/mp11">Boost.Mp11</a> : the implementation internally uses template metaprogramming techniques to perform type-level computations, decoupling the interface from the specific type and template instantiation.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/implementation-variations.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="counted-body.html">Counted Body</a></span>
+        <span class="next"><a href="reduce-dependencies.html">Reduce Dependencies</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

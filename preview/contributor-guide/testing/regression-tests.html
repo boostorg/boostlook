@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Local Regression Tests :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/testing/regression-tests.html">
+    <link rel="prev" href="boost-test-matrix.html">
+    <link rel="next" href="writing-tests.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Testing</li>
+    <li><a href="regression-tests.html">Local Regression Tests</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="boost-test-matrix.html">
+      <span class="material-symbols-outlined" title="Previous: Test Matrix">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="writing-tests.html">
+      <span class="material-symbols-outlined" title="Next: Writing Tests">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Local Regression Tests</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes how to run regression tests on your local machine, by downloading and running a Python command-line tool.</p>
+</div>
+<div class="paragraph">
+<p>For information on the regression tests run on all libraries, refer to <a href="boost-test-matrix.html" class="xref page">Test Matrix</a>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_running_regression_tests_locally">Running Regression Tests Locally</a></p>
+</li>
+<li>
+<p><a href="#_the_run_py_tool">The Run.py Tool</a></p>
+</li>
+<li>
+<p><a href="#_feedback">Feedback</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_running_regression_tests_locally"><a class="anchor" href="#_running_regression_tests_locally"></a>Running Regression Tests Locally</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It&#8217;s easy to run regression tests on your Boost clone.</p>
+</div>
+<div class="paragraph">
+<p>To run a library&#8217;s regression tests, run Boost&#8217;s <code>b2</code> utility from the <code>&lt;boost-root&gt;/libs/&lt;library&gt;/test</code> directory. To run a single test, specify its name (as found in <code>&lt;boost-root&gt;/libs/&lt;library&gt;/test/Jamfile.v2</code>) on the command line.</p>
+</div>
+<div class="paragraph">
+<p>See the <a href="https://boost.sourceforge.net/doc/html/jam/building.html">Building BJam</a> guide for help building or downloading <code>bjam</code> for your platform, and navigating your Boost distribution.</p>
+</div>
+<div class="paragraph">
+<p>To run every library&#8217;s regression tests, run <code>b2</code> from the <code>&lt;boost-root&gt;/status</code> directory.</p>
+</div>
+<div class="paragraph">
+<p>To run Boost.Build&#8217;s regression tests, run <code>python test_all.py</code> from the <code>&lt;boost-root&gt;/tools/build/v2/test</code> directory.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_run_py_tool"><a class="anchor" href="#_the_run_py_tool"></a>The Run.py Tool</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This tool runs all Boost regression tests and reports the results back to the Boost community.</p>
+</div>
+<div class="sect2">
+<h3 id="_requirements"><a class="anchor" href="#_requirements"></a>Requirements</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Python (2.3 ≤ version &lt; 3.0)</p>
+</li>
+<li>
+<p>Git (recent version)</p>
+</li>
+<li>
+<p>At least 5 gigabytes of disk space per compiler to be tested</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_by_step_instructions"><a class="anchor" href="#_step_by_step_instructions"></a>Step by Step Instructions</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new directory for the branch you want to test.</p>
+</li>
+<li>
+<p>Download the <code>run.py</code> script into that directory:</p>
+</li>
+<li>
+<p>Open the <code>run.py</code> script in your browser.</p>
+</li>
+<li>
+<p>Click the <strong>Raw</strong> button.</p>
+</li>
+<li>
+<p>Save as <code>run.py</code> in the directory you just created.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The syntax to run the tool is <code>python run.py &lt;options&gt;&#8230;&#8203; [&lt;commands&gt;]</code> with the following three <em>required</em> options, plus any others you wish to employ (for a full list, refer to <a href="#_commands_and_options">Commands and Options</a>):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>--runner=</code>: Your choice of name that identifies your results in the reports.</p>
+<div class="paragraph">
+<p>If you are running regressions interlacingly with a different set of compilers (e.g. for Intel in the morning and GCC at the end of the day), you need to provide a different runner ID for each of these runs, e.g. "your_name-intel", and "your_name-gcc".</p>
+</div>
+<div class="paragraph">
+<p>The limitations of the report format imposes a direct dependency between the number of compilers you are testing with and the amount of space available for your runner ID. If you are running regressions for a single compiler, make sure to choose a short enough ID that does not significantly disturb the report layout. You can also use spaces in the runner ID to allow the reports to wrap the name to fit.</p>
+</div>
+</li>
+<li>
+<p><code>--toolsets=</code>: The toolsets you want to test with.</p>
+<div class="paragraph">
+<p>If the <code>--toolsets</code> option is not provided, the script will try to use the platform&#8217;s default toolset (gcc for most Unix-based systems).</p>
+</div>
+<div class="paragraph">
+<p>For supported toolsets, refer to <a href="../../user-guide/header-organization-compilation.html#toolset" class="xref page">toolset</a>.</p>
+</div>
+</li>
+<li>
+<p><code>--tag=</code>: The tag you want to test. The only tags that currently make sense are <code>develop</code> and <code>master</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">python run.py --runner=Metacomm --toolsets=gcc-4.2.1,msvc-8.0 --tag=develop</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>If you are behind a firewall/proxy server, everything should still "just work". In the rare cases when it doesn&#8217;t, you can explicitly specify the proxy server parameters through the <code>--proxy</code> option. For example:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">python run.py ... --proxy=http://www.someproxy.com:3128</code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_commands_and_options"><a class="anchor" href="#_commands_and_options"></a>Commands and Options</h3>
+<div class="paragraph">
+<p>The following commands are available: <code>cleanup</code>, <code>collect-logs</code>, <code>get-source</code>, <code>get-tools</code>, <code>patch</code>, <code>regression</code>, <code>setup</code>, <code>show-revision</code>, <code>test</code>, <code>test-boost-build</code>, <code>test-clean</code>, <code>test-process</code>, <code>test-run</code>, <code>update-source</code>, and <code>upload-logs</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following options are available:</p>
+</div>
+<table class="tableblock frame-none grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Option</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-h</code>, <code>--help</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">show this help message and exit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--runner=RUNNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">runner ID (e.g. 'Metacomm')</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--comment=COMMENT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an HTML comment file to be inserted in the reports</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--tag=TAG</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the tag for the results</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--toolsets=TOOLSETS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">comma-separated list of toolsets to test with</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--libraries=LIBRARIES</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">comma separated list of libraries to test</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--incremental</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">do incremental run (do not remove previous binaries). Refer to <a href="#_incremental_runs">Incremental Runs</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--timeout=TIMEOUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">specifies the timeout, in minutes, for a single test run/compilation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--bjam-options=BJAM_OPTIONS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">options to pass to the regression test</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--bjam-toolset=BJAM_TOOLSET</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bootstrap toolset for 'bjam' executable</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--pjl-toolset=PJL_TOOLSET</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bootstrap toolset for 'process_jam_log' executable</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--platform=PLATFORM</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--user=USER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boost SVN user ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--local=LOCAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the name of the boost tarball</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--force-update</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">do an SVN update (if applicable) instead of a clean checkout, even when performing a full run</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--have-source</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">do neither a tarball download nor an SVN update; used primarily for testing script changes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--ftp=FTP</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FTP URL to upload results to.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--proxy=PROXY</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP proxy server address and port (e.g.'http://www.someproxy.com:3128')</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--ftp-proxy=FTP_PROXY</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FTP proxy server (e.g. 'ftpproxy')</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--dart-server=DART_SERVER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the dart server to send results to</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--debug-level=DEBUG_LEVEL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">debugging level; controls the amount of debugging output printed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--send-bjam-log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">send full <code>bjam</code> log of the regression run</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--mail=MAIL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">email address to send run notification to</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--smtp-login=SMTP_LOGIN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STMP server address/login information, in the following form: <code>&lt;user&gt;:&lt;password&gt;@&lt;host&gt;[:&lt;port&gt;]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--skip-tests</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">do not run <code>bjam</code>; used for testing script changes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_output"><a class="anchor" href="#_output"></a>Output</h3>
+<div class="paragraph">
+<p>The regression run procedure will:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the most recent regression scripts.</p>
+</li>
+<li>
+<p>Download the designated testing tool sources including Boost.Jam, Boost.Build, and the various regression programs.</p>
+</li>
+<li>
+<p>Download the most recent from the Boost Git Repository into the subdirectory boost.</p>
+</li>
+<li>
+<p>Build <code>b2</code> and <code>process_jam_log</code> if needed. (<code>process_jam_log</code> is a utility, which extracts the test results from the log file produced by Boost.Build).</p>
+</li>
+<li>
+<p>Run regression tests, process and collect the results.</p>
+</li>
+<li>
+<p>Upload the results to a common FTP server.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The report merger process running continuously will merge all submitted test runs and publish them at various locations.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_advanced_use"><a class="anchor" href="#_advanced_use"></a>Advanced Use</h3>
+<div class="sect3">
+<h4 id="_providing_detailed_information_about_your_environment"><a class="anchor" href="#_providing_detailed_information_about_your_environment"></a>Providing Detailed Information about your Environment</h4>
+<div class="paragraph">
+<p>Once you have your regression results displayed in the Boost-wide reports, you may consider providing a bit more information about yourself and your test environment. This additional information will be presented in the reports on a page associated with your runner ID.</p>
+</div>
+<div class="paragraph">
+<p>By default, the page&#8217;s content is just a single line coming from the comment.html file in your run.py directory, specifying the tested platform. You can put online a more detailed description of your environment, such as your hardware configuration, compiler builds, and test schedule, by  altering the file&#8217;s content. Also, consider providing your name and email address for cases where Boost developers have questions specific to your particular set of results.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_incremental_runs"><a class="anchor" href="#_incremental_runs"></a>Incremental Runs</h4>
+<div class="paragraph">
+<p>By default, the script runs in what is known as full mode: on each <code>run.py</code> invocation all the files that were left in place by the previous run — including the binaries for the successfully built tests and libraries — are deleted, and everything is rebuilt once again from scratch. By contrast, in <code>incremental</code> mode the already existing binaries are left intact, and only the tests and libraries which source files has changed since the previous run are re-built and re-tested.</p>
+</div>
+<div class="paragraph">
+<p>The main advantage of <code>incremental</code> runs is a significantly shorter turnaround time, but unfortunately incremental runs don&#8217;t always produce reliable results. Some type of changes to the codebase (changes to the <code>b2</code> testing subsystem in particular) often require switching to a full mode for one cycle in order to produce trustworthy reports.</p>
+</div>
+<div class="paragraph">
+<p>Run <code>run.py</code> in incremental mode by passing it the identically named command-line flag: <code>python run.py &#8230;&#8203; --incremental</code>.</p>
+</div>
+<div class="paragraph">
+<p>As a general guideline, if you can afford it, testing in full mode is preferable.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_patching_boost_sources"><a class="anchor" href="#_patching_boost_sources"></a>Patching Boost Sources</h4>
+<div class="paragraph">
+<p>You might encounter an occasional need to make local modifications to the Boost codebase before running the tests, without disturbing the automatic nature of the regression process. To implement this under <code>regression.py</code>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Codify applying the desired modifications to the sources located in the <code>./boost_root</code> subdirectory in a single executable script named <code>patch_boost</code> (<code>patch_boost.bat</code> on Windows).</p>
+</li>
+<li>
+<p>Place the script in the <code>run.py</code> directory.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The driver will check for the existence of the patch_boost script, and, if found, execute it after obtaining the Boost sources.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_feedback"><a class="anchor" href="#_feedback"></a>Feedback</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Send all comments/suggestions regarding this document and the testing procedure itself to the <a href="https://lists.boost.org/mailman/listinfo.cgi/boost">Boost developers' mailing list</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="boost-test-matrix.html" class="xref page">Test Matrix</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/testing/regression-tests.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="boost-test-matrix.html">Test Matrix</a></span>
+        <span class="next"><a href="writing-tests.html">Writing Tests</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

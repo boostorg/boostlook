@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Resources :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/resources.html">
+    <link rel="prev" href="in-memoriam-beman-dawes.html">
+    <link rel="next" href="glossary.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Resources</li>
+    <li><a href="resources.html">Resources</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="in-memoriam-beman-dawes.html">
+      <span class="material-symbols-outlined" title="Previous: In Memoriam: Beman Dawes">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="glossary.html">
+      <span class="material-symbols-outlined" title="Next: Glossary">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Resources</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>For additional resources when it comes to learning about and using Boost, there are some helpful external options. If you like hard-copy format, there is a range of published <a href="#_books">Books</a>. If you prefer an online format, there are quite a few tutorials published on <a href="#_youtube">YouTube</a>. These options are good at giving the overall picture, and getting you started.</p>
+</div>
+<div class="paragraph">
+<p>If you have very specific technical questions <a href="#_stack_overflow">Stack Overflow</a> may well have the answer.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_books"><a class="anchor" href="#_books"></a>Books</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are a number of books published, either on Boost libraries as a set, or on one particular library:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.amazon.com/Boost-Asio-C-Network-Programming-Cookbook/dp/1783986549/ref=sr_1_1?crid=1YGJW4IZYU1YK&amp;keywords=Book+on+Boost+C%2B%2B+Libraries&amp;qid=1686696508&amp;sprefix=book+on+boost+c%2B%2B+libraries%2Caps%2C135&amp;sr=8-1&amp;ufe=app_do%3Aamzn1.fos.006c50ae-5d4c-4777-9bc0-4513d670b6bc">Boost.Asio C++ Network Programming Cookbook: Over 25 hands-on recipes to create robust and highly-effi cient cross-platform distributed applications with the Boost.Asio library</a>, by Dmytro Radchuk</p>
+</li>
+<li>
+<p><a href="https://www.amazon.com/Learning-Boost-Libraries-Arindam-Mukherjee/dp/1783551216/ref=sr_1_2?crid=1YGJW4IZYU1YK&amp;keywords=Book+on+Boost+C%2B%2B+Libraries&amp;qid=1686696626&amp;sprefix=book+on+boost+c%2B%2B+libraries%2Caps%2C135&amp;sr=8-2&amp;ufe=app_do%3Aamzn1.fos.006c50ae-5d4c-4777-9bc0-4513d670b6bc">Learning Boost C++ Libraries: Solve practical programming problems using powerful, portable, and expressive libraries from Boost</a>, by Arindam Mukherjee</p>
+</li>
+<li>
+<p><a href="https://www.amazon.com/Boost-C-Libraries-Boris-Sch%C3%A4ling-ebook/dp/B00OX0KJOK/ref=sr_1_1?crid=3NHU24UWIKSHZ&amp;keywords=The+Boost+C%2B%2B+Libraries&amp;qid=1687128169&amp;sprefix=the+boost+c%2B%2B+libraries%2Caps%2C194&amp;sr=8-1">The Boost C++ Libraries</a>,
+by Boris Schäling</p>
+</li>
+<li>
+<p><a href="https://www.amazon.com/Boost-Graph-Library-Reference-Manual/dp/0201729148/ref=sr_1_1?crid=OQZFAS6ZCSBS&amp;keywords=The+Boost+Graph+Library%3A+User+Guide&amp;qid=1687127851&amp;sprefix=the+boost+graph+library+user+guide+%2Caps%2C216&amp;sr=8-1">The Boost Graph Library: User Guide and Reference Manual</a>, by Lie-Quan Lee, Jeremy G. Siek and Andrew Lumsdaine</p>
+</li>
+<li>
+<p><a href="https://www.amazon.com/Introduction-Boost-Libraries-II-Advanced/dp/9491028022/ref=asc_df_9491028022/?tag=hyprod-20&amp;linkCode=df0&amp;hvadid=266173100564&amp;hvpos=&amp;hvnetw=g&amp;hvrand=11155108834785857002&amp;hvpone=&amp;hvptwo=&amp;hvqmt=&amp;hvdev=c&amp;hvdvcmdl=&amp;hvlocint=&amp;hvlocphy=9033326&amp;hvtargid=pla-571858518475&amp;psc=1">Introduction to the Boost C++ Libraries; Volume II - Advanced Libraries</a>, by Robert Demming and Daniel J. Duffy</p>
+</li>
+<li>
+<p><a href="https://www.amazon.com/Boost-Application-Development-Cookbook-application/dp/1787282244/ref=asc_df_1787282244/?tag=hyprod-20&amp;linkCode=df0&amp;hvadid=312280575053&amp;hvpos=&amp;hvnetw=g&amp;hvrand=11155108834785857002&amp;hvpone=&amp;hvptwo=&amp;hvqmt=&amp;hvdev=c&amp;hvdvcmdl=&amp;hvlocint=&amp;hvlocphy=9033326&amp;hvtargid=pla-415478529500&amp;psc=1">Boost C++ Application Development Cookbook - Second Edition: Recipes to simplify your application development</a>, by Antony Polukhin</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_youtube"><a class="anchor" href="#_youtube"></a>YouTube</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Consider searching <a href="https://www.youtube.com/">YouTube</a> for online tutorials. There are tutorials on installing Boost, a beginners guide to Boost, introductions to individual libraries (such as <a href="https://www.boost.org/libs/variant">Boost.Variant</a> and <a href="https://www.boost.org/libs/python">Boost.Python</a>), and on contributing libraries to Boost.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_stack_overflow"><a class="anchor" href="#_stack_overflow"></a>Stack Overflow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For more specific technical questions, Stack Overflow has many questions and answers:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/tagged/boost">Stack Overflow: Boost</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reddit"><a class="anchor" href="#_reddit"></a>Reddit</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Questions and answers of varying technical depth:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.reddit.com/search/?q=boost+c%2B%2B+libraries&amp;cId=98ecb41a-b24e-4aa2-bb8f-3376e144c0ee&amp;iId=74828ff1-ce16-4410-beea-33ed14352bea">Reddit: Boost</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://pdimov.github.io/boostdep-report/">Boost Dependency Report</a></p>
+</li>
+<li>
+<p><a href="explore-the-content.html" class="xref page">Explore the Content</a></p>
+</li>
+<li>
+<p><a href="faq.html" class="xref page">Frequently Asked Questions</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/resources.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a></span>
+        <span class="next"><a href="glossary.html">Glossary</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

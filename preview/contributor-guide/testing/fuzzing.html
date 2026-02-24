@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Fuzz Testing :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/contributor-guide/testing/fuzzing.html">
+    <link rel="prev" href="continuous-integration.html">
+    <link rel="next" href="../superproject/overview.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="contributor-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Contributor Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../getting-involved.html">Getting Involved</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../contributors-faq.html">Contributors FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Requirements</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-requirements.html">Library</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/license-requirements.html">License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/portability-requirements.html">Portability</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/organization-requirements.html">Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../requirements/library-metadata.html">Metadata</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Design</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/design-best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/headers.html">Headers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/backwards-compatibility.html">Backwards Compatibility</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/separate-compilation.html">Separate Compilation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/dependencies.html">Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../design-guide/borland.html">Borland Portability</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../version-control.html">Version Control</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../best-practices.html">Best Practices</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../debug-visualisers.html">Debug Visualizers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Testing</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="test-policy.html">Test Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-test-matrix.html">Test Matrix</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="regression-tests.html">Local Regression Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="writing-tests.html">Writing Tests</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="sanitizers.html">Sanitizers</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="continuous-integration.html">Continuous Integration</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="fuzzing.html">Fuzzing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">The Super-Project</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/overview.html">Layout</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-maintenance.html">Library Maintenance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../superproject/library-workflow.html">Library Workflow</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Writing Documentation</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/layout.html">Guidelines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/content.html">Content</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/components.html">Components</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/antora.html">Antora Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/asciidoc.html">AsciiDoc Style Guide</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../docs/logo-policy-media-guide.html">Logo Policy and Media Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Releases</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../release-notes.html">Release Notes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Contributor Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../contributor-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../oversight-committee.html">Fiscal Sponsorship Committee</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../tweeting.html">Tweeting</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../site-docs-style-guide.html">Site-docs Style Guide</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Appendices</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../organization-guide.html">Organization Guide</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Contributor Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Testing</li>
+    <li><a href="fuzzing.html">Fuzzing</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="continuous-integration.html">
+      <span class="material-symbols-outlined" title="Previous: Continuous Integration">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="../superproject/overview.html">
+      <span class="material-symbols-outlined" title="Next: Layout">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Fuzz Testing</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_introduction">Introduction</a></p>
+</li>
+<li>
+<p><a href="#_libfuzzer_basics">LibFuzzer Basics</a></p>
+</li>
+<li>
+<p><a href="#_corpus">Corpus</a></p>
+</li>
+<li>
+<p><a href="#_verifying_the_effectiveness_of_your_fuzzer">Verifying the Effectiveness of your Fuzzer</a></p>
+</li>
+<li>
+<p><a href="#_corpus_minimization">Corpus Minimization</a></p>
+</li>
+<li>
+<p><a href="#_handling_crashes">Handling Crashes</a></p>
+</li>
+<li>
+<p><a href="#ci-builds">Running the Fuzzer in CIs</a></p>
+</li>
+<li>
+<p><a href="#_best_practices_for_writing_fuzzers">Best Practices for Writing Fuzzers</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>What is fuzz testing?</strong> Fuzzing is a testing technique that injects random pieces of data to a software function to uncover crashes and vulnerabilities. It helps improving code security and reliability, since it can trigger edge cases that went unnoticed during unit testing.</p>
+</div>
+<div class="paragraph">
+<p><strong>How does it work?</strong> Fuzz testing relies on a fuzzing engine, a library that runs your code in a loop, injecting different inputs at each iteration. The fuzzing engine will instrument your code to measure coverage, and use this information to drive the generation of samples. Most of the samples will contain malformed input, and will test your code&#8217;s tolerance to ill-formed inputs.</p>
+</div>
+<div class="paragraph">
+<p><strong>Which kind of errors does fuzzing detect?</strong> The fuzzing engine will monitor your code for crashes. Fuzzing is often used with the address and undefined sanitizers. In short, fuzzing will make sure that your code doesn&#8217;t crash, leak or incur in undefined behavior, regardless of how malformed the input is. A lot of vulnerabilities in C++ code are related to the former kind of errors, so fuzzing can make your code more secure.</p>
+</div>
+<div class="paragraph">
+<p><strong>Should I use it?</strong> Fuzz testing is specially relevant for libraries that process potentially untrusted, user-controlled input, like network data. Libraries that implement parsers, decoders or network protocols usually benefit from fuzz testing.</p>
+</div>
+<div class="paragraph">
+<p><strong>Which Boost libraries use it?</strong> Libraries like <a href="https://www.boost.org/libs/json">Boost.Json</a>, <a href="https://www.boost.org/libs/url">Boost.URL</a> and <a href="https://www.boost.org/libs/mysql">Boost.Mysql</a> use this technique - if you&#8217;re about to implement it in your library, have a look at what these libraries do.</p>
+</div>
+<div class="paragraph">
+<p><strong>Should I still write unit tests?</strong> Yes. Absolutely. Fuzzing does not replace unit tests, but complements them. Unit tests verify that your code produces the intended results by providing known inputs and running assertions on the outputs. In fuzz testing, inputs are generated randomly by the fuzzing engine, so no assertions are usually run on the outputs - fuzzing will only monitor for crashes and memory errors.</p>
+</div>
+<div class="paragraph">
+<p><strong>How can I add fuzzing to my library?</strong> We recommend using <a href="https://llvm.org/docs/LibFuzzer.html">LibFuzzer</a>, since it&#8217;s the easiest fuzzing engine to use, and the one that other Boost libraries use. You can use other fuzzing engines if you prefer.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libfuzzer_basics"><a class="anchor" href="#_libfuzzer_basics"></a>LibFuzzer Basics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quoting documentation, "LibFuzzer is an in-process, coverage-guided, evolutionary fuzzing engine". LibFuzzer will run your code multiple times with different, random inputs. It will instrument your code to measure coverage, and will attempt to generate inputs that maximize it, effectively trying to discover new paths in your code.</p>
+</div>
+<div class="paragraph">
+<p>LibFuzzer is included in <code>clang</code>, so you don&#8217;t need to install anything to get started.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s say we want to fuzz a function that parses JSON data, like <code>parse_json(string_view input)</code>. We will create a source file with the following code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;string_view&gt;
+#include &lt;your/parsing/function.hpp&gt;
+
+extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
+{
+    // The range [data, data+size) contains the data generated by the fuzzer
+    std::string_view input_data (reinterpret_cast&lt;const char*&gt;(data), size);
+    parse_json(input_data);
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can build a fuzzer executable by adding <code>-fsanitize=fuzzer</code> to clang&#8217;s compile and link flags. This will automatically link LibFuzzer to your code. It&#8217;s advised to also enable the address and undefined sanitizers, which increases the range of errors detected by the fuzzer. We recommend building in release mode with debug symbols enabled, so crashes are symbolized correctly.</p>
+</div>
+<div class="paragraph">
+<p>From the command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">clang++ -g -O3 -fsanitize=fuzzer,address,undefined -o fuzzer fuzzer.cpp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As a <code>Jamfile</code> target:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">exe fuzzer : fuzzer.cpp : requirements
+    &lt;debug-symbols&gt;on
+    &lt;optimization&gt;speed
+    &lt;address-sanitizer&gt;norecover
+    &lt;undefined-sanitizer&gt;norecover
+    &lt;cxxflags&gt;-fsanitize=fuzzer
+    &lt;linkflags&gt;-fsanitize=fuzzer
+;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or as a CMake target:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">add_executable(fuzzer fuzzer.cpp)
+target_compile_options(
+    fuzzer
+    PRIVATE
+    -fsanitize=fuzzer,address,undefined
+    -fno-sanitize-recover=address,undefined
+    -g
+    -O3
+)
+target_link_options(
+    fuzzer
+    PRIVATE
+    -fsanitize=fuzzer,address,undefined
+    -fno-sanitize-recover=address,undefined
+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that you must not define a <code>main</code> function - LibFuzzer will do it for you. The <code>LLVMFuzzerTestOneInput</code> function will be invoked repeatedly, with different input ranges.</p>
+</div>
+<div class="paragraph">
+<p>You can run your fuzzer with no arguments, which will fuzz until you stop it with Ctrl+C. The executable will print a lot of messages to stdout. <a href="https://llvm.org/docs/LibFuzzer.html#output">This section</a> contains a reference to what they mean, if you&#8217;re curious.</p>
+</div>
+<div class="paragraph">
+<p>To run the fuzzer for a limited period of time (for example, 30 seconds), use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">./fuzzer -max_total_time=30</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_corpus"><a class="anchor" href="#_corpus"></a>Corpus</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A corpus is a collection of input samples to be used by the fuzzer. LibFuzzer uses these samples to create random mutations to use as new inputs. If a newly created sample triggers extra coverage, this sample is stored in the corpus.</p>
+</div>
+<div class="paragraph">
+<p>Until now, we&#8217;ve been running our fuzzer without an initial corpus. The fuzzer will try random inputs, without any guidance, and will generate a corpus. Doing this is not advisable, though, since it reduces the effectiveness of your fuzzing - the fuzzer may fail to find some relevant inputs.</p>
+</div>
+<div class="paragraph">
+<p>We always advise to provide an initial corpus (often called a <em>seed corpus</em>) to the fuzzer, to provide some guidance. The seed corpus should contain a variety of valid and invalid samples. You can reuse samples from your unit tests. In our JSON example, we could create a <code>seedcorpus</code> directory and copy all JSON files we use for unit testing.</p>
+</div>
+<div class="paragraph">
+<p>Assuming that your seed corpus resides in <code>your-lib/test/fuzzing/seedcorpus</code>, we can run the fuzzer like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">./fuzzer /tmp/corpus your-lib/test/fuzzing/seedcorpus -max_total_time=30</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The two positional arguments are understood as corpus directories. The first one is an empty directory, and the second one is our seed corpus. The fuzzer will use the first corpus directory we provide (<code>/tmp/corpus</code> in our case) to write all the samples it finds relevant. Using separate directories allows us to keep the seed corpus clean, since it may reside in source control.</p>
+</div>
+<div class="paragraph">
+<p>When running your fuzzer as part of your CI builds, you&#8217;ll likely want to persist this new corpus to make the newly generated samples available to subsequent fuzzer runs. <a href="#ci-builds">This section</a> digs deeper on running fuzzers during CI builds.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_verifying_the_effectiveness_of_your_fuzzer"><a class="anchor" href="#_verifying_the_effectiveness_of_your_fuzzer"></a>Verifying the Effectiveness of your Fuzzer</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Once you&#8217;ve written a fuzzer and run it with an adequate corpus, you should have a look at the code coverage that your fuzzer triggered. This will help you verify that your fuzzing code is correct and that your corpus is in shape. The authors have found cases where some paths were missed due to errors in the seed corpus samples. Better check!</p>
+</div>
+<div class="paragraph">
+<p>We recommend to use clang&#8217;s <a href="https://clang.llvm.org/docs/SourceBasedCodeCoverage.html">source-based coverage</a> for this task. To get coverage info, you should build your fuzzer with the <code>-fprofile-instr-generate</code> and <code>-fcoverage-mapping</code> compile and link flags, and then run the fuzzer normally. This will create a <code>default.profraw</code> file in your current directory, containing raw coverage data.</p>
+</div>
+<div class="paragraph">
+<p>To visualize your coverage, run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">llvm-profdata merge -sparse default.profraw -o fuzzer.profdata <i class="conum" data-value="1"></i><b>(1)</b>
+llvm-cov show path/to/fuzzer -instr-profile=fuzzer.profdata <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Converts from the raw profile format emitted by the binary to something <code>llvm-cov</code> can understand. This command can be used to merge several coverage files from different runs, too.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Prints a report with line coverage for your fuzzer and any headers it uses. Replace <code>path/to/fuzzer</code> with the path to your compiled fuzzer. <code>llvm-cov</code> requires it to properly understand coverage data.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This may generate <strong>a lot</strong> of output. You can use the <code>-sources</code> argument to scope which files are presented. Pay attention to the header path printed by the above command, since Boost creates symlinks for headers. For example, if you&#8217;re in the Boost super-project root, you can scope the report to <a href="https://www.boost.org/libs/json">Boost.Json</a> headers by running:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">llvm-cov show path/to/fuzzer -instr-profile=fuzzer.profdata -sources=boost/json/</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_corpus_minimization"><a class="anchor" href="#_corpus_minimization"></a>Corpus Minimization</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As we&#8217;ve mentioned, it&#8217;s advisable to persist the corpus generated by your fuzzer between runs. However, it can become very big as new samples are added. Before saving the corpus, we recommend performing <em>corpus minimization</em>.</p>
+</div>
+<div class="paragraph">
+<p>This process is run by the same fuzzer executable we&#8217;ve been using. It will run the different samples in your corpus and discard "repeated" ones, based on the code paths they trigger.</p>
+</div>
+<div class="paragraph">
+<p>To run corpus minimization, use the <code>-merge=1</code> flag:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./fuzzer /tmp/mincorpus /tmp/corpus -merge=1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will minimize the samples in <code>/tmp/corpus</code>, writing the results to <code>/tmp/mincorpus</code>. Note that no actual fuzzing is performed by this command.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_handling_crashes"><a class="anchor" href="#_handling_crashes"></a>Handling Crashes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If your fuzzer finds an input that makes your code crash, it will report the error and exit immediately, creating a file named <code>crash-&lt;id&gt;</code> containing the sample that caused the problem. Similarly, if an input takes too long to process, or a memory leak is found, a file <code>timeout-&lt;id&gt;</code> or <code>leak-&lt;id&gt;</code> will be written.</p>
+</div>
+<div class="paragraph">
+<p>When a crash is detected, you should save the offending sample to source control, reproduce the crash, and fix your code.
+During regression testing, you should make your fuzzer run that specific sample, to verify that the crash doesn&#8217;t happen again.</p>
+</div>
+<div class="paragraph">
+<p>You can make your fuzzer run a single sample by specifying it as a positional command-line argument. For example, if the sample that caused the crash is <code>your-lib/test/fuzzing/old_crashes/crash-abc</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">./fuzzer your-lib/test/fuzzing/old_crashes/crash-abc</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will run your fuzzer only with <code>crash-abc</code>. It will not perform actual fuzzing.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ci-builds"><a class="anchor" href="#ci-builds"></a>Running the Fuzzer in CIs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Your fuzzer won&#8217;t be really useful unless you run it continuously. CI platforms are a good way to achieve this. We recommend using GitHub Actions for fuzzing jobs, although other platforms with similar functionality should work, too.</p>
+</div>
+<div class="paragraph">
+<p>Your fuzzing CI job should, at least:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Attempt to restore corpus samples from previous runs.</p>
+</li>
+<li>
+<p>Build the fuzzers.</p>
+</li>
+<li>
+<p>Run them with any old crash samples, to prevent regressions.</p>
+</li>
+<li>
+<p>Run the actual fuzzing for some time. Most libraries run each fuzzer for 30 seconds.</p>
+</li>
+<li>
+<p>Minimize the corpus generated by the previous step.</p>
+</li>
+<li>
+<p>Persist the minimized corpus so that it can be used by subsequent CI runs.</p>
+</li>
+<li>
+<p>Archive any crashes, timeouts and leaks, so you can recover them later.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you&#8217;re using GitHub actions, corpus persistance can be achieved using the <a href="https://github.com/actions/cache">cache action</a>. Building the fuzzers should be part of your B2 or CMake builds. You can use <a href="https://github.com/boostorg/mysql/blob/develop/test/fuzzing/Jamfile" target="_blank" rel="noopener">Boost.MySQL&#8217;s <code>Jamfile</code></a> as inspiration. It&#8217;s a good practice to run the fuzzers both nightly and on push/pull request events.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_best_practices_for_writing_fuzzers"><a class="anchor" href="#_best_practices_for_writing_fuzzers"></a>Best Practices for Writing Fuzzers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is advisable to keep your fuzzers as targeted as possible. For example, if you have functions to parse JSON and BSON (binary JSON) files, you should write two different fuzzers, instead of a single one that invokes one or the other based on the input.</p>
+</div>
+<div class="paragraph">
+<p>Your fuzzing code should be as efficient as possible. The faster it is, the more iterations the fuzzer will do, and the better the results. Avoid logging, cubic or greater complexity, and anything else that may slow down your code.</p>
+</div>
+<div class="paragraph">
+<p>Try to avoid any randomness in your code. LibFuzzer works best with deterministic functions - that is, functions that, for a certain input, take always the same code paths.</p>
+</div>
+<div class="paragraph">
+<p>Aside from the raw input data, you may need some extra input to configure your parsing function. For example, a JSON parser may be configured to allow comments or not. You may use part of the raw input data to configure flags like this and boost your coverage.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boost_examples"><a class="anchor" href="#_boost_examples"></a>Boost Examples</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/mysql">Boost.Mysql</a> fuzzes all its message deserialization routines. Fuzzers are located under <a href="https://github.com/boostorg/mysql/tree/develop/test/fuzzing"><code>test/fuzzing</code></a>. The seed corpus is composed of multiple binary files, compressed and stored in the same directory. Fuzzers are built and run from <a href="https://github.com/boostorg/mysql/blob/develop/test/fuzzing/Jamfile"><code>test/fuzzing/Jamfile</code></a>. Targets in this directory are built using <code>b2</code> from the <a href="https://github.com/boostorg/mysql/blob/develop/.github/workflows/fuzz.yml"><code>fuzz.yml</code></a> GitHub Actions workflow.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/json">Boost.Json</a> fuzzes its JSON parsing functions. Fuzzers are stored under <a href="https://github.com/boostorg/json/tree/develop/fuzzing"><code>fuzzing/</code></a>. The seed corpus is generated dynamically, by copying all JSON files used for unit testing. Fuzzers are built and run from <a href="https://github.com/boostorg/json/blob/develop/fuzzing/Jamfile"><code>fuzzing/Jamfile</code></a>. Targets in this directory are built using <code>b2</code> from the <a href="https://github.com/boostorg/json/blob/develop/.github/workflows/run_fuzzer.yml"><code>run_fuzzer.yml</code></a> GitHub Actions workflow.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/url">Boost.URL</a> is similar to to JSON, but doesn&#8217;t use a seed corpus.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="continuous-integration.html" class="xref page">Continuous Integration</a></p>
+</li>
+<li>
+<p><a href="writing-tests.html" class="xref page">Writing Tests</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/contributor-guide/modules/ROOT/pages/testing/fuzzing.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="continuous-integration.html">Continuous Integration</a></span>
+        <span class="next"><a href="../superproject/overview.html">Layout</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

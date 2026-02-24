@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Exception-Safety in Generic Components :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/exception-safety.html">
+    <link rel="prev" href="generic-programming.html">
+    <link rel="next" href="counted-body.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Development</li>
+    <li><a href="exception-safety.html">Exception-Safety</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="generic-programming.html">
+      <span class="material-symbols-outlined" title="Previous: Generic Programming">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="counted-body.html">
+      <span class="material-symbols-outlined" title="Next: Counted Body">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Exception-Safety in Generic Components</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Exception-safety in a component means that it exhibits reasonable behavior when an exception is thrown during its execution. For most people, the term “reasonable” includes all the usual expectations for error-handling: that resources should not be leaked, and that the program should remain in a well-defined state so that execution can continue. For most components, it also includes the expectation that when an error is encountered, it is reported to the caller.</p>
+</div>
+<div class="paragraph">
+<p>More formally, we can describe a component as minimally exception-safe if, when exceptions are thrown from within that component, its invariants are intact. Later on, we&#8217;ll see that at least three different levels of exception-safety can be usefully distinguished. These distinctions can help us to describe and reason about the behavior of large systems.</p>
+</div>
+<div class="paragraph">
+<p>In a generic component, we usually have an additional expectation of exception-neutrality, which means that exceptions thrown by a component&#8217;s type parameters should be propagated, unchanged, to the component&#8217;s caller.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_myths_and_superstitions"><a class="anchor" href="#_myths_and_superstitions"></a>Myths and Superstitions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Exception-safety seems straightforward so far: it doesn&#8217;t constitute anything more than we&#8217;d expect from code using more traditional error-handling techniques. It might be worthwhile, however, to examine the term from a psychological viewpoint. Nobody ever spoke of “error-safety” before C++ had exceptions.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s almost as though exceptions are viewed as a mysterious attack on otherwise correct code, from which we must protect ourselves. Needless to say, this doesn&#8217;t lead to a healthy relationship with error handling! During standardization, a democratic process that requires broad support for changes, I encountered many widely-held superstitions. To even begin the discussion of exception-safety in generic components, it may be worthwhile confronting a few of them.</p>
+</div>
+<div class="sect2">
+<h3 id="_interactions_between_templates_and_exceptions_are_not_well_understood"><a class="anchor" href="#_interactions_between_templates_and_exceptions_are_not_well_understood"></a><em>“Interactions between templates and exceptions are not well-understood.”</em></h3>
+<div class="paragraph">
+<p>This myth, often heard from those who consider these both new language features, is easily disposed of: there simply are no interactions. A template, once instantiated, works in all respects like an ordinary class or function. A simple way to reason about the behavior of a template with exceptions is to think of how a specific instantiation of that template works. Finally, the genericity of templates should not cause special concern. Although the component&#8217;s client supplies part of the operation (which may, unless otherwise specified, throw arbitrary exceptions), the same is true of operations using familiar virtual functions or simple function pointers.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_it_is_well_known_to_be_impossible_to_write_an_exception_safe_generic_container"><a class="anchor" href="#_it_is_well_known_to_be_impossible_to_write_an_exception_safe_generic_container"></a><em>“It is well known to be impossible to write an exception-safe generic container.”</em></h3>
+<div class="paragraph">
+<p>This claim is often heard concerning an article by Tom Cargill in which he explores the problem of exception-safety for a generic stack template. In his article, Cargill raises many useful questions, but unfortunately fails to present a solution to his problem. He concludes by suggesting that a solution may not be possible. Unfortunately, his article was read by many as “proof” of that speculation. Since it was published there have been many examples of exception-safe generic components, among them the C++ standard library containers.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Probably the greatest impediment to a solution in Cargill&#8217;s case was an unfortunate combination of choices on his part: the interface he chose for his container was incompatible with his particular demands for safety. By changing either one he might have solved the problem.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dealing_with_exceptions_will_slow_code_down_and_templates_are_used_specifically_to_get_the_best_possible_performance"><a class="anchor" href="#_dealing_with_exceptions_will_slow_code_down_and_templates_are_used_specifically_to_get_the_best_possible_performance"></a><em>“Dealing with exceptions will slow code down, and templates are used specifically to get the best possible performance.”</em></h3>
+<div class="paragraph">
+<p>A good implementation of C++ will not devote a single instruction cycle to dealing with exceptions until one is thrown, and then it can be handled at a speed comparable with that of calling a function. That alone gives programs using exceptions performance equivalent to that of a program which ignores the possibility of errors. Using exceptions can result in faster programs than traditional error handling methods for other reasons. First, a catch block indicates to the compiler which code is devoted to error-handling; it can then be separated from the usual execution path, improving locality of reference. Second, code using traditional error handling must typically test a return value for errors after every single function call; using exceptions completely eliminates that overhead.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exceptions_make_it_more_difficult_to_reason_about_a_programs_behavior"><a class="anchor" href="#_exceptions_make_it_more_difficult_to_reason_about_a_programs_behavior"></a><em>“Exceptions make it more difficult to reason about a program&#8217;s behavior.”</em></h3>
+<div class="paragraph">
+<p>Usually cited in support of this myth is the way hidden execution paths are followed during stack-unwinding. Hidden execution paths are nothing new to any C++ programmer who expects local variables to be destroyed upon returning from a function:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">ErrorCode f( int&amp; result )         // 1
+{                                  // 2
+    X x;                           // 3
+    ErrorCode err = x.g( result ); // 4
+    if ( err != kNoError )         // 5
+        return err;                // 6
+    // ...More code here...
+    return kNoError;               // 7
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the example above, there is a hidden call to <code>X::~X()</code> in lines 6 and 7. Granted, using exceptions, there is no code devoted to error handling visible:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">int f()                 // 1
+{                       // 2
+    X x;                // 3
+    int result = x.g(); // 4
+    // ...More code here...
+    return result;      // 5
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For many programmers more familiar with exceptions, the second example is actually more readable and understandable than the first. The hidden code paths include the same calls to destructors of local variables. Also, they follow a simple pattern which acts exactly as though there was a potential return statement after each function call in case of an exception. Readability is enhanced because the normal path of execution is unobscured by error-handling, and return values are freed up to be used naturally.</p>
+</div>
+<div class="paragraph">
+<p>There is an even more important way in which exceptions can enhance correctness: by allowing simple class invariants. In the first example, if x&#8217;s constructor should need to allocate resources, it has no way to report a failure: in C++, constructors have no return values. The usual result when exceptions are avoided is that classes requiring resources must include a separate initializer function which finishes the job of construction. The programmer can therefore never be sure, when an object of class X is used, whether he is handling a full-fledged X or some abortive attempt to construct one (or worse: someone simply forgot to call the initializer!).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_contractual_basis_for_exception_safety"><a class="anchor" href="#_a_contractual_basis_for_exception_safety"></a>A Contractual Basis for Exception-Safety</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A non-generic component can be described as exception-safe in isolation, but because of its configurability by client code, exception-safety in a generic component usually depends on a contract between the component and its clients. For example, the designer of a generic component might require that an operation that is used in the component&#8217;s destructor not throw any exceptions. The generic component might, in return, provide one of the following guarantees:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <strong><em>basic guarantee</em></strong>: that the invariants of the component are preserved, and no resources are leaked.</p>
+</li>
+<li>
+<p>The <strong><em>strong guarantee</em></strong>: that the operation has either completed successfully or thrown an exception, leaving the program state exactly as it was before the operation started.</p>
+</li>
+<li>
+<p>The <strong><em>no-throw guarantee</em></strong>: that the operation will not throw an exception.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Notes</dt>
+<dd>
+<p>It is usually inadvisable to throw an exception from a destructor in C++, since the destructor may itself be called during the stack-unwinding caused by another exception. If the second exception is allowed to propagate beyond the destructor, the program is immediately terminated.</p>
+<div class="paragraph">
+<p>Mutating algorithms usually cannot provide the strong guarantee: to roll back a modified element of a range, it must be set back to its previous value using <code>operator=</code>, which itself might throw. In the C++ standard library, there are a few exceptions to this rule, whose rollback behavior consists only of destruction: <code>uninitialized_copy</code>, <code>uninitialized_fill</code>, and <code>uninitialized_fill_n</code>.</p>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The basic guarantee is a simple minimum standard for exception-safety to which we can hold all components. It says simply that after an exception, the component can still be used as before. Importantly, the preservation of invariants allows the component to be destroyed, potentially as part of stack-unwinding. This guarantee is actually less useful than it might at first appear. If a component has many valid states, after an exception we have no idea what state the component is in; only that the state is valid. The options for recovery, in this case, are limited: either destruction or resetting the component to some known state before further use. Consider the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template &lt;class X&gt;
+void print_random_sequence()
+{
+    std::vector&lt;X&gt; v(10); // A vector of 10 items
+    try {
+        // Provides only the basic guarantee
+        v.insert( v.begin(), X() );
+    }
+    catch(...) {} // ignore any exceptions above
+    // print the vector's contents
+    std::cout "(" &lt;&lt; v.size() &lt;&lt; ") ";
+    std::copy( v.begin(), v.end(),
+    std::ostream_iterator&lt;X&gt;( std::cout, " " ) );
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Since all we know about <code>v</code> after an exception is that it is valid, the function is allowed to print any random sequence of Xs. It is safe in the sense that it is not allowed to crash, but its output may be unpredictable.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>In practice of course, this function would make an extremely poor random sequence generator!</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The strong guarantee provides full <em>commit-or-rollback</em> semantics. In the case of C++ standard containers, this means, for example, that if an exception is thrown all iterators remain valid. We also know that the container has the same elements as before the exception was thrown. A transaction that has no effects if it fails has obvious benefits: the program state is simple and predictable in case of an exception. In the C++ standard library, nearly all of the operations on the node-based containers list, set, multiset, map, and multimap provide the strong guarantee.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Associative containers whose <code>Compare</code> object might throw an exception when copied cannot use this technique, since the <code>swap</code> function might fail.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The no-throw guarantee is the strongest of all, and it says that an operation is guaranteed not to throw an exception: it always completes successfully. This guarantee is necessary for most destructors, and indeed the destructors of C++ standard library components are all guaranteed not to throw exceptions. The no-throw guarantee turns out to be important for other reasons, as we shall see.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>All type parameters supplied by clients of the C++ standard library are required not to throw from their destructors. In return, all components of the C++ standard library provide at least the basic guarantee.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_legal_wrangling"><a class="anchor" href="#_legal_wrangling"></a>Legal Wrangling</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Inevitably, the contract can get more complicated: a quid pro quo arrangement is possible. Some components in the C++ Standard Library give one guarantee for arbitrary type parameters, but give a stronger guarantee in exchange for additional promises from the client type that no exceptions will be thrown. For example, the standard container operation <code>vector&lt;T&gt;::erase</code> gives the basic guarantee for any <code>T</code>, but for types whose copy constructor and copy assignment operator does not throw, it gives the no-throw guarantee.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>Similar arrangements might have been made in the C++ standard for many of the mutating algorithms, but were never considered due to time constraints on the standardization process.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_level_of_exception_safety_should_a_component_specify"><a class="anchor" href="#_what_level_of_exception_safety_should_a_component_specify"></a>What Level of Exception-Safety should a Component Specify?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From a client&#8217;s point-of-view, the strongest possible level of safety would be ideal. Of course, the no-throw guarantee is simply impossible for many operations, but what about the strong guarantee? For example, suppose we wanted atomic behavior for <code>vector&lt;T&gt;::insert</code>. Insertion into the middle of a vector requires copying elements after the insertion point into later positions, to make room for the new element. If copying an element can fail, rolling back the operation would require undoing the previous copies&#8230;&#8203;which depends on copying again. If copying back should fail (as it likely would), we have failed to meet our guarantee.</p>
+</div>
+<div class="paragraph">
+<p>One possible alternative would be to redefine insert to build the new array contents in a fresh piece of memory each time, and only destroy the old contents when that has succeeded. Unfortunately, there is a non-trivial cost if this approach is followed: insertions near the end of a vector which might have previously caused only a few copies would now cause every element to be copied. The basic guarantee is a natural level of safety for this operation, which it can provide without violating its performance guarantees. In fact all of the operations in the library appears to have such a natural level of safety.</p>
+</div>
+<div class="paragraph">
+<p>Because performance requirements were already a well-established part of the draft standard and because performance is a primary goal of the STL, there was no attempt to specify more safety than could be provided within those requirements. Although not all of the library gives the strong guarantee, almost any operation on a standard container which gives the basic guarantee can be made strong using the <em>make-a-new-copy</em> strategy described above:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template &lt;class Container, class BasicOp&gt;
+void MakeOperationStrong( Container&amp; c, const BasicOp&amp; op )
+{
+    Container tmp(c); // Copy c
+    op(tmp); // Work on the copy
+    c.swap(tmp); // Cannot fail7
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This technique can be folded into a wrapper class to make a similar container which provides stronger guarantees (and different performance characteristics).</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>This suggests another potential use for the oft-wished-for but as yet unseen <code>container_traits&lt;&gt;</code> template: automated container selection to meet exception-safety constraints.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_should_we_take_everything_we_can_get"><a class="anchor" href="#_should_we_take_everything_we_can_get"></a>Should We Take Everything We Can Get?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By considering a particular implementation, we can hope to discern a natural level of safety. The danger in using this to establish requirements for a component is that the implementation might be restricted. If someone should come up with a more-efficient implementation which we&#8217;d like to use, we may find that it&#8217;s incompatible with our exception-safety requirements. One might expect this to be of no concern in the well-explored domains of data structures and algorithms covered by the STL, but even there, advances are being made. A good example is the recent <em>introsort</em> algorithm, which represents a substantial improvement in worst-case complexity over the well-established <em>quicksort</em>.</p>
+</div>
+<div class="paragraph">
+<p>To determine exactly how much to demand of the standard components, I looked at a typical real-world scenario. The chosen test case was a composite container. Such a container, built of two or more standard container components, is not only commonly needed, but serves as a simple representative case for maintaining invariants in larger systems:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// SearchableStack - A stack which can be efficiently searched
+// for any value.
+template &lt;class T&gt;
+class SearchableStack
+{
+ public:
+    void push(const T&amp; t); // O(log n)
+    void pop(); // O(log n)
+    bool contains(const T&amp; t) const; // O(log n)
+    const T&amp; top() const; // O(1)
+ private:
+    std::set&lt;T&gt; set_impl;
+    std::list&lt;std::set&lt;T&gt;::iterator&gt; list_impl;
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The idea is that the list acts as a stack of set iterators: every element goes into the set first, and the resulting position is pushed onto the list. The invariant is straightforward: the set and the list should always have the same number of elements, and every element of the set should be referenced by an element of the list. The following implementation of the push function is designed to give the strong guarantee within the natural levels of safety provided by set and list:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template &lt;class T&gt;                                      // 1
+void SearchableStack&lt;T&gt;::push(const T&amp; t)               // 2
+{                                                       // 3
+    set&lt;T&gt;::iterator i = set_impl.insert(t);            // 4
+    try                                                 // 5
+    {                                                   // 6
+        list_impl.push_back(i);                         // 7
+    }                                                   // 8
+    catch(...)                                          // 9
+    {                                                   // 10
+        set_impl.erase(i);                              // 11
+        throw;                                          // 12
+    }                                                   // 13
+}                                                       // 14</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What does our code require of the library? We need to examine the lines where non-const operations occur:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Line 4: if the insertion fails but <code>set_impl</code> is modified in the process, our invariant is violated. We need to be able to rely on the strong guarantee from <code>set&lt;T&gt;::insert</code>.</p>
+</li>
+<li>
+<p>Line 7: likewise, if <code>push_back</code> fails, but <code>list_impl</code> is modified in the process, our invariant is violated, so we need to be able to rely on the strong guarantee from <code>list&lt;T&gt;::insert</code>.</p>
+</li>
+<li>
+<p>Line 11: here we are rolling back the insertion on line 4. If this operation should fail, we will be unable to restore our invariant. We absolutely depend on the no-throw guarantee from <code>set&lt;T&gt;::erase</code>.</p>
+</li>
+<li>
+<p>Line 11: for the same reasons, we also depend on being able to pass the <code>i</code> to the <code>erase</code> function: we need the no-throw guarantee from the copy constructor of <code>set&lt;T&gt;::iterator</code>.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>One might be tempted to surround the erase operation with a try/catch block to reduce the requirements on <code>set&lt;T&gt;</code> and the problems that arise in case of an exception, but in the end that just begs the question. First, erase just failed and in this case there are no viable alternative ways to produce the necessary result. Second and more generally, because of the variability of its type parameters a generic component can seldom be assured that any alternatives will succeed.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>I learned a great deal by approaching the question this way during standardization. First, the guarantee specified for the composite container depends on stronger guarantees from its components (the no-throw guarantees in line 11). Also, I took advantage of all of the natural levels of safety to implement this simple example. Finally, the analysis revealed a requirement on iterators which I had previously overlooked when operations were considered on their own. The conclusion was that we should provide as much of the natural level of safety as possible. Faster but less-safe implementations could always be provided as extensions to the standard components.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The prevalent philosophy in the design of STL was that functionality that wasn&#8217;t essential to all uses should be left out in favor of efficiency, as long as that functionality could be obtained when needed by adapting the base components. This departs from that philosophy, but it would be difficult or impossible to obtain even the basic guarantee by adapting a base component that doesn&#8217;t already have it.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_automated_testing_for_exception_safety"><a class="anchor" href="#_automated_testing_for_exception_safety"></a>Automated Testing for Exception-Safety</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As part of the standardization process, I produced an exception-safe reference implementation of the STL. Error-handling code is seldom rigorously tested in real life, in part because it is difficult to cause error conditions to occur. It is very common to see error-handling code that crashes the first time it is executed &#8230;&#8203;in a shipping product! To bolster confidence that the implementation worked as advertised, I designed an automated test suite, based on an exhaustive technique due to my colleague Matt Arnold.</p>
+</div>
+<div class="paragraph">
+<p>The test program started with the basics: reinforcement and instrumentation, especially of the global operators <code>new</code> and <code>delete</code>. Instances of the components (containers and algorithms) were created, with type parameters chosen to reveal as many potential problems as possible. For example, all type parameters were given a pointer to heap-allocated memory, so that leaking a contained object would be detected as a memory leak.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>An excellent discussion on how to fortify memory subsystems can be found in: Steve Maguire, <em>Writing Solid Code, Microsoft Press, Redmond, WA, 1993, ISBN 1-55615- 551-4</em>.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Finally, a scheme was designed that could cause an operation to throw an exception at each possible point of failure. At the beginning of every client-supplied operation which is allowed to throw an exception, a call to <code>ThisCanThrow</code> was added. A call to <code>ThisCanThrow</code> also had to be added everywhere that the generic operation being tested might throw an exception, for example in the global operator new, for which an instrumented replacement was supplied.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Use this as a type parameter, e.g. vector&lt;TestClass&gt;
+struct TestClass
+{
+    TestClass( int v = 0 )
+        : p( ThisCanThrow(), new int( v ) ) {}
+    TestClass( const TestClass&amp; rhs )
+        : p( ThisCanThrow(), new int( *rhs.p ) ) {}
+    const TestClass&amp; operator=( const TestClass&amp; rhs )
+        { ThisCanThrow(); *p = *rhs.p; }
+    bool operator==( const TestClass&amp; rhs ) const
+        { ThisCanThrow(); return *p == *rhs.p; }
+    ...etc...
+    ~TestClass() { delete p; }
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>ThisCanThrow</code> simply decrements a <em>throw counter</em> and, if it has reached zero, throws an exception. Each test takes a form which begins the counter at successively higher values in an outer loop and repeatedly attempts to complete the operation being tested. The result is that the operation throws an exception at each successive step along its execution path that can possibly fail. For example, here is a simplified version of the function used to test the strong guarantee:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">extern int gThrowCounter; // The throw counter
+void ThisCanThrow()
+{
+    if (gThrowCounter-- == 0)
+        throw 0;
+}
+
+template &lt;class Value, class Operation&gt;
+void StrongCheck(const Value&amp; v, const Operation&amp; op)
+{
+    bool succeeded = false;
+    for (long nextThrowCount = 0; !succeeded; ++nextThrowCount)
+    {
+        Value duplicate = v;
+        try
+        {
+            gThrowCounter = nextThrowCount;
+            op( duplicate ); // Try the operation
+            succeeded = true;
+        }
+        catch(...) // Catch all exceptions
+        {
+            bool unchanged = duplicate == v; // Test strong guarantee
+            assert( unchanged );
+        }
+        // Specialize as desired for each container type, to check
+        // integrity. For example, size() == distance(begin(),end())
+        CheckInvariant(v); // Check any invariant
+    }
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>This technique requires that the operation being tested be exception-neutral. If the operation ever tries to recover from an exception and proceed, the throw counter will be negative, and subsequent operations that might fail will not be tested for exception-safety.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Notably, this kind of testing is much easier and less intrusive with a generic component than with non-generics, because testing-specific type parameters can be used without modifying the source code of the component being tested. Also, generic functions like <code>StrongCheck</code> above were instrumental in performing the tests on a wide range of values and operations.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_further_reading"><a class="anchor" href="#_further_reading"></a>Further Reading</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To my knowledge, there are currently only two descriptions of STL exception-safety available. The original specification for the reference exception-safe implementation of the STL is an informal specification, simple and self-explanatory (also verbose), and uses the basic- and strong-guarantee distinctions outlined in this article. It explicitly forbids leaks, and differs substantively from the final C++ standard in the guarantees it makes, though they are largely identical. I hope to produce an updated version of this document soon.</p>
+</div>
+<div class="paragraph">
+<p>The description of exception-safety in the C++ Standard is only slightly more formal, but relies on hard-to-read standardese and an occasionally subtle web of implication. In particular, leaks are not treated directly at all. It does have the advantage that it is the standard.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The changes to the draft standard which introduced exception-safety were made late in the process, when amendments were likely to be rejected solely based on the number of altered words. Unfortunately, the result compromises clarity somewhat in favor of brevity. Greg Colvin was responsible for the clever language-lawyering needed to minimize the extent of these changes.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The original reference implementation of the exception-safe STL is an adaptation of an old version of the SGI STL, designed for C++ compilers with limited features. Although it is not a complete STL implementation, the code may be easier to read, and it illustrates a useful base-class technique for eliminating exception-handling code in constructors. The full test suite used to validate the reference implementation has been used successfully to validate all recent versions of the SGI STL, and has been adapted to test one other vendor&#8217;s implementation (which failed). As noted on the documentation page, it also seems to have the power to reveal hidden compiler bugs, particularly where optimizers interact with exception-handling code.</p>
+</div>
+<div class="sect2">
+<h3 id="_references"><a class="anchor" href="#_references"></a>References</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><em>International Standard ISO/IEC 14882, Information Technology-Programming Languages-C++, Document Number ISO/IEC 14882-1998</em>, available from <a href="http://webstore.ansi.org/ansidocstore/default.asp" class="bare">http://webstore.ansi.org/ansidocstore/default.asp</a>.</p>
+</li>
+<li>
+<p>D. Abrahams, <em>Exception Safety in STLport</em>, available at <a href="http://www.stlport.org/doc/exception_safety.html" class="bare">http://www.stlport.org/doc/exception_safety.html</a>.</p>
+</li>
+<li>
+<p>D. Abrahams and B. Fomitchev, <em>Exception Handling Test Suite</em>, available at <a href="http://www.stlport.org/doc/eh_testsuite.html" class="bare">http://www.stlport.org/doc/eh_testsuite.html</a>.</p>
+</li>
+<li>
+<p>Tom Cargill, <em>Exception Handling: A False Sense of Security, C++ Report, Nov-Dec 1994</em>.</p>
+</li>
+<li>
+<p>B. Fomitchev, <em>Adapted SGI STL Version 1.0</em>, with exception handling code by D. Abrahams, available at <a href="http://www.stlport.org" class="bare">http://www.stlport.org</a>.</p>
+</li>
+<li>
+<p>D. R. Musser, <em>Introspective Sorting and Selection Algorithms,” Software-Practice and Experience 27(8):983-993, 1997.</em></p>
+</li>
+<li>
+<p>Bjarne Stroustrup, <em>The Design And Evolution of C++. Addison Wesley, Reading, MA, 1995, ISBN 0-201-54330-3, Section 16.9.1.</em></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_acknowledgements"><a class="anchor" href="#_acknowledgements"></a>Acknowledgements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This topic was originally written by David Abrahams (<a href="mailto:dave@boostpro.com">dave@boostpro.com</a>) as a paper entitled <em>"Lessons Learned from Specifying Exception-Safety for the C++ Standard Library"</em>.</p>
+</div>
+<div class="paragraph">
+<p>Abstract:  <em>"This paper represents the knowledge accumulated in response to a real-world need: that the C++ Standard Template Library exhibit useful and well-defined interactions with exceptions, the error-handling mechanism built-in to the core C++ language. It explores the meaning of exception-safety, reveals surprising myths about exceptions and genericity describes valuable tools for reasoning about program correctness, and outlines an automated testing procedure for verifying exception-safety."</em></p>
+</div>
+<div class="paragraph">
+<p>Keywords: <em>"exception-safety, exceptions, STL, C++"</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/libs/exception">Boost.Exception</a> : provides utilities for working with C++ exceptions, including exception types, error handling policies, and exception propagation mechanisms.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/system">Boost.System</a> : provides a set of portable error code and error category classes for representing and handling error conditions.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/test">Boost.Test</a> : provides a unit testing framework, including support for testing exception handling and error conditions.</p>
+</li>
+<li>
+<p><a href="testing-debugging.html" class="xref page">Testing and Debugging</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/exception-safety.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="generic-programming.html">Generic Programming</a></span>
+        <span class="next"><a href="counted-body.html">Counted Body</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

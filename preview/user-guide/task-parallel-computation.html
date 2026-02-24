@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Parallel Computation :: Boost Site Docs</title>
+  <link rel="canonical" href="https://boost.revsys.dev/user-guide/task-parallel-computation.html">
+    <link rel="prev" href="task-natural-language-parsing.html">
+    <link rel="next" href="task-quantum-computing.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="user-guide" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">User Guide</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="intro.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="getting-started.html">Getting Started</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="explore-the-content.html">Explore the Content</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="faq.html">FAQ</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="building-with-cmake.html">Building with CMake</a>
+        </li>
+              <li class="" data-depth="1">
+            <span class="nav-text">Common Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="common-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-finance.html">Finance</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-networking.html">Networking</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-ai-client.html">AI Client</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-simulation.html">Simulation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-system.html">System</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="testing-debugging.html">Testing and Debugging</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-text-processing.html">Text Processing</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Advanced Scenarios</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="advanced-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-database.html">Database Engine</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-machine-learning.html">Machine Learning</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-metaprogramming.html">Metaprogramming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-natural-language-parsing.html">Natural Language</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="task-parallel-computation.html">Parallel Computation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-quantum-computing.html">Quantum Computing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-aeronautical-engineering.html">Aeronautical Engineering</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="task-bio-tech-engineering.html">Bio-Tech Engineering</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Development</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="boost-macros.html">Macros</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="generic-programming.html">Generic Programming</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="exception-safety.html">Exception-Safety</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="counted-body.html">Counted Body</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="implementation-variations.html">Implementation Variations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reduce-dependencies.html">Reduce Dependencies</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="diagnostics.html">Diagnostics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">User Community</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="user-community-introduction.html">Introduction</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="reporting-issues.html">Reporting Issues</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="discussion-policy.html">Discussion Policy</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="bsl.html">The Boost Software License</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="release-process.html">Release Process</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="boost-history.html">History</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="in-memoriam-beman-dawes.html">In Memoriam: Beman Dawes</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Resources</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="glossary.html">Glossary</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <span class="nav-text">Reference</span>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="library-naming.html">Library Names and Organization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="header-organization-compilation.html">Header Organization and Compiled Binaries</a>
+        </li>
+        </ul>
+  </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: User Guide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li>Advanced Scenarios</li>
+    <li><a href="task-parallel-computation.html">Parallel Computation</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="task-natural-language-parsing.html">
+      <span class="material-symbols-outlined" title="Previous: Natural Language">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="task-quantum-computing.html">
+      <span class="material-symbols-outlined" title="Next: Quantum Computing">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Parallel Computation</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Parallel computation is an important concept that helps in achieving faster execution by performing multiple operations concurrently.</p>
+</div>
+<div class="paragraph">
+<p>Parallel programming can be complex and requires careful handling of shared resources to avoid race conditions, deadlocks, and other concurrency-related bugs. It&#8217;s also worth noting that not every problem can be efficiently parallelized; the potential speedup from parallelization is largely determined by the proportion of the computation that can be performed concurrently, as described by <a href="https://en.wikipedia.org/wiki/Amdahl%27s_law">Amdahl&#8217;s Law</a>.</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><a href="#_libraries">Libraries</a></p>
+</li>
+<li>
+<p><a href="#_parallel_computing_applications">Parallel Computing Applications</a></p>
+</li>
+<li>
+<p><a href="#_multi_threaded_sample">Multi-threaded Sample</a></p>
+</li>
+<li>
+<p><a href="#_thread_pool_sample">Thread-pool Sample</a></p>
+</li>
+<li>
+<p><a href="#_message_queue_sample">Message-queue Sample</a></p>
+</li>
+<li>
+<p><a href="#_see_also">See Also</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_libraries"><a class="anchor" href="#_libraries"></a>Libraries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Boost libraries provide several tools that can help in writing parallel code:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p><a href="https://www.boost.org/libs/thread">Boost.Thread</a>: Provides components for creating and managing threads, which can be used to perform multiple tasks concurrently on separate CPU cores.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/asio">Boost.Asio</a>: While primarily a <a href="task-networking.html" class="xref page">Networking</a> library, this library also provides tools for asynchronous programming, which can be used to write concurrent code that performs multiple tasks at the same time without necessarily using multiple CPU cores.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/compute">Boost.Compute</a>: This is a GPU/parallel computing library for C++ based on OpenCL. The library provides a high-level, STL-like API and is header-only and does not require any special build steps or linking.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/fiber">Boost.Fiber</a>: Allows you to write code that works with fibers, which are user-space threads that can be used to write concurrent code. This can be useful in situations where you have many tasks that need to run concurrently but are I/O-bound rather than CPU-bound.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/phoenix">Boost.Phoenix</a>: A library for functional programming, it supports the ability to create inline functions which can be used for defining parallel algorithms.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/atomic">Boost.Atomic</a>: This library provides low-level atomic operations, with the aim of ensuring correct and efficient concurrent access to shared data without data races or other undesirable behavior.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/lockfree">Boost.Lockfree</a> : Provides lock-free data structures which are useful in multi-threaded applications where you want to avoid locking overhead.</p>
+</li>
+<li>
+<p><a href="https://www.boost.org/libs/chrono">Boost.Chrono</a>: Measures time intervals, which help control the timing of your app.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Note</dt>
+<dd>
+<p>The code in this tutorial was written and tested using Microsoft Visual Studio (Visual C++ 2022, Console App project) with Boost version 1.88.0.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_parallel_computing_applications"><a class="anchor" href="#_parallel_computing_applications"></a>Parallel Computing Applications</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Parallel computing has been successful in a wide range of applications, especially those involving large-scale computation or data processing. Here are some key areas where parallel computing has been particularly effective:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>Scientific Computing and <a href="task-simulation.html" class="xref page">Real-Time Simulation</a>: Many problems in physics, chemistry, biology, and engineering involve solving complex mathematical models, often represented as systems of differential equations. This includes simulations in fields like fluid dynamics, molecular dynamics, quantum mechanics, and climate modeling.</p>
+</li>
+<li>
+<p>Data Analysis and <a href="task-machine-learning.html" class="xref page">Machine Learning</a>: Training machine learning models, particularly deep neural networks, involves many similar computations (like matrix multiplications), which can be performed in parallel. Similarly, analyzing large datasets (as in big data applications) can often be parallelized.</p>
+</li>
+<li>
+<p>Graphics and Gaming: Modern GPUs (Graphics Processing Units) are essentially parallel processors, capable of performing many computations simultaneously. This is particularly useful in graphics rendering, which involves applying the same operations to many pixels or vertices. Video games, 3D animation, and virtual reality all benefit from parallel computing.</p>
+</li>
+<li>
+<p><a href="task-database.html" class="xref page">High-Performance Database Engine</a> and Data Warehouses: Many operations in databases, like searches, sorting, and joins, can be parallelized, leading to faster query times. This is particularly important in large-scale data warehouses.</p>
+</li>
+<li>
+<p>Cryptocurrency Mining: Cryptocurrencies like Bitcoin require solving complex mathematical problems, a process known as mining. This process is inherently parallel and is typically performed on GPUs or dedicated ASICs (Application-Specific Integrated Circuits).</p>
+</li>
+<li>
+<p>Genome Analysis and Bioinformatics: Tasks like genome sequencing, protein folding, and other bioinformatics tasks involve large amounts of data and can be greatly sped up using parallel computing.</p>
+</li>
+<li>
+<p>Weather Forecasting and Climate Research: Simulating weather patterns and climate change requires processing vast amounts of data and performing complex calculations, tasks well-suited to parallel computation.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_multi_threaded_sample"><a class="anchor" href="#_multi_threaded_sample"></a>Multi-threaded Sample</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following code demonstrates using <a href="https://www.boost.org/libs/thread">Boost.Thread</a> to do the heavy lifting when you require a single foreground task, and multiple background tasks.</p>
+</div>
+<div class="paragraph">
+<p>The sample has the following features:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The main thread prints status updates and listens for user input.</p>
+</li>
+<li>
+<p>Background threads simulate work (for example, processing data, handling network requests), in this case just printing messages every second.</p>
+</li>
+<li>
+<p>A shared flag (<code>running</code>) signals when to stop the threads.</p>
+</li>
+<li>
+<p>A <code>boost::mutex</code> ensures synchronized console output to prevent message overlap.</p>
+</li>
+<li>
+<p>The main thread waits for all background threads (<code>thread.join()</code>), ensuring a clean exit.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;boost/thread.hpp&gt;
+#include &lt;boost/chrono.hpp&gt;
+#include &lt;boost/atomic.hpp&gt;
+
+// Shared flag to signal when to stop background threads
+boost::atomic&lt;bool&gt; running(true);
+boost::mutex coutMutex;  // Synchronizes console output
+
+// Simulated background task
+void backgroundTask(int id) {
+    int count = 0;
+    while (running) {
+        {
+            boost::lock_guard&lt;boost::mutex&gt; lock(coutMutex);
+            std::cout &lt;&lt; count &lt;&lt; ": Background Task " &lt;&lt; id &lt;&lt; " is running...\n";
+        }
+        boost::this_thread::sleep_for(boost::chrono::seconds(1));  // Simulate work
+        ++count;
+    }
+
+    // Final message when thread exits
+    boost::lock_guard&lt;boost::mutex&gt; lock(coutMutex);
+    std::cout &lt;&lt; "Background Task " &lt;&lt; id &lt;&lt; " exiting...\n";
+}
+
+// Main foreground task
+void foregroundTask() {
+    std::string input;
+    while (running) {
+        {
+            boost::lock_guard&lt;boost::mutex&gt; lock(coutMutex);
+            std::cout &lt;&lt; "Foreground: Type 'x' then &lt;return&gt; to exit.\n\n";
+        }
+        std::cin &gt;&gt; input;
+
+        if (input == "x") {
+            std::cout &lt;&lt; "\nForeground task exiting...\n\n";
+            running = false;
+        }
+    }
+}
+
+// Entry point
+int main() {
+    const int numThreads = 3;  // Number of background threads
+    std::vector&lt;boost::thread&gt; workers;
+
+    // Start background threads
+    for (int i = 0; i &lt; numThreads; ++i) {
+        workers.emplace_back(backgroundTask, i + 1);
+    }
+
+    // Start foreground task (user interaction)
+    foregroundTask();
+
+    // Wait for all background threads to finish
+    for (auto&amp; thread : workers) {
+        thread.join();
+    }
+
+    std::cout &lt;&lt; "All threads exited. Program shutting down.\n";
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the program:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Foreground: Type 'x' then &lt;return&gt; to exit.
+
+0: Background Task 3 is running...
+0: Background Task 2 is running...
+0: Background Task 1 is running...
+1: Background Task 1 is running...
+1: Background Task 3 is running...
+1: Background Task 2 is running...
+x
+
+Foreground task exiting...
+
+Background Task 2 exiting...
+Background Task 1 exiting...
+Background Task 3 exiting...
+All threads exited. Program shutting down.</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_thread_pool_sample"><a class="anchor" href="#_thread_pool_sample"></a>Thread-pool Sample</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Starting with the multi-threaded code above. If we engage the thread management features of <a href="https://www.boost.org/libs/asio">Boost.Asio</a>, and the thread-safe counting of <a href="https://www.boost.org/libs/atomic">Boost.Atomic</a>, we reduce the need to manually handle the management of threads. In particular, the updated sample:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Uses <code>boost::asio::thread_pool</code> instead of manually managing threads.</p>
+</li>
+<li>
+<p>Handles atomic operations with <code>boost::atomic</code> for thread-safe counters.</p>
+</li>
+<li>
+<p>Requires tasks to execute in a pool, instead of fixed background threads.</p>
+</li>
+<li>
+<p>Adds a graceful shutdown, allowing running tasks to finish before exiting.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;boost/asio.hpp&gt;
+#include &lt;boost/thread.hpp&gt;
+#include &lt;boost/atomic.hpp&gt;
+#include &lt;boost/chrono.hpp&gt;
+
+boost::atomic&lt;bool&gt; running(true);  // Atomic flag to signal threads to stop
+boost::atomic&lt;int&gt; taskCounter(0);  // Tracks running tasks
+boost::mutex coutMutex;             // Synchronizes console output
+
+const int max_tasks = 4;
+
+// Simulated background task
+void backgroundTask(int id) {
+    taskCounter++;  // Increment task count
+    int count = 0;
+    while (running) {
+        {
+            boost::lock_guard&lt;boost::mutex&gt; lock(coutMutex);
+            std::cout &lt;&lt; count++ &lt;&lt; ") Task " &lt;&lt; id &lt;&lt; " is running... (Active tasks: "
+                &lt;&lt; taskCounter.load() &lt;&lt; ")\n";
+        }
+        boost::this_thread::sleep_for(boost::chrono::seconds(1));  // Simulate work
+    }
+
+    taskCounter--;  // Decrement task count
+    boost::lock_guard&lt;boost::mutex&gt; lock(coutMutex);
+    std::cout &lt;&lt; "Task " &lt;&lt; id &lt;&lt; " exiting...\n";
+}
+
+// Foreground task handling user input
+void foregroundTask(boost::asio::thread_pool&amp; pool) {
+    std::string input;
+    while (running) {
+        {
+            boost::lock_guard&lt;boost::mutex&gt; lock(coutMutex);
+            std::cout &lt;&lt; "Foreground: Type 'x' &lt;return&gt; to exit, 'a' &lt;return&gt; to add a task.\n";
+        }
+        std::cin &gt;&gt; input;
+
+        if (input == "x") {
+            running = false;
+        }
+        else if (input == "a" &amp;&amp; taskCounter &lt; max_tasks) {
+            static boost::atomic&lt;int&gt; taskId(0);
+            boost::asio::post(pool, [id = ++taskId] { backgroundTask(id); });
+        }
+    }
+}
+
+// Main function
+int main() {
+    boost::asio::thread_pool pool(max_tasks);  // Thread pool with max_tasks worker threads
+
+    // Start foreground task
+    foregroundTask(pool);
+
+    // Wait for all tasks in the pool to complete
+    pool.join();
+
+    std::cout &lt;&lt; "\nAll tasks completed. Program shutting down.\n";
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the program and you should get output similar to this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">...
+10) Task 1 is running... (Active tasks: 2)
+a
+
+Foreground: Type 'x' &lt;return&gt; to exit, 'a' &lt;return&gt; to add a task.
+0) Task 3 is running... (Active tasks: 3)
+5) Task 2 is running... (Active tasks: 3)
+11) Task 1 is running... (Active tasks: 3)
+6) Task 2 is running... (Active tasks: 3)
+1) Task 3 is running... (Active tasks: 3)
+12) Task 1 is running... (Active tasks: 3)
+
+x
+Task 1 exiting...
+Task 3 exiting...
+Task 2 exiting...</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_message_queue_sample"><a class="anchor" href="#_message_queue_sample"></a>Message-queue Sample</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For message queues, consider the following sample using <a href="https://www.boost.org/libs/fiber">Boost.Fiber</a>, where you can type messages manually, starting with a receiver Id, and a receiver fiber prints the messages from the queue, if the message is for that receiver.</p>
+</div>
+<div class="paragraph">
+<p>This simulates a very lightweight fiber-based message loop using user input. Receivers 1 and 2 only take messages where they have been identified as the desired receiver. Receiver 3 takes any message, and as such is the <em>fallback handler</em>. For example:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/message-queue.png" alt="message queue">
+</div>
+</div>
+<div class="paragraph">
+<p>Now for the code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/fiber/all.hpp&gt;   // Boost.Fiber for lightweight cooperative threading
+#include &lt;queue&gt;                 // Standard queue container for storing messages
+
+// --------------------------------------
+// A simple thread/fiber-safe message queue
+// --------------------------------------
+class MessageQueue {
+public:
+
+    // Send a message into the queue
+    void send(const std::string&amp; msg) {
+
+        // Lock the queue so only one fiber can access it at a time
+        std::unique_lock&lt;boost::fibers::mutex&gt; lock(mutex_);
+        queue_.push(msg);              // Push the new message
+        cond_.notify_one();            // Wake up one waiting receiver
+    }
+
+    // Receive a message for a given "to" address (like filtering messages)
+    std::string receive(std::string to) {
+
+        // Lock the queue
+        std::unique_lock&lt;boost::fibers::mutex&gt; lock(mutex_);
+
+        // Wait until queue is not empty (blocks this fiber cooperatively)
+        cond_.wait(lock, [this]() { return !queue_.empty(); });
+
+        // Look at the first message in the queue
+        std::string msg = queue_.front();
+
+        // Filter messages:
+        // - If first char of message == receiver's "to" char
+        // - OR receiver is "x" (wildcard, accepts everything)
+        // - OR message is "/quit" (global shutdown signal)
+
+        if (msg[0] == to[0] || to[0] == 'x' || msg == "/quit")
+        {
+            queue_.pop(); // Remove message from queue since it's consumed
+            return msg;   // Return it to caller
+        }
+        else
+
+            // If this message isn't meant for this receiver, just return ""
+            // (message stays in queue for someone else)
+            return "";
+    }
+
+private:
+    std::queue&lt;std::string&gt; queue_;          // FIFO queue of messages
+    boost::fibers::mutex mutex_;             // Mutex for synchronizing access
+    boost::fibers::condition_variable cond_; // Condition variable for waiting
+};
+
+// --------------------------------------
+// MAIN PROGRAM
+// --------------------------------------
+int main() {
+    MessageQueue msg_queue;             // Shared message queue
+    std::atomic&lt;bool&gt; running(true);    // Atomic flag for stopping all fibers safely
+    const int num_receivers = 3;        // Number of receivers
+    std::string to;                     // "Address" string for each receiver
+
+        // -----------------------------
+    // Launch multiple receiver fibers
+    // -----------------------------
+    std::vector&lt;boost::fibers::fiber&gt; receivers;
+    for (int i = 0; i &lt; num_receivers; ++i) {
+
+        // Launch fiber with unique receiver ID (1, 2, or 3)
+        receivers.emplace_back([&amp;, id = i + 1]() {
+            while (running) {
+
+                // Assign "to" value depending on receiver ID:
+                // Receiver 1 listens for "1", Receiver 2 listens for "2",
+                // Receiver 3 listens for "x" (wildcard, accepts all messages).
+                switch (id)
+                {
+                case 1: to = "1"; break;
+                case 2: to = "2"; break;
+                case 3: to = "x"; break;
+                }
+
+                // Try to receive a message intended for this receiver
+                std::string msg = msg_queue.receive(to);
+
+                // Special case: quit message
+                if (msg == "/quit") {
+                    running = false;            // Tell everyone to stop
+                    msg_queue.send("/quit");    // Re-send quit message so others can see it
+                    break;                      // Break out of loop, end this fiber
+                }
+
+                // Only print if message was actually for us
+                if (msg != "")
+                    std::cout &lt;&lt; "[Receiver " &lt;&lt; id &lt;&lt; "] Received: " &lt;&lt; msg &lt;&lt; std::endl;
+
+                // Yield to allow other fibers to run (cooperative multitasking)
+                boost::this_fiber::yield();
+            }
+            });
+    }
+
+    // -----------------------------
+    // Main thread handles user input
+    // -----------------------------
+    std::string input;
+    while (running) {
+        std::cout &lt;&lt; "Enter a message starting with the receiver Id (1,2,3) or /quit to exit &gt; ";
+        std::getline(std::cin, input);
+
+        if (!input.empty()) {
+            msg_queue.send(input);          // Send the input to the message queue
+            if (input == "/quit") {
+                break;                      // Stop reading if quit was typed
+            }
+            boost::this_fiber::yield();     // Yield so receivers get a chance to process
+        }
+    }
+
+    // -----------------------------
+    // Join all receiver fibers
+    // -----------------------------
+    for (auto&amp; f : receivers) {
+
+        f.join();                           // Wait for each receiver fiber to exit
+    }
+
+    std::cout &lt;&lt; "All receivers exited. Program shutting down.\n";
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you compile and run this sample, the following would be a typical session!</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Enter a message starting with the receiver Id (1,2,3) or /quit to exit &gt; 1 hello
+[Receiver 1] Received: 1 hello
+Enter a message starting with the receiver Id (1,2,3) or /quit to exit &gt; 2 hi
+[Receiver 2] Received: 2 hi
+Enter a message starting with the receiver Id (1,2,3) or /quit to exit &gt; 3 howdy
+[Receiver 3] Received: 3 howdy
+Enter a message starting with the receiver Id (1,2,3) or /quit to exit &gt; 4 anyone
+[Receiver 3] Received: 4 anyone
+Enter a message starting with the receiver Id (1,2,3) or /quit to exit &gt; /quit
+All receivers exited. Program shutting down.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parallel computing is an exciting challenge - success should come from focusing on problems that are inherently parallel.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#Concurrent">Category: Concurrent Programming</a></p>
+</li>
+<li>
+<p><a href="https://www.boost.org/doc/libs/latest/libs/libraries.htm#System">Category: System</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="file:///Users/julio/dev/website-v2-docs/user-guide/modules/ROOT/pages/task-parallel-computation.adoc">Edit this Page</a>
+  </div>
+      <nav class="pagination">
+        <span class="prev"><a href="task-natural-language-parsing.html">Natural Language</a></span>
+        <span class="next"><a href="task-quantum-computing.html">Quantum Computing</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>
