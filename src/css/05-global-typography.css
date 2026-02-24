@@ -18,7 +18,10 @@
 /* Base Container */
 .boostlook {
   font-family: var(--font-family-body, "Noto Sans") !important;
-  font-variation-settings: "wght" 350, "wdth" 87.5;
+  font-variation-settings: "wght" 400, "wdth" 95;
+  line-height: 120%;
+  letter-spacing: -0.01em;
+  color: var(--text-main-text-body-secondary, #585A64);
   background: var(--surface-background-main-base-primary, #fff);
 }
 
