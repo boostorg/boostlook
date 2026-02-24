@@ -261,6 +261,31 @@
   --atom-one-light-constant: #0184bb;
   --atom-one-light-class: #c18401;
 
+  /* Colour Primitives — Accent */
+  --colors-accent-weak-teal: #C9F2EE;
+  --colors-accent-weak-yellow: #F8EBA9;
+  --colors-accent-weak-green: #E4E4C0;
+  --colors-accent-strong-teal: #64DACE;
+  --colors-accent-strong-yellow: #F5D039;
+  --colors-accent-strong-green: #CACA62;
+
+  /* Colour Primitives — Syntax */
+  --colors-syntax-weak-blue: #38DDFF;
+  --colors-syntax-weak-green: #72FE92;
+  --colors-syntax-weak-yellow: #FFF173;
+  --colors-syntax-weak-pink: #F358C0;
+  --colors-syntax-weak-grey: #A3A3A3;
+  --colors-syntax-strong-blue: #1345E8;
+  --colors-syntax-strong-green: #289D30;
+  --colors-syntax-strong-yellow: #A3A38C;
+  --colors-syntax-strong-pink: #D31FA7;
+  --colors-syntax-strong-grey: #9E9E9E;
+
+  /* Colour Primitives — Error */
+  --colors-error-weak: #FDF2F2;
+  --colors-error-strong: #D32F2F;
+  --colors-error-mid: #FF3B30;
+
   /* Colors Other */
   --colors-neutral-150: #d5d7d9;
   --colors-neutral-850: #2a2c30;
@@ -287,9 +312,27 @@
   --spacing-size-3xl: 3rem;
   --main-container: 90rem;
 
+  /* Corner Radius — Metalab 2.0 Primitives */
+  --corner-radius-xs: 0.125rem;
+  --corner-radius-s: 0.25rem;
+  --corner-radius-m: 0.375rem;
+  --corner-radius-l: 0.5rem;
+  --corner-radius-xl: 0.75rem;
+  --corner-radius-xxl: 1rem;
+
   /* New Look Typography */
   --font-family-body: "Noto Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --font-family-code: "Monaspace Neon", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* Metalab 2.0 Size Primitives (Desktop / Mobile) */
+  /* XS:    12px / 10px */
+  /* Small: 14px / 12px */
+  /* Base:  16px / 14px */
+  /* Medium:18px / 16px */
+  /* Large: 24px / 20px */
+  /* XL:    32px / 24px */
+  /* 2XL:   40px / 28px */
+  /* 3XL:   64px / 32px */
+  /* 4XL:   72px / 40px */
   --font-size-3xs: 0.625rem;
   --font-size-2xs: 0.75rem;
   --font-size-xs: 0.875rem;
@@ -302,6 +345,8 @@
   --font-size-2xl: 1.75rem;
   --font-size-3xl: 2rem;
   --font-size-4xl: 2.5rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 4.5rem;
   --font-line-height-xs: 0.75rem;
   --font-line-height-sm: 1rem;
   --font-line-height-md: 1.25rem;
@@ -345,7 +390,22 @@
   --icon-menu-dark: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3%206C3.55228%206%204%205.55228%204%205C4%204.44772%203.55228%204%203%204C2.44772%204%202%204.44772%202%205C2%205.55228%202.44772%206%203%206Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M22%205.75H6V4.25H22V5.75Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M22%2012.75H6V11.25H22V12.75Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M16%2019.75H6V18.25H16V19.75Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M4%2012C4%2012.5523%203.55228%2013%203%2013C2.44772%2013%202%2012.5523%202%2012C2%2011.4477%202.44772%2011%203%2011C3.55228%2011%204%2011.4477%204%2012Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M3%2020C3.55228%2020%204%2019.5523%204%2019C4%2018.4477%203.55228%2018%203%2018C2.44772%2018%202%2018.4477%202%2019C2%2019.5523%202.44772%2020%203%2020Z%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E");
 
   /* New Look Responsive Mobile First */
-  /* Spacing */
+  /* Spacing — Metalab 2.0 (mobile) */
+  /* xs: 2/2, s: 4/4, default: 8/6, medium: 12/8, large: 16/12, xl: 24/16, xxl: 32/20 */
+  --spacing-default: 0.375rem;
+  --spacing-medium: 0.5rem;
+  --spacing-large: 0.75rem;
+  --spacing-xl: 1rem;
+  --spacing-xxl: 1.25rem;
+
+  /* Corner Radius — Metalab 2.0 (mobile) */
+  --radius-xs: var(--corner-radius-xs);
+  --radius-s: 0.1875rem;
+  --radius-m: var(--corner-radius-s);
+  --radius-l: var(--corner-radius-m);
+  --radius-xl: 0.625rem;
+  --radius-xxl: var(--corner-radius-xl);
+
   --leftbar-paddings-leftbar-padding-sm: var(--spacing-size-sm);
   --leftbar-paddings-leftbar-padding-md: var(--spacing-size-md);
   --leftbar-paddings-leftbar-padding-0: var(--spacing-size-size-0);
@@ -381,6 +441,14 @@
   --typography-font-size-2xl: var(--font-size-xl);
   --typography-font-size-3xl: var(--font-size-2xl);
   --typography-font-size-4xl: var(--font-size-3xl);
+  --typography-font-size-5xl: var(--font-size-4xl);
+
+  /* Heading — Metalab 2.0 (mobile) */
+  --typography-font-size-h1: var(--font-size-2xl);
+  --typography-font-size-h2: var(--font-size-lg);
+  --typography-font-size-h3: var(--font-size-sm);
+  --typography-font-size-h4: var(--font-size-xs);
+
   --typography-line-height-xs: var(--font-line-height-xs);
   --typography-line-height-sm: var(--font-line-height-sm);
   --typography-line-height-md: var(--font-line-height-md);
@@ -395,7 +463,21 @@
 /*----------------- New Look Responsive Desktop Start -----------------*/
 @media (min-width: 768px) {
   :root {
-    /* Spacing */
+    /* Spacing — Metalab 2.0 (desktop) */
+    --spacing-default: var(--spacing-size-2xs);
+    --spacing-medium: var(--spacing-size-xs);
+    --spacing-large: var(--spacing-size-sm);
+    --spacing-xl: var(--spacing-size-lg);
+    --spacing-xxl: var(--spacing-size-xl);
+
+    /* Corner Radius — Metalab 2.0 (desktop) */
+    --radius-xs: var(--corner-radius-xs);
+    --radius-s: var(--corner-radius-s);
+    --radius-m: var(--corner-radius-m);
+    --radius-l: var(--corner-radius-l);
+    --radius-xl: var(--corner-radius-xl);
+    --radius-xxl: var(--corner-radius-xxl);
+
     --leftbar-paddings-leftbar-padding-sm: var(--spacing-size-sm);
     --leftbar-paddings-leftbar-padding-md: var(--spacing-size-md);
     --leftbar-paddings-leftbar-padding-0: var(--spacing-size-size-0);
@@ -428,6 +510,7 @@
     --typography-font-size-2xl: var(--font-size-2xl);
     --typography-font-size-3xl: var(--font-size-3xl);
     --typography-font-size-4xl: var(--font-size-4xl);
+    --typography-font-size-5xl: var(--font-size-5xl);
     --typography-line-height-xs: var(--font-line-height-xs);
     --typography-line-height-sm: var(--font-line-height-sm);
     --typography-line-height-md: var(--font-line-height-md);
@@ -437,14 +520,11 @@
     --typography-line-height-3xl: var(--font-line-height-3xl);
     --typography-line-height-4xl: var(--font-line-height-4xl);
 
-    /* Heading */
-    --typography-font-size-h1: var(--font-size-2xl);
-    --typography-font-size-h2: var(--font-size-xl);
-    --typography-font-size-h3: var(--font-size-2md);
-    --typography-font-size-h4: var(--font-size-md);
-
-    /*
-*/
+    /* Heading — Metalab 2.0 (desktop) */
+    --typography-font-size-h1: var(--font-size-3xl);
+    --typography-font-size-h2: var(--font-size-lg);
+    --typography-font-size-h3: var(--font-size-md);
+    --typography-font-size-h4: var(--font-size-sm);
   }
 }
 
@@ -508,13 +588,26 @@ html {
   --text-states-text-additional-tetriary: var(--colors-blue-600);
 
   --text-code-red: var(--atom-one-light-operator);
-  --text-code-green: var(--atom-one-light-string);
-  --text-code-blue: var(--atom-one-light-function);
-  --text-code-yellow: var(--atom-one-light-variable);
+  --text-code-green: var(--colors-syntax-strong-green);
+  --text-code-blue: var(--colors-syntax-strong-blue);
+  --text-code-yellow: var(--colors-syntax-strong-yellow);
+  --text-code-pink: var(--colors-syntax-strong-pink);
+  --text-code-grey: var(--colors-syntax-strong-grey);
   --text-code-purple: var(--atom-one-light-keyword);
   --text-code-turquoise: var(--atom-one-light-constant);
   --text-code-neutral: var(--atom-one-light-text);
   --text-code-navy: var(--atom-one-light-class);
+
+  --surface-background-states-surface-error-weak: var(--colors-error-weak);
+  --text-states-text-error-strong: var(--colors-error-strong);
+  --text-states-text-error-mid: var(--colors-error-mid);
+
+  --surface-accent-teal-weak: var(--colors-accent-weak-teal);
+  --surface-accent-yellow-weak: var(--colors-accent-weak-yellow);
+  --surface-accent-green-weak: var(--colors-accent-weak-green);
+  --surface-accent-teal-strong: var(--colors-accent-strong-teal);
+  --surface-accent-yellow-strong: var(--colors-accent-strong-yellow);
+  --surface-accent-green-strong: var(--colors-accent-strong-green);
 
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-400);
   --surface-button-button-bg-primary-default: var(--colors-blue-700);
@@ -624,13 +717,26 @@ html.dark {
   --text-states-text-additional-tetriary: var(--colors-blue-400);
 
   --text-code-red: var(--atom-one-dark-operator);
-  --text-code-green: var(--atom-one-dark-string);
-  --text-code-blue: var(--atom-one-dark-function);
-  --text-code-yellow: var(--atom-one-dark-variable);
+  --text-code-green: var(--colors-syntax-weak-green);
+  --text-code-blue: var(--colors-syntax-weak-blue);
+  --text-code-yellow: var(--colors-syntax-weak-yellow);
+  --text-code-pink: var(--colors-syntax-weak-pink);
+  --text-code-grey: var(--colors-syntax-weak-grey);
   --text-code-purple: var(--atom-one-dark-keyword);
   --text-code-turquoise: var(--atom-one-dark-constant);
   --text-code-neutral: var(--atom-one-dark-text);
   --text-code-navy: var(--atom-one-dark-class);
+
+  --surface-background-states-surface-error-weak: var(--colors-error-strong);
+  --text-states-text-error-strong: var(--colors-error-mid);
+  --text-states-text-error-mid: var(--colors-error-mid);
+
+  --surface-accent-teal-weak: var(--colors-accent-strong-teal);
+  --surface-accent-yellow-weak: var(--colors-accent-strong-yellow);
+  --surface-accent-green-weak: var(--colors-accent-strong-green);
+  --surface-accent-teal-strong: var(--colors-accent-weak-teal);
+  --surface-accent-yellow-strong: var(--colors-accent-weak-yellow);
+  --surface-accent-green-strong: var(--colors-accent-weak-green);
 
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-500);
   --surface-button-button-bg-primary-default: var(--colors-blue-800);
@@ -919,7 +1025,7 @@ body :not(pre):not([class^="L"]) > code {
 /* Base Container */
 .boostlook {
   font-family: var(--font-family-body, "Noto Sans") !important;
-  font-variation-settings: "wght" 350, "wdth" 80;
+  font-variation-settings: "wght" 350, "wdth" 87.5;
   background: var(--surface-background-main-base-primary, #fff);
 }
 
@@ -939,55 +1045,58 @@ body :not(pre):not([class^="L"]) > code {
 .boostlook .doc h5,
 .boostlook h6,
 .boostlook .doc h6 {
-  color: var(--text-main-text-primary, #18191b);
+  color: var(--text-main-text-primary, #050816);
   display: block;
-  line-height: var(--typography-line-height-xl, 1.75rem);
-  margin-top: var(--padding-padding-xl, 2rem);
-  letter-spacing: var(--spacing-size-size-0, 0rem);
+  font-family: var(--font-family-body, "Noto Sans");
+  line-height: 100%;
+  margin-top: var(--padding-padding-lg, 1.5rem);
   margin-bottom: 0.5rem;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-weight: 500;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   position: relative;
 }
 
-/* Heading Sizes */
+/* Heading Sizes — Metalab 2.0 */
+/* h1: Display/Desktop/Medium/3XL */
 .boostlook h1,
 .boostlook .doc h1 {
-  font-size: var(--typography-font-size-h1, 1.75rem);
-  line-height: var(--typography-line-height-3xl, 2.5rem); /* 142.857% */
+  font-size: var(--typography-font-size-h1, 2rem);
+  letter-spacing: -0.01em;
 }
 
-/* Primary headings */
+/* h2: Display/Desktop/Medium/Large */
 .boostlook h2,
 .boostlook .doc h2 {
-  font-size: var(--typography-font-size-h2, 1.5rem);
+  font-size: var(--typography-font-size-h2, 1.25rem);
+  letter-spacing: -0.01em;
 }
 
-/* Section headings */
+/* h3: Display/Desktop/Medium/M */
 .boostlook h3,
 .boostlook .doc h3 {
-  font-size: var(--typography-font-size-h3, 1.3rem);
-  line-height: var(--typography-line-height-xl, 1.85rem); /* 155.556% */
+  font-size: var(--typography-font-size-h3, 1.125rem);
+  letter-spacing: -0.01em;
 }
 
-/* Subsection headings */
+/* h4: Display/Desktop/Medium/Base */
 .boostlook h4,
 .boostlook .doc h4 {
-  font-size: var(--typography-font-size-h4, 1.125rem);
-  line-height: var(--typography-line-height-xl, 1.75rem); /* 155.556% */
+  font-size: var(--typography-font-size-h4, 1rem);
+  letter-spacing: -0.16px;
 }
 
-/* Topic headings */
+/* h5 */
 .boostlook h5,
 .boostlook .doc h5 {
-  font-size: var(--font-size-sm, 1rem);
-  line-height: var(--font-line-height-lg, 1.5rem);
+  font-size: var(--font-size-xs, 0.875rem);
+  letter-spacing: -0.14px;
 }
 
-/* Subtopic headings */
+/* h6 */
 .boostlook h6,
 .boostlook .doc h6 {
-  font-size: var(--font-size-xs, 0.875rem);
-  line-height: var(--font-line-height-md, 1.25rem);
+  font-size: var(--font-size-2xs, 0.75rem);
+  letter-spacing: -0.12px;
 }
 
 /* Document-specific headings adjustments */
@@ -1161,13 +1270,14 @@ body :not(pre):not([class^="L"]) > code {
   opacity: 1;
 }
 
-/* Paragraph Styling */
+/* Paragraph Styling — Metalab 2.0: Sans/Desktop/Regular/Base/Tight */
 .boostlook p {
   padding-top: initial !important;
   padding-bottom: initial !important;
-  color: var(--text-main-text-body-primary, #2a2c30);
+  color: var(--text-main-text-body-secondary, #585A64);
   font-size: var(--typography-font-size-sm, 1rem);
-  line-height: var(--typography-line-height-lg, 1.5rem); /* 150% */
+  line-height: 120%;
+  letter-spacing: -0.16px;
 }
 
 /* Components margins */
@@ -1296,7 +1406,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 /* Text Emphasis */
 .boostlook b,
 .boostlook strong {
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
   text-shadow: none;
 }
 
@@ -1377,8 +1487,8 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 .boostlook .sidebarblock {
   padding: var(--spacing-size-xs, 0.75rem) var(--spacing-size-sm, 1rem);
   background: var(--atom-one-light-bg, #fafafa) !important;
-  border-radius: 0;
-  border: none;
+  border-radius: var(--radius-xxl, 1rem);
+  border: 1px solid var(--border-border-primary, #e4e7ea);
   box-shadow: none;
 }
 
@@ -1430,7 +1540,7 @@ html.dark .boostlook .listingblock > .content > pre {
   color: var(--text-main-text-body-primary, #2a2c30);
   font-size: var(--typography-font-size-xs, 0.875rem);
   font-style: normal;
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
   line-height: var(--typography-line-height-md, 1.25rem);
   letter-spacing: unset;
   padding-bottom: var(--padding-padding-2xs, 0.5rem);
@@ -1538,8 +1648,8 @@ html.dark .boostlook .listingblock > .content > pre {
 .boostlook .highlight pre,
 .boostlook .content:has(> pre) pre.highlight,
 .boostlook .literalblock > .content > pre:not(.highlight) {
-  border: 1px solid var(--border-border-secondary, #d5d7d9);
-  border-radius: 0;
+  border: 1px solid var(--border-border-primary, #e4e7ea);
+  border-radius: var(--radius-xxl, 1rem);
 }
 .boostlook .content:has(> pre):has(> .source-toolbox) pre {
   /*border: 1px solid var(--border-border-secondary, #d5d7d9);*/
@@ -1580,7 +1690,7 @@ html.dark .boostlook .listingblock > .content > pre {
   font-family: "Noto Sans";
   font-size: var(--typography-font-size-2xs, 0.75rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem); /* 133.333% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
   text-transform: uppercase;
@@ -1666,7 +1776,7 @@ html.dark .boostlook .listingblock > .content > pre {
   color: var(--text-main-text-primary, #18191b);
   text-align: center;
   font-size: var(--typography-font-size-sm, 1rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-lg, 1.5rem); /* 150% */
 }
 
@@ -1677,9 +1787,9 @@ html.dark .boostlook .listingblock > .content > pre {
 .boostlook .doc .colist > table code:not(:has(> code)) {
   display: inline;
   color: var(--text-code-neutral, #0d0e0f);
-  font-size: 0.96em;
+  font-size: 0.88em;
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-md);
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -1769,10 +1879,20 @@ html.dark .boostlook .listingblock > .content > pre {
   text-decoration-color: var(--border-border-blue, #92cbe9);
 }
 
-/* Syntax Highlighting */
+/* Syntax Highlighting — Figma mapping:
+ * Blue  (#1345E8 / #38DDFF) — types & keywords (int, void, const, class, namespace…)
+ * Green (#289D30 / #72FE92) — function names, strings
+ * Yellow(#A3A38C / #FFF173) — punctuation, numbers, attributes
+ * Pink  (#D31FA7 / #F358C0) — preprocessor, special identifiers
+ * Grey  (#9E9E9E / #A3A3A3) — comments
+ * Text  (--text-main-text-body-primary) — plain identifiers
+ */
+
+/* Keywords & types → Blue */
 .boostlook .hljs-keyword,
 .boostlook .hljs-selector-tag,
 .boostlook .hljs-subst,
+.boostlook .hljs-type,
 .boostlook pre span.k,
 .boostlook pre span.kc,
 .boostlook pre span.kd,
@@ -1782,9 +1902,17 @@ html.dark .boostlook .listingblock > .content > pre {
 .boostlook pre span.kt,
 .boostlook pre span.keyword,
 .boostlook pre span.property {
-  color: var(--text-code-purple, #9f26e5);
+  color: var(--text-code-blue, #1345E8);
 }
 
+/* Function names & titles → Green */
+.boostlook .hljs-title,
+.boostlook .hljs-section,
+.boostlook .hljs-selector-id {
+  color: var(--text-code-green, #289D30);
+}
+
+/* Identifiers → neutral text */
 .boostlook pre span.n,
 .boostlook pre span.na,
 .boostlook pre span.nb,
@@ -1808,6 +1936,7 @@ html.dark .boostlook .listingblock > .content > pre {
   color: var(--text-main-text-body-primary, #2a2c30);
 }
 
+/* Comments → Grey italic */
 .boostlook pre span.c,
 .boostlook pre span.ch,
 .boostlook pre span.cm,
@@ -1821,38 +1950,19 @@ html.dark .boostlook .listingblock > .content > pre {
 .boostlook .hljs-comment,
 .boostlook .cpp-comment,
 .boostlook .hljs-quote,
-.boostlook .hljs-addition,
-.boostlook .hljs-built_in,
 .boostlook .hljs-bullet,
 .boostlook .hljs-code {
-  color: var(--atom-one-light-comment, #a0a1a7);
+  color: var(--text-code-grey, #9E9E9E);
   font-family: "Monaspace Xenon", monospace;
   font-style: italic;
 }
 
-/* Dark theme comment color */
-html.dark .boostlook pre span.c,
-html.dark .boostlook pre span.ch,
-html.dark .boostlook pre span.cm,
-html.dark .boostlook pre span.cp,
-html.dark .boostlook pre span.cpf,
-html.dark .boostlook pre span.c1,
-html.dark .boostlook pre span.cs,
-html.dark .boostlook pre span.sd,
-html.dark .boostlook pre span.sh,
-html.dark .boostlook pre span.comment,
-html.dark .boostlook .hljs-comment,
-html.dark .boostlook .cpp-comment,
-html.dark .boostlook .hljs-quote,
-html.dark .boostlook .hljs-addition,
-html.dark .boostlook .hljs-built_in,
-html.dark .boostlook .hljs-bullet,
-html.dark .boostlook .hljs-code {
-  color: var(--atom-one-dark-comment, #5c6370);
-  font-family: "Monaspace Xenon", monospace;
-  font-style: italic;
+/* Built-in functions → Green (like function names) */
+.boostlook .hljs-built_in {
+  color: var(--text-code-green, #289D30);
 }
 
+/* Strings → Green */
 .boostlook pre span.s,
 .boostlook pre span.sa,
 .boostlook pre span.sb,
@@ -1867,20 +1977,25 @@ html.dark .boostlook .hljs-code {
 .boostlook pre span.string,
 .boostlook .hljs-doctag,
 .boostlook .hljs-string,
-.boostlook .hljs-deletion,
-.boostlook .hljs-number,
-.boostlook .hljs-quote,
-.boostlook .hljs-selector-class,
-.boostlook .hljs-selector-id,
-.boostlook .hljs-template-tag,
-.boostlook .hljs-type {
-  color: var(--text-code-red, #f9677f);
+.boostlook .hljs-addition {
+  color: var(--text-code-green, #289D30);
 }
 
-.boostlook .hljs-section,
-.boostlook .hljs-selector-id,
-.boostlook .hljs-title {
-  color: var(--text-code-blue, #329cd2);
+/* Numbers, punctuation, attributes → Yellow */
+.boostlook .hljs-number {
+  color: var(--text-code-yellow, #A3A38C);
+}
+
+/* Preprocessor / meta → Pink */
+.boostlook .hljs-meta {
+  color: var(--text-code-pink, #D31FA7);
+}
+
+/* Deletion, misc → Red */
+.boostlook .hljs-deletion,
+.boostlook .hljs-selector-class,
+.boostlook .hljs-template-tag {
+  color: var(--text-code-red, #f9677f);
 }
 
 .boostlook .hljs-attribute,
@@ -1901,8 +2016,134 @@ html.dark .boostlook .hljs-code {
   font-weight: inherit;
 }
 
-.boostlook .hljs-meta {
-  color: inherit;
+/* Dark mode hljs overrides — beat site.css html.dark .hljs-* selectors */
+html.dark .boostlook .hljs-keyword,
+html.dark .boostlook .hljs-selector-tag,
+html.dark .boostlook .hljs-subst,
+html.dark .boostlook .hljs-type {
+  color: var(--text-code-blue, #38DDFF);
+}
+
+html.dark .boostlook .hljs-title,
+html.dark .boostlook .hljs-section,
+html.dark .boostlook .hljs-selector-id,
+html.dark .boostlook .hljs-built_in {
+  color: var(--text-code-green, #72FE92);
+}
+
+html.dark .boostlook .hljs-comment,
+html.dark .boostlook .hljs-quote,
+html.dark .boostlook .hljs-bullet,
+html.dark .boostlook .hljs-code {
+  color: var(--text-code-grey, #A3A3A3);
+  font-style: italic;
+}
+
+html.dark .boostlook .hljs-doctag,
+html.dark .boostlook .hljs-string,
+html.dark .boostlook .hljs-addition {
+  color: var(--text-code-green, #72FE92);
+}
+
+html.dark .boostlook .hljs-number,
+html.dark .boostlook .hljs-literal,
+html.dark .boostlook .hljs-variable,
+html.dark .boostlook .hljs-template-variable {
+  color: var(--text-code-yellow, #FFF173);
+}
+
+html.dark .boostlook .hljs-meta {
+  color: var(--text-code-pink, #F358C0);
+}
+
+html.dark .boostlook .hljs-deletion,
+html.dark .boostlook .hljs-selector-class,
+html.dark .boostlook .hljs-template-tag {
+  color: var(--text-code-red, #e06c75);
+}
+
+html.dark .boostlook .hljs-attribute,
+html.dark .boostlook .hljs-name,
+html.dark .boostlook .hljs-tag {
+  color: var(--text-main-text-primary, #f5f6f8);
+}
+
+/* Override cpp-highlight theme from site.css */
+.boostlook .doc pre.highlight code.cpp-highlight,
+.boostlook pre.highlight code.cpp-highlight,
+.boostlook code.cpp-highlight {
+  color: var(--text-main-text-body-primary, #050816);
+}
+
+.boostlook .doc pre.highlight code.cpp-highlight .cpp-keyword,
+.boostlook pre.highlight code.cpp-highlight .cpp-keyword,
+.boostlook code.cpp-highlight .cpp-keyword {
+  color: var(--text-code-blue, #1345E8);
+}
+
+.boostlook .doc pre.highlight code.cpp-highlight .cpp-string,
+.boostlook pre.highlight code.cpp-highlight .cpp-string,
+.boostlook code.cpp-highlight .cpp-string {
+  color: var(--text-code-green, #289D30);
+}
+
+.boostlook .doc pre.highlight code.cpp-highlight .cpp-preprocessor,
+.boostlook pre.highlight code.cpp-highlight .cpp-preprocessor,
+.boostlook code.cpp-highlight .cpp-preprocessor {
+  color: var(--text-code-pink, #D31FA7);
+}
+
+.boostlook .doc pre.highlight code.cpp-highlight .cpp-comment,
+.boostlook pre.highlight code.cpp-highlight .cpp-comment,
+.boostlook code.cpp-highlight .cpp-comment {
+  color: var(--text-code-grey, #9E9E9E);
+  font-family: "Monaspace Xenon", monospace;
+  font-style: italic;
+}
+
+.boostlook .doc pre.highlight code.cpp-highlight .cpp-attribute,
+.boostlook pre.highlight code.cpp-highlight .cpp-attribute,
+.boostlook code.cpp-highlight .cpp-attribute {
+  color: var(--text-code-yellow, #A3A38C);
+}
+
+/* Dark mode cpp-highlight overrides */
+html.dark .boostlook .doc pre.highlight code.cpp-highlight,
+html.dark .boostlook pre.highlight code.cpp-highlight,
+html.dark .boostlook code.cpp-highlight {
+  color: var(--text-main-text-primary, #f5f6f8);
+}
+
+html.dark .boostlook .doc pre.highlight code.cpp-highlight .cpp-keyword,
+html.dark .boostlook pre.highlight code.cpp-highlight .cpp-keyword,
+html.dark .boostlook code.cpp-highlight .cpp-keyword {
+  color: var(--text-code-blue, #38DDFF);
+}
+
+html.dark .boostlook .doc pre.highlight code.cpp-highlight .cpp-string,
+html.dark .boostlook pre.highlight code.cpp-highlight .cpp-string,
+html.dark .boostlook code.cpp-highlight .cpp-string {
+  color: var(--text-code-green, #72FE92);
+}
+
+html.dark .boostlook .doc pre.highlight code.cpp-highlight .cpp-preprocessor,
+html.dark .boostlook pre.highlight code.cpp-highlight .cpp-preprocessor,
+html.dark .boostlook code.cpp-highlight .cpp-preprocessor {
+  color: var(--text-code-pink, #F358C0);
+}
+
+html.dark .boostlook .doc pre.highlight code.cpp-highlight .cpp-comment,
+html.dark .boostlook pre.highlight code.cpp-highlight .cpp-comment,
+html.dark .boostlook code.cpp-highlight .cpp-comment {
+  color: var(--text-code-grey, #A3A3A3);
+  font-family: "Monaspace Xenon", monospace;
+  font-style: italic;
+}
+
+html.dark .boostlook .doc pre.highlight code.cpp-highlight .cpp-attribute,
+html.dark .boostlook pre.highlight code.cpp-highlight .cpp-attribute,
+html.dark .boostlook code.cpp-highlight .cpp-attribute {
+  color: var(--text-code-yellow, #FFF173);
 }
 
 /* Table Headings */
@@ -2020,7 +2261,7 @@ html.dark .boostlook .hljs-code {
   padding: var(--padding-padding-xs, 0.75rem);
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-sm, 1rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-lg, 1.5rem); /* 150% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
   text-decoration: none;
@@ -2050,7 +2291,7 @@ html.dark .boostlook .hljs-code {
   position: static;
   color: var(--text-main-text-body-quaternary, #949a9e);
   font-size: var(--typography-font-size-2xs, 0.75rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem); /* 133.333% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
   transform: revert;
@@ -2101,6 +2342,7 @@ html.dark .boostlook .hljs-code {
 }
 
 /* Admonitions */
+/* Admonitions — Metalab 2.0 */
 .boostlook #content .admonitionblock,
 .boostlook:not(:has(.doc)) div.note,
 .boostlook:not(:has(.doc)) div.tip,
@@ -2109,12 +2351,12 @@ html.dark .boostlook .hljs-code {
 .boostlook:not(:has(.doc)) div.warning,
 .boostlook:not(:has(.doc)) div.blurb,
 .boostlook:not(:has(.doc)) p.blurb {
-  padding: var(--padding-padding-xs, 0.75rem) var(--padding-padding-md, 1.125rem);
-  border-radius: var(--spacing-size-size-0, 0rem);
-  border: 1px solid transparent;
+  padding: var(--spacing-large, 1rem);
+  border-radius: var(--radius-xxl, 1rem);
+  border: 1px solid var(--border-border-primary, #e4e7ea);
   margin: revert;
   margin-left: var(--spacing-size-xl);
-  background: transparent;
+  background: var(--surface-background-main-base-primary, #fff);
 }
 
 .boostlook #content li .admonitionblock,
@@ -2159,7 +2401,7 @@ html.dark .boostlook .hljs-code {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-size-2xs, 0.5rem);
+  gap: 12px;
 }
 
 .boostlook #content .admonitionblock > table tr td {
@@ -2203,12 +2445,12 @@ html.dark .boostlook .hljs-code {
 .boostlook:not(:has(.doc)) p.blurb > table tr:first-child th > *,
 .boostlook #content .admonitionblock > table tr td.icon > *,
 .boostlook:not(:has(.doc)) .notices .heading {
-  color: var(--text-main-text-primary, #18191b);
-  font-size: var(--typography-font-size-sm, 1rem);
-  font-variation-settings: "wght" 600, "wdth" 62.5;
-  line-height: var(--typography-line-height-lg, 1.5rem);
-  letter-spacing: var(--spacing-size-size-0, 0rem);
-  /* text-transform: uppercase; */
+  color: var(--text-main-text-primary, #050816);
+  font-size: 1rem;
+  font-weight: 500;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
+  line-height: 100%;
+  letter-spacing: -0.16px;
 }
 .boostlook #content .admonitionblock > table tr td.icon > * {
   padding: 0;
@@ -2238,11 +2480,11 @@ html.dark .boostlook .hljs-code {
   /* Antora Template Correction*/
 .boostlook #content .admonitionblock > table tr td.content p,
 .boostlook:not(:has(.doc)) .notices .message p {
-  color: var(--text-main-text-primary, #18191b);
-  font-size: var(--typography-font-size-xs, 0.875rem);
-  font-variation-settings: "wght" 400, "wdth" 80;
-  line-height: var(--typography-line-height-lg, 1.5rem); /* 171.429% */
-  letter-spacing: var(--spacing-size-size-0, 0rem);
+  color: var(--text-main-text-body-tetriary, #717378);
+  font-size: 0.75rem;
+  font-variation-settings: "wght" 400, "wdth" 87.5;
+  line-height: 135%;
+  letter-spacing: -0.12px;
 }
 
 .boostlook:not(:has(.doc)) .notices .message {
@@ -2261,12 +2503,12 @@ html.dark .boostlook .hljs-code {
   padding: 0;
 }
 
-/* Note */
+/* Note — Metalab 2.0: neutral card */
 .boostlook #content .admonitionblock.note,
 .boostlook:not(:has(.doc)) div.note,
 .boostlook:not(:has(.doc)) .notices.note {
-  border-color: var(--border-border-blue-primary, #c2e2f4); /* var(--border-border-blue-primary, #c2e2f4) */
-  background-color: var(--surface-background-main-surface-blue-primary, #f6fafd);
+  border-color: var(--border-border-primary, #e4e7ea);
+  background-color: var(--surface-background-main-base-primary, #fff);
 }
 
 .boostlook #content .admonitionblock.note > table tr td.icon > *,
@@ -2383,7 +2625,7 @@ html.dark .boostlook .hljs-code {
   border: none;
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-xs, 0.875rem);
-  font-variation-settings: "wght" 400, "wdth" 80;
+  font-variation-settings: "wght" 400, "wdth" 87.5;
   line-height: var(--typography-line-height-lg, 1.5rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -2408,7 +2650,7 @@ html.dark .boostlook .hljs-code {
   color: var(--text-code-neutral, #0d0e0f);
   font-size: var(--typography-font-size-xs, 0.875rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-lg, 1.5rem); /* 171.429% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
   margin-bottom: 0;
@@ -2435,7 +2677,7 @@ html.dark .boostlook .hljs-code {
 
 .boostlook .dlist dl dt code,
 .boostlook:not(:has(.doc)) .variablelist dl dt code {
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
   font-family: var(--font-family-code, 'Monaspace Neon');
 }
 
@@ -2479,7 +2721,7 @@ html.dark .boostlook .hljs-code {
 .boostlook .dlist dl dd em,
 .boostlook:not(:has(.doc)) .variablelist dl dd em {
   font: inherit;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
 }
 
 /* Edit Page Link */
@@ -2488,7 +2730,7 @@ html.dark .boostlook .hljs-code {
   text-align: right;
   font-size: var(--typography-font-size-2xs, 0.75rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem); /* 133.333% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
   padding: 0 var(--padding-padding-2xs, 0.5rem);
@@ -2515,7 +2757,7 @@ html.dark .boostlook .hljs-code {
   padding-bottom: var(--padding-padding-sm);
   color: var(--text-main-text-body-quaternary, #949a9e);
   font-size: var(--typography-font-size-xs);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem); /* 133.333% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -2593,6 +2835,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #content > ul:not([class])> li {
   position: relative;
   padding-left: 2rem;
+  line-height: var(--typography-line-height-lg, 1.5rem);
 }
 
 .boostlook ul.itemizedlist > li,
@@ -2604,6 +2847,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #content ul:not([class]) li,
 div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #content ol:not([class]) li {
   font: inherit;
+  line-height: var(--typography-line-height-lg, 1.5rem);
 }
 
 .boostlook ul.itemizedlist > li + li,
@@ -2653,6 +2897,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   position: relative;
   padding-left: 2rem;
   counter-increment: list-counter;
+  line-height: var(--typography-line-height-lg, 1.5rem);
 }
 
 .boostlook .olist.arabic > ol > li::before,
@@ -2689,6 +2934,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   position: relative;
   padding-left: 2rem;
   counter-increment: list-counter;
+  line-height: var(--typography-line-height-lg, 1.5rem);
 }
 
 .boostlook .olist.loweralpha > ol > li::before {
@@ -2703,7 +2949,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   justify-content: center;
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-xs, 0.875rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--Typography-line-height-lg, 1.5rem); /* 171.429% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -2718,7 +2964,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   justify-content: center;
   font-family: "Noto Sans";
   font-style: normal;
-  font-variation-settings: "wght" 350, "wdth" 80;
+  font-variation-settings: "wght" 350, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem);
   font-size: var(--typography-font-size-sm, 1rem);
   text-align: center;
@@ -2848,7 +3094,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   color: var(--text-main-text-body-primary, #2a2c30);
   font-size: var(--typography-font-size-xs, 0.875rem);
   font-style: normal;
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
   line-height: var(--typography-line-height-md, 1.25rem); /* 142.857% */
   padding: 0;
   padding-bottom: var(--padding-padding-2xs, 0.5rem);
@@ -2857,7 +3103,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 .boostlook #content table.tableblock caption > *,
 .boostlook:not(:has(.doc)) div.table .title > * {
   font: inherit;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   text-decoration: none;
 }
 
@@ -2865,13 +3111,15 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   padding-bottom: var(--padding-padding-2xs, 0.5rem) !important;
 }
 
+/* Table cells — Metalab 2.0 */
 .boostlook #content table.tableblock th,
 .boostlook #content table.tableblock td,
 .boostlook:not(:has(.doc)) table.table th,
 .boostlook:not(:has(.doc)) table.table td,
 .boostlook#libraryReadMe > table th,
 .boostlook#libraryReadMe > table td {
-  padding: var(--padding-padding-3xs, 0.25rem) var(--padding-padding-2xs, 0.5rem);
+  padding: 12px 16px;
+  min-height: 28px;
   text-align: left;
   border-top: 1px solid var(--border-border-primary, #e4e7ea);
   border-left: 1px solid var(--border-border-primary, #e4e7ea);
@@ -2922,27 +3170,30 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   /*border-bottom-right-radius: var(--spacing-size-2xs, 0.5rem);*/
 }
 
+/* Table header — Metalab 2.0: Surface-Mid bg */
 .boostlook #content table.tableblock th,
 .boostlook #content table.tableblock th strong,
 .boostlook:not(:has(.doc)) table.table th,
 .boostlook:not(:has(.doc)) table.table th strong,
 .boostlook#libraryReadMe > table th,
 .boostlook#libraryReadMe > table th strong {
-  background: var(--surface-background-main-surface-primary, #f5f6f8);
-  color: var(--text-main-text-primary, #000000);
-  font-size: var(--typography-font-size-xs, 0.875rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
-  line-height: var(--typography-line-height-lg, 1.5rem); /* 171.429% */
+  background: var(--surface-background-main-surface-primary, #f7f7f7);
+  color: var(--text-main-text-primary, #050816);
+  font-size: 0.75rem;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
+  line-height: 100%;
+  letter-spacing: -0.12px;
 }
 
+/* Table data — Metalab 2.0: 12px, Text-Secondary */
 .boostlook #content table.tableblock td,
 .boostlook:not(:has(.doc)) table.table td,
 .boostlook#libraryReadMe > table td {
-  color: var(--text-main-text-body-primary, #2a2c30);
-  font-size: var(--typography-font-size-xs, 0.875rem);
+  color: var(--text-main-text-body-secondary, #585A64);
+  font-size: 0.75rem;
   font-style: normal;
-  line-height: var(--typography-line-height-lg, 1.5rem); /* 171.429% */
-  letter-spacing: var(--spacing-size-size-0, 0rem);
+  line-height: 100%;
+  letter-spacing: -0.12px;
 }
 
 .boostlook#libraryReadMe > table td {
@@ -2992,7 +3243,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 .boostlook #content table.tableblock td strong,
 .boostlook:not(:has(.doc)) table.table td strong,
 .boostlook#libraryReadMe > table td strong {
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
 }
 
 .boostlook #content table.tableblock td code,
@@ -3216,7 +3467,7 @@ html:has(#docsiframe)::-webkit-scrollbar {
 
 /* Article Layout */
 .article.toc2.toc-left {
-  min-height: 100vh;
+  height: 100vh;
   /* Simplified: always use offset behavior, never center */
   margin-left: var(--main-max-width-leftbar);
   background: var(--surface-background-main-base-primary, #fff);
@@ -3290,7 +3541,7 @@ div.source-docs-antora.boostlook:not(:has(article.doc)):not(:has(> .boostlook)) 
 .boostlook #toc > ul.sectlevel1 li:has(> ul) > a {
   color: var(--text-main-text-body-quaternary, #949a9e);
   font-size: var(--typography-font-size-2xs, 0.75rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -3357,7 +3608,7 @@ div.source-docs-antora.boostlook:not(:has(article.doc)):not(:has(> .boostlook)) 
   font-size: var(--typography-font-size-2xs, 0.75rem);
   line-height: var(--typography-line-height-sm, 1rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
 }
 
 /* TOC code in links */
@@ -3446,7 +3697,7 @@ html.is-clipped--nav:has(.boostlook) div#content {
     background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2224px%22%20viewBox%3D%220%20-960%20960%20960%22%20width%3D%2224px%22%20fill%3D%22%235f6368%22%3E%3Cpath%20d%3D%22M400-240l240-240-240-240-56%2056%20184%20184-184%20184%2056%2056Z%22%2F%3E%3C%2Fsvg%3E");
     background-repeat: no-repeat;
     background-position: center;
-    border-radius: 1rem;
+    border-radius: var(--radius-xxl, 1rem);
     height: 2rem;
     width: 2rem;
     text-indent: -9999px;
@@ -3522,74 +3773,39 @@ html.is-clipped--nav:has(.boostlook) div#content {
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-lg, 1.25rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-xl, 1.75rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
 
-/* Rouge Syntax Highlighting */
-/* Light theme Rouge syntax highlighting */
-.boostlook pre.rouge .k { /* Keywords like const, auto */
-  color: var(--atom-one-light-keyword, #a626a4);
-}
-.boostlook pre.rouge .kt { /* Types like char, int */
-  color: var(--atom-one-light-keyword, #a626a4);
+/* Rouge Syntax Highlighting — matches Figma mapping */
+.boostlook pre.rouge .k,
+.boostlook pre.rouge .kt { /* Keywords, types → Blue */
+  color: var(--text-code-blue, #1345E8);
 }
 .boostlook pre.rouge .n,
-.boostlook pre.rouge .nf { /* Names, identifiers, functions */
-  color: var(--atom-one-light-text, #383a42);
+.boostlook pre.rouge .nf { /* Names, identifiers, functions → Green */
+  color: var(--text-code-green, #289D30);
 }
-.boostlook pre.rouge .o { /* Operators */
-  color: var(--atom-one-light-operator, #e45649);
+.boostlook pre.rouge .o { /* Operators → Red */
+  color: var(--text-code-red, #e45649);
 }
 .boostlook pre.rouge .s,
 .boostlook pre.rouge .s1,
-.boostlook pre.rouge .s2 { /* Strings */
-  color: var(--atom-one-light-string, #50a14f);
+.boostlook pre.rouge .s2 { /* Strings → Green */
+  color: var(--text-code-green, #289D30);
 }
 .boostlook pre.rouge .mi,
-.boostlook pre.rouge .mf { /* Numbers */
-  color: var(--atom-one-light-variable, #986801);
+.boostlook pre.rouge .mf { /* Numbers → Yellow */
+  color: var(--text-code-yellow, #A3A38C);
 }
-.boostlook pre.rouge .p { /* Punctuation */
-  color: var(--atom-one-light-text, #383a42);
+.boostlook pre.rouge .p { /* Punctuation → Yellow */
+  color: var(--text-code-yellow, #A3A38C);
 }
 .boostlook pre.rouge .c,
 .boostlook pre.rouge .c1,
-.boostlook pre.rouge .cm { /* Comments */
-  color: var(--atom-one-light-comment, #a0a1a7);
-  font-family: "Monaspace Xenon", monospace;
-  font-style: italic;
-}
-
-/* Dark theme Rouge syntax highlighting */
-html.dark .boostlook pre.rouge .k,
-html.dark .boostlook pre.rouge .kt {
-  color: var(--atom-one-dark-keyword, #c678dd);
-}
-html.dark .boostlook pre.rouge .n,
-html.dark .boostlook pre.rouge .nf {
-  color: var(--atom-one-dark-text, #abb2bf);
-}
-html.dark .boostlook pre.rouge .o {
-  color: var(--atom-one-dark-operator, #e06c75);
-}
-html.dark .boostlook pre.rouge .s,
-html.dark .boostlook pre.rouge .s1,
-html.dark .boostlook pre.rouge .s2 {
-  color: var(--atom-one-dark-string, #98c379);
-}
-html.dark .boostlook pre.rouge .mi,
-html.dark .boostlook pre.rouge .mf {
-  color: var(--atom-one-dark-variable, #d19a66);
-}
-html.dark .boostlook pre.rouge .p {
-  color: var(--atom-one-dark-text, #abb2bf);
-}
-html.dark .boostlook pre.rouge .c,
-html.dark .boostlook pre.rouge .c1,
-html.dark .boostlook pre.rouge .cm {
-  color: var(--atom-one-dark-comment, #5c6370);
+.boostlook pre.rouge .cm { /* Comments → Grey */
+  color: var(--text-code-grey, #9E9E9E);
   font-family: "Monaspace Xenon", monospace;
   font-style: italic;
 }
@@ -3776,7 +3992,7 @@ html.dark .boostlook pre.rouge .cm {
   list-style: none;
   color: var(--text-main-text-body-tetriary, #62676b);
   font-size: var(--typography-font-size-xs, 0.875rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-lg, 1.5rem); /* 171.429% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -4021,7 +4237,7 @@ html.dark .boostlook pre.rouge .cm {
 #search-input {
   padding: 0.15rem 0.75rem 0.15rem 1.75rem !important;
   border: 1px solid var(--border-border-secondary);
-  border-radius: 6px;
+  border-radius: var(--radius-m, 0.375rem);
   background-color: var(--surface-background-main-surface-primary);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -4055,9 +4271,9 @@ html.dark .boostlook pre.rouge .cm {
   z-index: 100;
   top: 100%;
   right: 0;
-  margin-top: 8px;
+  margin-top: var(--spacing-default, 0.5rem);
   min-width: 400px;
-  border-radius: 8px;
+  border-radius: var(--radius-l, 0.5rem);
   background: var(--surface-background-main-base-primary);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
@@ -4065,7 +4281,7 @@ html.dark .boostlook pre.rouge .cm {
 .search-result-dataset {
   padding: 0.5rem;
   border: 1px solid var(--border-border-secondary);
-  border-radius: 8px;
+  border-radius: var(--radius-l, 0.5rem);
   min-width: 580px;
   max-height: calc(100vh - 6rem);
   overflow: auto;
@@ -4087,7 +4303,7 @@ html.dark .boostlook pre.rouge .cm {
 .search-result-item {
   display: flex;
   margin: 0.25rem 0;
-  border-radius: 6px;
+  border-radius: var(--radius-m, 0.375rem);
 }
 
 .search-result-item:hover {
@@ -4137,7 +4353,7 @@ html.dark .boostlook pre.rouge .cm {
 
 .search-result-document-hit .search-result-highlight {
   padding: 0.1em 0.2em;
-  border-radius: 2px;
+  border-radius: var(--radius-xs, 0.125rem);
   background: var(--colors-blue-50);
   color: var(--text-main-text-link-blue);
   font-weight: 500;
@@ -4292,7 +4508,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(> .boostlook)) {
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-2xl, 1.75rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-3xl, 2.5rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
   margin: 0;
@@ -4313,7 +4529,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-lg, 1.25rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-xl, 1.75rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -4428,7 +4644,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(> .boostlook)) > #cont
   padding: var(--spacing-size-3xs, 0.25rem);
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-2xs, 0.75rem);
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem); /* 133.333% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -4476,6 +4692,18 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(> .boostlook)) div.spi
 /* Content Blocks */
 .boostlook:not(:has(.doc)) .inlinemediaobject:has(> img):first-child:last-child {
   margin: var(--padding-padding-xs, 0.75rem) 0;
+}
+
+.boostlook :is(h1, h2, h3, h4, h5) code,
+.boostlook .doc :is(h1, h2, h3, h4, h5) code {
+  background: transparent !important;
+  border: none;
+  font-size: 0.85em;
+  font-weight: 400;
+  color: inherit;
+  padding: 0;
+  display: initial;
+  transition: none;
 }
 
 .boostlook:not(:has(.doc)) a:is(h1 a, h2 a, h3 a, h4 a, h5 a) code {
@@ -4556,7 +4784,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(> .boostlook)) div.spi
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-md, 1.125rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-xl, 1.75rem); /* 155.556% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -4586,7 +4814,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(> .boostlook)) div.spi
   color: var(--text-main-text-body-tetriary, #62676b);
   font-size: var(--typography-font-size-xs, 0.875rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-lg, 1.5rem); /* 171.429% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -4626,7 +4854,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(> .boostlook)) div.spi
 .boostlook:not(:has(.doc)) .copyright-footer {
   color: var(--text-main-text-body-quaternary, #949a9e);
   font-size: var(--typography-font-size-xs);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
   text-align: left;
