@@ -136,6 +136,9 @@ html {
   --border-border-blue-primary: var(--colors-secondary-100);
   --border-border-blue-hover: var(--colors-secondary-400);
 
+  --surface-weak: var(--colors-primary-0);
+  --stroke-weak: rgba(13 14 15 / 0.1);
+
   /*----------------- New Look Variables End -----------------*/
 }
 
@@ -264,6 +267,9 @@ html.dark {
   --border-border-blue: var(--colors-secondary-700);
   --border-border-blue-primary: var(--colors-secondary-850);
   --border-border-blue-hover: var(--colors-secondary-500);
+
+  --surface-weak: var(--colors-primary-900);
+  --stroke-weak: rgba(255 255 255 / 0.1);
 
   /*----------------- New Look Variables Dark Mode Start -----------------*/
 }

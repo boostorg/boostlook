@@ -333,7 +333,7 @@
 .boostlook #content .admonitionblock > table tr td.content p,
 .boostlook:not(:has(.doc)) .notices .message p {
   color: var(--text-main-text-body-tetriary, #717378);
-  font-size: 0.75rem;
+  font-size: var(--typography-font-size-sm, 0.875rem);
   font-variation-settings: "wght" 400, "wdth" 87.5;
   line-height: 135%;
   letter-spacing: -0.12px;
@@ -359,8 +359,8 @@
 .boostlook #content .admonitionblock.note,
 .boostlook:not(:has(.doc)) div.note,
 .boostlook:not(:has(.doc)) .notices.note {
-  border-color: var(--border-border-primary, #e4e7ea);
-  background-color: var(--surface-background-main-base-primary, #fff);
+  border-color: var(--stroke-weak, rgba(13 14 15 / 0.1));
+  background-color: var(--surface-weak, #fff);
 }
 
 .boostlook #content .admonitionblock.note > table tr td.icon > *,
