@@ -6,9 +6,10 @@
 <style>html.fonts-loading{visibility:hidden;opacity:0}</style>
 <script>document.documentElement.classList.add('fonts-loading');</script>
 
-<link rel="preload" href="../../_/font/MonaSansVF.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
-<link rel="preload" href="../../_/font/MonaspaceNeon-Regular.otf" as="font" type="font/otf" crossorigin="anonymous" />
-<link rel="preload" href="../../_/font/MonaspaceXenon-Italic.otf" as="font" type="font/otf" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
 
 <script>
 (function() {
@@ -33,22 +34,22 @@
   var fonts = [
     {
       family: 'Noto Sans',
-      url: uiRoot + '/font/MonaSansVF.ttf',
-      descriptors: { style: 'normal', weight: '100 900' }
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
     },
     {
       family: 'Noto Sans',
-      url: uiRoot + '/font/MonaSansVF.ttf',
-      descriptors: { style: 'italic', weight: '100 900' }
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
     },
     {
       family: 'Monaspace Neon',
-      url: uiRoot + '/font/MonaspaceNeon-Regular.otf',
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
       descriptors: { style: 'normal', weight: '400' }
     },
     {
       family: 'Monaspace Xenon',
-      url: uiRoot + '/font/MonaspaceXenon-Italic.otf',
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
       descriptors: { style: 'italic', weight: '400' }
     }
   ];
