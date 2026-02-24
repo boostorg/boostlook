@@ -100,7 +100,7 @@ html.dark .boostlook .listingblock > .content > pre {
 .boostlook .content:has(> pre.highlight) {
   border-radius: 0;
   /*border: 1px solid var(--border-border-secondary, #d5d7d9);*/
-  background: var(--surface-background-main-surface-secondary, #e4e7ea);
+  background: none;
 }
 
 .boostlook pre.programlisting,
@@ -177,8 +177,6 @@ html.dark .boostlook .listingblock > .content > pre {
 }
 
 /* Apply left margin only if code block not in definition block or in table */
-.boostlook .listingblock:has(> .content > pre):not(:is(dd pre, td pre)),
-.boostlook .listingblock:has(> .content > pre.highlight):not(:is(dd pre, td pre)),
 .boostlook:not(:has(.doc)) pre.programlisting:not(:is(dd pre, td pre)),
 .boostlook:not(:has(.doc)) pre.synopsis:not(:is(dd pre, td pre)),
 .boostlook#libraryReadMe > pre:not(:is(dd pre, td pre)),
@@ -197,9 +195,6 @@ html.dark .boostlook .listingblock > .content > pre {
 .boostlook .olist.arabic > ol > li .listingblock:has(> .content > pre):not(:is(dd pre, td pre)),
 .boostlook:not(:has(.doc)) .orderedlist > ol > li .listingblock:has(> .content > pre.highlight):not(:is(dd pre, td pre)) {
   margin-left: 0;
-}
-.boostlook .listingblock:has(> .content > pre):not(:is(dd pre, td pre)), .boostlook .listingblock:has(> .content > pre.highlight):not(:is(dd pre, td pre)) {
-  margin-left: var(--spacing-size-xl);
 }
 
 .boostlook .listingblock:has(> .content > pre):not(:is(dd pre, td pre)):has(.title) {

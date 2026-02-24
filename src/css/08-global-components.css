@@ -208,7 +208,6 @@
   border-radius: var(--radius-xxl, 1rem);
   border: 1px solid var(--border-border-primary, #e4e7ea);
   margin: revert;
-  margin-left: var(--spacing-size-xl);
   background: var(--surface-background-main-base-primary, #fff);
 }
 

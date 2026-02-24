@@ -35,16 +35,6 @@
   display: revert;
 }
 
-/* Add intendation */
-.boostlook #content .sectionbody > table.tableblock,
-.boostlook #content .section > table.tableblock,
-.boostlook .sectionbody > div.informaltable:not(:is(.informaltable:has(> table:nth-of-type(2)):not(:has(> *:not(table))))),
-.boostlook .section > div.informaltable:not(:is(.informaltable:has(> table:nth-of-type(2)):not(:has(> *:not(table))))),
-.boostlook:not(:has(.doc)) .sectionbody > div.table .table-contents,
-.boostlook:not(:has(.doc)) .section > div.table .table-contents,
-.boostlook#libraryReadMe > table {
-  margin-left: var(--spacing-size-xl, 2rem);
-}
 
 .boostlook #content table.tableblock:not(:first-child),
 .boostlook:not(:has(.doc)) .table:not(:first-child),
@@ -56,7 +46,6 @@
 .boostlook:not(:has(.doc)) table.table,
 .boostlook#libraryReadMe > table.stretch {
   min-width: 100%;
-  margin-left: var(--spacing-size-xl, 2rem);
 }
 
 .boostlook #content table.tableblock caption,

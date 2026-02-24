@@ -138,7 +138,6 @@
   --colors-primary-50: #f5f6f8;
   --colors-primary-100: #e4e7ea;
   --colors-primary-200: #c7cccf;
-  --colors-primary-250: #f9f9f9;
   --colors-primary-300: #afb3b6;
   --colors-primary-400: #949a9e;
   --colors-primary-500: #798086;
@@ -150,17 +149,12 @@
   --colors-primary-950: #0d0e0f;
 
   /* Colors Brand Shades */
-  --colors-brand-orange-50: #fbf2e6;
   --colors-brand-orange-100: #ffeaca;
   --colors-brand-orange-200: #ffd897;
-  --colors-brand-orange-300: #ffc364;
   --colors-brand-orange-400: #ffb030;
   --colors-brand-orange-500: #ff9f00;
   --colors-brand-orange-600: #cd7e00;
-  --colors-brand-orange-700: #9b5f00;
-  --colors-brand-orange-800: #694000;
   --colors-brand-orange-900: #352000;
-  --colors-brand-orange-950: #1e1200;
 
   /* Colors Negative Shades */
   --colors-negative-50: #fdf1f3ff;
@@ -172,11 +166,9 @@
   --colors-negative-600: #bc233c;
   --colors-negative-700: #8d1529;
   --colors-negative-800: #600d1b;
-  --colors-negative-900: #39070f;
   --colors-negative-950: #1d0408;
 
   /* Colors Positive Shades */
-  --colors-positive-0: #f8fefb;
   --colors-positive-50: #f0fef7ff;
   --colors-positive-100: #def7eb;
   --colors-positive-200: #bdeed6;
@@ -186,13 +178,10 @@
   --colors-positive-600: #48ac7b;
   --colors-positive-700: #36825d;
   --colors-positive-800: #255940;
-  --colors-positive-850: #1c4431;
-  --colors-positive-900: #132f22;
   --colors-positive-950: #0a1b13;
 
   /* Colors Warning Shades */
   --colors-warning-0: rgba(255, 248, 243, 0.5);
-  --colors-warning-50: #fff8f3ff;
   --colors-warning-100: #ffefe2;
   --colors-warning-200: #ffd4b3;
   --colors-warning-300: #feb780;
@@ -201,12 +190,10 @@
   --colors-warning-600: #c25909;
   --colors-warning-700: #914104;
   --colors-warning-800: #5d2a02;
-  --colors-warning-900: #341700;
   --colors-warning-950: #1f0e01;
 
   /* Colors Blue Shades */
   --colors-blue-0: #f6fafd;
-  --colors-blue-25: #ebf4f9;
   --colors-blue-50: #daeef9;
   --colors-blue-100: #c2e2f4;
   --colors-blue-200: #92cbe9;
@@ -220,45 +207,19 @@
   --colors-blue-900: #001a28;
   --colors-blue-950: #000d14;
 
-  /* Colors Code Syntax Pallette */
-  --colors-code-colors-red: var(--colors-negative-400);
-  --colors-code-colors-green: var(--colors-positive-500);
-  --colors-code-colors-blue: var(--colors-blue-300);
-  --colors-code-colors-black: var(--colors-primary-950);
-  --colors-code-colors-yellow: #ebc419;
-  --colors-code-colors-purple: #b350ed;
-  --colors-code-colors-turquoise: #67eaf9;
-  --colors-code-colors-white: var(--colors-primary-0);
-  --colors-code-colors-red-contrast: var(--colors-negative-500);
-  --colors-code-colors-green-contrast: var(--colors-positive-600);
-  --colors-code-colors-blue-contrast: var(--colors-blue-400);
-  --colors-code-colors-yellow-contrast: #d7a200;
-  --colors-code-colors-purple-contrast: #9f26e5;
-  --colors-code-colors-turquoise-contrast: #0dc4d5;
-  --colors-code-colors-navy: #5469f7;
-  --colors-code-colors-navy-contrast: #162ec6;
-
   /* Atom One Dark Theme Colors */
   --atom-one-dark-bg: #282c34;
   --atom-one-dark-text: #abb2bf;
-  --atom-one-dark-comment: #5c6370;
   --atom-one-dark-keyword: #c678dd;
   --atom-one-dark-operator: #e06c75;
-  --atom-one-dark-function: #61aeee;
-  --atom-one-dark-string: #98c379;
-  --atom-one-dark-variable: #d19a66;
   --atom-one-dark-constant: #56b6c2;
   --atom-one-dark-class: #e6c07b;
 
   /* Atom One Light Theme Colors */
   --atom-one-light-bg: #fafafa;
   --atom-one-light-text: #383a42;
-  --atom-one-light-comment: #a0a1a7;
   --atom-one-light-keyword: #a626a4;
   --atom-one-light-operator: #e45649;
-  --atom-one-light-function: #4078f2;
-  --atom-one-light-string: #50a14f;
-  --atom-one-light-variable: #986801;
   --atom-one-light-constant: #0184bb;
   --atom-one-light-class: #c18401;
 
@@ -290,7 +251,6 @@
   /* Colors Other */
   --colors-primary-150: #d5d7d9;
   --colors-primary-850: #2a2c30;
-  --colors-primary-750: #1c1c1c;
   --colors-overlay-overlay-white-40: rgba(255 255 255 / 0.4);
   --colors-overlay-overlay-black-40: rgba(13 14 15 / 0.4);
   --colors-overlay-overlay-white-64: rgba(255 255 255 / 0.64);
