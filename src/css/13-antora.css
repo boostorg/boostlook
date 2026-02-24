@@ -439,7 +439,7 @@
 #search-input:focus {
   outline: none;
   border-color: var(--border-border-blue-primary);
-  box-shadow: 0 0 0 3px var(--colors-blue-50);
+  box-shadow: 0 0 0 3px var(--colors-secondary-50);
 }
 
 #search-input:disabled {
@@ -537,7 +537,7 @@
 .search-result-document-hit .search-result-highlight {
   padding: 0.1em 0.2em;
   border-radius: var(--radius-xs, 0.125rem);
-  background: var(--colors-blue-50);
+  background: var(--colors-secondary-50);
   color: var(--text-main-text-link-blue);
   font-weight: 500;
 }

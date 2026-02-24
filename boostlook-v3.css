@@ -192,20 +192,20 @@
   --colors-warning-800: #5d2a02;
   --colors-warning-950: #1f0e01;
 
-  /* Colors Blue Shades */
-  --colors-blue-0: #f6fafd;
-  --colors-blue-50: #daeef9;
-  --colors-blue-100: #c2e2f4;
-  --colors-blue-200: #92cbe9;
-  --colors-blue-300: #62b3dd;
-  --colors-blue-400: #329cd2;
-  --colors-blue-500: #0284c7;
-  --colors-blue-600: #026a9f;
-  --colors-blue-700: #014f77;
-  --colors-blue-800: #013550;
-  --colors-blue-850: #01283c;
-  --colors-blue-900: #001a28;
-  --colors-blue-950: #000d14;
+  /* Colors Secondary (Blue) */
+  --colors-secondary-0: #f6fafd;
+  --colors-secondary-50: #daeef9;
+  --colors-secondary-100: #c2e2f4;
+  --colors-secondary-200: #92cbe9;
+  --colors-secondary-300: #62b3dd;
+  --colors-secondary-400: #329cd2;
+  --colors-secondary-500: #0284c7;
+  --colors-secondary-600: #026a9f;
+  --colors-secondary-700: #014f77;
+  --colors-secondary-800: #013550;
+  --colors-secondary-850: #01283c;
+  --colors-secondary-900: #001a28;
+  --colors-secondary-950: #000d14;
 
   /* Atom One Dark Theme Colors */
   --atom-one-dark-bg: #282c34;
@@ -527,13 +527,13 @@ html {
   --text-buttons-button-label-inactive: var(--colors-primary-500);
 
   --text-main-text-primary: var(--colors-primary-900);
-  --text-main-text-link-blue-secondary: var(--colors-blue-500);
-  --text-main-text-link-blue-tetriary: var(--colors-blue-400);
+  --text-main-text-link-blue-secondary: var(--colors-secondary-500);
+  --text-main-text-link-blue-tetriary: var(--colors-secondary-400);
   --text-main-text-body-secondary: var(--colors-primary-700);
   --text-main-text-body-quaternary: var(--colors-primary-400);
   --text-main-text-body-tetriary: var(--colors-primary-600);
   --text-main-text-body-primary: var(--colors-primary-650);
-  --text-main-text-link-blue: var(--colors-blue-600);
+  --text-main-text-link-blue: var(--colors-secondary-600);
 
   --text-states-text-warning-tetriary: var(--colors-warning-600);
   --text-states-text-warning-secondary: var(--colors-warning-500);
@@ -544,9 +544,9 @@ html {
   --text-states-text-warning: var(--colors-warning-400);
   --text-states-text-positive: var(--colors-positive-400);
   --text-states-text-negative: var(--colors-negative-400);
-  --text-states-text-additional: var(--colors-blue-400);
-  --text-states-text-additional-secondary: var(--colors-blue-500);
-  --text-states-text-additional-tetriary: var(--colors-blue-600);
+  --text-states-text-additional: var(--colors-secondary-400);
+  --text-states-text-additional-secondary: var(--colors-secondary-500);
+  --text-states-text-additional-tetriary: var(--colors-secondary-600);
 
   --text-code-red: var(--atom-one-light-operator);
   --text-code-green: var(--colors-syntax-strong-green);
@@ -571,11 +571,11 @@ html {
   --surface-accent-green-strong: var(--colors-accent-strong-green);
 
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-400);
-  --surface-button-button-bg-primary-default: var(--colors-blue-700);
-  --surface-button-button-bg-primary-pressed: var(--colors-blue-700);
+  --surface-button-button-bg-primary-default: var(--colors-secondary-700);
+  --surface-button-button-bg-primary-pressed: var(--colors-secondary-700);
   --surface-button-button-bg-primary-inactive: var(--colors-primary-200);
   --surface-button-button-bg-secondary-cta-hover: var(--colors-brand-orange-500);
-  --surface-button-button-bg-primary-hover: var(--colors-blue-800);
+  --surface-button-button-bg-primary-hover: var(--colors-secondary-800);
   --surface-button-button-bg-secondary-cta-pressed: var(--colors-brand-orange-400);
   --surface-button-button-bg-secondary-cta-inactive: var(--colors-primary-200);
 
@@ -584,10 +584,10 @@ html {
   --surface-background-main-surface-primary: var(--colors-primary-50);
   --surface-background-main-surface-secondary: var(--colors-primary-100);
   --surface-background-main-surface-tetriary: var(--colors-primary-150);
-  --surface-background-main-surface-blue-primary: var(--colors-blue-0);
-  --surface-background-main-surface-blue-secondary: var(--colors-blue-50);
-  --surface-background-main-surface-blue-tetriary: var(--colors-blue-100);
-  --surface-background-main-surface-blue-quaternary: var(--colors-blue-200);
+  --surface-background-main-surface-blue-primary: var(--colors-secondary-0);
+  --surface-background-main-surface-blue-secondary: var(--colors-secondary-50);
+  --surface-background-main-surface-blue-tetriary: var(--colors-secondary-100);
+  --surface-background-main-surface-blue-quaternary: var(--colors-secondary-200);
   --surface-background-main-surface-transparent: var(--colors-overlay-overlay-white-64);
   --surface-background-main-surface-transparent-inverse: var(--colors-overlay-overlay-black-40);
   --surface-background-main-surface-transparent-secondary: var(--colors-overlay-overlay-white-88);
@@ -604,9 +604,9 @@ html {
   --surface-background-states-surface-negative-secondary: var(--colors-negative-100);
   --surface-background-states-surface-negative-tetriary: var(--colors-negative-200);
   --surface-background-states-surface-negative-quaternary: var(--colors-negative-300);
-  --surface-background-states-surface-additional-secondary: var(--colors-blue-100);
-  --surface-background-states-surface-additional-tetriary: var(--colors-blue-200);
-  --surface-background-states-surface-additional-quaternary: var(--colors-blue-300);
+  --surface-background-states-surface-additional-secondary: var(--colors-secondary-100);
+  --surface-background-states-surface-additional-tetriary: var(--colors-secondary-200);
+  --surface-background-states-surface-additional-quaternary: var(--colors-secondary-300);
 
   --surface-icons-icon-primary: var(--colors-primary-900);
   --surface-icons-icon-button-primary: var(--colors-primary-0);
@@ -621,8 +621,8 @@ html {
   --surface-icons-icon-positive: var(--colors-positive-600);
   --surface-icons-icon-negative: var(--colors-negative-600);
   --surface-icons-icon-brand-orange: var(--colors-brand-orange-600);
-  --surface-icons-icon-blue: var(--colors-blue-600);
-  --surface-icons-icon-blue-light: var(--colors-blue-200);
+  --surface-icons-icon-blue: var(--colors-secondary-600);
+  --surface-icons-icon-blue-light: var(--colors-secondary-200);
 
   --border-border-primary: var(--colors-primary-100);
   --border-border-secondary: var(--colors-primary-150);
@@ -633,9 +633,9 @@ html {
   --border-border-warning: var(--colors-warning-200);
   --border-border-positive: var(--colors-positive-200);
   --border-border-negative: var(--colors-negative-200);
-  --border-border-blue: var(--colors-blue-200);
-  --border-border-blue-primary: var(--colors-blue-100);
-  --border-border-blue-hover: var(--colors-blue-400);
+  --border-border-blue: var(--colors-secondary-200);
+  --border-border-blue-primary: var(--colors-secondary-100);
+  --border-border-blue-hover: var(--colors-secondary-400);
 
   /*----------------- New Look Variables End -----------------*/
 }
@@ -657,9 +657,9 @@ html.dark {
   --text-buttons-button-label-inactive: var(--colors-primary-500);
 
   --text-main-text-primary: var(--colors-primary-0);
-  --text-main-text-link-blue-secondary: var(--colors-blue-500);
-  --text-main-text-link-blue-tetriary: var(--colors-blue-600);
-  --text-main-text-link-blue: var(--colors-blue-400);
+  --text-main-text-link-blue-secondary: var(--colors-secondary-500);
+  --text-main-text-link-blue-tetriary: var(--colors-secondary-600);
+  --text-main-text-link-blue: var(--colors-secondary-400);
   --text-main-text-body-secondary: var(--colors-primary-200);
   --text-main-text-body-tetriary: var(--colors-primary-300);
   --text-main-text-body-quaternary: var(--colors-primary-600);
@@ -674,9 +674,9 @@ html.dark {
   --text-states-text-negative-secondary: var(--colors-negative-500);
   --text-states-text-negative-tetriary: var(--colors-negative-400);
   --text-states-text-negative: var(--colors-negative-600);
-  --text-states-text-additional: var(--colors-blue-600);
-  --text-states-text-additional-secondary: var(--colors-blue-500);
-  --text-states-text-additional-tetriary: var(--colors-blue-400);
+  --text-states-text-additional: var(--colors-secondary-600);
+  --text-states-text-additional-secondary: var(--colors-secondary-500);
+  --text-states-text-additional-tetriary: var(--colors-secondary-400);
 
   --text-code-red: var(--atom-one-dark-operator);
   --text-code-green: var(--colors-syntax-weak-green);
@@ -701,11 +701,11 @@ html.dark {
   --surface-accent-green-strong: var(--colors-accent-weak-green);
 
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-500);
-  --surface-button-button-bg-primary-default: var(--colors-blue-800);
-  --surface-button-button-bg-primary-pressed: var(--colors-blue-800);
+  --surface-button-button-bg-primary-default: var(--colors-secondary-800);
+  --surface-button-button-bg-primary-pressed: var(--colors-secondary-800);
   --surface-button-button-bg-primary-inactive: var(--colors-primary-800);
   --surface-button-button-bg-secondary-cta-hover: var(--colors-brand-orange-400);
-  --surface-button-button-bg-primary-hover: var(--colors-blue-700);
+  --surface-button-button-bg-primary-hover: var(--colors-secondary-700);
   --surface-button-button-bg-secondary-cta-pressed: var(--colors-brand-orange-500);
   --surface-button-button-bg-secondary-cta-inactive: var(--colors-primary-800);
 
@@ -714,10 +714,10 @@ html.dark {
   --surface-background-main-surface-primary: var(--colors-primary-900);
   --surface-background-main-surface-secondary: var(--colors-primary-850);
   --surface-background-main-surface-tetriary: var(--colors-primary-800);
-  --surface-background-main-surface-blue-primary: var(--colors-blue-900);
-  --surface-background-main-surface-blue-secondary: var(--colors-blue-900);
-  --surface-background-main-surface-blue-tetriary: var(--colors-blue-850);
-  --surface-background-main-surface-blue-quaternary: var(--colors-blue-800);
+  --surface-background-main-surface-blue-primary: var(--colors-secondary-900);
+  --surface-background-main-surface-blue-secondary: var(--colors-secondary-900);
+  --surface-background-main-surface-blue-tetriary: var(--colors-secondary-850);
+  --surface-background-main-surface-blue-quaternary: var(--colors-secondary-800);
   --surface-background-main-surface-transparent: var(--colors-overlay-overlay-black-64);
   --surface-background-main-surface-transparent-inverse: var(--colors-overlay-overlay-white-40);
   --surface-background-main-surface-transparent-secondary: var(--colors-overlay-overlay-black-88);
@@ -734,9 +734,9 @@ html.dark {
   --surface-background-states-surface-negative-secondary: var(--colors-negative-950);
   --surface-background-states-surface-negative-tetriary: var(--colors-negative-800);
   --surface-background-states-surface-negative-quaternary: var(--colors-negative-700);
-  --surface-background-states-surface-additional-secondary: var(--colors-blue-950);
-  --surface-background-states-surface-additional-tetriary: var(--colors-blue-800);
-  --surface-background-states-surface-additional-quaternary: var(--colors-blue-700);
+  --surface-background-states-surface-additional-secondary: var(--colors-secondary-950);
+  --surface-background-states-surface-additional-tetriary: var(--colors-secondary-800);
+  --surface-background-states-surface-additional-quaternary: var(--colors-secondary-700);
 
   --surface-icons-icon-primary: var(--colors-primary-0);
   --surface-icons-icon-button-primary: var(--colors-primary-0);
@@ -750,8 +750,8 @@ html.dark {
   --surface-icons-icon-positive: var(--colors-positive-400);
   --surface-icons-icon-negative: var(--colors-negative-400);
   --surface-icons-icon-brand-orange: var(--colors-brand-orange-400);
-  --surface-icons-icon-blue: var(--colors-blue-400);
-  --surface-icons-icon-blue-light: var(--colors-blue-700);
+  --surface-icons-icon-blue: var(--colors-secondary-400);
+  --surface-icons-icon-blue-light: var(--colors-secondary-700);
 
   --border-border-primary: var(--colors-primary-850);
   --border-border-secondary: var(--colors-primary-800);
@@ -762,9 +762,9 @@ html.dark {
   --border-border-warning: var(--colors-warning-800);
   --border-border-positive: var(--colors-positive-800);
   --border-border-negative: var(--colors-negative-800);
-  --border-border-blue: var(--colors-blue-700);
-  --border-border-blue-primary: var(--colors-blue-850);
-  --border-border-blue-hover: var(--colors-blue-500);
+  --border-border-blue: var(--colors-secondary-700);
+  --border-border-blue-primary: var(--colors-secondary-850);
+  --border-border-blue-hover: var(--colors-secondary-500);
 
   /*----------------- New Look Variables Dark Mode Start -----------------*/
 }
@@ -4205,7 +4205,7 @@ html.is-clipped--nav:has(.boostlook) div#content {
 #search-input:focus {
   outline: none;
   border-color: var(--border-border-blue-primary);
-  box-shadow: 0 0 0 3px var(--colors-blue-50);
+  box-shadow: 0 0 0 3px var(--colors-secondary-50);
 }
 
 #search-input:disabled {
@@ -4303,7 +4303,7 @@ html.is-clipped--nav:has(.boostlook) div#content {
 .search-result-document-hit .search-result-highlight {
   padding: 0.1em 0.2em;
   border-radius: var(--radius-xs, 0.125rem);
-  background: var(--colors-blue-50);
+  background: var(--colors-secondary-50);
   color: var(--text-main-text-link-blue);
   font-weight: 500;
 }

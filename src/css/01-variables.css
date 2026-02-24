@@ -77,20 +77,20 @@
   --colors-warning-800: #5d2a02;
   --colors-warning-950: #1f0e01;
 
-  /* Colors Blue Shades */
-  --colors-blue-0: #f6fafd;
-  --colors-blue-50: #daeef9;
-  --colors-blue-100: #c2e2f4;
-  --colors-blue-200: #92cbe9;
-  --colors-blue-300: #62b3dd;
-  --colors-blue-400: #329cd2;
-  --colors-blue-500: #0284c7;
-  --colors-blue-600: #026a9f;
-  --colors-blue-700: #014f77;
-  --colors-blue-800: #013550;
-  --colors-blue-850: #01283c;
-  --colors-blue-900: #001a28;
-  --colors-blue-950: #000d14;
+  /* Colors Secondary (Blue) */
+  --colors-secondary-0: #f6fafd;
+  --colors-secondary-50: #daeef9;
+  --colors-secondary-100: #c2e2f4;
+  --colors-secondary-200: #92cbe9;
+  --colors-secondary-300: #62b3dd;
+  --colors-secondary-400: #329cd2;
+  --colors-secondary-500: #0284c7;
+  --colors-secondary-600: #026a9f;
+  --colors-secondary-700: #014f77;
+  --colors-secondary-800: #013550;
+  --colors-secondary-850: #01283c;
+  --colors-secondary-900: #001a28;
+  --colors-secondary-950: #000d14;
 
   /* Atom One Dark Theme Colors */
   --atom-one-dark-bg: #282c34;
