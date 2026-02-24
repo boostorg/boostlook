@@ -18,7 +18,7 @@
 /* Base Container */
 .boostlook {
   font-family: var(--font-family-body, "Noto Sans") !important;
-  font-variation-settings: "wght" 350, "wdth" 80;
+  font-variation-settings: "wght" 350, "wdth" 87.5;
   background: var(--surface-background-main-base-primary, #fff);
 }
 
@@ -38,55 +38,58 @@
 .boostlook .doc h5,
 .boostlook h6,
 .boostlook .doc h6 {
-  color: var(--text-main-text-primary, #18191b);
+  color: var(--text-main-text-primary, #050816);
   display: block;
-  line-height: var(--typography-line-height-xl, 1.75rem);
-  margin-top: var(--padding-padding-xl, 2rem);
-  letter-spacing: var(--spacing-size-size-0, 0rem);
+  font-family: var(--font-family-body, "Noto Sans");
+  line-height: 100%;
+  margin-top: var(--padding-padding-lg, 1.5rem);
   margin-bottom: 0.5rem;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-weight: 500;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   position: relative;
 }
 
-/* Heading Sizes */
+/* Heading Sizes — Metalab 2.0 */
+/* h1: Display/Desktop/Medium/3XL */
 .boostlook h1,
 .boostlook .doc h1 {
-  font-size: var(--typography-font-size-h1, 1.75rem);
-  line-height: var(--typography-line-height-3xl, 2.5rem); /* 142.857% */
+  font-size: var(--typography-font-size-h1, 2rem);
+  letter-spacing: -0.01em;
 }
 
-/* Primary headings */
+/* h2: Display/Desktop/Medium/Large */
 .boostlook h2,
 .boostlook .doc h2 {
-  font-size: var(--typography-font-size-h2, 1.5rem);
+  font-size: var(--typography-font-size-h2, 1.25rem);
+  letter-spacing: -0.01em;
 }
 
-/* Section headings */
+/* h3: Display/Desktop/Medium/M */
 .boostlook h3,
 .boostlook .doc h3 {
-  font-size: var(--typography-font-size-h3, 1.3rem);
-  line-height: var(--typography-line-height-xl, 1.85rem); /* 155.556% */
+  font-size: var(--typography-font-size-h3, 1.125rem);
+  letter-spacing: -0.01em;
 }
 
-/* Subsection headings */
+/* h4: Display/Desktop/Medium/Base */
 .boostlook h4,
 .boostlook .doc h4 {
-  font-size: var(--typography-font-size-h4, 1.125rem);
-  line-height: var(--typography-line-height-xl, 1.75rem); /* 155.556% */
+  font-size: var(--typography-font-size-h4, 1rem);
+  letter-spacing: -0.16px;
 }
 
-/* Topic headings */
+/* h5 */
 .boostlook h5,
 .boostlook .doc h5 {
-  font-size: var(--font-size-sm, 1rem);
-  line-height: var(--font-line-height-lg, 1.5rem);
+  font-size: var(--font-size-xs, 0.875rem);
+  letter-spacing: -0.14px;
 }
 
-/* Subtopic headings */
+/* h6 */
 .boostlook h6,
 .boostlook .doc h6 {
-  font-size: var(--font-size-xs, 0.875rem);
-  line-height: var(--font-line-height-md, 1.25rem);
+  font-size: var(--font-size-2xs, 0.75rem);
+  letter-spacing: -0.12px;
 }
 
 /* Document-specific headings adjustments */

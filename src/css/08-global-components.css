@@ -114,7 +114,7 @@
   padding: var(--padding-padding-xs, 0.75rem);
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-sm, 1rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-lg, 1.5rem); /* 150% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
   text-decoration: none;
@@ -144,7 +144,7 @@
   position: static;
   color: var(--text-main-text-body-quaternary, #949a9e);
   font-size: var(--typography-font-size-2xs, 0.75rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem); /* 133.333% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
   transform: revert;
@@ -195,6 +195,7 @@
 }
 
 /* Admonitions */
+/* Admonitions — Metalab 2.0 */
 .boostlook #content .admonitionblock,
 .boostlook:not(:has(.doc)) div.note,
 .boostlook:not(:has(.doc)) div.tip,
@@ -203,12 +204,12 @@
 .boostlook:not(:has(.doc)) div.warning,
 .boostlook:not(:has(.doc)) div.blurb,
 .boostlook:not(:has(.doc)) p.blurb {
-  padding: var(--padding-padding-xs, 0.75rem) var(--padding-padding-md, 1.125rem);
-  border-radius: var(--spacing-size-size-0, 0rem);
-  border: 1px solid transparent;
+  padding: var(--spacing-large, 1rem);
+  border-radius: var(--radius-xxl, 1rem);
+  border: 1px solid var(--border-border-primary, #e4e7ea);
   margin: revert;
   margin-left: var(--spacing-size-xl);
-  background: transparent;
+  background: var(--surface-background-main-base-primary, #fff);
 }
 
 .boostlook #content li .admonitionblock,
@@ -253,7 +254,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-size-2xs, 0.5rem);
+  gap: 12px;
 }
 
 .boostlook #content .admonitionblock > table tr td {
@@ -297,12 +298,12 @@
 .boostlook:not(:has(.doc)) p.blurb > table tr:first-child th > *,
 .boostlook #content .admonitionblock > table tr td.icon > *,
 .boostlook:not(:has(.doc)) .notices .heading {
-  color: var(--text-main-text-primary, #18191b);
-  font-size: var(--typography-font-size-sm, 1rem);
-  font-variation-settings: "wght" 600, "wdth" 62.5;
-  line-height: var(--typography-line-height-lg, 1.5rem);
-  letter-spacing: var(--spacing-size-size-0, 0rem);
-  /* text-transform: uppercase; */
+  color: var(--text-main-text-primary, #050816);
+  font-size: 1rem;
+  font-weight: 500;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
+  line-height: 100%;
+  letter-spacing: -0.16px;
 }
 .boostlook #content .admonitionblock > table tr td.icon > * {
   padding: 0;
@@ -332,11 +333,11 @@
   /* Antora Template Correction*/
 .boostlook #content .admonitionblock > table tr td.content p,
 .boostlook:not(:has(.doc)) .notices .message p {
-  color: var(--text-main-text-primary, #18191b);
-  font-size: var(--typography-font-size-xs, 0.875rem);
-  font-variation-settings: "wght" 400, "wdth" 80;
-  line-height: var(--typography-line-height-lg, 1.5rem); /* 171.429% */
-  letter-spacing: var(--spacing-size-size-0, 0rem);
+  color: var(--text-main-text-body-tetriary, #717378);
+  font-size: 0.75rem;
+  font-variation-settings: "wght" 400, "wdth" 87.5;
+  line-height: 135%;
+  letter-spacing: -0.12px;
 }
 
 .boostlook:not(:has(.doc)) .notices .message {
@@ -355,12 +356,12 @@
   padding: 0;
 }
 
-/* Note */
+/* Note — Metalab 2.0: neutral card */
 .boostlook #content .admonitionblock.note,
 .boostlook:not(:has(.doc)) div.note,
 .boostlook:not(:has(.doc)) .notices.note {
-  border-color: var(--border-border-blue-primary, #c2e2f4); /* var(--border-border-blue-primary, #c2e2f4) */
-  background-color: var(--surface-background-main-surface-blue-primary, #f6fafd);
+  border-color: var(--border-border-primary, #e4e7ea);
+  background-color: var(--surface-background-main-base-primary, #fff);
 }
 
 .boostlook #content .admonitionblock.note > table tr td.icon > *,
@@ -477,7 +478,7 @@
   border: none;
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-xs, 0.875rem);
-  font-variation-settings: "wght" 400, "wdth" 80;
+  font-variation-settings: "wght" 400, "wdth" 87.5;
   line-height: var(--typography-line-height-lg, 1.5rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -502,7 +503,7 @@
   color: var(--text-code-neutral, #0d0e0f);
   font-size: var(--typography-font-size-xs, 0.875rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-lg, 1.5rem); /* 171.429% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
   margin-bottom: 0;
@@ -529,7 +530,7 @@
 
 .boostlook .dlist dl dt code,
 .boostlook:not(:has(.doc)) .variablelist dl dt code {
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
   font-family: var(--font-family-code, 'Monaspace Neon');
 }
 
@@ -573,7 +574,7 @@
 .boostlook .dlist dl dd em,
 .boostlook:not(:has(.doc)) .variablelist dl dd em {
   font: inherit;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
 }
 
 /* Edit Page Link */
@@ -582,7 +583,7 @@
   text-align: right;
   font-size: var(--typography-font-size-2xs, 0.75rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem); /* 133.333% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
   padding: 0 var(--padding-padding-2xs, 0.5rem);
@@ -609,7 +610,7 @@
   padding-bottom: var(--padding-padding-sm);
   color: var(--text-main-text-body-quaternary, #949a9e);
   font-size: var(--typography-font-size-xs);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem); /* 133.333% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -687,6 +688,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #content > ul:not([class])> li {
   position: relative;
   padding-left: 2rem;
+  line-height: var(--typography-line-height-lg, 1.5rem);
 }
 
 .boostlook ul.itemizedlist > li,
@@ -698,6 +700,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #content ul:not([class]) li,
 div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #content ol:not([class]) li {
   font: inherit;
+  line-height: var(--typography-line-height-lg, 1.5rem);
 }
 
 .boostlook ul.itemizedlist > li + li,
@@ -747,6 +750,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   position: relative;
   padding-left: 2rem;
   counter-increment: list-counter;
+  line-height: var(--typography-line-height-lg, 1.5rem);
 }
 
 .boostlook .olist.arabic > ol > li::before,
@@ -783,6 +787,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   position: relative;
   padding-left: 2rem;
   counter-increment: list-counter;
+  line-height: var(--typography-line-height-lg, 1.5rem);
 }
 
 .boostlook .olist.loweralpha > ol > li::before {
@@ -797,7 +802,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   justify-content: center;
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-xs, 0.875rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--Typography-line-height-lg, 1.5rem); /* 171.429% */
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
@@ -812,7 +817,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   justify-content: center;
   font-family: "Noto Sans";
   font-style: normal;
-  font-variation-settings: "wght" 350, "wdth" 80;
+  font-variation-settings: "wght" 350, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem);
   font-size: var(--typography-font-size-sm, 1rem);
   text-align: center;

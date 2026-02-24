@@ -48,13 +48,26 @@ html {
   --text-states-text-additional-tetriary: var(--colors-blue-600);
 
   --text-code-red: var(--atom-one-light-operator);
-  --text-code-green: var(--atom-one-light-string);
-  --text-code-blue: var(--atom-one-light-function);
-  --text-code-yellow: var(--atom-one-light-variable);
+  --text-code-green: var(--colors-syntax-strong-green);
+  --text-code-blue: var(--colors-syntax-strong-blue);
+  --text-code-yellow: var(--colors-syntax-strong-yellow);
+  --text-code-pink: var(--colors-syntax-strong-pink);
+  --text-code-grey: var(--colors-syntax-strong-grey);
   --text-code-purple: var(--atom-one-light-keyword);
   --text-code-turquoise: var(--atom-one-light-constant);
   --text-code-neutral: var(--atom-one-light-text);
   --text-code-navy: var(--atom-one-light-class);
+
+  --surface-background-states-surface-error-weak: var(--colors-error-weak);
+  --text-states-text-error-strong: var(--colors-error-strong);
+  --text-states-text-error-mid: var(--colors-error-mid);
+
+  --surface-accent-teal-weak: var(--colors-accent-weak-teal);
+  --surface-accent-yellow-weak: var(--colors-accent-weak-yellow);
+  --surface-accent-green-weak: var(--colors-accent-weak-green);
+  --surface-accent-teal-strong: var(--colors-accent-strong-teal);
+  --surface-accent-yellow-strong: var(--colors-accent-strong-yellow);
+  --surface-accent-green-strong: var(--colors-accent-strong-green);
 
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-400);
   --surface-button-button-bg-primary-default: var(--colors-blue-700);
@@ -164,13 +177,26 @@ html.dark {
   --text-states-text-additional-tetriary: var(--colors-blue-400);
 
   --text-code-red: var(--atom-one-dark-operator);
-  --text-code-green: var(--atom-one-dark-string);
-  --text-code-blue: var(--atom-one-dark-function);
-  --text-code-yellow: var(--atom-one-dark-variable);
+  --text-code-green: var(--colors-syntax-weak-green);
+  --text-code-blue: var(--colors-syntax-weak-blue);
+  --text-code-yellow: var(--colors-syntax-weak-yellow);
+  --text-code-pink: var(--colors-syntax-weak-pink);
+  --text-code-grey: var(--colors-syntax-weak-grey);
   --text-code-purple: var(--atom-one-dark-keyword);
   --text-code-turquoise: var(--atom-one-dark-constant);
   --text-code-neutral: var(--atom-one-dark-text);
   --text-code-navy: var(--atom-one-dark-class);
+
+  --surface-background-states-surface-error-weak: var(--colors-error-strong);
+  --text-states-text-error-strong: var(--colors-error-mid);
+  --text-states-text-error-mid: var(--colors-error-mid);
+
+  --surface-accent-teal-weak: var(--colors-accent-strong-teal);
+  --surface-accent-yellow-weak: var(--colors-accent-strong-yellow);
+  --surface-accent-green-weak: var(--colors-accent-strong-green);
+  --surface-accent-teal-strong: var(--colors-accent-weak-teal);
+  --surface-accent-yellow-strong: var(--colors-accent-weak-yellow);
+  --surface-accent-green-strong: var(--colors-accent-weak-green);
 
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-500);
   --surface-button-button-bg-primary-default: var(--colors-blue-800);

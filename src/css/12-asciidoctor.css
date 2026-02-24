@@ -21,74 +21,39 @@
   color: var(--text-main-text-primary, #18191b);
   font-size: var(--typography-font-size-lg, 1.25rem);
   font-style: normal;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   line-height: var(--typography-line-height-xl, 1.75rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
 }
 
-/* Rouge Syntax Highlighting */
-/* Light theme Rouge syntax highlighting */
-.boostlook pre.rouge .k { /* Keywords like const, auto */
-  color: var(--atom-one-light-keyword, #a626a4);
-}
-.boostlook pre.rouge .kt { /* Types like char, int */
-  color: var(--atom-one-light-keyword, #a626a4);
+/* Rouge Syntax Highlighting — matches Figma mapping */
+.boostlook pre.rouge .k,
+.boostlook pre.rouge .kt { /* Keywords, types → Blue */
+  color: var(--text-code-blue, #1345E8);
 }
 .boostlook pre.rouge .n,
-.boostlook pre.rouge .nf { /* Names, identifiers, functions */
-  color: var(--atom-one-light-text, #383a42);
+.boostlook pre.rouge .nf { /* Names, identifiers, functions → Green */
+  color: var(--text-code-green, #289D30);
 }
-.boostlook pre.rouge .o { /* Operators */
-  color: var(--atom-one-light-operator, #e45649);
+.boostlook pre.rouge .o { /* Operators → Red */
+  color: var(--text-code-red, #e45649);
 }
 .boostlook pre.rouge .s,
 .boostlook pre.rouge .s1,
-.boostlook pre.rouge .s2 { /* Strings */
-  color: var(--atom-one-light-string, #50a14f);
+.boostlook pre.rouge .s2 { /* Strings → Green */
+  color: var(--text-code-green, #289D30);
 }
 .boostlook pre.rouge .mi,
-.boostlook pre.rouge .mf { /* Numbers */
-  color: var(--atom-one-light-variable, #986801);
+.boostlook pre.rouge .mf { /* Numbers → Yellow */
+  color: var(--text-code-yellow, #A3A38C);
 }
-.boostlook pre.rouge .p { /* Punctuation */
-  color: var(--atom-one-light-text, #383a42);
+.boostlook pre.rouge .p { /* Punctuation → Yellow */
+  color: var(--text-code-yellow, #A3A38C);
 }
 .boostlook pre.rouge .c,
 .boostlook pre.rouge .c1,
-.boostlook pre.rouge .cm { /* Comments */
-  color: var(--atom-one-light-comment, #a0a1a7);
-  font-family: "Monaspace Xenon", monospace;
-  font-style: italic;
-}
-
-/* Dark theme Rouge syntax highlighting */
-html.dark .boostlook pre.rouge .k,
-html.dark .boostlook pre.rouge .kt {
-  color: var(--atom-one-dark-keyword, #c678dd);
-}
-html.dark .boostlook pre.rouge .n,
-html.dark .boostlook pre.rouge .nf {
-  color: var(--atom-one-dark-text, #abb2bf);
-}
-html.dark .boostlook pre.rouge .o {
-  color: var(--atom-one-dark-operator, #e06c75);
-}
-html.dark .boostlook pre.rouge .s,
-html.dark .boostlook pre.rouge .s1,
-html.dark .boostlook pre.rouge .s2 {
-  color: var(--atom-one-dark-string, #98c379);
-}
-html.dark .boostlook pre.rouge .mi,
-html.dark .boostlook pre.rouge .mf {
-  color: var(--atom-one-dark-variable, #d19a66);
-}
-html.dark .boostlook pre.rouge .p {
-  color: var(--atom-one-dark-text, #abb2bf);
-}
-html.dark .boostlook pre.rouge .c,
-html.dark .boostlook pre.rouge .c1,
-html.dark .boostlook pre.rouge .cm {
-  color: var(--atom-one-dark-comment, #5c6370);
+.boostlook pre.rouge .cm { /* Comments → Grey */
+  color: var(--text-code-grey, #9E9E9E);
   font-family: "Monaspace Xenon", monospace;
   font-style: italic;
 }

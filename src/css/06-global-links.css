@@ -1,11 +1,12 @@
 
-/* Paragraph Styling */
+/* Paragraph Styling — Metalab 2.0: Sans/Desktop/Regular/Base/Tight */
 .boostlook p {
   padding-top: initial !important;
   padding-bottom: initial !important;
-  color: var(--text-main-text-body-primary, #2a2c30);
+  color: var(--text-main-text-body-secondary, #585A64);
   font-size: var(--typography-font-size-sm, 1rem);
-  line-height: var(--typography-line-height-lg, 1.5rem); /* 150% */
+  line-height: 120%;
+  letter-spacing: -0.16px;
 }
 
 /* Components margins */
@@ -134,7 +135,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 /* Text Emphasis */
 .boostlook b,
 .boostlook strong {
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
   text-shadow: none;
 }
 

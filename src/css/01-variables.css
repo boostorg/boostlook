@@ -146,6 +146,31 @@
   --atom-one-light-constant: #0184bb;
   --atom-one-light-class: #c18401;
 
+  /* Colour Primitives — Accent */
+  --colors-accent-weak-teal: #C9F2EE;
+  --colors-accent-weak-yellow: #F8EBA9;
+  --colors-accent-weak-green: #E4E4C0;
+  --colors-accent-strong-teal: #64DACE;
+  --colors-accent-strong-yellow: #F5D039;
+  --colors-accent-strong-green: #CACA62;
+
+  /* Colour Primitives — Syntax */
+  --colors-syntax-weak-blue: #38DDFF;
+  --colors-syntax-weak-green: #72FE92;
+  --colors-syntax-weak-yellow: #FFF173;
+  --colors-syntax-weak-pink: #F358C0;
+  --colors-syntax-weak-grey: #A3A3A3;
+  --colors-syntax-strong-blue: #1345E8;
+  --colors-syntax-strong-green: #289D30;
+  --colors-syntax-strong-yellow: #A3A38C;
+  --colors-syntax-strong-pink: #D31FA7;
+  --colors-syntax-strong-grey: #9E9E9E;
+
+  /* Colour Primitives — Error */
+  --colors-error-weak: #FDF2F2;
+  --colors-error-strong: #D32F2F;
+  --colors-error-mid: #FF3B30;
+
   /* Colors Other */
   --colors-neutral-150: #d5d7d9;
   --colors-neutral-850: #2a2c30;
@@ -172,9 +197,27 @@
   --spacing-size-3xl: 3rem;
   --main-container: 90rem;
 
+  /* Corner Radius — Metalab 2.0 Primitives */
+  --corner-radius-xs: 0.125rem;
+  --corner-radius-s: 0.25rem;
+  --corner-radius-m: 0.375rem;
+  --corner-radius-l: 0.5rem;
+  --corner-radius-xl: 0.75rem;
+  --corner-radius-xxl: 1rem;
+
   /* New Look Typography */
   --font-family-body: "Noto Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --font-family-code: "Monaspace Neon", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* Metalab 2.0 Size Primitives (Desktop / Mobile) */
+  /* XS:    12px / 10px */
+  /* Small: 14px / 12px */
+  /* Base:  16px / 14px */
+  /* Medium:18px / 16px */
+  /* Large: 24px / 20px */
+  /* XL:    32px / 24px */
+  /* 2XL:   40px / 28px */
+  /* 3XL:   64px / 32px */
+  /* 4XL:   72px / 40px */
   --font-size-3xs: 0.625rem;
   --font-size-2xs: 0.75rem;
   --font-size-xs: 0.875rem;
@@ -187,6 +230,8 @@
   --font-size-2xl: 1.75rem;
   --font-size-3xl: 2rem;
   --font-size-4xl: 2.5rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 4.5rem;
   --font-line-height-xs: 0.75rem;
   --font-line-height-sm: 1rem;
   --font-line-height-md: 1.25rem;
@@ -230,7 +275,22 @@
   --icon-menu-dark: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3%206C3.55228%206%204%205.55228%204%205C4%204.44772%203.55228%204%203%204C2.44772%204%202%204.44772%202%205C2%205.55228%202.44772%206%203%206Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M22%205.75H6V4.25H22V5.75Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M22%2012.75H6V11.25H22V12.75Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M16%2019.75H6V18.25H16V19.75Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M4%2012C4%2012.5523%203.55228%2013%203%2013C2.44772%2013%202%2012.5523%202%2012C2%2011.4477%202.44772%2011%203%2011C3.55228%2011%204%2011.4477%204%2012Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M3%2020C3.55228%2020%204%2019.5523%204%2019C4%2018.4477%203.55228%2018%203%2018C2.44772%2018%202%2018.4477%202%2019C2%2019.5523%202.44772%2020%203%2020Z%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E");
 
   /* New Look Responsive Mobile First */
-  /* Spacing */
+  /* Spacing — Metalab 2.0 (mobile) */
+  /* xs: 2/2, s: 4/4, default: 8/6, medium: 12/8, large: 16/12, xl: 24/16, xxl: 32/20 */
+  --spacing-default: 0.375rem;
+  --spacing-medium: 0.5rem;
+  --spacing-large: 0.75rem;
+  --spacing-xl: 1rem;
+  --spacing-xxl: 1.25rem;
+
+  /* Corner Radius — Metalab 2.0 (mobile) */
+  --radius-xs: var(--corner-radius-xs);
+  --radius-s: 0.1875rem;
+  --radius-m: var(--corner-radius-s);
+  --radius-l: var(--corner-radius-m);
+  --radius-xl: 0.625rem;
+  --radius-xxl: var(--corner-radius-xl);
+
   --leftbar-paddings-leftbar-padding-sm: var(--spacing-size-sm);
   --leftbar-paddings-leftbar-padding-md: var(--spacing-size-md);
   --leftbar-paddings-leftbar-padding-0: var(--spacing-size-size-0);
@@ -266,6 +326,14 @@
   --typography-font-size-2xl: var(--font-size-xl);
   --typography-font-size-3xl: var(--font-size-2xl);
   --typography-font-size-4xl: var(--font-size-3xl);
+  --typography-font-size-5xl: var(--font-size-4xl);
+
+  /* Heading — Metalab 2.0 (mobile) */
+  --typography-font-size-h1: var(--font-size-2xl);
+  --typography-font-size-h2: var(--font-size-lg);
+  --typography-font-size-h3: var(--font-size-sm);
+  --typography-font-size-h4: var(--font-size-xs);
+
   --typography-line-height-xs: var(--font-line-height-xs);
   --typography-line-height-sm: var(--font-line-height-sm);
   --typography-line-height-md: var(--font-line-height-md);
@@ -280,7 +348,21 @@
 /*----------------- New Look Responsive Desktop Start -----------------*/
 @media (min-width: 768px) {
   :root {
-    /* Spacing */
+    /* Spacing — Metalab 2.0 (desktop) */
+    --spacing-default: var(--spacing-size-2xs);
+    --spacing-medium: var(--spacing-size-xs);
+    --spacing-large: var(--spacing-size-sm);
+    --spacing-xl: var(--spacing-size-lg);
+    --spacing-xxl: var(--spacing-size-xl);
+
+    /* Corner Radius — Metalab 2.0 (desktop) */
+    --radius-xs: var(--corner-radius-xs);
+    --radius-s: var(--corner-radius-s);
+    --radius-m: var(--corner-radius-m);
+    --radius-l: var(--corner-radius-l);
+    --radius-xl: var(--corner-radius-xl);
+    --radius-xxl: var(--corner-radius-xxl);
+
     --leftbar-paddings-leftbar-padding-sm: var(--spacing-size-sm);
     --leftbar-paddings-leftbar-padding-md: var(--spacing-size-md);
     --leftbar-paddings-leftbar-padding-0: var(--spacing-size-size-0);
@@ -313,6 +395,7 @@
     --typography-font-size-2xl: var(--font-size-2xl);
     --typography-font-size-3xl: var(--font-size-3xl);
     --typography-font-size-4xl: var(--font-size-4xl);
+    --typography-font-size-5xl: var(--font-size-5xl);
     --typography-line-height-xs: var(--font-line-height-xs);
     --typography-line-height-sm: var(--font-line-height-sm);
     --typography-line-height-md: var(--font-line-height-md);
@@ -322,14 +405,11 @@
     --typography-line-height-3xl: var(--font-line-height-3xl);
     --typography-line-height-4xl: var(--font-line-height-4xl);
 
-    /* Heading */
-    --typography-font-size-h1: var(--font-size-2xl);
-    --typography-font-size-h2: var(--font-size-xl);
-    --typography-font-size-h3: var(--font-size-2md);
-    --typography-font-size-h4: var(--font-size-md);
-
-    /*
-*/
+    /* Heading — Metalab 2.0 (desktop) */
+    --typography-font-size-h1: var(--font-size-3xl);
+    --typography-font-size-h2: var(--font-size-lg);
+    --typography-font-size-h3: var(--font-size-md);
+    --typography-font-size-h4: var(--font-size-sm);
   }
 }
 

@@ -64,7 +64,7 @@
   color: var(--text-main-text-body-primary, #2a2c30);
   font-size: var(--typography-font-size-xs, 0.875rem);
   font-style: normal;
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
   line-height: var(--typography-line-height-md, 1.25rem); /* 142.857% */
   padding: 0;
   padding-bottom: var(--padding-padding-2xs, 0.5rem);
@@ -73,7 +73,7 @@
 .boostlook #content table.tableblock caption > *,
 .boostlook:not(:has(.doc)) div.table .title > * {
   font: inherit;
-  font-variation-settings: "wght" 500, "wdth" 80;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
   text-decoration: none;
 }
 
@@ -81,13 +81,15 @@
   padding-bottom: var(--padding-padding-2xs, 0.5rem) !important;
 }
 
+/* Table cells — Metalab 2.0 */
 .boostlook #content table.tableblock th,
 .boostlook #content table.tableblock td,
 .boostlook:not(:has(.doc)) table.table th,
 .boostlook:not(:has(.doc)) table.table td,
 .boostlook#libraryReadMe > table th,
 .boostlook#libraryReadMe > table td {
-  padding: var(--padding-padding-3xs, 0.25rem) var(--padding-padding-2xs, 0.5rem);
+  padding: 12px 16px;
+  min-height: 28px;
   text-align: left;
   border-top: 1px solid var(--border-border-primary, #e4e7ea);
   border-left: 1px solid var(--border-border-primary, #e4e7ea);
@@ -138,27 +140,30 @@
   /*border-bottom-right-radius: var(--spacing-size-2xs, 0.5rem);*/
 }
 
+/* Table header — Metalab 2.0: Surface-Mid bg */
 .boostlook #content table.tableblock th,
 .boostlook #content table.tableblock th strong,
 .boostlook:not(:has(.doc)) table.table th,
 .boostlook:not(:has(.doc)) table.table th strong,
 .boostlook#libraryReadMe > table th,
 .boostlook#libraryReadMe > table th strong {
-  background: var(--surface-background-main-surface-primary, #f5f6f8);
-  color: var(--text-main-text-primary, #000000);
-  font-size: var(--typography-font-size-xs, 0.875rem);
-  font-variation-settings: "wght" 500, "wdth" 80;
-  line-height: var(--typography-line-height-lg, 1.5rem); /* 171.429% */
+  background: var(--surface-background-main-surface-primary, #f7f7f7);
+  color: var(--text-main-text-primary, #050816);
+  font-size: 0.75rem;
+  font-variation-settings: "wght" 500, "wdth" 87.5;
+  line-height: 100%;
+  letter-spacing: -0.12px;
 }
 
+/* Table data — Metalab 2.0: 12px, Text-Secondary */
 .boostlook #content table.tableblock td,
 .boostlook:not(:has(.doc)) table.table td,
 .boostlook#libraryReadMe > table td {
-  color: var(--text-main-text-body-primary, #2a2c30);
-  font-size: var(--typography-font-size-xs, 0.875rem);
+  color: var(--text-main-text-body-secondary, #585A64);
+  font-size: 0.75rem;
   font-style: normal;
-  line-height: var(--typography-line-height-lg, 1.5rem); /* 171.429% */
-  letter-spacing: var(--spacing-size-size-0, 0rem);
+  line-height: 100%;
+  letter-spacing: -0.12px;
 }
 
 .boostlook#libraryReadMe > table td {
@@ -208,7 +213,7 @@
 .boostlook #content table.tableblock td strong,
 .boostlook:not(:has(.doc)) table.table td strong,
 .boostlook#libraryReadMe > table td strong {
-  font-variation-settings: "wght" 600, "wdth" 80;
+  font-variation-settings: "wght" 600, "wdth" 87.5;
 }
 
 .boostlook #content table.tableblock td code,
