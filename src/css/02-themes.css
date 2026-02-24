@@ -21,17 +21,17 @@ html {
   --icon-file: var(--icon-file-light);
   --icon-menu: var(--icon-menu-light);
 
-  --text-buttons-button-label-primary-default: var(--colors-neutral-0);
-  --text-buttons-button-label-secondary-default: var(--colors-neutral-900);
-  --text-buttons-button-label-inactive: var(--colors-neutral-500);
+  --text-buttons-button-label-primary-default: var(--colors-primary-0);
+  --text-buttons-button-label-secondary-default: var(--colors-primary-900);
+  --text-buttons-button-label-inactive: var(--colors-primary-500);
 
-  --text-main-text-primary: var(--colors-neutral-900);
+  --text-main-text-primary: var(--colors-primary-900);
   --text-main-text-link-blue-secondary: var(--colors-blue-500);
   --text-main-text-link-blue-tetriary: var(--colors-blue-400);
-  --text-main-text-body-secondary: var(--colors-neutral-700);
-  --text-main-text-body-quaternary: var(--colors-neutral-400);
-  --text-main-text-body-tetriary: var(--colors-neutral-600);
-  --text-main-text-body-primary: var(--colors-neutral-850);
+  --text-main-text-body-secondary: var(--colors-primary-700);
+  --text-main-text-body-quaternary: var(--colors-primary-400);
+  --text-main-text-body-tetriary: var(--colors-primary-600);
+  --text-main-text-body-primary: var(--colors-primary-650);
   --text-main-text-link-blue: var(--colors-blue-600);
 
   --text-states-text-warning-tetriary: var(--colors-warning-600);
@@ -72,16 +72,17 @@ html {
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-400);
   --surface-button-button-bg-primary-default: var(--colors-blue-700);
   --surface-button-button-bg-primary-pressed: var(--colors-blue-700);
-  --surface-button-button-bg-primary-inactive: var(--colors-neutral-200);
+  --surface-button-button-bg-primary-inactive: var(--colors-primary-200);
   --surface-button-button-bg-secondary-cta-hover: var(--colors-brand-orange-500);
   --surface-button-button-bg-primary-hover: var(--colors-blue-800);
   --surface-button-button-bg-secondary-cta-pressed: var(--colors-brand-orange-400);
-  --surface-button-button-bg-secondary-cta-inactive: var(--colors-neutral-200);
+  --surface-button-button-bg-secondary-cta-inactive: var(--colors-primary-200);
 
-  --surface-background-main-base-primary: var(--colors-neutral-0);
-  --surface-background-main-surface-primary: var(--colors-neutral-50);
-  --surface-background-main-surface-secondary: var(--colors-neutral-100);
-  --surface-background-main-surface-tetriary: var(--colors-neutral-150);
+  --surface-page: #F7FDFE;
+  --surface-background-main-base-primary: var(--surface-page);
+  --surface-background-main-surface-primary: var(--colors-primary-50);
+  --surface-background-main-surface-secondary: var(--colors-primary-100);
+  --surface-background-main-surface-tetriary: var(--colors-primary-150);
   --surface-background-main-surface-blue-primary: var(--colors-blue-0);
   --surface-background-main-surface-blue-secondary: var(--colors-blue-50);
   --surface-background-main-surface-blue-tetriary: var(--colors-blue-100);
@@ -106,15 +107,15 @@ html {
   --surface-background-states-surface-additional-tetriary: var(--colors-blue-200);
   --surface-background-states-surface-additional-quaternary: var(--colors-blue-300);
 
-  --surface-icons-icon-primary: var(--colors-neutral-900);
-  --surface-icons-icon-button-primary: var(--colors-neutral-0);
-  --surface-icons-icon-button-secondary: var(--colors-neutral-900);
-  --surface-icons-icon-button-inactive: var(--colors-neutral-500);
-  --surface-icons-icon-secondary: var(--colors-neutral-600);
-  --surface-icons-icon-quaternary: var(--colors-neutral-200);
+  --surface-icons-icon-primary: var(--colors-primary-900);
+  --surface-icons-icon-button-primary: var(--colors-primary-0);
+  --surface-icons-icon-button-secondary: var(--colors-primary-900);
+  --surface-icons-icon-button-inactive: var(--colors-primary-500);
+  --surface-icons-icon-secondary: var(--colors-primary-600);
+  --surface-icons-icon-quaternary: var(--colors-primary-200);
   --surface-icons-icon-cta: var(--colors-brand-orange-500);
   --surface-icons-icon-hover: var(--colors-brand-orange-400);
-  --surface-icons-icon-tetriary: var(--colors-neutral-400);
+  --surface-icons-icon-tetriary: var(--colors-primary-400);
   --surface-icons-icon-warning: var(--colors-warning-600);
   --surface-icons-icon-positive: var(--colors-positive-600);
   --surface-icons-icon-negative: var(--colors-negative-600);
@@ -122,11 +123,11 @@ html {
   --surface-icons-icon-blue: var(--colors-blue-600);
   --surface-icons-icon-blue-light: var(--colors-blue-200);
 
-  --border-border-primary: var(--colors-neutral-100);
-  --border-border-secondary: var(--colors-neutral-150);
-  --border-border-tetriary: var(--colors-neutral-300);
-  --border-border-quaternary: var(--colors-neutral-600);
-  --border-border-active: var(--colors-neutral-900);
+  --border-border-primary: var(--colors-primary-100);
+  --border-border-secondary: var(--colors-primary-150);
+  --border-border-tetriary: var(--colors-primary-300);
+  --border-border-quaternary: var(--colors-primary-600);
+  --border-border-active: var(--colors-primary-900);
   --border-border-brand-orange: var(--colors-brand-orange-200);
   --border-border-warning: var(--colors-warning-200);
   --border-border-positive: var(--colors-positive-200);
@@ -150,18 +151,18 @@ html.dark {
   --icon-file: var(--icon-file-dark);
   --icon-menu: var(--icon-menu-dark);
 
-  --text-buttons-button-label-primary-default: var(--colors-neutral-0);
-  --text-buttons-button-label-secondary-default: var(--colors-neutral-950);
-  --text-buttons-button-label-inactive: var(--colors-neutral-500);
+  --text-buttons-button-label-primary-default: var(--colors-primary-0);
+  --text-buttons-button-label-secondary-default: var(--colors-primary-950);
+  --text-buttons-button-label-inactive: var(--colors-primary-500);
 
-  --text-main-text-primary: var(--colors-neutral-0);
+  --text-main-text-primary: var(--colors-primary-0);
   --text-main-text-link-blue-secondary: var(--colors-blue-500);
   --text-main-text-link-blue-tetriary: var(--colors-blue-600);
   --text-main-text-link-blue: var(--colors-blue-400);
-  --text-main-text-body-secondary: var(--colors-neutral-200);
-  --text-main-text-body-tetriary: var(--colors-neutral-300);
-  --text-main-text-body-quaternary: var(--colors-neutral-600);
-  --text-main-text-body-primary: var(--colors-neutral-50);
+  --text-main-text-body-secondary: var(--colors-primary-200);
+  --text-main-text-body-tetriary: var(--colors-primary-300);
+  --text-main-text-body-quaternary: var(--colors-primary-600);
+  --text-main-text-body-primary: var(--colors-primary-50);
 
   --text-states-text-warning-tetriary: var(--colors-warning-400);
   --text-states-text-warning-secondary: var(--colors-warning-500);
@@ -201,16 +202,17 @@ html.dark {
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-500);
   --surface-button-button-bg-primary-default: var(--colors-blue-800);
   --surface-button-button-bg-primary-pressed: var(--colors-blue-800);
-  --surface-button-button-bg-primary-inactive: var(--colors-neutral-800);
+  --surface-button-button-bg-primary-inactive: var(--colors-primary-800);
   --surface-button-button-bg-secondary-cta-hover: var(--colors-brand-orange-400);
   --surface-button-button-bg-primary-hover: var(--colors-blue-700);
   --surface-button-button-bg-secondary-cta-pressed: var(--colors-brand-orange-500);
-  --surface-button-button-bg-secondary-cta-inactive: var(--colors-neutral-800);
+  --surface-button-button-bg-secondary-cta-inactive: var(--colors-primary-800);
 
-  --surface-background-main-base-primary: var(--colors-neutral-950);
-  --surface-background-main-surface-primary: var(--colors-neutral-900);
-  --surface-background-main-surface-secondary: var(--colors-neutral-850);
-  --surface-background-main-surface-tetriary: var(--colors-neutral-800);
+  --surface-page: var(--colors-primary-950);
+  --surface-background-main-base-primary: var(--surface-page);
+  --surface-background-main-surface-primary: var(--colors-primary-900);
+  --surface-background-main-surface-secondary: var(--colors-primary-850);
+  --surface-background-main-surface-tetriary: var(--colors-primary-800);
   --surface-background-main-surface-blue-primary: var(--colors-blue-900);
   --surface-background-main-surface-blue-secondary: var(--colors-blue-900);
   --surface-background-main-surface-blue-tetriary: var(--colors-blue-850);
@@ -235,12 +237,12 @@ html.dark {
   --surface-background-states-surface-additional-tetriary: var(--colors-blue-800);
   --surface-background-states-surface-additional-quaternary: var(--colors-blue-700);
 
-  --surface-icons-icon-primary: var(--colors-neutral-0);
-  --surface-icons-icon-button-primary: var(--colors-neutral-0);
-  --surface-icons-icon-button-secondary: var(--colors-neutral-950);
-  --surface-icons-icon-button-inactive: var(--colors-neutral-600);
-  --surface-icons-icon-secondary: var(--colors-neutral-400);
-  --surface-icons-icon-quaternary: var(--colors-neutral-600);
+  --surface-icons-icon-primary: var(--colors-primary-0);
+  --surface-icons-icon-button-primary: var(--colors-primary-0);
+  --surface-icons-icon-button-secondary: var(--colors-primary-950);
+  --surface-icons-icon-button-inactive: var(--colors-primary-600);
+  --surface-icons-icon-secondary: var(--colors-primary-400);
+  --surface-icons-icon-quaternary: var(--colors-primary-600);
   --surface-icons-icon-cta: var(--colors-brand-orange-500);
   --surface-icons-icon-hover: var(--colors-brand-orange-600);
   --surface-icons-icon-warning: var(--colors-warning-400);
@@ -250,11 +252,11 @@ html.dark {
   --surface-icons-icon-blue: var(--colors-blue-400);
   --surface-icons-icon-blue-light: var(--colors-blue-700);
 
-  --border-border-primary: var(--colors-neutral-850);
-  --border-border-secondary: var(--colors-neutral-800);
-  --border-border-tetriary: var(--colors-neutral-700);
-  --border-border-quaternary: var(--colors-neutral-500);
-  --border-border-active: var(--colors-neutral-0);
+  --border-border-primary: var(--colors-primary-850);
+  --border-border-secondary: var(--colors-primary-800);
+  --border-border-tetriary: var(--colors-primary-700);
+  --border-border-quaternary: var(--colors-primary-500);
+  --border-border-active: var(--colors-primary-0);
   --border-border-brand-orange: var(--colors-brand-orange-900);
   --border-border-warning: var(--colors-warning-800);
   --border-border-positive: var(--colors-positive-800);

@@ -18,20 +18,21 @@
 
   /*----------------- New Look Variables Start -----------------*/
   /* New Look Primitives */
-  /* Colors Shades of Grey */
-  --colors-neutral-0: #ffffff;
-  --colors-neutral-50: #f5f6f8;
-  --colors-neutral-100: #e4e7ea;
-  --colors-neutral-200: #c7cccf;
-  --colors-neutral-250: #f9f9f9;
-  --colors-neutral-300: #afb3b6;
-  --colors-neutral-400: #949a9e;
-  --colors-neutral-500: #798086;
-  --colors-neutral-600: #62676b;
-  --colors-neutral-700: #494d50;
-  --colors-neutral-800: #393b3f;
-  --colors-neutral-900: #18191b;
-  --colors-neutral-950: #0d0e0f;
+  /* Colors Primary (Grey) */
+  --colors-primary-0: #ffffff;
+  --colors-primary-50: #f5f6f8;
+  --colors-primary-100: #e4e7ea;
+  --colors-primary-200: #c7cccf;
+  --colors-primary-250: #f9f9f9;
+  --colors-primary-300: #afb3b6;
+  --colors-primary-400: #949a9e;
+  --colors-primary-500: #798086;
+  --colors-primary-600: #62676b;
+  --colors-primary-650: #585A64;
+  --colors-primary-700: #494d50;
+  --colors-primary-800: #393b3f;
+  --colors-primary-900: #18191b;
+  --colors-primary-950: #0d0e0f;
 
   /* Colors Brand Shades */
   --colors-brand-orange-50: #fbf2e6;
@@ -108,11 +109,11 @@
   --colors-code-colors-red: var(--colors-negative-400);
   --colors-code-colors-green: var(--colors-positive-500);
   --colors-code-colors-blue: var(--colors-blue-300);
-  --colors-code-colors-black: var(--colors-neutral-950);
+  --colors-code-colors-black: var(--colors-primary-950);
   --colors-code-colors-yellow: #ebc419;
   --colors-code-colors-purple: #b350ed;
   --colors-code-colors-turquoise: #67eaf9;
-  --colors-code-colors-white: var(--colors-neutral-0);
+  --colors-code-colors-white: var(--colors-primary-0);
   --colors-code-colors-red-contrast: var(--colors-negative-500);
   --colors-code-colors-green-contrast: var(--colors-positive-600);
   --colors-code-colors-blue-contrast: var(--colors-blue-400);
@@ -172,9 +173,9 @@
   --colors-error-mid: #FF3B30;
 
   /* Colors Other */
-  --colors-neutral-150: #d5d7d9;
-  --colors-neutral-850: #2a2c30;
-  --colors-neutral-750: #1c1c1c;
+  --colors-primary-150: #d5d7d9;
+  --colors-primary-850: #2a2c30;
+  --colors-primary-750: #1c1c1c;
   --colors-overlay-overlay-white-40: rgba(255 255 255 / 0.4);
   --colors-overlay-overlay-black-40: rgba(13 14 15 / 0.4);
   --colors-overlay-overlay-white-64: rgba(255 255 255 / 0.64);

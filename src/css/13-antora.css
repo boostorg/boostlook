@@ -362,10 +362,10 @@
 }
 
 .boostlook .tablist > ul[role="tablist"] {
-  background-color: var(--colors-neutral-250, #f9f9f9);
+  background-color: var(--colors-primary-250, #f9f9f9);
 }
 .dark .boostlook .tablist > ul[role="tablist"] {
-  background-color: var(--colors-neutral-750, #1c1c1c);
+  background-color: var(--colors-primary-750, #1c1c1c);
 }
 .boostlook .tablist > ul .tab {
   position: relative;
@@ -443,7 +443,7 @@
 }
 
 #search-input:disabled {
-  background: var(--colors-neutral-100);
+  background: var(--colors-primary-100);
   color: var(--text-main-text-body-tetriary);
   cursor: not-allowed;
 }
@@ -490,7 +490,7 @@
 }
 
 .search-result-item:hover {
-  background: var(--colors-neutral-50);
+  background: var(--colors-primary-50);
 }
 
 .search-result-item .no-result {

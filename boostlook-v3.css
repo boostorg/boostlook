@@ -133,20 +133,21 @@
 
   /*----------------- New Look Variables Start -----------------*/
   /* New Look Primitives */
-  /* Colors Shades of Grey */
-  --colors-neutral-0: #ffffff;
-  --colors-neutral-50: #f5f6f8;
-  --colors-neutral-100: #e4e7ea;
-  --colors-neutral-200: #c7cccf;
-  --colors-neutral-250: #f9f9f9;
-  --colors-neutral-300: #afb3b6;
-  --colors-neutral-400: #949a9e;
-  --colors-neutral-500: #798086;
-  --colors-neutral-600: #62676b;
-  --colors-neutral-700: #494d50;
-  --colors-neutral-800: #393b3f;
-  --colors-neutral-900: #18191b;
-  --colors-neutral-950: #0d0e0f;
+  /* Colors Primary (Grey) */
+  --colors-primary-0: #ffffff;
+  --colors-primary-50: #f5f6f8;
+  --colors-primary-100: #e4e7ea;
+  --colors-primary-200: #c7cccf;
+  --colors-primary-250: #f9f9f9;
+  --colors-primary-300: #afb3b6;
+  --colors-primary-400: #949a9e;
+  --colors-primary-500: #798086;
+  --colors-primary-600: #62676b;
+  --colors-primary-650: #585A64;
+  --colors-primary-700: #494d50;
+  --colors-primary-800: #393b3f;
+  --colors-primary-900: #18191b;
+  --colors-primary-950: #0d0e0f;
 
   /* Colors Brand Shades */
   --colors-brand-orange-50: #fbf2e6;
@@ -223,11 +224,11 @@
   --colors-code-colors-red: var(--colors-negative-400);
   --colors-code-colors-green: var(--colors-positive-500);
   --colors-code-colors-blue: var(--colors-blue-300);
-  --colors-code-colors-black: var(--colors-neutral-950);
+  --colors-code-colors-black: var(--colors-primary-950);
   --colors-code-colors-yellow: #ebc419;
   --colors-code-colors-purple: #b350ed;
   --colors-code-colors-turquoise: #67eaf9;
-  --colors-code-colors-white: var(--colors-neutral-0);
+  --colors-code-colors-white: var(--colors-primary-0);
   --colors-code-colors-red-contrast: var(--colors-negative-500);
   --colors-code-colors-green-contrast: var(--colors-positive-600);
   --colors-code-colors-blue-contrast: var(--colors-blue-400);
@@ -287,9 +288,9 @@
   --colors-error-mid: #FF3B30;
 
   /* Colors Other */
-  --colors-neutral-150: #d5d7d9;
-  --colors-neutral-850: #2a2c30;
-  --colors-neutral-750: #1c1c1c;
+  --colors-primary-150: #d5d7d9;
+  --colors-primary-850: #2a2c30;
+  --colors-primary-750: #1c1c1c;
   --colors-overlay-overlay-white-40: rgba(255 255 255 / 0.4);
   --colors-overlay-overlay-black-40: rgba(13 14 15 / 0.4);
   --colors-overlay-overlay-white-64: rgba(255 255 255 / 0.64);
@@ -561,17 +562,17 @@ html {
   --icon-file: var(--icon-file-light);
   --icon-menu: var(--icon-menu-light);
 
-  --text-buttons-button-label-primary-default: var(--colors-neutral-0);
-  --text-buttons-button-label-secondary-default: var(--colors-neutral-900);
-  --text-buttons-button-label-inactive: var(--colors-neutral-500);
+  --text-buttons-button-label-primary-default: var(--colors-primary-0);
+  --text-buttons-button-label-secondary-default: var(--colors-primary-900);
+  --text-buttons-button-label-inactive: var(--colors-primary-500);
 
-  --text-main-text-primary: var(--colors-neutral-900);
+  --text-main-text-primary: var(--colors-primary-900);
   --text-main-text-link-blue-secondary: var(--colors-blue-500);
   --text-main-text-link-blue-tetriary: var(--colors-blue-400);
-  --text-main-text-body-secondary: var(--colors-neutral-700);
-  --text-main-text-body-quaternary: var(--colors-neutral-400);
-  --text-main-text-body-tetriary: var(--colors-neutral-600);
-  --text-main-text-body-primary: var(--colors-neutral-850);
+  --text-main-text-body-secondary: var(--colors-primary-700);
+  --text-main-text-body-quaternary: var(--colors-primary-400);
+  --text-main-text-body-tetriary: var(--colors-primary-600);
+  --text-main-text-body-primary: var(--colors-primary-650);
   --text-main-text-link-blue: var(--colors-blue-600);
 
   --text-states-text-warning-tetriary: var(--colors-warning-600);
@@ -612,16 +613,17 @@ html {
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-400);
   --surface-button-button-bg-primary-default: var(--colors-blue-700);
   --surface-button-button-bg-primary-pressed: var(--colors-blue-700);
-  --surface-button-button-bg-primary-inactive: var(--colors-neutral-200);
+  --surface-button-button-bg-primary-inactive: var(--colors-primary-200);
   --surface-button-button-bg-secondary-cta-hover: var(--colors-brand-orange-500);
   --surface-button-button-bg-primary-hover: var(--colors-blue-800);
   --surface-button-button-bg-secondary-cta-pressed: var(--colors-brand-orange-400);
-  --surface-button-button-bg-secondary-cta-inactive: var(--colors-neutral-200);
+  --surface-button-button-bg-secondary-cta-inactive: var(--colors-primary-200);
 
-  --surface-background-main-base-primary: var(--colors-neutral-0);
-  --surface-background-main-surface-primary: var(--colors-neutral-50);
-  --surface-background-main-surface-secondary: var(--colors-neutral-100);
-  --surface-background-main-surface-tetriary: var(--colors-neutral-150);
+  --surface-page: #F7FDFE;
+  --surface-background-main-base-primary: var(--surface-page);
+  --surface-background-main-surface-primary: var(--colors-primary-50);
+  --surface-background-main-surface-secondary: var(--colors-primary-100);
+  --surface-background-main-surface-tetriary: var(--colors-primary-150);
   --surface-background-main-surface-blue-primary: var(--colors-blue-0);
   --surface-background-main-surface-blue-secondary: var(--colors-blue-50);
   --surface-background-main-surface-blue-tetriary: var(--colors-blue-100);
@@ -646,15 +648,15 @@ html {
   --surface-background-states-surface-additional-tetriary: var(--colors-blue-200);
   --surface-background-states-surface-additional-quaternary: var(--colors-blue-300);
 
-  --surface-icons-icon-primary: var(--colors-neutral-900);
-  --surface-icons-icon-button-primary: var(--colors-neutral-0);
-  --surface-icons-icon-button-secondary: var(--colors-neutral-900);
-  --surface-icons-icon-button-inactive: var(--colors-neutral-500);
-  --surface-icons-icon-secondary: var(--colors-neutral-600);
-  --surface-icons-icon-quaternary: var(--colors-neutral-200);
+  --surface-icons-icon-primary: var(--colors-primary-900);
+  --surface-icons-icon-button-primary: var(--colors-primary-0);
+  --surface-icons-icon-button-secondary: var(--colors-primary-900);
+  --surface-icons-icon-button-inactive: var(--colors-primary-500);
+  --surface-icons-icon-secondary: var(--colors-primary-600);
+  --surface-icons-icon-quaternary: var(--colors-primary-200);
   --surface-icons-icon-cta: var(--colors-brand-orange-500);
   --surface-icons-icon-hover: var(--colors-brand-orange-400);
-  --surface-icons-icon-tetriary: var(--colors-neutral-400);
+  --surface-icons-icon-tetriary: var(--colors-primary-400);
   --surface-icons-icon-warning: var(--colors-warning-600);
   --surface-icons-icon-positive: var(--colors-positive-600);
   --surface-icons-icon-negative: var(--colors-negative-600);
@@ -662,11 +664,11 @@ html {
   --surface-icons-icon-blue: var(--colors-blue-600);
   --surface-icons-icon-blue-light: var(--colors-blue-200);
 
-  --border-border-primary: var(--colors-neutral-100);
-  --border-border-secondary: var(--colors-neutral-150);
-  --border-border-tetriary: var(--colors-neutral-300);
-  --border-border-quaternary: var(--colors-neutral-600);
-  --border-border-active: var(--colors-neutral-900);
+  --border-border-primary: var(--colors-primary-100);
+  --border-border-secondary: var(--colors-primary-150);
+  --border-border-tetriary: var(--colors-primary-300);
+  --border-border-quaternary: var(--colors-primary-600);
+  --border-border-active: var(--colors-primary-900);
   --border-border-brand-orange: var(--colors-brand-orange-200);
   --border-border-warning: var(--colors-warning-200);
   --border-border-positive: var(--colors-positive-200);
@@ -690,18 +692,18 @@ html.dark {
   --icon-file: var(--icon-file-dark);
   --icon-menu: var(--icon-menu-dark);
 
-  --text-buttons-button-label-primary-default: var(--colors-neutral-0);
-  --text-buttons-button-label-secondary-default: var(--colors-neutral-950);
-  --text-buttons-button-label-inactive: var(--colors-neutral-500);
+  --text-buttons-button-label-primary-default: var(--colors-primary-0);
+  --text-buttons-button-label-secondary-default: var(--colors-primary-950);
+  --text-buttons-button-label-inactive: var(--colors-primary-500);
 
-  --text-main-text-primary: var(--colors-neutral-0);
+  --text-main-text-primary: var(--colors-primary-0);
   --text-main-text-link-blue-secondary: var(--colors-blue-500);
   --text-main-text-link-blue-tetriary: var(--colors-blue-600);
   --text-main-text-link-blue: var(--colors-blue-400);
-  --text-main-text-body-secondary: var(--colors-neutral-200);
-  --text-main-text-body-tetriary: var(--colors-neutral-300);
-  --text-main-text-body-quaternary: var(--colors-neutral-600);
-  --text-main-text-body-primary: var(--colors-neutral-50);
+  --text-main-text-body-secondary: var(--colors-primary-200);
+  --text-main-text-body-tetriary: var(--colors-primary-300);
+  --text-main-text-body-quaternary: var(--colors-primary-600);
+  --text-main-text-body-primary: var(--colors-primary-50);
 
   --text-states-text-warning-tetriary: var(--colors-warning-400);
   --text-states-text-warning-secondary: var(--colors-warning-500);
@@ -741,16 +743,17 @@ html.dark {
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-500);
   --surface-button-button-bg-primary-default: var(--colors-blue-800);
   --surface-button-button-bg-primary-pressed: var(--colors-blue-800);
-  --surface-button-button-bg-primary-inactive: var(--colors-neutral-800);
+  --surface-button-button-bg-primary-inactive: var(--colors-primary-800);
   --surface-button-button-bg-secondary-cta-hover: var(--colors-brand-orange-400);
   --surface-button-button-bg-primary-hover: var(--colors-blue-700);
   --surface-button-button-bg-secondary-cta-pressed: var(--colors-brand-orange-500);
-  --surface-button-button-bg-secondary-cta-inactive: var(--colors-neutral-800);
+  --surface-button-button-bg-secondary-cta-inactive: var(--colors-primary-800);
 
-  --surface-background-main-base-primary: var(--colors-neutral-950);
-  --surface-background-main-surface-primary: var(--colors-neutral-900);
-  --surface-background-main-surface-secondary: var(--colors-neutral-850);
-  --surface-background-main-surface-tetriary: var(--colors-neutral-800);
+  --surface-page: var(--colors-primary-950);
+  --surface-background-main-base-primary: var(--surface-page);
+  --surface-background-main-surface-primary: var(--colors-primary-900);
+  --surface-background-main-surface-secondary: var(--colors-primary-850);
+  --surface-background-main-surface-tetriary: var(--colors-primary-800);
   --surface-background-main-surface-blue-primary: var(--colors-blue-900);
   --surface-background-main-surface-blue-secondary: var(--colors-blue-900);
   --surface-background-main-surface-blue-tetriary: var(--colors-blue-850);
@@ -775,12 +778,12 @@ html.dark {
   --surface-background-states-surface-additional-tetriary: var(--colors-blue-800);
   --surface-background-states-surface-additional-quaternary: var(--colors-blue-700);
 
-  --surface-icons-icon-primary: var(--colors-neutral-0);
-  --surface-icons-icon-button-primary: var(--colors-neutral-0);
-  --surface-icons-icon-button-secondary: var(--colors-neutral-950);
-  --surface-icons-icon-button-inactive: var(--colors-neutral-600);
-  --surface-icons-icon-secondary: var(--colors-neutral-400);
-  --surface-icons-icon-quaternary: var(--colors-neutral-600);
+  --surface-icons-icon-primary: var(--colors-primary-0);
+  --surface-icons-icon-button-primary: var(--colors-primary-0);
+  --surface-icons-icon-button-secondary: var(--colors-primary-950);
+  --surface-icons-icon-button-inactive: var(--colors-primary-600);
+  --surface-icons-icon-secondary: var(--colors-primary-400);
+  --surface-icons-icon-quaternary: var(--colors-primary-600);
   --surface-icons-icon-cta: var(--colors-brand-orange-500);
   --surface-icons-icon-hover: var(--colors-brand-orange-600);
   --surface-icons-icon-warning: var(--colors-warning-400);
@@ -790,11 +793,11 @@ html.dark {
   --surface-icons-icon-blue: var(--colors-blue-400);
   --surface-icons-icon-blue-light: var(--colors-blue-700);
 
-  --border-border-primary: var(--colors-neutral-850);
-  --border-border-secondary: var(--colors-neutral-800);
-  --border-border-tetriary: var(--colors-neutral-700);
-  --border-border-quaternary: var(--colors-neutral-500);
-  --border-border-active: var(--colors-neutral-0);
+  --border-border-primary: var(--colors-primary-850);
+  --border-border-secondary: var(--colors-primary-800);
+  --border-border-tetriary: var(--colors-primary-700);
+  --border-border-quaternary: var(--colors-primary-500);
+  --border-border-active: var(--colors-primary-0);
   --border-border-brand-orange: var(--colors-brand-orange-900);
   --border-border-warning: var(--colors-warning-800);
   --border-border-positive: var(--colors-positive-800);
@@ -1527,7 +1530,7 @@ html.dark .boostlook .listingblock > .content > pre {
 .boostlook .content:has(> pre.highlight) {
   border-radius: 0;
   /*border: 1px solid var(--border-border-secondary, #d5d7d9);*/
-  background: var(--surface-background-main-surface-secondary, #e4e7ea);
+  background: none;
 }
 
 .boostlook pre.programlisting,
@@ -1604,8 +1607,6 @@ html.dark .boostlook .listingblock > .content > pre {
 }
 
 /* Apply left margin only if code block not in definition block or in table */
-.boostlook .listingblock:has(> .content > pre):not(:is(dd pre, td pre)),
-.boostlook .listingblock:has(> .content > pre.highlight):not(:is(dd pre, td pre)),
 .boostlook:not(:has(.doc)) pre.programlisting:not(:is(dd pre, td pre)),
 .boostlook:not(:has(.doc)) pre.synopsis:not(:is(dd pre, td pre)),
 .boostlook#libraryReadMe > pre:not(:is(dd pre, td pre)),
@@ -1624,9 +1625,6 @@ html.dark .boostlook .listingblock > .content > pre {
 .boostlook .olist.arabic > ol > li .listingblock:has(> .content > pre):not(:is(dd pre, td pre)),
 .boostlook:not(:has(.doc)) .orderedlist > ol > li .listingblock:has(> .content > pre.highlight):not(:is(dd pre, td pre)) {
   margin-left: 0;
-}
-.boostlook .listingblock:has(> .content > pre):not(:is(dd pre, td pre)), .boostlook .listingblock:has(> .content > pre.highlight):not(:is(dd pre, td pre)) {
-  margin-left: var(--spacing-size-xl);
 }
 
 .boostlook .listingblock:has(> .content > pre):not(:is(dd pre, td pre)):has(.title) {
@@ -2358,7 +2356,6 @@ html.dark .boostlook code.cpp-highlight .cpp-attribute {
   border-radius: var(--radius-xxl, 1rem);
   border: 1px solid var(--border-border-primary, #e4e7ea);
   margin: revert;
-  margin-left: var(--spacing-size-xl);
   background: var(--surface-background-main-base-primary, #fff);
 }
 
@@ -3068,16 +3065,6 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
   display: revert;
 }
 
-/* Add intendation */
-.boostlook #content .sectionbody > table.tableblock,
-.boostlook #content .section > table.tableblock,
-.boostlook .sectionbody > div.informaltable:not(:is(.informaltable:has(> table:nth-of-type(2)):not(:has(> *:not(table))))),
-.boostlook .section > div.informaltable:not(:is(.informaltable:has(> table:nth-of-type(2)):not(:has(> *:not(table))))),
-.boostlook:not(:has(.doc)) .sectionbody > div.table .table-contents,
-.boostlook:not(:has(.doc)) .section > div.table .table-contents,
-.boostlook#libraryReadMe > table {
-  margin-left: var(--spacing-size-xl, 2rem);
-}
 
 .boostlook #content table.tableblock:not(:first-child),
 .boostlook:not(:has(.doc)) .table:not(:first-child),
@@ -3089,7 +3076,6 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(>.boostlook)) > #conte
 .boostlook:not(:has(.doc)) table.table,
 .boostlook#libraryReadMe > table.stretch {
   min-width: 100%;
-  margin-left: var(--spacing-size-xl, 2rem);
 }
 
 .boostlook #content table.tableblock caption,
@@ -4182,10 +4168,10 @@ html.is-clipped--nav:has(.boostlook) div#content {
 }
 
 .boostlook .tablist > ul[role="tablist"] {
-  background-color: var(--colors-neutral-250, #f9f9f9);
+  background-color: var(--colors-primary-250, #f9f9f9);
 }
 .dark .boostlook .tablist > ul[role="tablist"] {
-  background-color: var(--colors-neutral-750, #1c1c1c);
+  background-color: var(--colors-primary-750, #1c1c1c);
 }
 .boostlook .tablist > ul .tab {
   position: relative;
@@ -4263,7 +4249,7 @@ html.is-clipped--nav:has(.boostlook) div#content {
 }
 
 #search-input:disabled {
-  background: var(--colors-neutral-100);
+  background: var(--colors-primary-100);
   color: var(--text-main-text-body-tetriary);
   cursor: not-allowed;
 }
@@ -4310,7 +4296,7 @@ html.is-clipped--nav:has(.boostlook) div#content {
 }
 
 .search-result-item:hover {
-  background: var(--colors-neutral-50);
+  background: var(--colors-primary-50);
 }
 
 .search-result-item .no-result {
