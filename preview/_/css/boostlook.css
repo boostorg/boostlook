@@ -135,24 +135,23 @@
   /* New Look Primitives */
   /* Colors Primary (Grey) */
   --colors-primary-0: #ffffff;
-  --colors-primary-50: #f5f6f8;
-  --colors-primary-100: #e4e7ea;
-  --colors-primary-200: #c7cccf;
-  --colors-primary-300: #afb3b6;
-  --colors-primary-400: #949a9e;
-  --colors-primary-500: #798086;
-  --colors-primary-600: #62676b;
-  --colors-primary-650: #585A64;
-  --colors-primary-700: #494d50;
-  --colors-primary-800: #393b3f;
-  --colors-primary-900: #18191b;
-  --colors-primary-950: #0d0e0f;
+  --colors-primary-50: #F7F7F8;
+  --colors-primary-100: #EFEFF1;
+  --colors-primary-200: #CACBCE;
+  --colors-primary-300: #A6A8AE;
+  --colors-primary-400: #82848A;
+  --colors-primary-500: #71737B;
+  --colors-primary-600: #585A64;
+  --colors-primary-700: #444651;
+  --colors-primary-800: #2F313D;
+  --colors-primary-900: #050816;
+  --colors-primary-950: #050816;
 
   /* Colors Brand Shades */
   --colors-brand-orange-100: #ffeaca;
   --colors-brand-orange-200: #ffd897;
   --colors-brand-orange-400: #ffb030;
-  --colors-brand-orange-500: #ff9f00;
+  --colors-brand-orange-500: #FFA000;
   --colors-brand-orange-600: #cd7e00;
   --colors-brand-orange-900: #352000;
 
@@ -198,9 +197,9 @@
   --colors-secondary-100: #c2e2f4;
   --colors-secondary-200: #92cbe9;
   --colors-secondary-300: #62b3dd;
-  --colors-secondary-400: #329cd2;
+  --colors-secondary-400: #6DCDF7;
   --colors-secondary-500: #0284c7;
-  --colors-secondary-600: #026a9f;
+  --colors-secondary-600: #0077B8;
   --colors-secondary-700: #014f77;
   --colors-secondary-800: #013550;
   --colors-secondary-850: #01283c;
@@ -225,7 +224,7 @@
 
   /* Colour Primitives — Accent */
   --colors-accent-weak-teal: #C9F2EE;
-  --colors-accent-weak-yellow: #F8EBA9;
+  --colors-accent-weak-yellow: #FBEBA9;
   --colors-accent-weak-green: #E4E4C0;
   --colors-accent-strong-teal: #64DACE;
   --colors-accent-strong-yellow: #F5D039;
@@ -249,8 +248,8 @@
   --colors-error-mid: #FF3B30;
 
   /* Colors Other */
-  --colors-primary-150: #d5d7d9;
-  --colors-primary-850: #2a2c30;
+  --colors-primary-150: #D5D6D8;
+  --colors-primary-850: #1A1C29;
   --colors-overlay-overlay-white-40: rgba(255 255 255 / 0.4);
   --colors-overlay-overlay-black-40: rgba(13 14 15 / 0.4);
   --colors-overlay-overlay-white-64: rgba(255 255 255 / 0.64);
@@ -537,8 +536,8 @@ html {
   --text-main-text-link-blue-tetriary: var(--colors-secondary-400);
   --text-main-text-body-secondary: var(--colors-primary-700);
   --text-main-text-body-quaternary: var(--colors-primary-400);
-  --text-main-text-body-tetriary: var(--colors-primary-600);
-  --text-main-text-body-primary: var(--colors-primary-650);
+  --text-main-text-body-tetriary: var(--colors-primary-500);
+  --text-main-text-body-primary: var(--colors-primary-600);
   --text-main-text-link-blue: var(--colors-secondary-600);
 
   --text-states-text-warning-tetriary: var(--colors-warning-600);
@@ -576,12 +575,12 @@ html {
   --surface-accent-yellow-strong: var(--colors-accent-strong-yellow);
   --surface-accent-green-strong: var(--colors-accent-strong-green);
 
-  --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-400);
-  --surface-button-button-bg-primary-default: var(--colors-secondary-700);
-  --surface-button-button-bg-primary-pressed: var(--colors-secondary-700);
+  --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-500);
+  --surface-button-button-bg-primary-default: var(--colors-primary-100);
+  --surface-button-button-bg-primary-pressed: var(--colors-primary-100);
   --surface-button-button-bg-primary-inactive: var(--colors-primary-200);
   --surface-button-button-bg-secondary-cta-hover: var(--colors-brand-orange-500);
-  --surface-button-button-bg-primary-hover: var(--colors-secondary-800);
+  --surface-button-button-bg-primary-hover: var(--colors-primary-150);
   --surface-button-button-bg-secondary-cta-pressed: var(--colors-brand-orange-400);
   --surface-button-button-bg-secondary-cta-inactive: var(--colors-primary-200);
 
@@ -618,7 +617,7 @@ html {
   --surface-icons-icon-button-primary: var(--colors-primary-0);
   --surface-icons-icon-button-secondary: var(--colors-primary-900);
   --surface-icons-icon-button-inactive: var(--colors-primary-500);
-  --surface-icons-icon-secondary: var(--colors-primary-600);
+  --surface-icons-icon-secondary: var(--colors-primary-500);
   --surface-icons-icon-quaternary: var(--colors-primary-200);
   --surface-icons-icon-cta: var(--colors-brand-orange-500);
   --surface-icons-icon-hover: var(--colors-brand-orange-400);
@@ -644,6 +643,8 @@ html {
   --border-border-blue-hover: var(--colors-secondary-400);
 
   --surface-weak: var(--colors-primary-0);
+  --stroke-strong: rgba(5 8 22 / 0.25);
+  --stroke-mid: rgba(5 8 22 / 0.17);
   --stroke-weak: rgba(13 14 15 / 0.1);
 
   /*----------------- New Look Variables End -----------------*/
@@ -670,7 +671,7 @@ html.dark {
   --text-main-text-link-blue-tetriary: var(--colors-secondary-600);
   --text-main-text-link-blue: var(--colors-secondary-400);
   --text-main-text-body-secondary: var(--colors-primary-200);
-  --text-main-text-body-tetriary: var(--colors-primary-300);
+  --text-main-text-body-tetriary: var(--colors-primary-400);
   --text-main-text-body-quaternary: var(--colors-primary-600);
   --text-main-text-body-primary: var(--colors-primary-50);
 
@@ -702,27 +703,27 @@ html.dark {
   --text-states-text-error-strong: var(--colors-error-mid);
   --text-states-text-error-mid: var(--colors-error-mid);
 
-  --surface-accent-teal-weak: var(--colors-accent-strong-teal);
-  --surface-accent-yellow-weak: var(--colors-accent-strong-yellow);
-  --surface-accent-green-weak: var(--colors-accent-strong-green);
-  --surface-accent-teal-strong: var(--colors-accent-weak-teal);
-  --surface-accent-yellow-strong: var(--colors-accent-weak-yellow);
-  --surface-accent-green-strong: var(--colors-accent-weak-green);
+  --surface-accent-teal-weak: var(--colors-primary-700);
+  --surface-accent-yellow-weak: var(--colors-primary-700);
+  --surface-accent-green-weak: var(--colors-primary-700);
+  --surface-accent-teal-strong: var(--colors-primary-600);
+  --surface-accent-yellow-strong: var(--colors-primary-600);
+  --surface-accent-green-strong: var(--colors-primary-600);
 
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-500);
-  --surface-button-button-bg-primary-default: var(--colors-secondary-800);
-  --surface-button-button-bg-primary-pressed: var(--colors-secondary-800);
+  --surface-button-button-bg-primary-default: var(--colors-primary-600);
+  --surface-button-button-bg-primary-pressed: var(--colors-primary-600);
   --surface-button-button-bg-primary-inactive: var(--colors-primary-800);
   --surface-button-button-bg-secondary-cta-hover: var(--colors-brand-orange-400);
-  --surface-button-button-bg-primary-hover: var(--colors-secondary-700);
+  --surface-button-button-bg-primary-hover: var(--colors-primary-800);
   --surface-button-button-bg-secondary-cta-pressed: var(--colors-brand-orange-500);
   --surface-button-button-bg-secondary-cta-inactive: var(--colors-primary-800);
 
   --surface-page: var(--colors-primary-950);
   --surface-background-main-base-primary: var(--surface-page);
-  --surface-background-main-surface-primary: var(--colors-primary-900);
-  --surface-background-main-surface-secondary: var(--colors-primary-850);
-  --surface-background-main-surface-tetriary: var(--colors-primary-800);
+  --surface-background-main-surface-primary: var(--colors-primary-850);
+  --surface-background-main-surface-secondary: var(--colors-primary-800);
+  --surface-background-main-surface-tetriary: var(--colors-primary-700);
   --surface-background-main-surface-blue-primary: var(--colors-secondary-900);
   --surface-background-main-surface-blue-secondary: var(--colors-secondary-900);
   --surface-background-main-surface-blue-tetriary: var(--colors-secondary-850);
@@ -751,7 +752,7 @@ html.dark {
   --surface-icons-icon-button-primary: var(--colors-primary-0);
   --surface-icons-icon-button-secondary: var(--colors-primary-950);
   --surface-icons-icon-button-inactive: var(--colors-primary-600);
-  --surface-icons-icon-secondary: var(--colors-primary-400);
+  --surface-icons-icon-secondary: var(--colors-primary-200);
   --surface-icons-icon-quaternary: var(--colors-primary-600);
   --surface-icons-icon-cta: var(--colors-brand-orange-500);
   --surface-icons-icon-hover: var(--colors-brand-orange-600);
@@ -775,7 +776,9 @@ html.dark {
   --border-border-blue-primary: var(--colors-secondary-850);
   --border-border-blue-hover: var(--colors-secondary-500);
 
-  --surface-weak: var(--colors-primary-900);
+  --surface-weak: var(--colors-primary-850);
+  --stroke-strong: rgba(247 247 248 / 0.21);
+  --stroke-mid: rgba(247 247 248 / 0.17);
   --stroke-weak: rgba(255 255 255 / 0.1);
 
   /*----------------- New Look Variables Dark Mode Start -----------------*/

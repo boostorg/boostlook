@@ -30,8 +30,8 @@ html {
   --text-main-text-link-blue-tetriary: var(--colors-secondary-400);
   --text-main-text-body-secondary: var(--colors-primary-700);
   --text-main-text-body-quaternary: var(--colors-primary-400);
-  --text-main-text-body-tetriary: var(--colors-primary-600);
-  --text-main-text-body-primary: var(--colors-primary-650);
+  --text-main-text-body-tetriary: var(--colors-primary-500);
+  --text-main-text-body-primary: var(--colors-primary-600);
   --text-main-text-link-blue: var(--colors-secondary-600);
 
   --text-states-text-warning-tetriary: var(--colors-warning-600);
@@ -69,12 +69,12 @@ html {
   --surface-accent-yellow-strong: var(--colors-accent-strong-yellow);
   --surface-accent-green-strong: var(--colors-accent-strong-green);
 
-  --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-400);
-  --surface-button-button-bg-primary-default: var(--colors-secondary-700);
-  --surface-button-button-bg-primary-pressed: var(--colors-secondary-700);
+  --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-500);
+  --surface-button-button-bg-primary-default: var(--colors-primary-100);
+  --surface-button-button-bg-primary-pressed: var(--colors-primary-100);
   --surface-button-button-bg-primary-inactive: var(--colors-primary-200);
   --surface-button-button-bg-secondary-cta-hover: var(--colors-brand-orange-500);
-  --surface-button-button-bg-primary-hover: var(--colors-secondary-800);
+  --surface-button-button-bg-primary-hover: var(--colors-primary-150);
   --surface-button-button-bg-secondary-cta-pressed: var(--colors-brand-orange-400);
   --surface-button-button-bg-secondary-cta-inactive: var(--colors-primary-200);
 
@@ -111,7 +111,7 @@ html {
   --surface-icons-icon-button-primary: var(--colors-primary-0);
   --surface-icons-icon-button-secondary: var(--colors-primary-900);
   --surface-icons-icon-button-inactive: var(--colors-primary-500);
-  --surface-icons-icon-secondary: var(--colors-primary-600);
+  --surface-icons-icon-secondary: var(--colors-primary-500);
   --surface-icons-icon-quaternary: var(--colors-primary-200);
   --surface-icons-icon-cta: var(--colors-brand-orange-500);
   --surface-icons-icon-hover: var(--colors-brand-orange-400);
@@ -137,6 +137,8 @@ html {
   --border-border-blue-hover: var(--colors-secondary-400);
 
   --surface-weak: var(--colors-primary-0);
+  --stroke-strong: rgba(5 8 22 / 0.25);
+  --stroke-mid: rgba(5 8 22 / 0.17);
   --stroke-weak: rgba(13 14 15 / 0.1);
 
   /*----------------- New Look Variables End -----------------*/
@@ -163,7 +165,7 @@ html.dark {
   --text-main-text-link-blue-tetriary: var(--colors-secondary-600);
   --text-main-text-link-blue: var(--colors-secondary-400);
   --text-main-text-body-secondary: var(--colors-primary-200);
-  --text-main-text-body-tetriary: var(--colors-primary-300);
+  --text-main-text-body-tetriary: var(--colors-primary-400);
   --text-main-text-body-quaternary: var(--colors-primary-600);
   --text-main-text-body-primary: var(--colors-primary-50);
 
@@ -195,27 +197,27 @@ html.dark {
   --text-states-text-error-strong: var(--colors-error-mid);
   --text-states-text-error-mid: var(--colors-error-mid);
 
-  --surface-accent-teal-weak: var(--colors-accent-strong-teal);
-  --surface-accent-yellow-weak: var(--colors-accent-strong-yellow);
-  --surface-accent-green-weak: var(--colors-accent-strong-green);
-  --surface-accent-teal-strong: var(--colors-accent-weak-teal);
-  --surface-accent-yellow-strong: var(--colors-accent-weak-yellow);
-  --surface-accent-green-strong: var(--colors-accent-weak-green);
+  --surface-accent-teal-weak: var(--colors-primary-700);
+  --surface-accent-yellow-weak: var(--colors-primary-700);
+  --surface-accent-green-weak: var(--colors-primary-700);
+  --surface-accent-teal-strong: var(--colors-primary-600);
+  --surface-accent-yellow-strong: var(--colors-primary-600);
+  --surface-accent-green-strong: var(--colors-primary-600);
 
   --surface-button-button-bg-secondary-ta-default: var(--colors-brand-orange-500);
-  --surface-button-button-bg-primary-default: var(--colors-secondary-800);
-  --surface-button-button-bg-primary-pressed: var(--colors-secondary-800);
+  --surface-button-button-bg-primary-default: var(--colors-primary-600);
+  --surface-button-button-bg-primary-pressed: var(--colors-primary-600);
   --surface-button-button-bg-primary-inactive: var(--colors-primary-800);
   --surface-button-button-bg-secondary-cta-hover: var(--colors-brand-orange-400);
-  --surface-button-button-bg-primary-hover: var(--colors-secondary-700);
+  --surface-button-button-bg-primary-hover: var(--colors-primary-800);
   --surface-button-button-bg-secondary-cta-pressed: var(--colors-brand-orange-500);
   --surface-button-button-bg-secondary-cta-inactive: var(--colors-primary-800);
 
   --surface-page: var(--colors-primary-950);
   --surface-background-main-base-primary: var(--surface-page);
-  --surface-background-main-surface-primary: var(--colors-primary-900);
-  --surface-background-main-surface-secondary: var(--colors-primary-850);
-  --surface-background-main-surface-tetriary: var(--colors-primary-800);
+  --surface-background-main-surface-primary: var(--colors-primary-850);
+  --surface-background-main-surface-secondary: var(--colors-primary-800);
+  --surface-background-main-surface-tetriary: var(--colors-primary-700);
   --surface-background-main-surface-blue-primary: var(--colors-secondary-900);
   --surface-background-main-surface-blue-secondary: var(--colors-secondary-900);
   --surface-background-main-surface-blue-tetriary: var(--colors-secondary-850);
@@ -244,7 +246,7 @@ html.dark {
   --surface-icons-icon-button-primary: var(--colors-primary-0);
   --surface-icons-icon-button-secondary: var(--colors-primary-950);
   --surface-icons-icon-button-inactive: var(--colors-primary-600);
-  --surface-icons-icon-secondary: var(--colors-primary-400);
+  --surface-icons-icon-secondary: var(--colors-primary-200);
   --surface-icons-icon-quaternary: var(--colors-primary-600);
   --surface-icons-icon-cta: var(--colors-brand-orange-500);
   --surface-icons-icon-hover: var(--colors-brand-orange-600);
@@ -268,7 +270,9 @@ html.dark {
   --border-border-blue-primary: var(--colors-secondary-850);
   --border-border-blue-hover: var(--colors-secondary-500);
 
-  --surface-weak: var(--colors-primary-900);
+  --surface-weak: var(--colors-primary-850);
+  --stroke-strong: rgba(247 247 248 / 0.21);
+  --stroke-mid: rgba(247 247 248 / 0.17);
   --stroke-weak: rgba(255 255 255 / 0.1);
 
   /*----------------- New Look Variables Dark Mode Start -----------------*/
