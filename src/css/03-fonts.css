@@ -28,6 +28,7 @@ html:has(.boostlook) {
   font-style: normal;
   font-weight: 100 900;
   font-stretch: 62.5% 100%;
+  font-variation-settings: "wght" 400, "wdth" 62.5;
   font-display: block;
   src: url("../font/NotoSansDisplay.ttf") format("truetype"),
     url("/static/font/notosans.woff2") format("woff2"),
@@ -45,6 +46,7 @@ html:has(.boostlook) {
   font-style: italic;
   font-weight: 100 900;
   font-stretch: 62.5% 100%;
+  font-variation-settings: "wght" 400, "wdth" 62.5;
   font-display: block;
   src: url("../font/NotoSansDisplay-Italic.ttf") format("truetype"),
     url("/static/font/notosans_ext.woff2") format("woff2"),
