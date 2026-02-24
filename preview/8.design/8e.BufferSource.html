@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>BufferSource Concept Design :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/8.design/8e.BufferSource.html">
+    <link rel="prev" href="8d.ReadSource.html">
+    <link rel="next" href="8f.WriteStream.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="8.intro.html">Design</a></li>
+    <li><a href="8e.BufferSource.html">BufferSource</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="8d.ReadSource.html">
+      <span class="material-symbols-outlined" title="Previous: ReadSource">arrow_back</span>
+    </a>
+    <a accesskey="u" href="8.intro.html">
+      <span class="material-symbols-outlined" title="Up: Design">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="8f.WriteStream.html">
+      <span class="material-symbols-outlined" title="Next: WriteStream">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">BufferSource Concept Design</h1>
+  <div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document describes the design of the <code>BufferSource</code> concept, the rationale behind each member function, and the relationship between <code>BufferSource</code>, <code>ReadSource</code>, and the <code>push_to</code> algorithm. <code>BufferSource</code> models the "callee owns buffers" pattern on the read side: the source exposes its internal storage as read-only buffers and the caller consumes data directly from them, enabling zero-copy data transfer.</p>
+</div>
+<div class="paragraph">
+<p>Where <code>ReadSource</code> requires the caller to supply mutable buffers for the source to fill, <code>BufferSource</code> inverts the ownership: the source provides read-only views into its own memory and the caller reads from them in place. The two concepts are independent&#8201;&#8212;&#8201;neither refines the other&#8201;&#8212;&#8201;but the type-erased wrapper <code>any_buffer_source</code> satisfies both, bridging the two patterns behind a single runtime interface.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_concept_definition"><a class="anchor" href="#_concept_definition"></a>Concept Definition</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename T&gt;
+concept BufferSource =
+    requires(T&amp; src, std::span&lt;const_buffer&gt; dest, std::size_t n)
+    {
+        { src.pull(dest) } -&gt; IoAwaitable;
+        requires awaitable_decomposes_to&lt;
+            decltype(src.pull(dest)),
+            std::error_code, std::span&lt;const_buffer&gt;&gt;;
+        src.consume(n);
+    };</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>BufferSource</code> is a standalone concept. It does not refine <code>ReadSource</code> or <code>ReadStream</code>. The two concept families model different ownership patterns and can coexist on the same concrete type.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_caller_vs_callee_buffer_ownership"><a class="anchor" href="#_caller_vs_callee_buffer_ownership"></a>Caller vs Callee Buffer Ownership</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The library provides two concept families for reading data:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Aspect</th>
+<th class="tableblock halign-left valign-top">ReadSource (caller owns)</th>
+<th class="tableblock halign-left valign-top">BufferSource (callee owns)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Buffer origin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Caller allocates mutable buffers; source fills them.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Source exposes its internal storage as read-only buffers; caller reads
+  from them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Copy cost</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">One copy: source&#8217;s internal storage &#8594; caller&#8217;s buffer.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zero copies when the caller can process data in place (e.g., scanning,
+  hashing, forwarding to a <code>write_some</code> call).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API shape</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>read_some(buffers)</code>, <code>read(buffers)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pull(dest)</code>, <code>consume(n)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Natural for</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Callers that need to accumulate data into their own buffer (e.g.,
+  parsing a fixed-size header into a struct).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sources backed by pre-existing memory (ring buffers, memory-mapped
+  files, decompression output buffers, kernel receive buffers).</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Both patterns are necessary. A memory-mapped file source naturally owns the mapped region; the caller reads directly from the mapped pages without copying. Conversely, an application that needs to fill a fixed-size header struct naturally provides its own mutable buffer for the source to fill.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_member_functions"><a class="anchor" href="#_member_functions"></a>Member Functions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_pulldestexpose_readable_buffers"><a class="anchor" href="#_pulldestexpose_readable_buffers"></a><code>pull(dest)</code>&#8201;&#8212;&#8201;Expose Readable Buffers</h3>
+<div class="paragraph">
+<p>Fills the provided span with const buffer descriptors pointing to the source&#8217;s internal storage. This operation is asynchronous because the source may need to perform I/O to produce data (e.g., reading from a socket, decompressing a block).</p>
+</div>
+<div class="sect3">
+<h4 id="_signature"><a class="anchor" href="#_signature"></a>Signature</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">IoAwaitable auto pull(std::span&lt;const_buffer&gt; dest);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns <code>(error_code, std::span&lt;const_buffer&gt;)</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_semantics"><a class="anchor" href="#_semantics"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Data available</strong>: <code>!ec</code> and <code>bufs.size() &gt; 0</code>. The returned span contains buffer descriptors pointing to readable data in the source&#8217;s internal storage.</p>
+</li>
+<li>
+<p><strong>Source exhausted</strong>: <code>ec == cond::eof</code> and <code>bufs.empty()</code>. No more data is available; the transfer is complete.</p>
+</li>
+<li>
+<p><strong>Error</strong>: <code>ec</code> is <code>true</code> and <code>ec != cond::eof</code>. An error occurred.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Calling <code>pull</code> multiple times without an intervening <code>consume</code> returns the same unconsumed data. This idempotency lets the caller inspect the data, decide how much to process, and then advance the position with <code>consume</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_asynchronous"><a class="anchor" href="#_why_asynchronous"></a>Why Asynchronous</h4>
+<div class="paragraph">
+<p>Unlike <code>BufferSink::prepare</code>, which is synchronous, <code>pull</code> is asynchronous. The asymmetry exists because the two operations have fundamentally different costs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>prepare</code> returns pointers to <em>empty</em> memory the sink already owns. No data movement is involved; it is pure bookkeeping.</p>
+</li>
+<li>
+<p><code>pull</code> may need to <em>produce</em> data before it can return buffer descriptors. A file source reads from disk. A decompression source feeds compressed input to the decompressor. A network source waits for data to arrive on a socket. These operations require I/O.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Making <code>pull</code> synchronous would force the source to pre-buffer all data before the caller can begin consuming it, defeating the streaming model.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_a_span_parameter"><a class="anchor" href="#_why_a_span_parameter"></a>Why a Span Parameter</h4>
+<div class="paragraph">
+<p>The caller provides the output span rather than the source returning a fixed-size container. This lets the caller control the stack allocation and avoids heap allocation for the buffer descriptor array:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">const_buffer arr[16];
+auto [ec, bufs] = co_await source.pull(arr);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The source fills as many descriptors as it can (up to <code>dest.size()</code>) and returns the populated subspan.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_consumenadvance_the_read_position"><a class="anchor" href="#_consumenadvance_the_read_position"></a><code>consume(n)</code>&#8201;&#8212;&#8201;Advance the Read Position</h3>
+<div class="paragraph">
+<p>Advances the source&#8217;s internal read position by <code>n</code> bytes. The next call to <code>pull</code> returns data starting after the consumed bytes. This operation is synchronous.</p>
+</div>
+<div class="sect3">
+<h4 id="_signature_2"><a class="anchor" href="#_signature_2"></a>Signature</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void consume(std::size_t n) noexcept;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_semantics_2"><a class="anchor" href="#_semantics_2"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Advances the read position by <code>n</code> bytes.</p>
+</li>
+<li>
+<p><code>n</code> must not exceed the total size of the buffers returned by the most recent <code>pull</code>.</p>
+</li>
+<li>
+<p>After <code>consume</code>, the buffers returned by the prior <code>pull</code> are invalidated. The caller must call <code>pull</code> again to obtain new buffer descriptors.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_synchronous"><a class="anchor" href="#_why_synchronous"></a>Why Synchronous</h4>
+<div class="paragraph">
+<p><code>consume</code> is synchronous because it is pure bookkeeping: advancing an offset or releasing a reference. No I/O is involved. The asynchronous work (producing data, performing I/O) happens in <code>pull</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_separate_from_pull"><a class="anchor" href="#_why_separate_from_pull"></a>Why Separate from <code>pull</code></h4>
+<div class="paragraph">
+<p>Separating <code>consume</code> from <code>pull</code> gives the caller explicit control over how much data to process before advancing:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">const_buffer arr[16];
+auto [ec, bufs] = co_await source.pull(arr);
+if(!ec)
+{
+    // Process some of the data
+    auto n = process(bufs);
+    source.consume(n);
+    // Remaining data returned by next pull
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is essential for partial processing. A parser may examine the pulled data, find that it contains an incomplete message, and consume only the complete portion. The next <code>pull</code> returns the remainder prepended to any newly available data.</p>
+</div>
+<div class="paragraph">
+<p>If <code>pull</code> automatically consumed all returned data, the caller would need to buffer unconsumed bytes itself, defeating the zero-copy benefit.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_pullconsume_protocol"><a class="anchor" href="#_the_pullconsume_protocol"></a>The Pull/Consume Protocol</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>pull</code> and <code>consume</code> functions form a two-phase read protocol:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Pull</strong>: the source provides data (async, may involve I/O).</p>
+</li>
+<li>
+<p><strong>Inspect</strong>: the caller examines the returned buffers.</p>
+</li>
+<li>
+<p><strong>Consume</strong>: the caller indicates how many bytes were used (sync).</p>
+</li>
+<li>
+<p><strong>Repeat</strong>: the next <code>pull</code> returns data starting after the consumed bytes.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This protocol enables several patterns that a single-call interface cannot:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Partial consumption</strong>: consume less than what was pulled. The remainder is returned by the next <code>pull</code>.</p>
+</li>
+<li>
+<p><strong>Peek</strong>: call <code>pull</code> to inspect data without consuming it. Call <code>pull</code> again (without <code>consume</code>) to get the same data.</p>
+</li>
+<li>
+<p><strong>Scatter writes</strong>: pull once, write the returned buffers to multiple destinations (e.g., <code>write_some</code> to a socket), and consume only the bytes that were successfully written.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_relationship_to_push_to"><a class="anchor" href="#_relationship_to_push_to"></a>Relationship to <code>push_to</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>push_to</code> is a composed algorithm that transfers data from a <code>BufferSource</code> to a <code>WriteSink</code> (or <code>WriteStream</code>). It is the callee-owns-buffers counterpart to <code>pull_from</code>, which transfers from a <code>ReadSource</code> (or <code>ReadStream</code>) to a <code>BufferSink</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;BufferSource Src, WriteSink Sink&gt;
+io_task&lt;std::size_t&gt;
+push_to(Src&amp; source, Sink&amp; sink);
+
+template&lt;BufferSource Src, WriteStream Stream&gt;
+io_task&lt;std::size_t&gt;
+push_to(Src&amp; source, Stream&amp; stream);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The algorithm loops:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call <code>source.pull(arr)</code> to get readable buffers.</p>
+</li>
+<li>
+<p>Write the data to the sink via <code>sink.write(bufs)</code> or <code>stream.write_some(bufs)</code>.</p>
+</li>
+<li>
+<p>Call <code>source.consume(n)</code> to advance past the written bytes.</p>
+</li>
+<li>
+<p>When <code>pull</code> signals EOF, call <code>sink.write_eof()</code> to finalize the sink (WriteSink overload only).</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The two <code>push_to</code> overloads differ in how they write to the destination:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Overload</th>
+<th class="tableblock halign-left valign-top">Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>push_to(BufferSource, WriteSink)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uses <code>sink.write(bufs)</code> for complete writes. Each iteration delivers
+  all pulled data. On EOF, calls <code>sink.write_eof()</code> to finalize.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>push_to(BufferSource, WriteStream)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uses <code>stream.write_some(bufs)</code> for partial writes. Consumes only the
+  bytes that were actually written, providing backpressure. Does not
+  signal EOF (WriteStream has no EOF mechanism).</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>push_to</code> is the right tool when the data source satisfies <code>BufferSource</code> and the destination satisfies <code>WriteSink</code> or <code>WriteStream</code>. The source&#8217;s internal buffers are passed directly to the write call, avoiding any intermediate caller-owned buffer.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_relationship_to_readsource"><a class="anchor" href="#_relationship_to_readsource"></a>Relationship to <code>ReadSource</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>BufferSource</code> and <code>ReadSource</code> are independent concepts serving different ownership models. A concrete type may satisfy one, the other, or both.</p>
+</div>
+<div class="paragraph">
+<p>The type-erased wrapper <code>any_buffer_source</code> satisfies both concepts. When the wrapped type satisfies only <code>BufferSource</code>, the <code>ReadSource</code> operations (<code>read_some</code>, <code>read</code>) are synthesized from <code>pull</code> and <code>consume</code> with a <code>buffer_copy</code> step: the wrapper pulls data from the underlying source, copies it into the caller&#8217;s mutable buffers, and consumes the copied bytes.</p>
+</div>
+<div class="paragraph">
+<p>When the wrapped type satisfies both <code>BufferSource</code> and <code>ReadSource</code>, the native <code>read_some</code> and <code>read</code> implementations are forwarded directly across the type-erased boundary, avoiding the extra copy. This dispatch is determined at compile time when the vtable is constructed; at runtime the wrapper checks a single nullable function pointer to select the forwarding path.</p>
+</div>
+<div class="paragraph">
+<p>This dual-concept bridge lets algorithms constrained on <code>ReadSource</code> work with any <code>BufferSource</code> through <code>any_buffer_source</code>, and lets algorithms constrained on <code>BufferSource</code> work natively with the callee-owns-buffers pattern.</p>
+</div>
+<div class="sect2">
+<h3 id="_transfer_algorithm_matrix"><a class="anchor" href="#_transfer_algorithm_matrix"></a>Transfer Algorithm Matrix</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Source</th>
+<th class="tableblock halign-left valign-top">Sink</th>
+<th class="tableblock halign-left valign-top">Algorithm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSource</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteSink</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>push_to</code>&#8201;&#8212;&#8201;pulls from source, writes to sink, signals EOF</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSource</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteStream</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>push_to</code>&#8201;&#8212;&#8201;pulls from source, writes partial to stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadSource</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSink</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pull_from</code>&#8201;&#8212;&#8201;prepares sink buffers, reads into them</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadStream</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSink</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pull_from</code>&#8201;&#8212;&#8201;prepares sink buffers, reads partial into them</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_cases"><a class="anchor" href="#_use_cases"></a>Use Cases</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_zero_copy_transfer_to_a_socket"><a class="anchor" href="#_zero_copy_transfer_to_a_socket"></a>Zero-Copy Transfer to a Socket</h3>
+<div class="paragraph">
+<p>When the source&#8217;s internal storage already contains the data to send, <code>push_to</code> passes the source&#8217;s buffers directly to the socket&#8217;s <code>write_some</code>, avoiding any intermediate copy.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;BufferSource Source, WriteStream Stream&gt;
+task&lt;&gt; send_all(Source&amp; source, Stream&amp; socket)
+{
+    auto [ec, total] = co_await push_to(source, socket);
+    if(ec)
+        co_return;
+    // total bytes sent directly from source's internal buffers
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_memory_mapped_file_source"><a class="anchor" href="#_memory_mapped_file_source"></a>Memory-Mapped File Source</h3>
+<div class="paragraph">
+<p>A memory-mapped file is a natural <code>BufferSource</code>. The <code>pull</code> operation returns buffer descriptors pointing directly into the mapped region. No data is copied until the consumer explicitly copies it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;BufferSource Source, WriteSink Sink&gt;
+task&lt;&gt; serve_static_file(Source&amp; mmap_source, Sink&amp; response)
+{
+    auto [ec, total] = co_await push_to(mmap_source, response);
+    if(ec)
+        co_return;
+    // File served via zero-copy from mapped pages
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_partial_consumption_with_a_parser"><a class="anchor" href="#_partial_consumption_with_a_parser"></a>Partial Consumption with a Parser</h3>
+<div class="paragraph">
+<p>A protocol parser pulls data, parses as much as it can, and consumes only the parsed portion. The next <code>pull</code> returns the unparsed remainder plus any newly arrived data.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;BufferSource Source&gt;
+task&lt;message&gt; parse_message(Source&amp; source)
+{
+    const_buffer arr[16];
+    message msg;
+
+    for(;;)
+    {
+        auto [ec, bufs] = co_await source.pull(arr);
+        if(ec)
+            co_return msg;
+
+        auto [parsed, complete] = msg.parse(bufs);
+        source.consume(parsed);
+
+        if(complete)
+            co_return msg;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The parser consumes only the bytes it understood. If a message spans two <code>pull</code> calls, the unconsumed tail from the first call is returned at the start of the second.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_request_body_source"><a class="anchor" href="#_http_request_body_source"></a>HTTP Request Body Source</h3>
+<div class="paragraph">
+<p>An HTTP request body can be exposed through a <code>BufferSource</code> interface. The concrete implementation handles transfer encoding (content-length, chunked, compressed) behind the abstraction.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;&gt; handle_request(
+    any_buffer_source&amp; body,
+    WriteSink auto&amp; response)
+{
+    auto [ec, total] = co_await push_to(body, response);
+    if(ec)
+        co_return;
+    // Request body forwarded to response sink
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The caller does not know whether the body uses content-length, chunked encoding, or compression. The <code>BufferSource</code> interface handles the difference.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bridging_to_readsource_via_any_buffer_source"><a class="anchor" href="#_bridging_to_readsource_via_any_buffer_source"></a>Bridging to ReadSource via <code>any_buffer_source</code></h3>
+<div class="paragraph">
+<p>When a function is constrained on <code>ReadSource</code> but the concrete type satisfies only <code>BufferSource</code>, <code>any_buffer_source</code> bridges the gap.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadSource Source&gt;
+task&lt;std::string&gt; read_all(Source&amp; source);
+
+// Concrete type satisfies BufferSource only
+my_ring_buffer ring;
+any_buffer_source abs(ring);
+
+// Works: any_buffer_source satisfies ReadSource
+auto data = co_await read_all(abs);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>read_some</code> and <code>read</code> methods pull data internally, copy it into the caller&#8217;s mutable buffers, and consume the copied bytes. This incurs one buffer copy compared to using <code>pull</code> and <code>consume</code> directly.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_alternatives_considered"><a class="anchor" href="#_alternatives_considered"></a>Alternatives Considered</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_single_pull_that_auto_consumes"><a class="anchor" href="#_single_pull_that_auto_consumes"></a>Single <code>pull</code> That Auto-Consumes</h3>
+<div class="paragraph">
+<p>An earlier design had <code>pull</code> automatically consume all returned data, eliminating the separate <code>consume</code> call. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Partial consumption becomes impossible. A parser that finds an incomplete message at the end of a pull would need to buffer the remainder itself, negating the zero-copy benefit.</p>
+</li>
+<li>
+<p>Peek semantics (inspecting data without consuming it) require the source to maintain a separate undo mechanism.</p>
+</li>
+<li>
+<p>The <code>WriteStream::write_some</code> pattern naturally consumes only <code>n</code> bytes, so the remaining pulled data must survive for the next <code>write_some</code> call. Without <code>consume</code>, the source would need to track how much of its own returned data was actually used.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pull_returning_an_owned_container"><a class="anchor" href="#_pull_returning_an_owned_container"></a><code>pull</code> Returning an Owned Container</h3>
+<div class="paragraph">
+<p>A design where <code>pull</code> returned a <code>std::vector&lt;const_buffer&gt;</code> or similar owned container was considered. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Heap allocation on every pull is unacceptable for high-throughput I/O paths.</p>
+</li>
+<li>
+<p>The span-based interface lets the caller control storage: a stack-allocated array for the common case, or a heap-allocated array for unusual situations.</p>
+</li>
+<li>
+<p>Returning a subspan of the caller&#8217;s span is zero-overhead and composes naturally with existing buffer algorithm interfaces.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_synchronous_pull"><a class="anchor" href="#_synchronous_pull"></a>Synchronous <code>pull</code></h3>
+<div class="paragraph">
+<p>Making <code>pull</code> synchronous (like <code>BufferSink::prepare</code>) was considered. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A source may need to perform I/O to produce data. A file source reads from disk. A decompression source feeds compressed input to the decompressor. A network source waits for data to arrive.</p>
+</li>
+<li>
+<p>Forcing synchronous <code>pull</code> would require the source to pre-buffer all data before the caller starts consuming, breaking the streaming model and inflating memory usage.</p>
+</li>
+<li>
+<p>The asymmetry with <code>prepare</code> is intentional: <code>prepare</code> returns pointers to empty memory (no I/O needed), while <code>pull</code> returns pointers to data that may need to be produced first.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_buffersource_refining_readsource"><a class="anchor" href="#_buffersource_refining_readsource"></a><code>BufferSource</code> Refining <code>ReadSource</code></h3>
+<div class="paragraph">
+<p>A design where <code>BufferSource</code> refined <code>ReadSource</code> (requiring all types to implement <code>read_some</code> and <code>read</code>) was considered. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Many natural <code>BufferSource</code> types (memory-mapped files, ring buffers, DMA receive descriptors) have no meaningful <code>read_some</code> primitive. Their data path is pull-then-consume, not read-into-caller-buffer.</p>
+</li>
+<li>
+<p>Requiring <code>read_some</code> and <code>read</code> on every <code>BufferSource</code> would force implementations to synthesize these operations even when they are never called.</p>
+</li>
+<li>
+<p>The <code>any_buffer_source</code> wrapper provides the bridge when needed, without burdening every concrete type.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_combined_pull_and_consume"><a class="anchor" href="#_combined_pull_and_consume"></a>Combined Pull-and-Consume</h3>
+<div class="paragraph">
+<p>A design with a single <code>read(dest) &#8594; (error_code, span)</code> that both pulled and advanced the position was considered. This is equivalent to the auto-consume alternative above and was rejected for the same reasons: it prevents partial consumption and peek semantics.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Contract</th>
+<th class="tableblock halign-left valign-top">Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pull(dest)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Async. Fills span with readable buffer descriptors from the source&#8217;s
+  internal storage. Returns EOF when exhausted.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every read iteration: obtain data to process or forward.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>consume(n)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sync. Advances the read position by <code>n</code> bytes. Invalidates prior
+  buffers.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">After processing or forwarding data: indicate how much was used.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>BufferSource</code> is the callee-owns-buffers counterpart to <code>ReadSource</code>. The <code>push_to</code> algorithm transfers data from a <code>BufferSource</code> to a <code>WriteSink</code> or <code>WriteStream</code>, and <code>any_buffer_source</code> bridges the two patterns by satisfying both <code>BufferSource</code> and <code>ReadSource</code> behind a single type-erased interface.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/8.design/8e.BufferSource.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="8d.ReadSource.html">ReadSource</a></span>
+        <span class="next"><a href="8f.WriteStream.html">WriteStream</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

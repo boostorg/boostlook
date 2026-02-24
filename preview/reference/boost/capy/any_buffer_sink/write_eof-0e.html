@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../../../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../../../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../../../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../../../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../../../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>boost::capy::any&lowbar;buffer&lowbar;sink::write&lowbar;eof :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/reference/boost/capy/any_buffer_sink/write_eof-0e.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../../../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../../../../_'</script>
+<link rel="icon" href="../../../../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../../../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../../../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../../../../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../../../../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../../../../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../../../../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../../../../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../../../../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../../../../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../../../../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../../../../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../../../../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../../../../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../../../../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../../capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../../../../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="write_eof-0e.html"><a href="../../../boost.html">boost</a>::<a href="../../../boost/capy.html">capy</a>::<a href="../../../boost/capy/any_buffer_sink.html">any&lowbar;buffer&lowbar;sink</a>::write&lowbar;eof</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+</div></div>
+    <h1 class="page"><a href="../../../boost.html">boost</a>::<a href="../../../boost/capy.html">capy</a>::<a href="../../../boost/capy/any_buffer_sink.html">any&lowbar;buffer&lowbar;sink</a>::write&lowbar;eof</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Atomically write data and signal end&hyphen;of&hyphen;stream&period;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synopsis"><a class="anchor" href="#_synopsis"></a>Synopsis</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Declared in <code>&lt;<a href="https://www.github.com/cppalliance/capy/blob/develop/include/boost/capy/io/any_buffer_sink.hpp#Lundefined">boost&sol;capy&sol;io&sol;any&lowbar;buffer&lowbar;sink&period;hpp</a>&gt;</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;<a href="../ConstBufferSequence.html" class="xref page">ConstBufferSequence</a> CB&gt;
+<a href="../io_task.html" class="xref page">io&lowbar;task&lt;std::size&lowbar;t&gt;</a>
+write&lowbar;eof(CB buffers);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description"><a class="anchor" href="#_description"></a>Description</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Writes all data from the buffer sequence to the underlying sink and then signals end&hyphen;of&hyphen;stream&period;</p>
+</div>
+<div class="paragraph">
+<p>When the wrapped type provides native <a href="../WriteSink.html" class="xref page"><code>WriteSink</code></a> support, the final window is sent atomically via the underlying <code>write&lowbar;eof(buffers)</code>&period; Otherwise the data is synthesized through <a href="prepare.html" class="xref page"><code>prepare</code></a>, <a href="commit.html" class="xref page"><code>commit</code></a>, and <a href="commit_eof.html" class="xref page"><code>commit&lowbar;eof</code></a>&period;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_preconditions"><a class="anchor" href="#_preconditions"></a>Preconditions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The wrapper must contain a valid sink (<code>has&lowbar;value() &equals;&equals; true</code>)&period;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_return_value"><a class="anchor" href="#_return_value"></a>Return Value</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An awaitable yielding <code>(error&lowbar;code,std&colon;&colon;size&lowbar;t)</code>&period;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_parameters"><a class="anchor" href="#_parameters"></a>Parameters</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>buffers</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The buffer sequence to write&period;</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><span class="small">Created with <a href="https://www.mrdocs.com">MrDocs</a></span></p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+  </div>
+  </article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../../../../_/js/site.js" data-ui-root-path="../../../../../_"></script>
+<script async src="../../../../../_/js/vendor/highlight.js"></script>
+<script async src="../../../../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

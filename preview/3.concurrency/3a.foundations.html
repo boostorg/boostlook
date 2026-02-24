@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Part I: Foundations :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/3.concurrency/3a.foundations.html">
+    <link rel="prev" href="3.intro.html">
+    <link rel="next" href="3b.synchronization.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="3.intro.html">Introduction to Concurrency</a></li>
+    <li><a href="3a.foundations.html">Part I: Foundations</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="3.intro.html">
+      <span class="material-symbols-outlined" title="Previous: Introduction to Concurrency">arrow_back</span>
+    </a>
+    <a accesskey="u" href="3.intro.html">
+      <span class="material-symbols-outlined" title="Up: Introduction to Concurrency">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="3b.synchronization.html">
+      <span class="material-symbols-outlined" title="Next: Part II: Synchronization">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Part I: Foundations</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section introduces the fundamental concepts of concurrent programming. You will learn what concurrency is, why it matters, and how threads provide the foundation for parallel execution.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before beginning this tutorial, you should have:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A C&#43;&#43; compiler with C&#43;&#43;11 or later support</p>
+</li>
+<li>
+<p>Familiarity with basic C&#43;&#43; concepts: functions, classes, and lambdas</p>
+</li>
+<li>
+<p>Understanding of how programs execute sequentially</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_concurrency_matters"><a class="anchor" href="#_why_concurrency_matters"></a>Why Concurrency Matters</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Modern computers have multiple processor cores. A quad-core laptop can do four things at once. But most programs use only one core, leaving the others idle. Concurrency lets you use all your processing power.</p>
+</div>
+<div class="paragraph">
+<p>Consider downloading a large file. Without concurrency, your application freezes—the user interface becomes unresponsive because your single thread of execution is busy waiting for network data. With concurrency, one thread handles the download while another keeps the interface responsive. The user can continue working, cancel the download, or start another—all while data streams in.</p>
+</div>
+<div class="paragraph">
+<p>The benefits compound in computationally intensive work. Image processing, scientific simulations, video encoding—these tasks can be split into independent pieces. Process them simultaneously and your program finishes in a fraction of the time.</p>
+</div>
+<div class="paragraph">
+<p>But concurrency is not free. It introduces complexity. Multiple threads accessing the same data can corrupt it. Threads waiting on each other can freeze forever. These problems—<strong>race conditions</strong> and <strong>deadlocks</strong>—are the challenges you will learn to handle.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_threadsyour_programs_parallel_lives"><a class="anchor" href="#_threadsyour_programs_parallel_lives"></a>Threads—Your Program&#8217;s Parallel Lives</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you run a program, the operating system creates a <strong>process</strong> for it. This process gets its own memory space, its own resources, and at least one <strong>thread of execution</strong>—the main thread.</p>
+</div>
+<div class="paragraph">
+<p>Think of a thread as a bookmark in a book of instructions. It marks where you are in the code. The processor reads the instruction at that bookmark, executes it, and moves the bookmark forward. One thread means one bookmark—your program can only be at one place in the code at a time.</p>
+</div>
+<div class="paragraph">
+<p>But you can create additional threads. Each thread is its own bookmark, tracking its own position in the code. Now your program can be at multiple places simultaneously. Each thread has its own <strong>call stack</strong>—its own record of which functions called which—but all threads share the same <strong>heap memory</strong>.</p>
+</div>
+<div class="paragraph">
+<p>This sharing is both the power and the peril of threads.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_threads"><a class="anchor" href="#_creating_threads"></a>Creating Threads</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>&lt;thread&gt;</code> header provides <code>std::thread</code>, the standard way to create threads in C&#43;&#43;.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;thread&gt;
+
+void say_hello()
+{
+    std::cout &lt;&lt; "Hello from a new thread!\n";
+}
+
+int main()
+{
+    std::thread t(say_hello);
+    t.join();
+    std::cout &lt;&lt; "Back in the main thread.\n";
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>std::thread</code> constructor takes a function (or any <strong>callable</strong>) and immediately starts a new thread running that function. Two bookmarks now move through your code simultaneously.</p>
+</div>
+<div class="paragraph">
+<p>The <code>join()</code> call makes the main thread wait until thread <code>t</code> finishes. Without it, <code>main()</code> might return and terminate the program before <code>say_hello()</code> completes. Always join your threads before they go out of scope.</p>
+</div>
+<div class="sect2">
+<h3 id="_parallel_execution"><a class="anchor" href="#_parallel_execution"></a>Parallel Execution</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;thread&gt;
+
+void count_up(char const* name)
+{
+    for (int i = 1; i &lt;= 5; ++i)
+        std::cout &lt;&lt; name &lt;&lt; ": " &lt;&lt; i &lt;&lt; "\n";
+}
+
+int main()
+{
+    std::thread alice(count_up, "Alice");
+    std::thread bob(count_up, "Bob");
+
+    alice.join();
+    bob.join();
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this and you might see output like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">Alice: 1
+Bob: 1
+Alice: 2
+Bob: 2
+Alice: 3
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or perhaps:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">AliceBob: : 1
+1
+Alice: 2
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The interleaving varies each run. Both threads race to print, and their outputs jumble together. This unpredictability is your first glimpse of concurrent programming&#8217;s fundamental challenge: when threads share resources (here, <code>std::cout</code>), chaos can ensue.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ways_to_create_threads"><a class="anchor" href="#_ways_to_create_threads"></a>Ways to Create Threads</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Threads accept any callable object: functions, lambda expressions, function objects (functors), and member functions.</p>
+</div>
+<div class="sect2">
+<h3 id="_lambda_expressions"><a class="anchor" href="#_lambda_expressions"></a>Lambda Expressions</h3>
+<div class="paragraph">
+<p>Lambda expressions are often the clearest choice:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;thread&gt;
+
+int main()
+{
+    int x = 42;
+
+    std::thread t([x]() {
+        std::cout &lt;&lt; "The value is: " &lt;&lt; x &lt;&lt; "\n";
+    });
+
+    t.join();
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The lambda captures <code>x</code> by value—it copies <code>x</code> into the lambda. By default, <code>std::thread</code> copies all arguments passed to it. Even if your function declares a reference parameter, the thread receives a copy.</p>
+</div>
+<div class="paragraph">
+<p>To pass by reference, use <code>std::ref()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;thread&gt;
+
+void increment(int&amp; value)
+{
+    ++value;
+}
+
+int main()
+{
+    int counter = 0;
+
+    std::thread t(increment, std::ref(counter));
+    t.join();
+
+    std::cout &lt;&lt; "Counter is now: " &lt;&lt; counter &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Without <code>std::ref()</code>, the thread would modify a copy, leaving <code>counter</code> unchanged.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_member_functions"><a class="anchor" href="#_member_functions"></a>Member Functions</h3>
+<div class="paragraph">
+<p>For member functions, pass a pointer to the function and an instance:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;string&gt;
+
+class Greeter
+{
+public:
+    void greet(std::string const&amp; name)
+    {
+        std::cout &lt;&lt; "Hello, " &lt;&lt; name &lt;&lt; "!\n";
+    }
+};
+
+int main()
+{
+    Greeter g;
+    std::thread t(&amp;Greeter::greet, &amp;g, "World");
+    t.join();
+    return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>&amp;Greeter::greet</code> syntax names the member function; <code>&amp;g</code> provides the instance to call it on.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_thread_lifecycle_join_detach_and_destruction"><a class="anchor" href="#_thread_lifecycle_join_detach_and_destruction"></a>Thread Lifecycle: Join, Detach, and Destruction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every thread must be either <strong>joined</strong> or <strong>detached</strong> before its <code>std::thread</code> object is destroyed. Failing to do so calls <code>std::terminate()</code>, abruptly ending your program.</p>
+</div>
+<div class="sect2">
+<h3 id="_join"><a class="anchor" href="#_join"></a>join()</h3>
+<div class="paragraph">
+<p><code>join()</code> blocks the calling thread until the target thread finishes. This is how you wait for work to complete:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::thread t(do_work);
+// ... do other things ...
+t.join();  // wait for do_work to finish</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_detach"><a class="anchor" href="#_detach"></a>detach()</h3>
+<div class="paragraph">
+<p>Sometimes you want a thread to run independently, continuing even after the <code>std::thread</code> object is destroyed. That is what <code>detach()</code> does:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::thread t(background_task);
+t.detach();  // thread runs independently
+// t is now "empty"—no longer associated with a thread</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A detached thread becomes a <strong>daemon thread</strong>. It runs until it finishes or the program exits. You lose all ability to wait for it or check its status. Use detachment sparingly—usually for fire-and-forget background work.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_checking_joinable"><a class="anchor" href="#_checking_joinable"></a>Checking joinable()</h3>
+<div class="paragraph">
+<p>Before joining or detaching, you can check if a thread is <strong>joinable</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::thread t(some_function);
+
+if (t.joinable())
+{
+    t.join();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A thread is joinable if it represents an actual thread of execution. After joining or detaching, or after default construction, a <code>std::thread</code> is not joinable.</p>
+</div>
+<div class="paragraph">
+<p>You have now learned the basics of threads: creation, execution, and lifecycle management. In the next section, you will learn about the dangers of shared data and how to protect it with synchronization primitives.</p>
+</div>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/3.concurrency/3a.foundations.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="3.intro.html">Introduction to Concurrency</a></span>
+        <span class="next"><a href="3b.synchronization.html">Part II: Synchronization</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

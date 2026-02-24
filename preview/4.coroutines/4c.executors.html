@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Executors and Execution Contexts :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/4.coroutines/4c.executors.html">
+    <link rel="prev" href="4b.launching.html">
+    <link rel="next" href="4d.io-awaitable.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="4.intro.html">Coroutines in Capy</a></li>
+    <li><a href="4c.executors.html">Executors and Execution Contexts</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="4b.launching.html">
+      <span class="material-symbols-outlined" title="Previous: Launching Coroutines">arrow_back</span>
+    </a>
+    <a accesskey="u" href="4.intro.html">
+      <span class="material-symbols-outlined" title="Up: Coroutines in Capy">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="4d.io-awaitable.html">
+      <span class="material-symbols-outlined" title="Next: The IoAwaitable Protocol">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Executors and Execution Contexts</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section explains executors and execution contexts—the mechanisms that control where and how coroutines execute.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Completed <a href="4b.launching.html" class="xref page">Launching Coroutines</a></p>
+</li>
+<li>
+<p>Understanding of <code>run_async</code> and <code>run</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_executor_concept"><a class="anchor" href="#_the_executor_concept"></a>The Executor Concept</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An <strong>executor</strong> is an object that can schedule work for execution. In Capy, executors must provide two methods:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">concept Executor = requires(E ex, std::coroutine_handle&lt;&gt; h) {
+    { ex.dispatch(h) } -&gt; std::same_as&lt;std::coroutine_handle&lt;&gt;&gt;;
+    { ex.post(h) } -&gt; std::same_as&lt;void&gt;;
+    { ex.context() } -&gt; std::convertible_to&lt;execution_context&amp;&gt;;
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dispatch_vs_post"><a class="anchor" href="#_dispatch_vs_post"></a>dispatch() vs post()</h3>
+<div class="paragraph">
+<p>Both methods schedule a coroutine for execution, but with different semantics:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>dispatch(h)</code></dt>
+<dd>
+<p>May execute <code>h</code> inline if the current thread is already associated with the executor. Returns a coroutine handle—either <code>h</code> if execution was deferred, or <code>std::noop_coroutine()</code> if <code>h</code> was executed immediately. This enables symmetric transfer optimization.</p>
+</dd>
+<dt class="hdlist1"><code>post(h)</code></dt>
+<dd>
+<p>Always queues <code>h</code> for later execution. Never executes inline. Returns void. Use when you need guaranteed asynchrony.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_context"><a class="anchor" href="#_context"></a>context()</h3>
+<div class="paragraph">
+<p>Returns a reference to the execution context that owns this executor. The context provides resources like frame allocators.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_executor_ref_type_erased_executor"><a class="anchor" href="#_executor_ref_type_erased_executor"></a>executor_ref: Type-Erased Executor</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>executor_ref</code> wraps any executor in a type-erased container, allowing code to work with executors without knowing their concrete type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void schedule_work(executor_ref ex, std::coroutine_handle&lt;&gt; h)
+{
+    ex.post(h);  // Works with any executor
+}
+
+int main()
+{
+    thread_pool pool;
+    executor_ref ex = pool.get_executor();  // Type erasure
+
+    schedule_work(ex, some_coroutine);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>executor_ref</code> stores a reference to the underlying executor—the original executor must outlive the <code>executor_ref</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_thread_pool_multi_threaded_execution"><a class="anchor" href="#_thread_pool_multi_threaded_execution"></a>thread_pool: Multi-Threaded Execution</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>thread_pool</code> manages a pool of worker threads that execute coroutines concurrently:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/capy/ex/thread_pool.hpp&gt;
+
+int main()
+{
+    // Create pool with 4 threads
+    thread_pool pool(4);
+
+    // Get an executor for this pool
+    auto ex = pool.get_executor();
+
+    // Launch work on the pool
+    run_async(ex)(my_task());
+
+    // pool destructor waits for all work to complete
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_constructor_parameters"><a class="anchor" href="#_constructor_parameters"></a>Constructor Parameters</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">thread_pool(
+    std::size_t num_threads = 0,
+    std::string_view thread_name_prefix = "capy-pool-"
+);</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>num_threads</code> — Number of worker threads. If 0, uses hardware concurrency.</p>
+</li>
+<li>
+<p><code>thread_name_prefix</code> — Prefix for thread names (useful for debugging).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_thread_safety"><a class="anchor" href="#_thread_safety"></a>Thread Safety</h3>
+<div class="paragraph">
+<p>Work posted to a <code>thread_pool</code> may execute on any of its worker threads. If your coroutines access shared data, you must use appropriate synchronization.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_execution_context_base_class"><a class="anchor" href="#_execution_context_base_class"></a>execution_context: Base Class</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>execution_context</code> is the base class for execution contexts. It provides:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Frame allocator access via <code>get_frame_allocator()</code></p>
+</li>
+<li>
+<p>Service infrastructure for extensibility</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Custom execution contexts inherit from <code>execution_context</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">class my_context : public execution_context
+{
+public:
+    // ... custom implementation
+
+    my_executor get_executor();
+};</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_strand_serialization_without_mutexes"><a class="anchor" href="#_strand_serialization_without_mutexes"></a>strand: Serialization Without Mutexes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>strand</code> ensures that handlers are executed in order, with no two handlers executing concurrently. This eliminates the need for mutexes when all access to shared data goes through the strand.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/capy/ex/strand.hpp&gt;
+
+class shared_resource
+{
+    strand&lt;thread_pool::executor_type&gt; strand_;
+    int counter_ = 0;
+
+public:
+    explicit shared_resource(thread_pool&amp; pool)
+        : strand_(pool.get_executor())
+    {
+    }
+
+    task&lt;int&gt; increment()
+    {
+        // All increments are serialized through the strand
+        co_return co_await run(strand_)(do_increment());
+    }
+
+private:
+    task&lt;int&gt; do_increment()
+    {
+        // No mutex needed—strand ensures exclusive access
+        ++counter_;
+        co_return counter_;
+    }
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_strands_work"><a class="anchor" href="#_how_strands_work"></a>How Strands Work</h3>
+<div class="paragraph">
+<p>The strand maintains a queue of pending work. When work is dispatched:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If no other work is executing on the strand, the new work runs immediately</p>
+</li>
+<li>
+<p>If other work is executing, the new work is queued</p>
+</li>
+<li>
+<p>When the current work completes, the next queued item runs</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This provides logical single-threading without blocking physical threads.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_when_to_use_strands"><a class="anchor" href="#_when_to_use_strands"></a>When to Use Strands</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Thread-affine resources</strong> — When code must not be called from multiple threads simultaneously</p>
+</li>
+<li>
+<p><strong>Ordered operations</strong> — When operations must complete in a specific order</p>
+</li>
+<li>
+<p><strong>Avoiding mutexes</strong> — When mutex overhead is unacceptable</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_single_threaded_vs_multi_threaded_patterns"><a class="anchor" href="#_single_threaded_vs_multi_threaded_patterns"></a>Single-Threaded vs Multi-Threaded Patterns</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_single_threaded"><a class="anchor" href="#_single_threaded"></a>Single-Threaded</h3>
+<div class="paragraph">
+<p>For single-threaded applications, use a context with one thread:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">thread_pool single_thread(1);
+auto ex = single_thread.get_executor();
+// All work runs on the single thread</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_multi_threaded_with_shared_data"><a class="anchor" href="#_multi_threaded_with_shared_data"></a>Multi-Threaded with Shared Data</h3>
+<div class="paragraph">
+<p>For multi-threaded applications with shared data, use strands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">thread_pool pool(4);
+strand&lt;thread_pool::executor_type&gt; data_strand(pool.get_executor());
+
+// Use data_strand for all access to shared data
+// Use pool.get_executor() for independent work</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_multi_threaded_with_independent_work"><a class="anchor" href="#_multi_threaded_with_independent_work"></a>Multi-Threaded with Independent Work</h3>
+<div class="paragraph">
+<p>For embarrassingly parallel work with no shared state:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">thread_pool pool(4);
+auto ex = pool.get_executor();
+
+// Launch independent tasks directly on the pool
+std::vector&lt;task&lt;int&gt;&gt; tasks;
+for (int i = 0; i &lt; 100; ++i)
+    run_async(ex)(independent_task(i));</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>Reference</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Header</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/concept/executor.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Executor concept definition</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/ex/executor_ref.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type-erased executor wrapper</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/ex/thread_pool.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multi-threaded execution context</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/ex/execution_context.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base class for execution contexts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/ex/strand.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Serialization primitive</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You have now learned about executors, execution contexts, thread pools, and strands. In the next section, you will learn about the IoAwaitable protocol that enables context propagation.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/4.coroutines/4c.executors.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="4b.launching.html">Launching Coroutines</a></span>
+        <span class="next"><a href="4d.io-awaitable.html">The IoAwaitable Protocol</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

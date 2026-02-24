@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Dynamic Buffers :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/5.buffers/5f.dynamic.html">
+    <link rel="prev" href="5e.algorithms.html">
+    <link rel="next" href="../6.streams/6.intro.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="5.intro.html">Buffer Sequences</a></li>
+    <li><a href="5f.dynamic.html">Dynamic Buffers</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="5e.algorithms.html">
+      <span class="material-symbols-outlined" title="Previous: Buffer Algorithms">arrow_back</span>
+    </a>
+    <a accesskey="u" href="5.intro.html">
+      <span class="material-symbols-outlined" title="Up: Buffer Sequences">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="../6.streams/6.intro.html">
+      <span class="material-symbols-outlined" title="Next: Stream Concepts">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Dynamic Buffers</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section introduces dynamic buffers—growable storage that adapts to data flow between producers and consumers.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Completed <a href="5e.algorithms.html" class="xref page">Buffer Algorithms</a></p>
+</li>
+<li>
+<p>Understanding of buffer sequences and copying</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_producerconsumer_model"><a class="anchor" href="#_the_producerconsumer_model"></a>The Producer/Consumer Model</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dynamic buffers serve as intermediate storage between a <strong>producer</strong> (typically network I/O) and a <strong>consumer</strong> (your application code).</p>
+</div>
+<div class="paragraph">
+<p>The flow:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Producer</strong> writes data into the buffer</p>
+</li>
+<li>
+<p><strong>Buffer</strong> grows as needed to accommodate data</p>
+</li>
+<li>
+<p><strong>Consumer</strong> reads and processes data</p>
+</li>
+<li>
+<p><strong>Buffer</strong> releases consumed data</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This model decouples production rate from consumption rate—the buffer absorbs variations.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_dynamicbuffer_concept"><a class="anchor" href="#_the_dynamicbuffer_concept"></a>The DynamicBuffer Concept</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename T&gt;
+concept DynamicBuffer = requires(T&amp; t, std::size_t n) {
+    // Producer side
+    { t.prepare(n) } -&gt; MutableBufferSequence;
+    { t.commit(n) };
+
+    // Consumer side
+    { t.data() } -&gt; ConstBufferSequence;
+    { t.consume(n) };
+
+    // Capacity
+    { t.size() } -&gt; std::same_as&lt;std::size_t&gt;;
+    { t.max_size() } -&gt; std::same_as&lt;std::size_t&gt;;
+    { t.capacity() } -&gt; std::same_as&lt;std::size_t&gt;;
+};</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_producer_interface"><a class="anchor" href="#_producer_interface"></a>Producer Interface</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_preparen"><a class="anchor" href="#_preparen"></a>prepare(n)</h3>
+<div class="paragraph">
+<p>Returns mutable buffer space for writing up to <code>n</code> bytes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">auto buffers = dynamic_buf.prepare(1024);  // Space for up to 1024 bytes</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The returned space may be larger than requested. The data is not yet part of the readable sequence.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_commitn"><a class="anchor" href="#_commitn"></a>commit(n)</h3>
+<div class="paragraph">
+<p>Marks <code>n</code> bytes of prepared space as written and readable:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// After writing data:
+dynamic_buf.commit(bytes_written);
+// Data is now visible via data()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_typical_producer_pattern"><a class="anchor" href="#_typical_producer_pattern"></a>Typical Producer Pattern</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;&gt; read_into_buffer(Stream&amp; stream, DynamicBuffer auto&amp; buffer)
+{
+    // Prepare space
+    auto space = buffer.prepare(1024);
+
+    // Read into prepared space
+    auto [ec, n] = co_await stream.read_some(space);
+
+    if (!ec.failed())
+        buffer.commit(n);  // Make data readable
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_consumer_interface"><a class="anchor" href="#_consumer_interface"></a>Consumer Interface</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_data"><a class="anchor" href="#_data"></a>data()</h3>
+<div class="paragraph">
+<p>Returns the readable data as a const buffer sequence:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">auto readable = dynamic_buf.data();
+// Process readable bytes</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_consumen"><a class="anchor" href="#_consumen"></a>consume(n)</h3>
+<div class="paragraph">
+<p>Removes <code>n</code> bytes from the front of readable data:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">dynamic_buf.consume(processed_bytes);
+// Those bytes are no longer in data()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_typical_consumer_pattern"><a class="anchor" href="#_typical_consumer_pattern"></a>Typical Consumer Pattern</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void process_buffer(DynamicBuffer auto&amp; buffer)
+{
+    auto data = buffer.data();
+
+    while (buffer_size(data) &gt;= message_header_size)
+    {
+        auto msg_size = parse_header(data);
+        if (buffer_size(data) &lt; msg_size)
+            break;  // Need more data
+
+        process_message(data, msg_size);
+        buffer.consume(msg_size);
+        data = buffer.data();  // Refresh after consume
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_capacity_management"><a class="anchor" href="#_capacity_management"></a>Capacity Management</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>size()</code></dt>
+<dd>
+<p>Current number of readable bytes (the length of <code>data()</code>).</p>
+</dd>
+<dt class="hdlist1"><code>max_size()</code></dt>
+<dd>
+<p>Maximum allowed size. Attempts to grow beyond this throw or fail.</p>
+</dd>
+<dt class="hdlist1"><code>capacity()</code></dt>
+<dd>
+<p>Current allocated capacity. May be larger than <code>size()</code>.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dynamicbufferparam"><a class="anchor" href="#_dynamicbufferparam"></a>DynamicBufferParam</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When passing dynamic buffers to coroutines, use <code>DynamicBufferParam</code> for safe parameter handling:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename DB&gt;
+concept DynamicBufferParam = DynamicBuffer&lt;std::remove_reference_t&lt;DB&gt;&gt;;
+
+template&lt;DynamicBufferParam Buf&gt;
+task&lt;std::size_t&gt; read_until(Stream&amp; stream, Buf&amp;&amp; buffer, char delimiter);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This concept ensures proper handling of lvalues and rvalues, preventing dangling references across suspension points.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_provided_implementations"><a class="anchor" href="#_provided_implementations"></a>Provided Implementations</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_flat_dynamic_buffer"><a class="anchor" href="#_flat_dynamic_buffer"></a>flat_dynamic_buffer</h3>
+<div class="paragraph">
+<p>Linear storage with single-buffer sequences:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/capy/buffers/flat_dynamic_buffer.hpp&gt;
+
+flat_dynamic_buffer buffer;
+buffer.prepare(1024);
+// ... write data ...
+buffer.commit(n);
+
+// data() returns a single const_buffer</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Advantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Contiguous memory—good for parsing that needs contiguous data</p>
+</li>
+<li>
+<p>Cache-friendly</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Disadvantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>May require copying when buffer wraps or grows</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_circular_dynamic_buffer"><a class="anchor" href="#_circular_dynamic_buffer"></a>circular_dynamic_buffer</h3>
+<div class="paragraph">
+<p>Ring buffer implementation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/capy/buffers/circular_dynamic_buffer.hpp&gt;
+
+circular_dynamic_buffer&lt;1024&gt; buffer;  // Fixed capacity</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Advantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No copying on wrap—head/tail pointers move</p>
+</li>
+<li>
+<p>Fixed memory footprint</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Disadvantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>data()</code> may return two buffers (wrapped around end)</p>
+</li>
+<li>
+<p>Fixed capacity</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_vector_dynamic_buffer"><a class="anchor" href="#_vector_dynamic_buffer"></a>vector_dynamic_buffer</h3>
+<div class="paragraph">
+<p>Backed by <code>std::vector&lt;char&gt;</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/capy/buffers/vector_dynamic_buffer.hpp&gt;
+
+std::vector&lt;char&gt; storage;
+vector_dynamic_buffer buffer(storage);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Adapts an existing vector for use as a dynamic buffer.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_string_dynamic_buffer"><a class="anchor" href="#_string_dynamic_buffer"></a>string_dynamic_buffer</h3>
+<div class="paragraph">
+<p>Backed by <code>std::string</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/capy/buffers/string_dynamic_buffer.hpp&gt;
+
+std::string storage;
+string_dynamic_buffer buffer(storage);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Useful when you want the final data as a string.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example_line_based_protocol"><a class="anchor" href="#_example_line_based_protocol"></a>Example: Line-Based Protocol</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;std::string&gt; read_line(Stream&amp; stream)
+{
+    flat_dynamic_buffer buffer;
+
+    while (true)
+    {
+        // Prepare space and read
+        auto space = buffer.prepare(256);
+        auto [ec, n] = co_await stream.read_some(space);
+        if (ec.failed())
+            throw std::system_error(ec);
+        buffer.commit(n);
+
+        // Search for newline in readable data
+        auto data = buffer.data();
+        std::string_view sv(
+            static_cast&lt;char const*&gt;(data.data()), data.size());
+
+        auto pos = sv.find('\n');
+        if (pos != std::string_view::npos)
+        {
+            std::string line(sv.substr(0, pos));
+            buffer.consume(pos + 1);  // Include newline
+            co_return line;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>Reference</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Header</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/concept/dynamic_buffer.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DynamicBuffer concept definition</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/buffers/flat_dynamic_buffer.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Linear dynamic buffer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/buffers/circular_dynamic_buffer.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ring buffer implementation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/buffers/vector_dynamic_buffer.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vector-backed adapter</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/buffers/string_dynamic_buffer.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String-backed adapter</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You have now learned about dynamic buffers for producer/consumer patterns. This completes the Buffer Sequences section. Continue to <a href="../6.streams/6a.overview.html" class="xref page">Stream Concepts</a> to learn about Capy&#8217;s stream abstractions.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/5.buffers/5f.dynamic.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="5e.algorithms.html">Buffer Algorithms</a></span>
+        <span class="next"><a href="../6.streams/6.intro.html">Stream Concepts</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

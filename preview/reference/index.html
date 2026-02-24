@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Global namespace :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/reference/index.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="index.html">Global namespace</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+</div></div>
+    <h1 class="page">Global namespace</h1>
+  <div class="sect1">
+<h2 id="_namespaces"><a class="anchor" href="#_namespaces"></a>Namespaces</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost.html" class="xref page"><code>boost</code></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boost_namespace"><a class="anchor" href="#_boost_namespace"></a><a href="boost.html" class="xref page">boost</a> namespace</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_namespaces_2"><a class="anchor" href="#_namespaces_2"></a>Namespaces</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy.html" class="xref page"><code>capy</code></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boostcapy_namespace"><a class="anchor" href="#_boostcapy_namespace"></a><a href="boost/capy.html" class="xref page">boost::capy</a> namespace</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_namespaces_3"><a class="anchor" href="#_namespaces_3"></a>Namespaces</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/this_coro.html" class="xref page"><code>this&lowbar;coro</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Namespace for coroutine environment accessors&period;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_types"><a class="anchor" href="#_types"></a>Types</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/any_buffer_sink.html" class="xref page"><code>any&lowbar;buffer&lowbar;sink</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type&hyphen;erased wrapper for any BufferSink&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/any_buffer_source.html" class="xref page"><code>any&lowbar;buffer&lowbar;source</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type&hyphen;erased wrapper for any BufferSource&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/any_executor.html" class="xref page"><code>any&lowbar;executor</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A type&hyphen;erased wrapper for executor objects&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/any_read_source.html" class="xref page"><code>any&lowbar;read&lowbar;source</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type&hyphen;erased wrapper for any ReadSource&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/any_read_stream.html" class="xref page"><code>any&lowbar;read&lowbar;stream</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type&hyphen;erased wrapper for any ReadStream&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/any_stream.html" class="xref page"><code>any&lowbar;stream</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type&hyphen;erased wrapper for bidirectional streams&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/any_write_sink.html" class="xref page"><code>any&lowbar;write&lowbar;sink</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type&hyphen;erased wrapper for any WriteSink&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/any_write_stream.html" class="xref page"><code>any&lowbar;write&lowbar;stream</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type&hyphen;erased wrapper for any WriteStream&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/async_event.html" class="xref page"><code>async&lowbar;event</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An asynchronous event for coroutines&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/async_mutex.html" class="xref page"><code>async&lowbar;mutex</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An asynchronous mutex for coroutines&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/basic_string_dynamic_buffer.html" class="xref page"><code>basic&lowbar;string&lowbar;dynamic&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A dynamic buffer using an underlying string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/basic_vector_dynamic_buffer-0df.html" class="xref page"><code>basic&lowbar;vector&lowbar;dynamic&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A dynamic buffer using an underlying vector&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/basic_vector_dynamic_buffer-0d8.html" class="xref page"><code>basic&lowbar;vector&lowbar;dynamic&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A dynamic buffer using an underlying vector&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/begin_mrdocs_workaround_t.html" class="xref page"><code>begin&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return an iterator to the first buffer in a sequence&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_array.html" class="xref page"><code>buffer&lowbar;array</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A buffer sequence holding up to N buffers&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_copy_mrdocs_workaround_t.html" class="xref page"><code>buffer&lowbar;copy&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Copy the contents of a buffer sequence into another buffer sequence&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_empty_mrdocs_workaround_t.html" class="xref page"><code>buffer&lowbar;empty&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Check if a buffer sequence contains no data&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_param-0a.html" class="xref page"><code>buffer&lowbar;param</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A buffer sequence wrapper providing windowed access&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_param-0d.html" class="xref page"><code>buffer&lowbar;param</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A buffer sequence wrapper providing windowed access&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_size_mrdocs_workaround_t.html" class="xref page"><code>buffer&lowbar;size&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the total byte count across all buffers in a sequence&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/circular_dynamic_buffer.html" class="xref page"><code>circular&lowbar;dynamic&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A fixed&hyphen;capacity circular buffer satisfying DynamicBuffer&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/const_buffer.html" class="xref page"><code>const&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A reference to a contiguous region of read&hyphen;only memory&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/const_buffer_archetype_.html" class="xref page"><code>const&lowbar;buffer&lowbar;archetype&lowbar;</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Archetype for ConstBufferSequence concept checking&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/consuming_buffers-0c.html" class="xref page"><code>consuming&lowbar;buffers</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wrapper for consuming a buffer sequence incrementally&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/consuming_buffers-06.html" class="xref page"><code>consuming&lowbar;buffers</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wrapper for consuming a buffer sequence incrementally&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/end_mrdocs_workaround_t.html" class="xref page"><code>end&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return an iterator past the last buffer in a sequence&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/execution_context.html" class="xref page"><code>execution&lowbar;context</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base class for I&sol;O object containers providing service management&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/executor_ref.html" class="xref page"><code>executor&lowbar;ref</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A type&hyphen;erased reference wrapper for executor objects&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/flat_dynamic_buffer.html" class="xref page"><code>flat&lowbar;dynamic&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A fixed&hyphen;capacity linear buffer satisfying DynamicBuffer&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/front_mrdocs_workaround_t.html" class="xref page"><code>front&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the first buffer in a sequence&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/immediate.html" class="xref page"><code>immediate</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An awaitable that completes immediately with a value&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/io_awaitable_promise_base.html" class="xref page"><code>io&lowbar;awaitable&lowbar;promise&lowbar;base</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CRTP mixin that adds I&sol;O awaitable support to a promise type&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/io_env.html" class="xref page"><code>io&lowbar;env</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Execution environment for IoAwaitables&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/io_result-0c.html" class="xref page"><code>io&lowbar;result&lt;&gt;</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result type for void operations&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/io_result-07.html" class="xref page"><code>io&lowbar;result</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result type for asynchronous I&sol;O operations&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/io_result-0e1.html" class="xref page"><code>io&lowbar;result&lt;T1&gt;</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result type for byte transfer operations&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/io_result-0e7.html" class="xref page"><code>io&lowbar;result&lt;T1, T2&gt;</code></a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/io_result-02.html" class="xref page"><code>io&lowbar;result&lt;T1, T2, T3&gt;</code></a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/keep_prefix_mrdocs_workaround_t.html" class="xref page"><code>keep&lowbar;prefix&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove all but the first <code>n</code> bytes from a buffer sequence</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/keep_suffix_mrdocs_workaround_t.html" class="xref page"><code>keep&lowbar;suffix&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove all but the last <code>n</code> bytes from a buffer sequence</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/match_delim.html" class="xref page"><code>match&lowbar;delim</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Match condition that searches for a delimiter string&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/mutable_buffer.html" class="xref page"><code>mutable&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A reference to a contiguous region of writable memory&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/mutable_buffer_archetype_.html" class="xref page"><code>mutable&lowbar;buffer&lowbar;archetype&lowbar;</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Archetype for MutableBufferSequence concept checking&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/prefix_mrdocs_workaround_t.html" class="xref page"><code>prefix&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return a sequence representing the first <code>n</code> bytes of a buffer sequence</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/recycling_memory_resource.html" class="xref page"><code>recycling&lowbar;memory&lowbar;resource</code></a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/remove_prefix_mrdocs_workaround_t.html" class="xref page"><code>remove&lowbar;prefix&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove <code>n</code> bytes from the beginning of a buffer sequence</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/remove_suffix_mrdocs_workaround_t.html" class="xref page"><code>remove&lowbar;suffix&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove <code>n</code> bytes from the end of a buffer sequence</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/run_async_wrapper.html" class="xref page"><code>run&lowbar;async&lowbar;wrapper</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wrapper returned by run&lowbar;async that accepts a task for execution&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/sans_prefix_mrdocs_workaround_t.html" class="xref page"><code>sans&lowbar;prefix&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return a sequence representing all but the first <code>n</code> bytes of a buffer sequence</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/sans_suffix_mrdocs_workaround_t.html" class="xref page"><code>sans&lowbar;suffix&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return a sequence representing all but the last <code>n</code> bytes of a buffer sequence</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/size_tag.html" class="xref page"><code>size&lowbar;tag</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag type for customizing <code>buffer&lowbar;size</code> via <code>tag&lowbar;invoke</code>&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/slice_of-0a.html" class="xref page"><code>slice&lowbar;of</code></a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/slice_of-07.html" class="xref page"><code>slice&lowbar;of&lt;BufferSequence&gt;</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A wrapper enabling a buffer sequence to be consumed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/slice_tag.html" class="xref page"><code>slice&lowbar;tag</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag type for customizing slice operations via <code>tag&lowbar;invoke</code>&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/strand-02.html" class="xref page"><code>strand</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides serialized coroutine execution for any executor type&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/suffix_mrdocs_workaround_t.html" class="xref page"><code>suffix&lowbar;mrdocs&lowbar;workaround&lowbar;t</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return a sequence representing the last <code>n</code> bytes of a buffer sequence</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/task.html" class="xref page"><code>task</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lazy coroutine task satisfying <a href="boost/capy/IoRunnable.html" class="xref page"><code>IoRunnable</code></a>&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/thread_pool.html" class="xref page"><code>thread&lowbar;pool</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A pool of threads for executing work concurrently&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/work_guard.html" class="xref page"><code>work&lowbar;guard</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RAII guard that keeps an executor&apos;s context from completing&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_type.html" class="xref page"><code>buffer&lowbar;type</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alias for <code>mutable&lowbar;buffer</code> or <code>const&lowbar;buffer</code> based on sequence type&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/const_buffer_archetype.html" class="xref page"><code>const&lowbar;buffer&lowbar;archetype</code></a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/const_buffer_array.html" class="xref page"><code>const&lowbar;buffer&lowbar;array</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alias for buffer&lowbar;array holding const&lowbar;buffer&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/const_buffer_pair.html" class="xref page"><code>const&lowbar;buffer&lowbar;pair</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A constant buffer pair</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/const_buffer_param.html" class="xref page"><code>const&lowbar;buffer&lowbar;param</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alias for buffer&lowbar;param that always uses const&lowbar;buffer storage&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/io_task.html" class="xref page"><code>io&lowbar;task</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A task type for I&sol;O operations yielding io&lowbar;result&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/mutable_buffer_archetype.html" class="xref page"><code>mutable&lowbar;buffer&lowbar;archetype</code></a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/mutable_buffer_array.html" class="xref page"><code>mutable&lowbar;buffer&lowbar;array</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alias for buffer&lowbar;array holding mutable&lowbar;buffer&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/mutable_buffer_pair.html" class="xref page"><code>mutable&lowbar;buffer&lowbar;pair</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A mutable buffer pair</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/slice_type.html" class="xref page"><code>slice&lowbar;type</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alias for the type representing a slice of T</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/string_dynamic_buffer.html" class="xref page"><code>string&lowbar;dynamic&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/vector_dynamic_buffer.html" class="xref page"><code>vector&lowbar;dynamic&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A dynamic buffer using <code>std&colon;&colon;vector&lt;unsigned char&gt;</code>&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/when_all_result_type.html" class="xref page"><code>when&lowbar;all&lowbar;result&lowbar;type</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compute the result type of <code>when&lowbar;all</code> for the given task types&period;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_enums"><a class="anchor" href="#_enums"></a>Enums</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/cond.html" class="xref page"><code>cond</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Portable error conditions for capy I&sol;O operations&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/error.html" class="xref page"><code>error</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Error codes for capy I&sol;O operations&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/slice_how.html" class="xref page"><code>slice&lowbar;how</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constants for slice customization&period;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_functions"><a class="anchor" href="#_functions"></a>Functions</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_length.html" class="xref page"><code>buffer&lowbar;length</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the number of buffer elements in a sequence&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/dynamic_buffer-0d.html" class="xref page"><code>dynamic&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dynamic&lowbar;buffer</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/get_current_frame_allocator.html" class="xref page"><code>get&lowbar;current&lowbar;frame&lowbar;allocator</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the current frame allocator for this thread&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/get_recycling_memory_resource.html" class="xref page"><code>get&lowbar;recycling&lowbar;memory&lowbar;resource</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns pointer to the default recycling memory resource&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/get_system_context.html" class="xref page"><code>get&lowbar;system&lowbar;context</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the process&hyphen;wide system execution context&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/make_buffer-011.html" class="xref page"><code>make&lowbar;buffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>make&lowbar;buffer</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/make_error_code.html" class="xref page"><code>make&lowbar;error&lowbar;code</code></a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/make_error_condition.html" class="xref page"><code>make&lowbar;error&lowbar;condition</code></a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/make_work_guard.html" class="xref page"><code>make&lowbar;work&lowbar;guard</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create a work guard from an executor&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/pull_from-09.html" class="xref page"><code>pull&lowbar;from</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pull&lowbar;from</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/push_to-03.html" class="xref page"><code>push&lowbar;to</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>push&lowbar;to</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/read-0e.html" class="xref page"><code>read</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>read</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/read_until-0f.html" class="xref page"><code>read&lowbar;until</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>read&lowbar;until</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/ready-0c.html" class="xref page"><code>ready</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ready</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/run-02e.html" class="xref page"><code>run</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/run_async-0ef8.html" class="xref page"><code>run&lowbar;async</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run&lowbar;async</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/set_current_frame_allocator.html" class="xref page"><code>set&lowbar;current&lowbar;frame&lowbar;allocator</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the current frame allocator for this thread&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/tag_invoke-0a.html" class="xref page"><code>tag&lowbar;invoke</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tag&lowbar;invoke</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/when_all.html" class="xref page"><code>when&lowbar;all</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Execute multiple awaitables concurrently and collect their results&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/when_any-0d8.html" class="xref page"><code>when&lowbar;any</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>when&lowbar;any</code> overloads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/write.html" class="xref page"><code>write</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asynchronously write the entire buffer sequence&period;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_variables"><a class="anchor" href="#_variables"></a>Variables</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/begin.html" class="xref page"><code>begin</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_copy.html" class="xref page"><code>buffer&lowbar;copy</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_empty.html" class="xref page"><code>buffer&lowbar;empty</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_size.html" class="xref page"><code>buffer&lowbar;size</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/end.html" class="xref page"><code>end</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/front.html" class="xref page"><code>front</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/keep_prefix.html" class="xref page"><code>keep&lowbar;prefix</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/keep_suffix.html" class="xref page"><code>keep&lowbar;suffix</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/prefix.html" class="xref page"><code>prefix</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/remove_prefix.html" class="xref page"><code>remove&lowbar;prefix</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/remove_suffix.html" class="xref page"><code>remove&lowbar;suffix</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/sans_prefix.html" class="xref page"><code>sans&lowbar;prefix</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/sans_suffix.html" class="xref page"><code>sans&lowbar;suffix</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/suffix.html" class="xref page"><code>suffix</code></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_concepts"><a class="anchor" href="#_concepts"></a>Concepts</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/BufferSink.html" class="xref page"><code>BufferSink</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for types that consume buffer data using callee&hyphen;owned buffers&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/BufferSource.html" class="xref page"><code>BufferSource</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for types that produce buffer data asynchronously&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/ConstBufferSequence.html" class="xref page"><code>ConstBufferSequence</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for sequences of read&hyphen;only buffer regions&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/DynamicBuffer.html" class="xref page"><code>DynamicBuffer</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for resizable buffer types with prepare&sol;commit semantics&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/DynamicBufferParam.html" class="xref page"><code>DynamicBufferParam</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for valid DynamicBuffer parameter passing to coroutines&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/ExecutionContext.html" class="xref page"><code>ExecutionContext</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for types that provide a place where work is executed&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/Executor.html" class="xref page"><code>Executor</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for types that schedule coroutine execution&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/IoAwaitable.html" class="xref page"><code>IoAwaitable</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for awaitables that participate in the I&sol;O protocol&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/IoAwaitableRange.html" class="xref page"><code>IoAwaitableRange</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for ranges of full I&sol;O awaitables&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/IoRunnable.html" class="xref page"><code>IoRunnable</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for task types that can be launched from non&hyphen;coroutine contexts&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/MatchCondition.html" class="xref page"><code>MatchCondition</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for callables that detect delimiters in streamed data&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/MutableBufferSequence.html" class="xref page"><code>MutableBufferSequence</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for sequences of writable buffer regions&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/ReadSource.html" class="xref page"><code>ReadSource</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for types providing complete reads from a data source&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/ReadStream.html" class="xref page"><code>ReadStream</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for types providing awaitable read operations&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/Stream.html" class="xref page"><code>Stream</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for types providing both read and write operations&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/WriteSink.html" class="xref page"><code>WriteSink</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for types providing complete writes with EOF signaling&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/WriteStream.html" class="xref page"><code>WriteStream</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for types that provide awaitable write operations&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/awaitable_decomposes_to.html" class="xref page"><code>awaitable&lowbar;decomposes&lowbar;to</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for awaitables whose return type decomposes to a specific typelist&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/decomposes_to.html" class="xref page"><code>decomposes&lowbar;to</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept for types that decompose to a specific typelist&period;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_deduction_guides"><a class="anchor" href="#_deduction_guides"></a>Deduction Guides</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/buffer_param-0b.html" class="xref page"><code>buffer&lowbar;param&lt;BS&gt;</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/strand-05.html" class="xref page"><code>strand&lt;Ex&gt;</code></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boostcapythiscoro_namespace"><a class="anchor" href="#_boostcapythiscoro_namespace"></a><a href="boost/capy/this_coro.html" class="xref page">boost::capy::this&lowbar;coro</a> namespace</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Namespace for coroutine environment accessors&period;</p>
+</div>
+<div class="sect2">
+<h3 id="_types_2"><a class="anchor" href="#_types_2"></a>Types</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/this_coro/allocator_tag.html" class="xref page"><code>allocator&lowbar;tag</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag type for coroutine allocator retrieval&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/this_coro/environment_tag.html" class="xref page"><code>environment&lowbar;tag</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag type for coroutine environment retrieval&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/this_coro/executor_tag.html" class="xref page"><code>executor&lowbar;tag</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag type for coroutine executor retrieval&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/this_coro/stop_token_tag.html" class="xref page"><code>stop&lowbar;token&lowbar;tag</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag type for coroutine stop token retrieval&period;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_variables_2"><a class="anchor" href="#_variables_2"></a>Variables</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/this_coro/allocator.html" class="xref page"><code>allocator</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag object that yields the current frame allocator when awaited&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/this_coro/environment.html" class="xref page"><code>environment</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag object that yields the current environment when awaited&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/this_coro/executor.html" class="xref page"><code>executor</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag object that yields the current executor when awaited&period;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="boost/capy/this_coro/stop_token.html" class="xref page"><code>stop&lowbar;token</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag object that yields the current stop token when awaited&period;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>io&lowbar;awaitable&lowbar;promise&lowbar;base, io&lowbar;env</p>
+</div>
+<div class="paragraph">
+<p><span class="small">Created with <a href="https://www.mrdocs.com">MrDocs</a></span></p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+  </div>
+  </article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Stop Tokens and Cancellation :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/4.coroutines/4e.cancellation.html">
+    <link rel="prev" href="4d.io-awaitable.html">
+    <link rel="next" href="4f.composition.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="4.intro.html">Coroutines in Capy</a></li>
+    <li><a href="4e.cancellation.html">Stop Tokens and Cancellation</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="4d.io-awaitable.html">
+      <span class="material-symbols-outlined" title="Previous: The IoAwaitable Protocol">arrow_back</span>
+    </a>
+    <a accesskey="u" href="4.intro.html">
+      <span class="material-symbols-outlined" title="Up: Coroutines in Capy">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="4f.composition.html">
+      <span class="material-symbols-outlined" title="Next: Concurrent Composition">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Stop Tokens and Cancellation</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section teaches cooperative cancellation from the ground up, explaining C&#43;&#43;20 stop tokens as a general-purpose notification mechanism and how Capy uses them for coroutine cancellation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Completed <a href="4d.io-awaitable.html" class="xref page">The IoAwaitable Protocol</a></p>
+</li>
+<li>
+<p>Understanding of how context propagates through coroutine chains</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_1_the_problem"><a class="anchor" href="#_part_1_the_problem"></a>Part 1: The Problem</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cancellation matters in many scenarios:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A user clicks "Cancel" on a download dialog</p>
+</li>
+<li>
+<p>A timeout expires while waiting for a network response</p>
+</li>
+<li>
+<p>A connection drops unexpectedly</p>
+</li>
+<li>
+<p>An application is shutting down</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_the_naive_approach_boolean_flags"><a class="anchor" href="#_the_naive_approach_boolean_flags"></a>The Naive Approach: Boolean Flags</h3>
+<div class="paragraph">
+<p>The obvious solution seems to be a boolean flag:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::atomic&lt;bool&gt; should_cancel{false};
+
+void worker()
+{
+    while (!should_cancel)
+    {
+        do_work();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This approach has problems:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>No standardization</strong> — Every component invents its own cancellation flag</p>
+</li>
+<li>
+<p><strong>Race conditions</strong> — Checking the flag and acting on it is not atomic</p>
+</li>
+<li>
+<p><strong>No cleanup notification</strong> — The worker just stops; no opportunity for graceful cleanup</p>
+</li>
+<li>
+<p><strong>Polling overhead</strong> — Must check the flag repeatedly</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_thread_interruption_problem"><a class="anchor" href="#_the_thread_interruption_problem"></a>The Thread Interruption Problem</h3>
+<div class="paragraph">
+<p>Some systems support forceful thread interruption. This is dangerous because it can leave resources in inconsistent states—files half-written, locks held, transactions uncommitted.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_goal_cooperative_cancellation"><a class="anchor" href="#_the_goal_cooperative_cancellation"></a>The Goal: Cooperative Cancellation</h3>
+<div class="paragraph">
+<p>The solution is <strong>cooperative cancellation</strong>: ask nicely, let the work clean up. The cancellation requestor signals intent; the worker decides when and how to respond.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_2_c20_stop_tokensa_general_purpose_signaling_mechanism"><a class="anchor" href="#_part_2_c20_stop_tokensa_general_purpose_signaling_mechanism"></a>Part 2: C&#43;&#43;20 Stop Tokens—A General-Purpose Signaling Mechanism</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>C&#43;&#43;20 introduces <code>std::stop_token</code>, <code>std::stop_source</code>, and <code>std::stop_callback</code>. While named for "stopping," these implement a general-purpose <strong>Observer pattern</strong>—a thread-safe one-to-many notification system.</p>
+</div>
+<div class="sect2">
+<h3 id="_the_three_components"><a class="anchor" href="#_the_three_components"></a>The Three Components</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>std::stop_source</code></dt>
+<dd>
+<p>The <strong>Subject/Publisher</strong>. Owns the shared state and can trigger notifications. Create one source, then distribute tokens to observers.</p>
+</dd>
+<dt class="hdlist1"><code>std::stop_token</code></dt>
+<dd>
+<p>The <strong>Subscriber View</strong>. A read-only, copyable, cheap-to-pass-around handle. Multiple tokens can share the same underlying state.</p>
+</dd>
+<dt class="hdlist1"><code>std::stop_callback&lt;F&gt;</code></dt>
+<dd>
+<p>The <strong>Observer Registration</strong>. An RAII object that registers a callback to run when signaled. Destruction automatically unregisters.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_they_work_together"><a class="anchor" href="#_how_they_work_together"></a>How They Work Together</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;stop_token&gt;
+#include &lt;iostream&gt;
+
+void example()
+{
+    std::stop_source source;
+
+    // Create tokens (distribute notification capability)
+    std::stop_token token1 = source.get_token();
+    std::stop_token token2 = source.get_token();  // Same underlying state
+
+    // Register callbacks (observers)
+    std::stop_callback cb1(token1, []{ std::cout &lt;&lt; "Observer 1 notified\n"; });
+    std::stop_callback cb2(token2, []{ std::cout &lt;&lt; "Observer 2 notified\n"; });
+
+    std::cout &lt;&lt; "Before signal\n";
+    source.request_stop();  // Triggers all callbacks
+    std::cout &lt;&lt; "After signal\n";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Output:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">Before signal
+Observer 1 notified
+Observer 2 notified
+After signal</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_immediate_invocation"><a class="anchor" href="#_immediate_invocation"></a>Immediate Invocation</h3>
+<div class="paragraph">
+<p>If a callback is registered after <code>request_stop()</code> was already called, the callback runs <strong>immediately</strong> in the constructor:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::stop_source source;
+source.request_stop();  // Already signaled
+
+// Callback runs in constructor, not later
+std::stop_callback cb(source.get_token(), []{
+    std::cout &lt;&lt; "Runs immediately!\n";
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This ensures observers never miss the signal, regardless of registration timing.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_type_erased_polymorphic_observers"><a class="anchor" href="#_type_erased_polymorphic_observers"></a>Type-Erased Polymorphic Observers</h3>
+<div class="paragraph">
+<p>Each <code>stop_callback&lt;F&gt;</code> stores a different callable type <code>F</code>. Despite this, all callbacks for a given source can be invoked uniformly. This is equivalent to having <code>vector&lt;function&lt;void()&gt;&gt;</code> but with:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No heap allocation per callback</p>
+</li>
+<li>
+<p>No virtual function overhead</p>
+</li>
+<li>
+<p>RAII lifetime management</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_thread_safety"><a class="anchor" href="#_thread_safety"></a>Thread Safety</h3>
+<div class="paragraph">
+<p>Registration and invocation are thread-safe. You can register callbacks, request stop, and invoke callbacks from any thread without additional synchronization.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_3_the_one_shot_nature"><a class="anchor" href="#_part_3_the_one_shot_nature"></a>Part 3: The One-Shot Nature</h2>
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>Critical limitation</strong>: <code>stop_token</code> is a <strong>one-shot</strong> mechanism.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Can only transition from "not signaled" to "signaled" once</p>
+</li>
+<li>
+<p>No reset mechanism—once <code>stop_requested()</code> returns true, it stays true forever</p>
+</li>
+<li>
+<p><code>request_stop()</code> returns <code>true</code> only on the first successful call</p>
+</li>
+<li>
+<p><strong>You cannot "un-cancel" a stop_source</strong></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_why_this_matters"><a class="anchor" href="#_why_this_matters"></a>Why This Matters</h3>
+<div class="paragraph">
+<p>If you design a system that needs to cancel and restart operations, you cannot reuse the same <code>stop_source</code>. Each cycle requires a fresh source and fresh tokens.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_reset_workaround"><a class="anchor" href="#_the_reset_workaround"></a>The Reset Workaround</h3>
+<div class="paragraph">
+<p>To "reset," create an entirely new <code>stop_source</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::stop_source source;
+auto token = source.get_token();
+
+// ... distribute token to workers ...
+
+source.request_stop();  // Triggered, now permanently signaled
+
+// To "reset": create new source
+source = std::stop_source{};  // New shared state
+// Old tokens are now orphaned (stop_possible() returns false)
+
+// Must redistribute new tokens to ALL holders of the old token
+auto new_token = source.get_token();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is manual and error-prone. Any code still holding the old token will not receive new signals.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_design_implication"><a class="anchor" href="#_design_implication"></a>Design Implication</h3>
+<div class="paragraph">
+<p>If you need repeatable signals, <code>stop_token</code> is the wrong tool. Consider:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Condition variables for repeatable wake-ups</p>
+</li>
+<li>
+<p>Atomic flags with explicit reset protocol</p>
+</li>
+<li>
+<p>Custom event types</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_4_beyond_cancellation"><a class="anchor" href="#_part_4_beyond_cancellation"></a>Part 4: Beyond Cancellation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The "stop" naming obscures the mechanism&#8217;s generality. <code>stop_token</code> implements <strong>one-shot broadcast notification</strong>, useful for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Starting things</strong> — Signal "ready" to trigger initialization</p>
+</li>
+<li>
+<p><strong>Configuration loaded</strong> — Notify components when config is available</p>
+</li>
+<li>
+<p><strong>Resource availability</strong> — Signal when database connected or cache warmed</p>
+</li>
+<li>
+<p><strong>Any one-shot broadcast scenario</strong></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_5_stop_tokens_in_coroutines"><a class="anchor" href="#_part_5_stop_tokens_in_coroutines"></a>Part 5: Stop Tokens in Coroutines</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Coroutines have a propagation problem: how does a nested coroutine know to stop? If you pass a stop token explicitly to every function, your APIs become cluttered.</p>
+</div>
+<div class="sect2">
+<h3 id="_capys_answer_automatic_propagation"><a class="anchor" href="#_capys_answer_automatic_propagation"></a>Capy&#8217;s Answer: Automatic Propagation</h3>
+<div class="paragraph">
+<p>Capy propagates stop tokens downward through <code>co_await</code>. When you await a task, the IoAwaitable protocol passes the current stop token to the child:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;&gt; parent()
+{
+    // Our stop token is automatically passed to child
+    co_await child();
+}
+
+task&lt;&gt; child()
+{
+    // Receives parent's stop token via IoAwaitable protocol
+    auto token = co_await get_stop_token();  // Access current token
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>No manual threading—the protocol handles it.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_accessing_the_stop_token"><a class="anchor" href="#_accessing_the_stop_token"></a>Accessing the Stop Token</h3>
+<div class="paragraph">
+<p>Inside a task, use <code>get_stop_token()</code> to access the current stop token:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;&gt; cancellable_work()
+{
+    auto token = co_await get_stop_token();
+
+    while (!token.stop_requested())
+    {
+        co_await do_chunk_of_work();
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_6_responding_to_cancellation"><a class="anchor" href="#_part_6_responding_to_cancellation"></a>Part 6: Responding to Cancellation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_checking_the_token"><a class="anchor" href="#_checking_the_token"></a>Checking the Token</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;&gt; process_items(std::vector&lt;Item&gt; const&amp; items)
+{
+    auto token = co_await get_stop_token();
+
+    for (auto const&amp; item : items)
+    {
+        if (token.stop_requested())
+            co_return;  // Exit early
+
+        co_await process(item);
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cleanup_with_raii"><a class="anchor" href="#_cleanup_with_raii"></a>Cleanup with RAII</h3>
+<div class="paragraph">
+<p>RAII ensures resources are released on early exit:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;&gt; with_resource()
+{
+    auto resource = acquire_resource();  // RAII wrapper
+    auto token = co_await get_stop_token();
+
+    while (!token.stop_requested())
+    {
+        co_await use_resource(resource);
+    }
+    // resource destructor runs regardless of how we exit
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_operation_aborted_convention"><a class="anchor" href="#_the_operation_aborted_convention"></a>The operation_aborted Convention</h3>
+<div class="paragraph">
+<p>When cancellation causes an operation to fail, the conventional error code is <code>error::operation_aborted</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;std::string&gt; fetch_with_cancel()
+{
+    auto token = co_await get_stop_token();
+
+    if (token.stop_requested())
+    {
+        throw std::system_error(
+            make_error_code(std::errc::operation_canceled));
+    }
+
+    co_return co_await do_fetch();
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_7_os_integration"><a class="anchor" href="#_part_7_os_integration"></a>Part 7: OS Integration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Capy&#8217;s I/O operations (provided by Corosio) respect stop tokens at the OS level:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>IOCP</strong> (Windows) — Pending operations can be cancelled via <code>CancelIoEx</code></p>
+</li>
+<li>
+<p><strong>io_uring</strong> (Linux) — Operations can be cancelled via <code>IORING_OP_ASYNC_CANCEL</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When you request stop, pending I/O operations are cancelled at the OS level, providing immediate response rather than waiting for the operation to complete naturally.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_8_patterns"><a class="anchor" href="#_part_8_patterns"></a>Part 8: Patterns</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_timeout_pattern"><a class="anchor" href="#_timeout_pattern"></a>Timeout Pattern</h3>
+<div class="paragraph">
+<p>Combine a timer with stop token to implement timeouts:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;&gt; with_timeout(task&lt;&gt; operation, std::chrono::seconds timeout)
+{
+    std::stop_source source;
+
+    // Timer that requests stop after timeout
+    auto timer = co_await start_timer(timeout, [&amp;source] {
+        source.request_stop();
+    });
+
+    // Run operation with our stop token
+    co_await run_with_token(source.get_token(), std::move(operation));
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_cancellation"><a class="anchor" href="#_user_cancellation"></a>User Cancellation</h3>
+<div class="paragraph">
+<p>Connect UI cancellation to stop tokens:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">class download_manager
+{
+    std::stop_source stop_source_;
+
+public:
+    void start_download(std::string url)
+    {
+        run_async(executor_)(download(url, stop_source_.get_token()));
+    }
+
+    void cancel()
+    {
+        stop_source_.request_stop();
+    }
+};</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_graceful_shutdown"><a class="anchor" href="#_graceful_shutdown"></a>Graceful Shutdown</h3>
+<div class="paragraph">
+<p>Cancel all pending work during shutdown:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">class server
+{
+    std::stop_source shutdown_source_;
+
+public:
+    void shutdown()
+    {
+        shutdown_source_.request_stop();
+        // All pending operations receive stop request
+    }
+
+    task&lt;&gt; handle_connection(connection conn)
+    {
+        auto token = shutdown_source_.get_token();
+
+        while (!token.stop_requested())
+        {
+            co_await process_request(conn);
+        }
+
+        // Graceful cleanup
+        co_await send_goodbye(conn);
+    }
+};</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_when_any_cancellation"><a class="anchor" href="#_when_any_cancellation"></a>when_any Cancellation</h3>
+<div class="paragraph">
+<p><code>when_any</code> uses stop tokens internally to cancel "losing" tasks when the first task completes. This is covered in <a href="4f.composition.html" class="xref page">Concurrent Composition</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>Reference</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The stop token mechanism is part of the C&#43;&#43; standard library:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;stop_token&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Key types:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>std::stop_source</code> — Creates and manages stop state</p>
+</li>
+<li>
+<p><code>std::stop_token</code> — Observes stop state</p>
+</li>
+<li>
+<p><code>std::stop_callback&lt;F&gt;</code> — Registers callbacks for stop notification</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You have now learned how stop tokens provide cooperative cancellation for coroutines. In the next section, you will learn about concurrent composition with <code>when_all</code> and <code>when_any</code>.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/4.coroutines/4e.cancellation.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="4d.io-awaitable.html">The IoAwaitable Protocol</a></span>
+        <span class="next"><a href="4f.composition.html">Concurrent Composition</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

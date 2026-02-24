@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Capy and TooManyCooks: A Comparison :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/8.design/8o.WhyNotTMC.html">
+    <link rel="prev" href="8n.WhyNotCobaltConcepts.html">
+    <link rel="next" href="../reference/boost/capy.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="8.intro.html">Design</a></li>
+    <li><a href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="8n.WhyNotCobaltConcepts.html">
+      <span class="material-symbols-outlined" title="Previous: Why Not Cobalt Concepts?">arrow_back</span>
+    </a>
+    <a accesskey="u" href="8.intro.html">
+      <span class="material-symbols-outlined" title="Up: Design">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="../reference/boost/capy.html">
+      <span class="material-symbols-outlined" title="Next: Reference">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Capy and TooManyCooks: A Comparison</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>You want to write async code in C&#43;&#43;. You&#8217;ve heard about coroutines. Two libraries exist: Capy and TooManyCooks (TMC). Both let you write <code>co_await</code>. Both run on multiple threads.</p>
+</div>
+<div class="paragraph">
+<p>One was designed for network I/O. The other was designed for compute tasks. Choosing the wrong one creates friction. This document helps you choose.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_simple_version"><a class="anchor" href="#_the_simple_version"></a>The Simple Version</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Capy:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Built for waiting on things (network, files, timers)</p>
+</li>
+<li>
+<p>When data arrives, your code wakes up in the right place automatically</p>
+</li>
+<li>
+<p>Cancellation works - if you stop waiting, pending operations stop too</p>
+</li>
+<li>
+<p>Handles data buffers natively - the bytes flowing through your program</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>TMC:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Built for doing things (calculations, parallel work)</p>
+</li>
+<li>
+<p>Multi-threaded work pool that keeps CPUs busy</p>
+</li>
+<li>
+<p>Priority levels so important work runs first (16 of them, to be precise)</p>
+</li>
+<li>
+<p>Mid-coroutine executor switching for flexible work migration</p>
+</li>
+<li>
+<p>No built-in I/O - you add that separately (via Asio integration)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you&#8217;re building a network server, one of these is swimming upstream.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<strong>On priorities:</strong> Capy defines executors using a concept. Nothing stops you from implementing a priority-enforcing executor. You could have 24 priority levels, if 16 somehow felt insufficient.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_where_does_your_code_run"><a class="anchor" href="#_where_does_your_code_run"></a>Where Does Your Code Run?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When async code finishes waiting, it needs to resume somewhere. Where?</p>
+</div>
+<div class="paragraph">
+<p><strong>Capy&#8217;s answer:</strong> The same place it started. Automatically.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Context flows forward through <code>await_suspend(h, env)</code> where <code>env</code> is an <code>io_env</code></p>
+</li>
+<li>
+<p>Your coroutine started on executor X? It resumes on executor X.</p>
+</li>
+<li>
+<p>Child tasks can run on different executors via <code>run(other_ex)(child_task())</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>TMC&#8217;s answer:</strong> Where you tell it, with flexibility to change mid-execution.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Context flows via <code>tmc::detail::awaitable_traits</code> - a traits-based injection mechanism</p>
+</li>
+<li>
+<p>Thread-local variables track the current executor for quick access</p>
+</li>
+<li>
+<p>Coroutines can hop executors mid-body via <code>resume_on()</code> and <code>enter()</code>/<code>exit()</code></p>
+</li>
+<li>
+<p>Works fine within TMC&#8217;s ecosystem; integrating external I/O requires the coordination headers (<code>ex_asio.hpp</code>, <code>aw_asio.hpp</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Both libraries propagate executor context. They differ in mechanism and mobility.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_executor_mobility"><a class="anchor" href="#_executor_mobility"></a>Executor Mobility</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TMC allows a coroutine to switch executors mid-body:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">tmc::task&lt;void&gt; example() {
+    // Running on executor A
+    co_await tmc::resume_on(executor_b);
+    // Now running on executor B - same coroutine!
+
+    // Or scoped:
+    auto scope = co_await tmc::enter(io_exec);
+    // Temporarily on io_exec
+    co_await scope.exit();
+    // Back to original
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is powerful for compute workloads where work can migrate between thread pools.</p>
+</div>
+<div class="paragraph">
+<p><strong>Capy&#8217;s design choice:</strong> Intentionally prevent mid-coroutine executor switching. A coroutine stays on its bound executor for its entire lifetime. Child tasks can run on different executors via <code>run(other_ex)(child_task())</code>, but the parent never moves.</p>
+</div>
+<div class="paragraph">
+<p><strong>Why Capy prevents this:</strong> I/O objects often have invariants tied to their executor:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A socket may only be accessed from threads associated with a specific <code>io_context</code></p>
+</li>
+<li>
+<p>File handles on Windows IOCP must complete on the same context they were initiated</p>
+</li>
+<li>
+<p>Timer state is executor-specific</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Allowing a coroutine holding I/O objects to hop executors mid-body would break these invariants. TMC doesn&#8217;t face this constraint because it&#8217;s a compute scheduler - work items don&#8217;t carry I/O state with executor affinity.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_stopping_things"><a class="anchor" href="#_stopping_things"></a>Stopping Things</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>What happens when you need to cancel an operation?</p>
+</div>
+<div class="paragraph">
+<p><strong>Capy:</strong> Stop tokens propagate automatically through the call chain.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Cancel at the top, everything below receives the signal</p>
+</li>
+<li>
+<p>Pending I/O operations cancel at the OS level (<code>CancelIoEx</code>, <code>IORING_OP_ASYNC_CANCEL</code>)</p>
+</li>
+<li>
+<p>Clean shutdown, no leaked resources</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>TMC:</strong> You manage cancellation yourself.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Stop tokens exist in C&#43;&#43;20 but TMC doesn&#8217;t propagate them automatically</p>
+</li>
+<li>
+<p>This is intentional: TMC is designed to work with various external libraries</p>
+</li>
+<li>
+<p>Pending work completes, or you wait for it</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The TMC author acknowledged that automatic cancellation propagation is an "excellent killer feature" for an integrated I/O stack like Capy.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_keeping_things_orderly"><a class="anchor" href="#_keeping_things_orderly"></a>Keeping Things Orderly</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Both libraries support multi-threaded execution. Sometimes you need guarantees: "these operations must not overlap."</p>
+</div>
+<div class="paragraph">
+<p><strong>Capy&#8217;s strand:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Wraps any executor</p>
+</li>
+<li>
+<p>Coroutines dispatched through a strand never run concurrently</p>
+</li>
+<li>
+<p>Even if one suspends (waits for I/O), ordering is preserved</p>
+</li>
+<li>
+<p>When you resume, the world is as you left it</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>TMC&#8217;s ex_braid:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Also serializes execution</p>
+</li>
+<li>
+<p>But: when a coroutine suspends, the lock is released</p>
+</li>
+<li>
+<p>Another coroutine may enter and begin executing</p>
+</li>
+<li>
+<p>When you resume, the state may have changed</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>TMC&#8217;s documentation describes this as "optimized for higher throughput with many serialized tasks." This is a design choice. Whether it matches your mental model is a separate question.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Neither library prevents the caller from initiating multiple concurrent I/O operations on the same object - that&#8217;s always the caller&#8217;s responsibility. Both provide mutual exclusion for coroutine/handler execution only, not I/O operation queuing.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_working_with_data"><a class="anchor" href="#_working_with_data"></a>Working with Data</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Network code moves bytes around. A lot of bytes. Efficiently.</p>
+</div>
+<div class="paragraph">
+<p><strong>Capy provides:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Buffer sequences (scatter/gather I/O without copying)</p>
+</li>
+<li>
+<p>Algorithms: slice, copy, concatenate, consume</p>
+</li>
+<li>
+<p>Dynamic buffers that grow as needed</p>
+</li>
+<li>
+<p>Type-erased streams: write code once, use with any stream type</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>TMC provides:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Nothing. TMC is not an I/O library.</p>
+</li>
+<li>
+<p>You use Asio&#8217;s buffers through the integration layer.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_memory_allocation_control"><a class="anchor" href="#_memory_allocation_control"></a>Memory Allocation Control</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>HALO (Heap Allocation Lowering Optimization) lets compilers eliminate coroutine frame allocations when the frame&#8217;s lifetime doesn&#8217;t escape the caller. But I/O operations always escape - the awaitable must live until the kernel/reactor completes the operation.</p>
+</div>
+<div class="paragraph">
+<p><strong>Capy provides:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Custom allocator propagation via <code>run_async(ex, allocator)</code> and <code>run(allocator)</code></p>
+</li>
+<li>
+<p>Per-connection arena allocation</p>
+</li>
+<li>
+<p>Memory isolation between connections</p>
+</li>
+<li>
+<p>Instant reclamation on connection close</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::pmr::monotonic_buffer_resource arena;
+run_async(ex, &amp;arena)(handle_connection(socket));
+// On disconnect: entire arena reclaimed instantly</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>TMC provides:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Global <code>::operator new</code> (with cache-line padding)</p>
+</li>
+<li>
+<p>Recommends tcmalloc for improved performance</p>
+</li>
+<li>
+<p>No per-operation allocator control</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For I/O workloads where HALO cannot apply, allocator control is essential, not optional.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getting_technical_the_ioawaitable_protocol"><a class="anchor" href="#_getting_technical_the_ioawaitable_protocol"></a>Getting Technical: The IoAwaitable Protocol</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you write <code>co_await something</code>, what happens?</p>
+</div>
+<div class="paragraph">
+<p><strong>Standard C&#43;&#43;20:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void await_suspend(std::coroutine_handle&lt;&gt; h);
+// or
+bool await_suspend(std::coroutine_handle&lt;&gt; h);
+// or
+std::coroutine_handle&lt;&gt; await_suspend(std::coroutine_handle&lt;&gt; h);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The awaitable receives a handle to resume. That&#8217;s all. No information about where to resume, no cancellation mechanism.</p>
+</div>
+<div class="paragraph">
+<p><strong>Capy extends this:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">auto await_suspend(std::coroutine_handle&lt;&gt; h, io_env const* env);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The awaitable receives:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>h</code> — The handle (for resumption)</p>
+</li>
+<li>
+<p><code>env</code> — The execution environment containing:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>env&#8594;executor</code> — The executor (where to resume)</p>
+</li>
+<li>
+<p><code>env&#8594;stop_token</code> — A stop token (for cancellation)</p>
+</li>
+<li>
+<p><code>env&#8594;allocator</code> — An optional allocator for frame allocation</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>TMC&#8217;s approach:</strong></p>
+</div>
+<div class="paragraph">
+<p>Standard signature, plus traits-based context injection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// TMC propagates context via awaitable_traits&lt;T&gt;
+awaitable_traits&lt;T&gt;::set_continuation(awaitable, continuation);
+awaitable_traits&lt;T&gt;::set_continuation_executor(awaitable, executor);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>TMC also tracks <code>this_thread::executor</code> and <code>this_task.prio</code> in thread-local variables for quick access.</p>
+</div>
+<div class="paragraph">
+<p>Both approaches achieve context propagation. Neither is compatible with arbitrary third-party awaitables without explicit support.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_protocol_strictness"><a class="anchor" href="#_protocol_strictness"></a>Protocol Strictness</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>What happens when you <code>co_await</code> an awaitable that doesn&#8217;t implement the extended protocol?</p>
+</div>
+<div class="paragraph">
+<p><strong>Capy:</strong> Compile-time error.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// From task.hpp transform_awaitable()
+else
+{
+    static_assert(sizeof(A) == 0, "requires IoAwaitable");
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>TMC:</strong> Wrap in a trampoline that captures current context.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// From task.hpp await_transform()
+return tmc::detail::safe_wrap(std::forward&lt;Awaitable&gt;(awaitable));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Trade-offs:</strong></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Aspect</th>
+<th class="tableblock halign-left valign-top">Capy</th>
+<th class="tableblock halign-left valign-top">TMC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unknown awaitables</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compilation failure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>safe_wrap()</code> trampoline</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Context propagation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Required by protocol</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lost for wrapped awaitables</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integration flexibility</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requires protocol adoption</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">More permissive interop</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Capy makes the conscious decision that <strong>silent degradation is worse than compilation failure</strong>. If an awaitable doesn&#8217;t carry context forward, the code doesn&#8217;t compile. This prevents subtle bugs where cancellation or executor affinity silently stops working.</p>
+</div>
+<div class="paragraph">
+<p>TMC&#8217;s approach is more flexible for incremental adoption but risks silent context loss when mixing TMC with non-TMC awaitables.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_integration_approaches"><a class="anchor" href="#_integration_approaches"></a>Integration Approaches</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Aspect</th>
+<th class="tableblock halign-left valign-top">TMC</th>
+<th class="tableblock halign-left valign-top">Capy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">External adapter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Traits specialization (non-intrusive)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Member function (intrusive)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unknown awaitables</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>safe_wrap()</code> trampoline</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>static_assert</code> failure</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Context mechanism</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Traits + TLS capture</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Parameter passing</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Both require explicit support from awaitables. TMC&#8217;s traits are external specializations, making it theoretically easier to build adapters for third-party libraries without modifying them. Capy&#8217;s member function signature requires the awaitable itself to implement the protocol.</p>
+</div>
+<div class="paragraph">
+<p>Practically, both require cooperation from awaitable authors for full functionality.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_io_performance_native_vs_integration"><a class="anchor" href="#_io_performance_native_vs_integration"></a>I/O Performance: Native vs Integration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TMC integrates with Asio via <code>aw_asio.hpp</code>/<code>ex_asio.hpp</code>. Corosio provides native I/O objects built on Capy&#8217;s protocol.</p>
+</div>
+<div class="paragraph">
+<p><strong>TMC + Asio call chain for <code>socket.async_read_some(buf, tmc::aw_asio)</code>:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>async_result&lt;aw_asio_t&gt;::initiate()</code> - creates awaitable, stores initiation + args in <code>std::tuple</code></p>
+</li>
+<li>
+<p><code>operator co_await()</code> returns <code>aw_asio_impl</code></p>
+</li>
+<li>
+<p><code>await_suspend()</code> calls <code>async_initiate()</code> &#8594; <code>initiate_await(callback)</code> - virtual call</p>
+</li>
+<li>
+<p><code>std::apply</code> unpacks tuple, invokes Asio initiation</p>
+</li>
+<li>
+<p>Asio type-erases handler into internal storage</p>
+</li>
+<li>
+<p>On completion: callback stores result, calls <code>resume_continuation()</code></p>
+</li>
+<li>
+<p><code>resume_continuation()</code> checks executor/priority, posts if different</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Corosio native call chain for <code>socket.read_some(buf)</code>:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Returns <code>read_some_awaitable</code> (stack object)</p>
+</li>
+<li>
+<p><code>await_suspend(h, ex, token)</code> calls <code>impl_.read_some()</code> - virtual call to platform impl</p>
+</li>
+<li>
+<p>Platform impl issues direct syscall (<code>recv</code>/<code>WSARecv</code>)</p>
+</li>
+<li>
+<p>Registers with reactor</p>
+</li>
+<li>
+<p>On completion: <code>ex.dispatch(h)</code> - inline resume when on io_context executor</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Overhead comparison:</strong></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Aspect</th>
+<th class="tableblock halign-left valign-top">TMC + Asio</th>
+<th class="tableblock halign-left valign-top">Corosio Native</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Virtual calls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 (<code>initiate_await</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 (platform impl)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type erasure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asio handler + <code>ex_any</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>executor_ref</code> only</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tuple packing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes (init args)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Handler storage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asio internal (likely heap)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operation slot in socket</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Completion dispatch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Checks executor/priority, posts if different</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dispatch()</code> call, inline resume on io_context</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lambda wrapper</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes (<code>ex_asio::post</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The critical path difference is completion. TMC+Asio goes through <code>resume_continuation()</code> which checks executor/priority and often posts via <code>asio::post()</code>. Corosio&#8217;s <code>dispatch()</code> can resume the coroutine inline when already on the io_context executor, avoiding the post overhead.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_type_erasure"><a class="anchor" href="#_type_erasure"></a>Type Erasure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Capy:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>any_stream</code>, <code>any_read_stream</code>, <code>any_write_stream</code></p>
+</li>
+<li>
+<p>Write a function taking <code>any_stream&amp;</code> - it compiles once</p>
+</li>
+<li>
+<p>One virtual call per I/O operation</p>
+</li>
+<li>
+<p>Clean ABI boundaries</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>TMC:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Traits-based: <code>executor_traits&lt;T&gt;</code> specializations</p>
+</li>
+<li>
+<p>Type-erased executor: <code>ex_any</code> (function pointers, not virtuals)</p>
+</li>
+<li>
+<p>No stream abstractions (not an I/O library)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_different_positions_in_the_tree_of_need"><a class="anchor" href="#_different_positions_in_the_tree_of_need"></a>Different Positions in the Tree of Need</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TMC and Capy occupy different architectural positions. Rather than competing, they serve different needs:</p>
+</div>
+<div class="paragraph">
+<p><strong>TMC sits above I/O:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Compute scheduler designed for CPU-bound parallel work</p>
+</li>
+<li>
+<p>Integrates with existing I/O solutions (Asio)</p>
+</li>
+<li>
+<p>Flexible executor mobility for work migration</p>
+</li>
+<li>
+<p>Permissive interop via <code>safe_wrap()</code> for gradual adoption</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Capy sits below compute:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>I/O foundation designed for network/file operations</p>
+</li>
+<li>
+<p>Strict protocol enforcement prevents silent failures</p>
+</li>
+<li>
+<p>Executor stability protects I/O object invariants</p>
+</li>
+<li>
+<p>Allocator control where HALO cannot apply</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Neither is "more fundamental." If you&#8217;re building a network server, Capy&#8217;s constraints exist to protect you. If you&#8217;re parallelizing CPU work, TMC&#8217;s flexibility is valuable.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_corosio_proof_it_works"><a class="anchor" href="#_corosio_proof_it_works"></a>Corosio: Proof It Works</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Capy is a foundation. Corosio builds real networking on it:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>TCP sockets, acceptors</p>
+</li>
+<li>
+<p>TLS streams (WolfSSL)</p>
+</li>
+<li>
+<p>Timers, DNS resolution, signal handling</p>
+</li>
+<li>
+<p>Native backends: IOCP (Windows), epoll (Linux), io_uring (planned)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All built on Capy&#8217;s IoAwaitable protocol. Coroutines only. No callbacks.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_when_to_use_each"><a class="anchor" href="#_when_to_use_each"></a>When to Use Each</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Choose TMC if:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>CPU-bound parallel algorithms</p>
+</li>
+<li>
+<p>Compute workloads needing work-stealing or priority scheduling (1-16 levels)</p>
+</li>
+<li>
+<p>Work that benefits from mid-coroutine executor migration</p>
+</li>
+<li>
+<p>You&#8217;re already using Asio and want a scheduler on top</p>
+</li>
+<li>
+<p>Gradual adoption with mixed awaitable sources</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Choose Capy if:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Network servers or clients</p>
+</li>
+<li>
+<p>Protocol implementations</p>
+</li>
+<li>
+<p>I/O-bound workloads</p>
+</li>
+<li>
+<p>You want cancellation that propagates automatically</p>
+</li>
+<li>
+<p>You want buffers and streams as first-class concepts</p>
+</li>
+<li>
+<p>You need per-connection allocator control</p>
+</li>
+<li>
+<p>You prefer strict compile-time protocol enforcement</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Or use both:</strong></p>
+</div>
+<div class="paragraph">
+<p>TMC for compute scheduling, Capy/Corosio for I/O. They can coexist at different layers of your application.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Aspect</th>
+<th class="tableblock halign-left valign-top">Capy</th>
+<th class="tableblock halign-left valign-top">TooManyCooks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Primary purpose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I/O foundation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compute scheduling</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Threading</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multi-threaded (<code>thread_pool</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multi-threaded (work-stealing)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Executor mobility</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed per coroutine</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mid-body switching (<code>resume_on</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Serialization</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>strand</code> (ordering preserved across suspend)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ex_braid</code> (lock released on suspend)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Context propagation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>await_suspend(h, env)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>awaitable_traits</code> + TLS</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unknown awaitables</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>static_assert</code> failure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>safe_wrap()</code> trampoline</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cancellation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Automatic propagation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manual</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allocator control</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Per-task (<code>std::pmr</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Global (<code>::operator new</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Buffer sequences</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No (use Asio)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stream concepts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes (<code>ReadStream</code>, <code>WriteStream</code>, etc.)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type-erased streams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes (<code>any_stream</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I/O support</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Via Corosio (native IOCP/epoll/io_uring)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Via Asio integration headers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Priority scheduling</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implement your own</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Built-in (1-16 levels)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Work-stealing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Executor model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concept-based (user-extensible)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Traits-based (<code>executor_traits&lt;T&gt;</code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_revision_history"><a class="anchor" href="#_revision_history"></a>Revision History</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2026-02-04</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revised to correct inaccuracies regarding TMC&#8217;s context propagation mechanism. The author of TooManyCooks provided feedback clarifying that TMC implements executor affinity via <code>tmc::detail::awaitable_traits</code>, not just thread-local state. Reframed comparison to acknowledge both libraries as complementary solutions for different architectural positions rather than competitors.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/8.design/8o.WhyNotTMC.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a></span>
+        <span class="next"><a href="../reference/boost/capy.html">Reference</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

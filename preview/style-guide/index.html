@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/MonaSansVF.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Regular.otf" as="font" type="font/otf" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Italic.otf" as="font" type="font/otf" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+
+  var revealed = false;
+
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+
+  setTimeout(reveal, 3000);
+
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+
+  var uiRoot = '../../_';
+  var fonts = [
+    {
+      family: 'Noto Sans',
+      url: uiRoot + '/font/MonaSansVF.ttf',
+      descriptors: { style: 'normal', weight: '100 900' }
+    },
+    {
+      family: 'Noto Sans',
+      url: uiRoot + '/font/MonaSansVF.ttf',
+      descriptors: { style: 'italic', weight: '100 900' }
+    },
+    {
+      family: 'Monaspace Neon',
+      url: uiRoot + '/font/MonaspaceNeon-Regular.otf',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    {
+      family: 'Monaspace Xenon',
+      url: uiRoot + '/font/MonaspaceXenon-Italic.otf',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Boostlook Style Guide</title>
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+
+<style>
+/* Style Guide Layout */
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+  gap: 0.75rem;
+}
+.swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+.swatch-box {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--corner-radius-m);
+  border: 1px solid var(--border-border-primary);
+}
+.swatch-label {
+  font-size: var(--font-size-2xs);
+  color: var(--text-main-text-body-secondary);
+  text-align: center;
+  word-break: break-all;
+  line-height: 1.2;
+}
+.swatch-label-name {
+  font-size: var(--font-size-3xs);
+  color: var(--text-main-text-body-tetriary);
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Semantic tokens table */
+.token-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.token-table td,
+.token-table th {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border-border-primary);
+  font-size: var(--font-size-xs);
+  vertical-align: middle;
+}
+.token-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-main-text-primary);
+}
+.token-table code {
+  font-size: var(--font-size-2xs);
+}
+.token-swatch {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--corner-radius-s);
+  border: 1px solid var(--border-border-primary);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Spacing bars */
+.spacing-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.spacing-bar {
+  height: 1.5rem;
+  background: var(--surface-background-main-surface-blue-secondary);
+  border: 1px solid var(--border-border-blue);
+  border-radius: var(--corner-radius-s);
+}
+.spacing-label {
+  min-width: 10rem;
+  font-size: var(--font-size-xs);
+  font-family: var(--font-family-code);
+  color: var(--text-main-text-body-secondary);
+  flex-shrink: 0;
+}
+.spacing-value {
+  font-size: var(--font-size-2xs);
+  color: var(--text-main-text-body-tetriary);
+  flex-shrink: 0;
+  min-width: 4rem;
+}
+
+/* Radius demos */
+.radius-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: 1rem;
+}
+.radius-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.radius-box {
+  width: 4rem;
+  height: 4rem;
+  background: var(--surface-background-main-surface-blue-secondary);
+  border: 2px solid var(--border-border-blue);
+}
+.radius-label {
+  font-size: var(--font-size-2xs);
+  font-family: var(--font-family-code);
+  color: var(--text-main-text-body-secondary);
+  text-align: center;
+}
+
+/* Typography scale */
+.type-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+.type-meta {
+  min-width: 12rem;
+  font-size: var(--font-size-2xs);
+  font-family: var(--font-family-code);
+  color: var(--text-main-text-body-tetriary);
+  flex-shrink: 0;
+}
+</style>
+
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="index.html">Style Guide</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="index.html">Style Guide</a></li>
+  </ul>
+</nav>
+</div>
+    <h1 class="page">Boostlook Style Guide</h1>
+
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Comprehensive reference of every design token and component in the Boostlook design system. Toggle dark mode to see how all values adapt between themes.</p>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- Section 1: Color Primitives    -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_color_primitives"><a class="anchor" href="#_color_primitives"></a>Color Primitives</h2>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_neutral"><a class="anchor" href="#_neutral"></a>Neutral</h3>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-0)"></div><div class="swatch-label">0</div><div class="swatch-label-name">#ffffff</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-50)"></div><div class="swatch-label">50</div><div class="swatch-label-name">#f5f6f8</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-100)"></div><div class="swatch-label">100</div><div class="swatch-label-name">#e4e7ea</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-150)"></div><div class="swatch-label">150</div><div class="swatch-label-name">#d5d7d9</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-200)"></div><div class="swatch-label">200</div><div class="swatch-label-name">#c7cccf</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-250)"></div><div class="swatch-label">250</div><div class="swatch-label-name">#f9f9f9</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-300)"></div><div class="swatch-label">300</div><div class="swatch-label-name">#afb3b6</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-400)"></div><div class="swatch-label">400</div><div class="swatch-label-name">#949a9e</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-500)"></div><div class="swatch-label">500</div><div class="swatch-label-name">#798086</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-600)"></div><div class="swatch-label">600</div><div class="swatch-label-name">#62676b</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-700)"></div><div class="swatch-label">700</div><div class="swatch-label-name">#494d50</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-750)"></div><div class="swatch-label">750</div><div class="swatch-label-name">#1c1c1c</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-800)"></div><div class="swatch-label">800</div><div class="swatch-label-name">#393b3f</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-850)"></div><div class="swatch-label">850</div><div class="swatch-label-name">#2a2c30</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-900)"></div><div class="swatch-label">900</div><div class="swatch-label-name">#18191b</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-neutral-950)"></div><div class="swatch-label">950</div><div class="swatch-label-name">#0d0e0f</div></div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_brand_orange"><a class="anchor" href="#_brand_orange"></a>Brand Orange</h3>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-50)"></div><div class="swatch-label">50</div><div class="swatch-label-name">#fbf2e6</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-100)"></div><div class="swatch-label">100</div><div class="swatch-label-name">#ffeaca</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-200)"></div><div class="swatch-label">200</div><div class="swatch-label-name">#ffd897</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-300)"></div><div class="swatch-label">300</div><div class="swatch-label-name">#ffc364</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-400)"></div><div class="swatch-label">400</div><div class="swatch-label-name">#ffb030</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-500)"></div><div class="swatch-label">500</div><div class="swatch-label-name">#ff9f00</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-600)"></div><div class="swatch-label">600</div><div class="swatch-label-name">#cd7e00</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-700)"></div><div class="swatch-label">700</div><div class="swatch-label-name">#9b5f00</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-800)"></div><div class="swatch-label">800</div><div class="swatch-label-name">#694000</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-900)"></div><div class="swatch-label">900</div><div class="swatch-label-name">#352000</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-brand-orange-950)"></div><div class="swatch-label">950</div><div class="swatch-label-name">#1e1200</div></div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_blue"><a class="anchor" href="#_blue"></a>Blue</h3>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-0)"></div><div class="swatch-label">0</div><div class="swatch-label-name">#f6fafd</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-25)"></div><div class="swatch-label">25</div><div class="swatch-label-name">#ebf4f9</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-50)"></div><div class="swatch-label">50</div><div class="swatch-label-name">#daeef9</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-100)"></div><div class="swatch-label">100</div><div class="swatch-label-name">#c2e2f4</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-200)"></div><div class="swatch-label">200</div><div class="swatch-label-name">#92cbe9</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-300)"></div><div class="swatch-label">300</div><div class="swatch-label-name">#62b3dd</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-400)"></div><div class="swatch-label">400</div><div class="swatch-label-name">#329cd2</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-500)"></div><div class="swatch-label">500</div><div class="swatch-label-name">#0284c7</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-600)"></div><div class="swatch-label">600</div><div class="swatch-label-name">#026a9f</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-700)"></div><div class="swatch-label">700</div><div class="swatch-label-name">#014f77</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-800)"></div><div class="swatch-label">800</div><div class="swatch-label-name">#013550</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-850)"></div><div class="swatch-label">850</div><div class="swatch-label-name">#01283c</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-900)"></div><div class="swatch-label">900</div><div class="swatch-label-name">#001a28</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-blue-950)"></div><div class="swatch-label">950</div><div class="swatch-label-name">#000d14</div></div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_positive"><a class="anchor" href="#_positive"></a>Positive</h3>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-0)"></div><div class="swatch-label">0</div><div class="swatch-label-name">#f8fefb</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-50)"></div><div class="swatch-label">50</div><div class="swatch-label-name">#f0fef7</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-100)"></div><div class="swatch-label">100</div><div class="swatch-label-name">#def7eb</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-200)"></div><div class="swatch-label">200</div><div class="swatch-label-name">#bdeed6</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-300)"></div><div class="swatch-label">300</div><div class="swatch-label-name">#9ce6c2</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-400)"></div><div class="swatch-label">400</div><div class="swatch-label-name">#7bddad</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-500)"></div><div class="swatch-label">500</div><div class="swatch-label-name">#5ad599</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-600)"></div><div class="swatch-label">600</div><div class="swatch-label-name">#48ac7b</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-700)"></div><div class="swatch-label">700</div><div class="swatch-label-name">#36825d</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-800)"></div><div class="swatch-label">800</div><div class="swatch-label-name">#255940</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-850)"></div><div class="swatch-label">850</div><div class="swatch-label-name">#1c4431</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-900)"></div><div class="swatch-label">900</div><div class="swatch-label-name">#132f22</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-positive-950)"></div><div class="swatch-label">950</div><div class="swatch-label-name">#0a1b13</div></div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_negative"><a class="anchor" href="#_negative"></a>Negative</h3>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-50)"></div><div class="swatch-label">50</div><div class="swatch-label-name">#fdf1f3</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-100)"></div><div class="swatch-label">100</div><div class="swatch-label-name">#ffe6ea</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-200)"></div><div class="swatch-label">200</div><div class="swatch-label-name">#ffcad2</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-300)"></div><div class="swatch-label">300</div><div class="swatch-label-name">#fe9aab</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-400)"></div><div class="swatch-label">400</div><div class="swatch-label-name">#f9677f</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-500)"></div><div class="swatch-label">500</div><div class="swatch-label-name">#eb3856</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-600)"></div><div class="swatch-label">600</div><div class="swatch-label-name">#bc233c</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-700)"></div><div class="swatch-label">700</div><div class="swatch-label-name">#8d1529</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-800)"></div><div class="swatch-label">800</div><div class="swatch-label-name">#600d1b</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-900)"></div><div class="swatch-label">900</div><div class="swatch-label-name">#39070f</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-negative-950)"></div><div class="swatch-label">950</div><div class="swatch-label-name">#1d0408</div></div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_warning"><a class="anchor" href="#_warning"></a>Warning</h3>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-0)"></div><div class="swatch-label">0</div><div class="swatch-label-name">rgba(255,248,243,.5)</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-50)"></div><div class="swatch-label">50</div><div class="swatch-label-name">#fff8f3</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-100)"></div><div class="swatch-label">100</div><div class="swatch-label-name">#ffefe2</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-200)"></div><div class="swatch-label">200</div><div class="swatch-label-name">#ffd4b3</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-300)"></div><div class="swatch-label">300</div><div class="swatch-label-name">#feb780</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-400)"></div><div class="swatch-label">400</div><div class="swatch-label-name">#ff9442</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-500)"></div><div class="swatch-label">500</div><div class="swatch-label-name">#fd760f</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-600)"></div><div class="swatch-label">600</div><div class="swatch-label-name">#c25909</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-700)"></div><div class="swatch-label">700</div><div class="swatch-label-name">#914104</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-800)"></div><div class="swatch-label">800</div><div class="swatch-label-name">#5d2a02</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-900)"></div><div class="swatch-label">900</div><div class="swatch-label-name">#341700</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-warning-950)"></div><div class="swatch-label">950</div><div class="swatch-label-name">#1f0e01</div></div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_syntax_colors"><a class="anchor" href="#_syntax_colors"></a>Syntax Colors</h3>
+<div class="paragraph"><p><strong>Strong</strong> (light mode)</p></div>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-syntax-strong-blue)"></div><div class="swatch-label">blue</div><div class="swatch-label-name">#1345E8</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-syntax-strong-green)"></div><div class="swatch-label">green</div><div class="swatch-label-name">#289D30</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-syntax-strong-yellow)"></div><div class="swatch-label">yellow</div><div class="swatch-label-name">#A3A38C</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-syntax-strong-pink)"></div><div class="swatch-label">pink</div><div class="swatch-label-name">#D31FA7</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-syntax-strong-grey)"></div><div class="swatch-label">grey</div><div class="swatch-label-name">#9E9E9E</div></div>
+</div>
+<div class="paragraph"><p><strong>Weak</strong> (dark mode)</p></div>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-syntax-weak-blue)"></div><div class="swatch-label">blue</div><div class="swatch-label-name">#38DDFF</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-syntax-weak-green)"></div><div class="swatch-label">green</div><div class="swatch-label-name">#72FE92</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-syntax-weak-yellow)"></div><div class="swatch-label">yellow</div><div class="swatch-label-name">#FFF173</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-syntax-weak-pink)"></div><div class="swatch-label">pink</div><div class="swatch-label-name">#F358C0</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-syntax-weak-grey)"></div><div class="swatch-label">grey</div><div class="swatch-label-name">#A3A3A3</div></div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_accent_colors"><a class="anchor" href="#_accent_colors"></a>Accent Colors</h3>
+<div class="paragraph"><p><strong>Weak</strong></p></div>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-accent-weak-teal)"></div><div class="swatch-label">teal</div><div class="swatch-label-name">#C9F2EE</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-accent-weak-yellow)"></div><div class="swatch-label">yellow</div><div class="swatch-label-name">#F8EBA9</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-accent-weak-green)"></div><div class="swatch-label">green</div><div class="swatch-label-name">#E4E4C0</div></div>
+</div>
+<div class="paragraph"><p><strong>Strong</strong></p></div>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-accent-strong-teal)"></div><div class="swatch-label">teal</div><div class="swatch-label-name">#64DACE</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-accent-strong-yellow)"></div><div class="swatch-label">yellow</div><div class="swatch-label-name">#F5D039</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-accent-strong-green)"></div><div class="swatch-label">green</div><div class="swatch-label-name">#CACA62</div></div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_error_colors"><a class="anchor" href="#_error_colors"></a>Error Colors</h3>
+<div class="swatch-grid">
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-error-weak)"></div><div class="swatch-label">weak</div><div class="swatch-label-name">#FDF2F2</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-error-mid)"></div><div class="swatch-label">mid</div><div class="swatch-label-name">#FF3B30</div></div>
+  <div class="swatch"><div class="swatch-box" style="background: var(--colors-error-strong)"></div><div class="swatch-label">strong</div><div class="swatch-label-name">#D32F2F</div></div>
+</div>
+</div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 2: Semantic Tokens     -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_semantic_tokens"><a class="anchor" href="#_semantic_tokens"></a>Semantic Color Tokens</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>These tokens map primitives to semantic roles. They automatically switch between light and dark themes.</p></div>
+
+<div class="sect2">
+<h3 id="_text_tokens"><a class="anchor" href="#_text_tokens"></a>Text</h3>
+<table class="token-table">
+<tr><th>Token</th><th>Swatch</th></tr>
+<tr><td><code>--text-main-text-primary</code></td><td><span class="token-swatch" style="background: var(--text-main-text-primary)"></span></td></tr>
+<tr><td><code>--text-main-text-body-primary</code></td><td><span class="token-swatch" style="background: var(--text-main-text-body-primary)"></span></td></tr>
+<tr><td><code>--text-main-text-body-secondary</code></td><td><span class="token-swatch" style="background: var(--text-main-text-body-secondary)"></span></td></tr>
+<tr><td><code>--text-main-text-body-tetriary</code></td><td><span class="token-swatch" style="background: var(--text-main-text-body-tetriary)"></span></td></tr>
+<tr><td><code>--text-main-text-body-quaternary</code></td><td><span class="token-swatch" style="background: var(--text-main-text-body-quaternary)"></span></td></tr>
+<tr><td><code>--text-main-text-link-blue</code></td><td><span class="token-swatch" style="background: var(--text-main-text-link-blue)"></span></td></tr>
+<tr><td><code>--text-main-text-link-blue-secondary</code></td><td><span class="token-swatch" style="background: var(--text-main-text-link-blue-secondary)"></span></td></tr>
+</table>
+</div>
+
+<div class="sect2">
+<h3 id="_surface_tokens"><a class="anchor" href="#_surface_tokens"></a>Surface / Background</h3>
+<table class="token-table">
+<tr><th>Token</th><th>Swatch</th></tr>
+<tr><td><code>--surface-background-main-base-primary</code></td><td><span class="token-swatch" style="background: var(--surface-background-main-base-primary)"></span></td></tr>
+<tr><td><code>--surface-background-main-surface-primary</code></td><td><span class="token-swatch" style="background: var(--surface-background-main-surface-primary)"></span></td></tr>
+<tr><td><code>--surface-background-main-surface-secondary</code></td><td><span class="token-swatch" style="background: var(--surface-background-main-surface-secondary)"></span></td></tr>
+<tr><td><code>--surface-background-main-surface-tetriary</code></td><td><span class="token-swatch" style="background: var(--surface-background-main-surface-tetriary)"></span></td></tr>
+<tr><td><code>--surface-background-main-surface-blue-primary</code></td><td><span class="token-swatch" style="background: var(--surface-background-main-surface-blue-primary)"></span></td></tr>
+<tr><td><code>--surface-background-main-surface-blue-secondary</code></td><td><span class="token-swatch" style="background: var(--surface-background-main-surface-blue-secondary)"></span></td></tr>
+<tr><td><code>--surface-background-main-surface-blue-tetriary</code></td><td><span class="token-swatch" style="background: var(--surface-background-main-surface-blue-tetriary)"></span></td></tr>
+</table>
+</div>
+
+<div class="sect2">
+<h3 id="_border_tokens"><a class="anchor" href="#_border_tokens"></a>Border</h3>
+<table class="token-table">
+<tr><th>Token</th><th>Swatch</th></tr>
+<tr><td><code>--border-border-primary</code></td><td><span class="token-swatch" style="background: var(--border-border-primary)"></span></td></tr>
+<tr><td><code>--border-border-secondary</code></td><td><span class="token-swatch" style="background: var(--border-border-secondary)"></span></td></tr>
+<tr><td><code>--border-border-tetriary</code></td><td><span class="token-swatch" style="background: var(--border-border-tetriary)"></span></td></tr>
+<tr><td><code>--border-border-quaternary</code></td><td><span class="token-swatch" style="background: var(--border-border-quaternary)"></span></td></tr>
+<tr><td><code>--border-border-active</code></td><td><span class="token-swatch" style="background: var(--border-border-active)"></span></td></tr>
+<tr><td><code>--border-border-blue</code></td><td><span class="token-swatch" style="background: var(--border-border-blue)"></span></td></tr>
+<tr><td><code>--border-border-positive</code></td><td><span class="token-swatch" style="background: var(--border-border-positive)"></span></td></tr>
+<tr><td><code>--border-border-negative</code></td><td><span class="token-swatch" style="background: var(--border-border-negative)"></span></td></tr>
+<tr><td><code>--border-border-warning</code></td><td><span class="token-swatch" style="background: var(--border-border-warning)"></span></td></tr>
+</table>
+</div>
+
+<div class="sect2">
+<h3 id="_state_tokens"><a class="anchor" href="#_state_tokens"></a>State Colors</h3>
+<table class="token-table">
+<tr><th>Token</th><th>Swatch</th></tr>
+<tr><td><code>--text-states-text-positive</code></td><td><span class="token-swatch" style="background: var(--text-states-text-positive)"></span></td></tr>
+<tr><td><code>--text-states-text-negative</code></td><td><span class="token-swatch" style="background: var(--text-states-text-negative)"></span></td></tr>
+<tr><td><code>--text-states-text-warning</code></td><td><span class="token-swatch" style="background: var(--text-states-text-warning)"></span></td></tr>
+<tr><td><code>--text-states-text-additional</code></td><td><span class="token-swatch" style="background: var(--text-states-text-additional)"></span></td></tr>
+<tr><td><code>--text-states-text-error-strong</code></td><td><span class="token-swatch" style="background: var(--text-states-text-error-strong)"></span></td></tr>
+<tr><td><code>--text-states-text-error-mid</code></td><td><span class="token-swatch" style="background: var(--text-states-text-error-mid)"></span></td></tr>
+</table>
+</div>
+
+<div class="sect2">
+<h3 id="_code_tokens"><a class="anchor" href="#_code_tokens"></a>Code Syntax Tokens</h3>
+<table class="token-table">
+<tr><th>Token</th><th>Swatch</th><th>Use</th></tr>
+<tr><td><code>--text-code-blue</code></td><td><span class="token-swatch" style="background: var(--text-code-blue)"></span></td><td>Keywords</td></tr>
+<tr><td><code>--text-code-green</code></td><td><span class="token-swatch" style="background: var(--text-code-green)"></span></td><td>Strings, functions</td></tr>
+<tr><td><code>--text-code-yellow</code></td><td><span class="token-swatch" style="background: var(--text-code-yellow)"></span></td><td>Numbers, comments</td></tr>
+<tr><td><code>--text-code-pink</code></td><td><span class="token-swatch" style="background: var(--text-code-pink)"></span></td><td>Preprocessor</td></tr>
+<tr><td><code>--text-code-grey</code></td><td><span class="token-swatch" style="background: var(--text-code-grey)"></span></td><td>Comments</td></tr>
+<tr><td><code>--text-code-red</code></td><td><span class="token-swatch" style="background: var(--text-code-red)"></span></td><td>Operators</td></tr>
+<tr><td><code>--text-code-purple</code></td><td><span class="token-swatch" style="background: var(--text-code-purple)"></span></td><td>Keywords (alt)</td></tr>
+<tr><td><code>--text-code-neutral</code></td><td><span class="token-swatch" style="background: var(--text-code-neutral)"></span></td><td>Default text</td></tr>
+<tr><td><code>--text-code-navy</code></td><td><span class="token-swatch" style="background: var(--text-code-navy)"></span></td><td>Classes</td></tr>
+<tr><td><code>--text-code-turquoise</code></td><td><span class="token-swatch" style="background: var(--text-code-turquoise)"></span></td><td>Constants</td></tr>
+</table>
+</div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 3: Typography Scale    -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_typography_scale"><a class="anchor" href="#_typography_scale"></a>Typography Scale</h2>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_font_size_scale"><a class="anchor" href="#_font_size_scale"></a>Font Size Scale</h3>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-3xs</span>
+  <span style="font-size: var(--typography-font-size-3xs); color: var(--text-main-text-body-primary)">The quick brown fox (0.625rem)</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-2xs</span>
+  <span style="font-size: var(--typography-font-size-2xs); color: var(--text-main-text-body-primary)">The quick brown fox (0.75rem)</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-xs</span>
+  <span style="font-size: var(--typography-font-size-xs); color: var(--text-main-text-body-primary)">The quick brown fox (0.875rem)</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-sm</span>
+  <span style="font-size: var(--typography-font-size-sm); color: var(--text-main-text-body-primary)">The quick brown fox (1rem)</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-md</span>
+  <span style="font-size: var(--typography-font-size-md); color: var(--text-main-text-body-primary)">The quick brown fox (1.125rem)</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-lg</span>
+  <span style="font-size: var(--typography-font-size-lg); color: var(--text-main-text-body-primary)">The quick brown fox (1.25rem)</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-xl</span>
+  <span style="font-size: var(--typography-font-size-xl); color: var(--text-main-text-body-primary)">The quick brown fox (1.5rem)</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-2xl</span>
+  <span style="font-size: var(--typography-font-size-2xl); color: var(--text-main-text-body-primary)">The quick brown fox (1.75rem)</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-3xl</span>
+  <span style="font-size: var(--typography-font-size-3xl); color: var(--text-main-text-body-primary)">The quick brown fox (2rem)</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-4xl</span>
+  <span style="font-size: var(--typography-font-size-4xl); color: var(--text-main-text-body-primary)">The quick brown fox (2.5rem)</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">--typography-font-size-5xl</span>
+  <span style="font-size: var(--typography-font-size-5xl); color: var(--text-main-text-body-primary)">The quick brown fox (3rem)</span>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_heading_hierarchy"><a class="anchor" href="#_heading_hierarchy"></a>Heading Hierarchy</h3>
+<div class="paragraph"><p>Heading sizes are responsive (mobile vs desktop). Resize the browser to see the shift.</p></div>
+<div class="type-row">
+  <span class="type-meta">h1 &mdash; --typography-font-size-h1<br>desktop: 2rem (3xl) / mobile: 1.75rem (2xl)</span>
+  <span style="font-size: var(--typography-font-size-h1); font-weight: 500; letter-spacing: -0.01em; line-height: 1; color: var(--text-main-text-primary)">Heading 1</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">h2 &mdash; --typography-font-size-h2<br>desktop: 1.25rem (lg) / mobile: 1.25rem (lg)</span>
+  <span style="font-size: var(--typography-font-size-h2); font-weight: 500; letter-spacing: -0.01em; line-height: 1; color: var(--text-main-text-primary)">Heading 2</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">h3 &mdash; --typography-font-size-h3<br>desktop: 1.125rem (md) / mobile: 1rem (sm)</span>
+  <span style="font-size: var(--typography-font-size-h3); font-weight: 500; letter-spacing: -0.01em; line-height: 1; color: var(--text-main-text-primary)">Heading 3</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">h4 &mdash; --typography-font-size-h4<br>desktop: 1rem (sm) / mobile: 0.875rem (xs)</span>
+  <span style="font-size: var(--typography-font-size-h4); font-weight: 500; letter-spacing: -0.01em; line-height: 1; color: var(--text-main-text-primary)">Heading 4</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">h5 &mdash; --font-size-xs<br>0.875rem</span>
+  <span style="font-size: var(--font-size-xs); font-weight: 500; letter-spacing: -0.01em; line-height: 1; color: var(--text-main-text-primary)">Heading 5</span>
+</div>
+<div class="type-row">
+  <span class="type-meta">h6 &mdash; --font-size-2xs<br>0.75rem</span>
+  <span style="font-size: var(--font-size-2xs); font-weight: 500; letter-spacing: -0.01em; line-height: 1; color: var(--text-main-text-primary)">Heading 6</span>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_font_families"><a class="anchor" href="#_font_families"></a>Font Families</h3>
+<div class="paragraph">
+<p style="font-family: var(--font-family-body); font-size: var(--typography-font-size-md)"><strong>Noto Sans</strong> (body) &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+</div>
+<div class="paragraph">
+<p style="font-family: var(--font-family-body); font-style: italic; font-size: var(--typography-font-size-md)"><strong>Noto Sans Italic</strong> &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+</div>
+<div class="paragraph">
+<p style="font-family: var(--font-family-code); font-size: var(--typography-font-size-sm)"><strong>Monaspace Neon</strong> (code) &mdash; const x = fn(); // 0123456789</p>
+</div>
+<div class="paragraph">
+<p style="font-family: 'Monaspace Xenon', monospace; font-style: italic; font-size: var(--typography-font-size-sm)"><strong>Monaspace Xenon</strong> (code italic) &mdash; // This is a comment</p>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_font_weights"><a class="anchor" href="#_font_weights"></a>Font Weight Variations</h3>
+<div class="paragraph"><p style="font-weight: 300; font-size: var(--typography-font-size-md)">Light (300) &mdash; The quick brown fox jumps over the lazy dog.</p></div>
+<div class="paragraph"><p style="font-weight: 400; font-size: var(--typography-font-size-md)">Regular (400) &mdash; The quick brown fox jumps over the lazy dog.</p></div>
+<div class="paragraph"><p style="font-weight: 500; font-size: var(--typography-font-size-md)">Medium (500) &mdash; The quick brown fox jumps over the lazy dog.</p></div>
+<div class="paragraph"><p style="font-weight: 600; font-size: var(--typography-font-size-md)">Semibold (600) &mdash; The quick brown fox jumps over the lazy dog.</p></div>
+<div class="paragraph"><p style="font-weight: 700; font-size: var(--typography-font-size-md)">Bold (700) &mdash; The quick brown fox jumps over the lazy dog.</p></div>
+</div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 4: Spacing Scale       -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_spacing_scale"><a class="anchor" href="#_spacing_scale"></a>Spacing &amp; Sizing Scale</h2>
+<div class="sectionbody">
+
+<div class="spacing-row">
+  <span class="spacing-label">--spacing-size-4xs</span>
+  <div class="spacing-bar" style="width: 0.125rem"></div>
+  <span class="spacing-value">0.125rem / 2px</span>
+</div>
+<div class="spacing-row">
+  <span class="spacing-label">--spacing-size-3xs</span>
+  <div class="spacing-bar" style="width: 0.25rem"></div>
+  <span class="spacing-value">0.25rem / 4px</span>
+</div>
+<div class="spacing-row">
+  <span class="spacing-label">--spacing-size-2xs</span>
+  <div class="spacing-bar" style="width: 0.5rem"></div>
+  <span class="spacing-value">0.5rem / 8px</span>
+</div>
+<div class="spacing-row">
+  <span class="spacing-label">--spacing-size-xs</span>
+  <div class="spacing-bar" style="width: 0.75rem"></div>
+  <span class="spacing-value">0.75rem / 12px</span>
+</div>
+<div class="spacing-row">
+  <span class="spacing-label">--spacing-size-sm</span>
+  <div class="spacing-bar" style="width: 1rem"></div>
+  <span class="spacing-value">1rem / 16px</span>
+</div>
+<div class="spacing-row">
+  <span class="spacing-label">--spacing-size-md</span>
+  <div class="spacing-bar" style="width: 1.125rem"></div>
+  <span class="spacing-value">1.125rem / 18px</span>
+</div>
+<div class="spacing-row">
+  <span class="spacing-label">--spacing-size-lg</span>
+  <div class="spacing-bar" style="width: 1.5rem"></div>
+  <span class="spacing-value">1.5rem / 24px</span>
+</div>
+<div class="spacing-row">
+  <span class="spacing-label">--spacing-size-xl</span>
+  <div class="spacing-bar" style="width: 2rem"></div>
+  <span class="spacing-value">2rem / 32px</span>
+</div>
+<div class="spacing-row">
+  <span class="spacing-label">--spacing-size-2xl</span>
+  <div class="spacing-bar" style="width: 2.5rem"></div>
+  <span class="spacing-value">2.5rem / 40px</span>
+</div>
+<div class="spacing-row">
+  <span class="spacing-label">--spacing-size-3xl</span>
+  <div class="spacing-bar" style="width: 3rem"></div>
+  <span class="spacing-value">3rem / 48px</span>
+</div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 5: Corner Radius       -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_corner_radius"><a class="anchor" href="#_corner_radius"></a>Corner Radius Scale</h2>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_primitive_radii"><a class="anchor" href="#_primitive_radii"></a>Primitive Radii</h3>
+<div class="radius-grid">
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--corner-radius-xs)"></div>
+    <span class="radius-label">xs<br>0.125rem</span>
+  </div>
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--corner-radius-s)"></div>
+    <span class="radius-label">s<br>0.25rem</span>
+  </div>
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--corner-radius-m)"></div>
+    <span class="radius-label">m<br>0.375rem</span>
+  </div>
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--corner-radius-l)"></div>
+    <span class="radius-label">l<br>0.5rem</span>
+  </div>
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--corner-radius-xl)"></div>
+    <span class="radius-label">xl<br>0.75rem</span>
+  </div>
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--corner-radius-xxl)"></div>
+    <span class="radius-label">xxl<br>1rem</span>
+  </div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_responsive_radii"><a class="anchor" href="#_responsive_radii"></a>Responsive Radii (mobile &rarr; desktop)</h3>
+<div class="radius-grid">
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--radius-xs)"></div>
+    <span class="radius-label">--radius-xs</span>
+  </div>
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--radius-s)"></div>
+    <span class="radius-label">--radius-s</span>
+  </div>
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--radius-m)"></div>
+    <span class="radius-label">--radius-m</span>
+  </div>
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--radius-l)"></div>
+    <span class="radius-label">--radius-l</span>
+  </div>
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--radius-xl)"></div>
+    <span class="radius-label">--radius-xl</span>
+  </div>
+  <div class="radius-demo">
+    <div class="radius-box" style="border-radius: var(--radius-xxl)"></div>
+    <span class="radius-label">--radius-xxl</span>
+  </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 6: Headings            -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_headings"><a class="anchor" href="#_headings"></a>Headings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All six heading levels as they appear in documentation pages.</p>
+</div>
+<h1>Heading Level 1</h1>
+<h2>Heading Level 2</h2>
+<h3>Heading Level 3</h3>
+<h4>Heading Level 4</h4>
+<h5>Heading Level 5</h5>
+<h6>Heading Level 6</h6>
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 7: Paragraphs & Text   -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_paragraphs_text"><a class="anchor" href="#_paragraphs_text"></a>Paragraphs &amp; Text</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is a standard paragraph of body text. It demonstrates the default font size, line height, and color used across all documentation pages. Good typography makes technical content easier to read and understand.</p>
+</div>
+<div class="paragraph">
+<p>This paragraph contains <strong>bold text</strong>, <em>italic text</em>, and <strong><em>bold italic text</em></strong>. It also includes <code>inline code</code> for referencing identifiers like <code>std::vector&lt;int&gt;</code> or function names like <code>co_await</code> within prose.</p>
+</div>
+<div class="paragraph">
+<p>A shorter paragraph to show spacing between consecutive blocks of text.</p>
+</div>
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 8: Links               -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_links"><a class="anchor" href="#_links"></a>Links</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An <a href="../index.html">internal link</a> to another page in this documentation set.</p>
+</div>
+<div class="paragraph">
+<p>An <a href="https://www.boost.org" target="_blank" rel="noopener">external link to Boost.org</a> that opens in a new tab.</p>
+</div>
+<div class="paragraph">
+<p>A <a href="#_headings">same-page anchor link</a> back to the Headings section above.</p>
+</div>
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 9: Lists               -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_lists"><a class="anchor" href="#_lists"></a>Lists</h2>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_unordered_list"><a class="anchor" href="#_unordered_list"></a>Unordered List</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>First item in the list</p>
+</li>
+<li>
+<p>Second item with <strong>bold</strong> and <code>inline code</code></p>
+</li>
+<li>
+<p>Third item with a nested list:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Nested item A</p>
+</li>
+<li>
+<p>Nested item B</p>
+</li>
+<li>
+<p>Nested item C</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Fourth item after the nested list</p>
+</li>
+</ul>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_ordered_list"><a class="anchor" href="#_ordered_list"></a>Ordered List</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Clone the repository</p>
+</li>
+<li>
+<p>Install dependencies</p>
+</li>
+<li>
+<p>Build the project:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha">
+<li>
+<p>Run <code>cmake -B build</code></p>
+</li>
+<li>
+<p>Run <code>cmake --build build</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Run the tests</p>
+</li>
+</ol>
+</div>
+</div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 10: Code Blocks        -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_code_blocks"><a class="anchor" href="#_code_blocks"></a>Code Blocks</h2>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_hljs_code"><a class="anchor" href="#_hljs_code"></a>highlight.js Code Block</h3>
+<div class="paragraph">
+<p>A C++ code block with highlight.js markup:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">namespace</span> example {
+
+<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">container</span>
+{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-comment">/// Constructs an empty container</span>
+    <span class="hljs-built_in">container</span>() = <span class="hljs-keyword">default</span>;
+
+    <span class="hljs-comment">/// Adds an element to the back</span>
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">push_back</span><span class="hljs-params">(<span class="hljs-type">const</span> T&amp; value)</span></span>
+    {
+        data_.<span class="hljs-built_in">push_back</span>(value);
+    }
+
+    <span class="hljs-comment">/// Returns the number of elements</span>
+    [[<span class="hljs-built_in">nodiscard</span>]] <span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">size</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> <span class="hljs-keyword">noexcept</span></span>
+    {
+        <span class="hljs-keyword">return</span> data_.<span class="hljs-built_in">size</span>();
+    }
+
+<span class="hljs-keyword">private</span>:
+    std::vector&lt;T&gt; data_;
+};
+
+} <span class="hljs-comment">// namespace example</span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+{
+    example::container&lt;<span class="hljs-type">int</span>&gt; c;
+    c.<span class="hljs-built_in">push_back</span>(<span class="hljs-number">42</span>);
+    c.<span class="hljs-built_in">push_back</span>(<span class="hljs-number">17</span>);
+
+    std::cout &lt;&lt; <span class="hljs-string">"Size: "</span> &lt;&lt; c.<span class="hljs-built_in">size</span>() &lt;&lt; <span class="hljs-string">"\n"</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_cpp_highlight_code"><a class="anchor" href="#_cpp_highlight_code"></a>cpp-highlight Code Block</h3>
+<div class="paragraph">
+<p>Markup as produced by the cpp-highlight toolchain:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight cpp-highlight"><code class="language-cpp" data-lang="cpp"><span class="preprocessor">#include</span> <span class="string">&lt;boost/capy/capy.hpp&gt;</span>
+<span class="preprocessor">#include</span> <span class="string">&lt;iostream&gt;</span>
+
+<span class="keyword">namespace</span> capy = boost::capy;
+
+<span class="comment">// A simple coroutine that returns an int</span>
+capy::<span class="function">task</span>&lt;<span class="keyword">int</span>&gt; <span class="function">compute</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y)
+{
+    <span class="keyword">auto</span> result = <span class="keyword">co_await</span> capy::<span class="function">async_add</span>(x, y);
+    <span class="keyword">co_return</span> result * <span class="number">2</span>;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>()
+{
+    <span class="keyword">auto</span> ctx = capy::<span class="function">make_context</span>();
+    <span class="keyword">auto</span> val = ctx.<span class="function">run</span>(<span class="function">compute</span>(<span class="number">21</span>, <span class="number">21</span>));
+    std::cout &lt;&lt; <span class="string">"Result: "</span> &lt;&lt; val &lt;&lt; <span class="string">"\n"</span>;  <span class="comment">// prints 84</span>
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+</div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_rouge_code"><a class="anchor" href="#_rouge_code"></a>Rouge-style Code Block</h3>
+<div class="paragraph">
+<p>Markup as produced by the Rouge highlighter (Asciidoctor default):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span>
+<span class="cp">#include</span> <span class="cpf">&lt;optional&gt;</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">result</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// Construct from a value</span>
+    <span class="k">explicit</span> <span class="nf">result</span><span class="p">(</span><span class="n">T</span> <span class="n">value</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">value_</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="p">{}</span>
+
+    <span class="c1">// Construct from an error string</span>
+    <span class="k">explicit</span> <span class="nf">result</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">error</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">error_</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">error</span><span class="p">))</span> <span class="p">{}</span>
+
+    <span class="kt">bool</span> <span class="nf">has_value</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">value_</span><span class="p">.</span><span class="n">has_value</span><span class="p">();</span>
+    <span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">value_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">error_</span><span class="p">;</span>
+<span class="p">};</span></code></pre>
+</div>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_inline_code"><a class="anchor" href="#_inline_code"></a>Inline Code</h3>
+<div class="paragraph">
+<p>Use <code>std::move()</code> to transfer ownership. The type <code>std::vector&lt;int&gt;</code> is a dynamic array. Call <code>container.size()</code> to get the element count. The keyword <code>co_await</code> suspends a coroutine.</p>
+</div>
+</div>
+
+<div class="sect2">
+<h3 id="_coroutine_snippet"><a class="anchor" href="#_coroutine_snippet"></a>Short Snippet</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp"><span class="hljs-function">task&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">compute_async</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>
+{
+    <span class="hljs-keyword">auto</span> result = <span class="hljs-keyword">co_await</span> <span class="hljs-built_in">fetch_value</span>(x);
+    <span class="hljs-keyword">co_return</span> result * <span class="hljs-number">2</span>;
+}</code></pre>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 11: Admonitions        -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_admonitions"><a class="anchor" href="#_admonitions"></a>Admonitions</h2>
+<div class="sectionbody">
+
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This is a <strong>note</strong> admonition. Use it for supplementary information that adds context without being critical to the main flow.
+</td>
+</tr>
+</table>
+</div>
+
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+This is a <strong>tip</strong> admonition. Use it for helpful suggestions, best practices, or shortcuts that improve the reader&#8217;s workflow.
+</td>
+</tr>
+</table>
+</div>
+
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+This is a <strong>warning</strong> admonition. Use it when the reader might encounter unexpected behavior or potential pitfalls.
+</td>
+</tr>
+</table>
+</div>
+
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+This is a <strong>caution</strong> admonition. Use it for actions that could cause data loss, security issues, or other serious consequences.
+</td>
+</tr>
+</table>
+</div>
+
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+This is an <strong>important</strong> admonition. Use it for essential information that the reader must not overlook.
+</td>
+</tr>
+</table>
+</div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 12: Tables             -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_tables"><a class="anchor" href="#_tables"></a>Tables</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-center valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>buffer_size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>std::size_t</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>4096</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The size of the internal read buffer in bytes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>std::chrono::milliseconds</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>30000</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum time to wait for an operation to complete.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>max_retries</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of retry attempts before reporting failure.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>verbose</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bool</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable detailed logging of internal operations.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 13: Images & Captions  -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_images_captions"><a class="anchor" href="#_images_captions"></a>Images &amp; Captions</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='200' viewBox='0 0 600 200'%3E%3Crect width='600' height='200' fill='%23e8e8e8'/%3E%3Ctext x='300' y='105' text-anchor='middle' font-family='sans-serif' font-size='18' fill='%23888'%3E600 × 200 placeholder image%3C/text%3E%3C/svg%3E" alt="Placeholder diagram" width="600" height="200">
+</div>
+<div class="title">Figure 1. Architecture diagram showing the relationship between core components</div>
+</div>
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 14: Dividers           -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_dividers"><a class="anchor" href="#_dividers"></a>Dividers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Content above a horizontal rule.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p>Content below a horizontal rule. The <code>&lt;hr&gt;</code> element provides visual separation between sections.</p>
+</div>
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 15: Breadcrumbs        -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_breadcrumbs"><a class="anchor" href="#_breadcrumbs"></a>Breadcrumbs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Breadcrumbs are visible in the toolbar above the page title. They show the navigation path: <strong>Home / Style Guide</strong>.</p>
+</div>
+</div>
+</div>
+
+<hr>
+
+<!-- ============================== -->
+<!-- Section 16: Page Controls      -->
+<!-- ============================== -->
+<div class="sect1">
+<h2 id="_page_controls"><a class="anchor" href="#_page_controls"></a>Page Controls</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The prev/next pagination nav appears below, as it would at the bottom of any documentation page.</p>
+</div>
+</div>
+</div>
+
+      <nav class="pagination">
+        <span class="prev"><a href="../index.html">Introduction</a></span>
+        <span class="next"><a href="../why-capy.html">Why Capy?</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

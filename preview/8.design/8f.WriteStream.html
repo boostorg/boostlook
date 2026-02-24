@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>WriteStream Concept Design :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/8.design/8f.WriteStream.html">
+    <link rel="prev" href="8e.BufferSource.html">
+    <link rel="next" href="8g.WriteSink.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="8.intro.html">Design</a></li>
+    <li><a href="8f.WriteStream.html">WriteStream</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="8e.BufferSource.html">
+      <span class="material-symbols-outlined" title="Previous: BufferSource">arrow_back</span>
+    </a>
+    <a accesskey="u" href="8.intro.html">
+      <span class="material-symbols-outlined" title="Up: Design">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="8g.WriteSink.html">
+      <span class="material-symbols-outlined" title="Next: WriteSink">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">WriteStream Concept Design</h1>
+  <div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document describes the design of the <code>WriteStream</code> concept: the fundamental partial-write primitive in the concept hierarchy. It explains why <code>write_some</code> is the correct building block, how algorithms expressed directly in terms of <code>write_some</code> can outperform composed complete-write algorithms like <code>write_now</code>, and when each approach is appropriate.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_definition"><a class="anchor" href="#_definition"></a>Definition</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename T&gt;
+concept WriteStream =
+    requires(T&amp; stream, const_buffer_archetype buffers)
+    {
+        { stream.write_some(buffers) } -&gt; IoAwaitable;
+        requires awaitable_decomposes_to&lt;
+            decltype(stream.write_some(buffers)),
+            std::error_code, std::size_t&gt;;
+    };</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A <code>WriteStream</code> provides a single operation:</p>
+</div>
+<div class="sect2">
+<h3 id="_write_somebufferspartial_write"><a class="anchor" href="#_write_somebufferspartial_write"></a><code>write_some(buffers)</code>&#8201;&#8212;&#8201;Partial Write</h3>
+<div class="paragraph">
+<p>Writes one or more bytes from the buffer sequence. Returns <code>(error_code, std::size_t)</code> where <code>n</code> is the number of bytes written.</p>
+</div>
+<div class="sect3">
+<h4 id="_semantics"><a class="anchor" href="#_semantics"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>On success: <code>!ec</code>, <code>n &gt;= 1</code> and <code>n &lt;= buffer_size(buffers)</code>.</p>
+</li>
+<li>
+<p>On error: <code>ec</code>, <code>n == 0</code>.</p>
+</li>
+<li>
+<p>If <code>buffer_empty(buffers)</code>: completes immediately, <code>!ec</code>, <code>n == 0</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The caller must not assume that all bytes are consumed. <code>write_some</code> may write fewer bytes than offered. This is the defining property of a partial-write primitive.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_buffer_lifetime"><a class="anchor" href="#_buffer_lifetime"></a>Buffer Lifetime</h4>
+<div class="paragraph">
+<p>The caller must ensure that the memory referenced by <code>buffers</code> remains valid until the <code>co_await</code> expression returns.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_conforming_signatures"><a class="anchor" href="#_conforming_signatures"></a>Conforming Signatures</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ConstBufferSequence Buffers&gt;
+IoAwaitable auto write_some(Buffers buffers);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Buffer sequences should be accepted by value when the member function is a coroutine, to ensure the sequence lives in the coroutine frame across suspension points.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_concept_hierarchy"><a class="anchor" href="#_concept_hierarchy"></a>Concept Hierarchy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>WriteStream</code> is the base of the write-side hierarchy:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">WriteStream   { write_some }
+    |
+    v
+WriteSink     { write_some, write, write_eof(buffers), write_eof() }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Every <code>WriteSink</code> is a <code>WriteStream</code>. Algorithms constrained on <code>WriteStream</code> accept both raw streams and sinks. The <code>WriteSink</code> concept adds complete-write and EOF signaling on top of the partial-write primitive. See the WriteSink design document for details.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_composed_algorithms"><a class="anchor" href="#_composed_algorithms"></a>Composed Algorithms</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Two composed algorithms build complete-write behavior on top of <code>write_some</code>:</p>
+</div>
+<div class="sect2">
+<h3 id="_write_free_function"><a class="anchor" href="#_write_free_function"></a><code>write</code> (free function)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">auto write(WriteStream auto&amp; stream,
+           ConstBufferSequence auto const&amp; buffers)
+    -&gt; io_task&lt;std::size_t&gt;;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Loops <code>write_some</code> until the entire buffer sequence is consumed. Always suspends (returns <code>task</code>). No frame caching.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_write_now_class_template"><a class="anchor" href="#_write_now_class_template"></a><code>write_now</code> (class template)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;WriteStream Stream&gt;
+class write_now
+{
+public:
+    explicit write_now(Stream&amp; s) noexcept;
+
+    IoAwaitable auto operator()(ConstBufferSequence auto buffers);
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Loops <code>write_some</code> until the entire buffer sequence is consumed, with two advantages over the free function:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Eager completion</strong>: if every <code>write_some</code> returns synchronously (its <code>await_ready</code> returns <code>true</code>), the entire operation completes in <code>await_ready</code> with zero coroutine suspensions.</p>
+</li>
+<li>
+<p><strong>Frame caching</strong>: the internal coroutine frame is allocated once and reused across calls.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_buffer_top_up_why_write_some_can_outperform_write_now"><a class="anchor" href="#_buffer_top_up_why_write_some_can_outperform_write_now"></a>Buffer Top-Up: Why <code>write_some</code> Can Outperform <code>write_now</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The critical design insight behind <code>write_some</code> as a primitive is that the caller retains control after each partial write. This enables a pattern called <em>buffer top-up</em>: after a partial write consumes some data, the caller refills the buffer before the next write, keeping the buffer as full as possible. This maximizes the payload of each system call.</p>
+</div>
+<div class="paragraph">
+<p>A composed algorithm like <code>write_now</code> cannot do this. It receives a fixed buffer sequence and drains it to completion. When the kernel accepts only part of the data, <code>write_now</code> must send the remainder in a second call&#8201;&#8212;&#8201;even though the remainder may be small. The caller has no opportunity to read more data from the source between iterations.</p>
+</div>
+<div class="sect2">
+<h3 id="_diagram_relaying_100kb_from_a_readsource_through_a_tcp_socket"><a class="anchor" href="#_diagram_relaying_100kb_from_a_readsource_through_a_tcp_socket"></a>Diagram: Relaying 100KB from a ReadSource through a TCP Socket</h3>
+<div class="paragraph">
+<p>Consider relaying 100KB from a <code>ReadSource</code> to a TCP socket. The kernel&#8217;s send buffer accepts at most 40KB per call. Compare two approaches:</p>
+</div>
+<div class="sect3">
+<h4 id="_approach_a_write_some_with_top_up_3_syscalls"><a class="anchor" href="#_approach_a_write_some_with_top_up_3_syscalls"></a>Approach A: <code>write_some</code> with Top-Up (3 syscalls)</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">          buffer contents          syscall        kernel accepts
+Step 1:   [======== 64KB ========] write_some --&gt; 40KB, read 40KB from source
+Step 2:   [======== 64KB ========] write_some --&gt; 40KB, read 20KB (source done)
+Step 3:   [===== 44KB =====]       write_some --&gt; 44KB
+          done. 100KB in 3 syscalls, every call near-full.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_approach_b_write_now_without_top_up_4_syscalls"><a class="anchor" href="#_approach_b_write_now_without_top_up_4_syscalls"></a>Approach B: <code>write_now</code> Without Top-Up (4 syscalls)</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">          buffer contents          syscall        kernel accepts
+Step 1:   [======== 64KB ========] write_some --&gt; 40KB  (write_now, read 64KB)
+Step 2:   [=== 24KB ===]           write_some --&gt; 24KB  (write_now, small payload)
+Step 3:   [====== 36KB ======]     write_some --&gt; 20KB  (write_now, read 36KB)
+Step 4:   [== 16KB ==]             write_some --&gt; 16KB  (write_now, small payload)
+          done. 100KB in 4 syscalls, two calls undersized.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Every time <code>write_now</code> partially drains a buffer, the remainder is a small payload that wastes a syscall. With top-up, the caller refills the ring buffer between calls, keeping each syscall near capacity.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_code_write_some_with_buffer_top_up"><a class="anchor" href="#_code_write_some_with_buffer_top_up"></a>Code: <code>write_some</code> with Buffer Top-Up</h3>
+<div class="paragraph">
+<p>This example reads from a <code>ReadSource</code> and writes to a <code>WriteStream</code> using a <code>circular_dynamic_buffer</code>. After each partial write frees space in the ring buffer, the caller reads more data from the source to refill it before calling <code>write_some</code> again.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadSource Source, WriteStream Stream&gt;
+task&lt;&gt; relay_with_topup(Source&amp; src, Stream&amp; dest)
+{
+    char storage[65536];
+    circular_dynamic_buffer cb(storage, sizeof(storage));
+
+    for(;;)
+    {
+        // Fill: read from source into free space
+        auto mb = cb.prepare(cb.capacity());
+        auto [rec, nr] = co_await src.read(mb);
+        cb.commit(nr);
+        if(rec &amp;&amp; rec != cond::eof &amp;&amp; nr == 0)
+            co_return;
+
+        // Drain: write_some from the ring buffer
+        while(cb.size() &gt; 0)
+        {
+            auto [wec, nw] = co_await dest.write_some(
+                cb.data());
+            if(wec)
+                co_return;
+
+            // consume only what was written
+            cb.consume(nw);
+
+            // Top-up: refill freed space before next
+            // write_some, so the next call presents
+            // the largest possible payload
+            if(cb.capacity() &gt; 0 &amp;&amp; rec != cond::eof)
+            {
+                auto mb2 = cb.prepare(cb.capacity());
+                auto [rec2, nr2] = co_await src.read(mb2);
+                cb.commit(nr2);
+                rec = rec2;
+            }
+            // write_some now sees a full (or nearly full)
+            // ring buffer, maximizing the syscall payload
+        }
+
+        if(rec == cond::eof)
+            co_return;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After <code>write_some</code> accepts 40KB of a 64KB buffer, <code>consume(40KB)</code> frees 40KB. The caller immediately reads more data from the source into that freed space. The next <code>write_some</code> again presents a full 64KB payload.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_code_write_now_without_top_up"><a class="anchor" href="#_code_write_now_without_top_up"></a>Code: <code>write_now</code> Without Top-Up</h3>
+<div class="paragraph">
+<p>This example reads from a <code>ReadSource</code> and writes to a <code>WriteStream</code> using <code>write_now</code>. Each chunk is drained to completion before the caller can read more from the source.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadSource Source, WriteStream Stream&gt;
+task&lt;&gt; relay_with_write_now(Source&amp; src, Stream&amp; dest)
+{
+    char buf[65536];
+    write_now wn(dest);
+
+    for(;;)
+    {
+        // Read a chunk from the source
+        auto [rec, nr] = co_await src.read(
+            mutable_buffer(buf, sizeof(buf)));
+        if(rec == cond::eof &amp;&amp; nr == 0)
+            co_return;
+
+        // write_now drains the chunk to completion.
+        // If the kernel accepts 40KB of 64KB, write_now
+        // internally calls write_some(24KB) for the
+        // remainder -- a small write that wastes a
+        // syscall. The caller cannot top up between
+        // write_now's internal iterations.
+        auto [wec, nw] = co_await wn(
+            const_buffer(buf, nr));
+        if(wec)
+            co_return;
+
+        if(rec == cond::eof)
+            co_return;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After the kernel accepts 40KB of a 64KB chunk, <code>write_now</code> must send the remaining 24KB in a second <code>write_some</code>. The caller cannot intervene to refill the buffer because <code>write_now</code> owns the loop. That 24KB write wastes an opportunity to send a full 64KB payload.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_when_to_use_each_approach"><a class="anchor" href="#_when_to_use_each_approach"></a>When to Use Each Approach</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Approach</th>
+<th class="tableblock halign-left valign-top">Best For</th>
+<th class="tableblock halign-left valign-top">Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write_some</code> directly</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High-throughput relays, producer-consumer loops where the
+  caller has more data available and can top up after partial writes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Caller manages the loop and buffer refill.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write_now</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Writing discrete complete payloads (a single HTTP header, a
+  serialized message) where there is no additional data to top up with,
+  or where the write is expected to complete in one call.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cannot top up between iterations. Small remainders
+  waste syscall payloads.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteSink::write</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sink-oriented code where the concrete type implements complete-write
+  natively (buffered writer, file, compressor) and the caller does not
+  manage the loop.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requires <code>WriteSink</code>, not just <code>WriteStream</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_rule_of_thumb"><a class="anchor" href="#_rule_of_thumb"></a>Rule of Thumb</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>If the caller reads from a source and relays to a raw byte stream (TCP socket), use <code>write_some</code> with a <code>circular_dynamic_buffer</code> for buffer top-up.</p>
+</li>
+<li>
+<p>If the caller has a discrete, bounded payload and wants zero-fuss complete-write semantics, use <code>write_now</code>.</p>
+</li>
+<li>
+<p>If the destination is a <code>WriteSink</code>, use <code>write</code> directly.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conforming_types"><a class="anchor" href="#_conforming_types"></a>Conforming Types</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Examples of types that satisfy <code>WriteStream</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>TCP sockets</strong>: <code>write_some</code> maps to a single <code>send()</code> or <code>WSASend()</code> call. Partial writes are normal under load.</p>
+</li>
+<li>
+<p><strong>TLS streams</strong>: <code>write_some</code> encrypts and sends one TLS record.</p>
+</li>
+<li>
+<p><strong>Buffered write streams</strong>: <code>write_some</code> appends to an internal buffer and returns immediately when space is available, or drains to the underlying stream when full.</p>
+</li>
+<li>
+<p><strong>QUIC streams</strong>: <code>write_some</code> sends one or more QUIC frames.</p>
+</li>
+<li>
+<p><strong>Test mock streams</strong>: <code>write_some</code> records data and returns configurable results for testing.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All of these types also naturally extend to <code>WriteSink</code> by adding <code>write</code>, <code>write_eof(buffers)</code>, and <code>write_eof()</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_relationship_to_readstream"><a class="anchor" href="#_relationship_to_readstream"></a>Relationship to <code>ReadStream</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The read-side counterpart is <code>ReadStream</code>, which requires <code>read_some</code>. The same partial-transfer / composed-algorithm decomposition applies:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Write Side</th>
+<th class="tableblock halign-left valign-top">Read Side</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteStream::write_some</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadStream::read_some</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write_now</code> (composed)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>read</code> free function (composed)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteSink::write</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadSource::read</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The asymmetry is that the read side does not have a <code>read_now</code> with eager completion, because reads depend on data arriving from the network&#8201;&#8212;&#8201;the synchronous fast path is less reliably useful than for writes into a buffered stream.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>WriteStream</code> provides <code>write_some</code> as the single partial-write primitive. This is deliberately minimal:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Algorithms that need complete-write semantics use <code>write_now</code> (for <code>WriteStream</code>) or <code>write</code> (for <code>WriteSink</code>).</p>
+</li>
+<li>
+<p>Algorithms that need maximum throughput use <code>write_some</code> directly with buffer top-up, achieving fewer syscalls than composed algorithms by keeping the buffer full between iterations.</p>
+</li>
+<li>
+<p>The concept is the base of the hierarchy. <code>WriteSink</code> refines it by adding <code>write</code>, <code>write_eof(buffers)</code>, and <code>write_eof()</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The choice between <code>write_some</code>, <code>write_now</code>, and <code>WriteSink::write</code> is a throughput-versus-convenience trade-off. <code>write_some</code> gives the caller maximum control. <code>write_now</code> gives the caller maximum simplicity. <code>WriteSink::write</code> gives the concrete type maximum implementation freedom.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/8.design/8f.WriteStream.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="8e.BufferSource.html">BufferSource</a></span>
+        <span class="next"><a href="8g.WriteSink.html">WriteSink</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Type-Erasing Awaitables :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/8.design/8i.TypeEraseAwaitable.html">
+    <link rel="prev" href="8h.BufferSink.html">
+    <link rel="next" href="8j.any_buffer_sink.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="8.intro.html">Design</a></li>
+    <li><a href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="8h.BufferSink.html">
+      <span class="material-symbols-outlined" title="Previous: BufferSink">arrow_back</span>
+    </a>
+    <a accesskey="u" href="8.intro.html">
+      <span class="material-symbols-outlined" title="Up: Design">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="8j.any_buffer_sink.html">
+      <span class="material-symbols-outlined" title="Next: AnyBufferSink">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Type-Erasing Awaitables</h1>
+  <div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>any_*</code> wrappers type-erase stream and source concepts so that algorithms can operate on heterogeneous concrete types through a uniform interface. Each wrapper preallocates storage for the type-erased awaitable at construction time, achieving zero steady-state allocation.</p>
+</div>
+<div class="paragraph">
+<p>Two vtable layouts are used depending on how many operations the wrapper exposes.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_single_operation_flat_vtable"><a class="anchor" href="#_single_operation_flat_vtable"></a>Single-Operation: Flat Vtable</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When a wrapper exposes exactly one async operation (e.g. <code>any_read_stream</code> with <code>read_some</code>, or <code>any_write_stream</code> with <code>write_some</code>), all function pointers live in a single flat vtable:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Flat vtable -- 64 bytes, one cache line
+struct vtable
+{
+    void (*construct_awaitable)(...);       // 8
+    bool (*await_ready)(void*);            // 8
+    std::coroutine_handle&lt;&gt; (*await_suspend)(void*, ...);     // 8
+    io_result&lt;size_t&gt; (*await_resume)(void*); // 8
+    void (*destroy_awaitable)(void*);      // 8
+    size_t awaitable_size;                 // 8
+    size_t awaitable_align;                // 8
+    void (*destroy)(void*);                // 8
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The inner awaitable can be constructed in either <code>await_ready</code> or <code>await_suspend</code>, depending on whether the outer awaitable has a short-circuit path.</p>
+</div>
+<div class="sect2">
+<h3 id="_construct_in_await_ready_any_read_stream"><a class="anchor" href="#_construct_in_await_ready_any_read_stream"></a>Construct in await_ready (any_read_stream)</h3>
+<div class="paragraph">
+<p>When there is no outer short-circuit, constructing in <code>await_ready</code> lets immediate completions skip <code>await_suspend</code> entirely:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">bool await_ready() {
+    vt_-&gt;construct_awaitable(stream_, storage_, buffers);
+    awaitable_active_ = true;
+    return vt_-&gt;await_ready(storage_);   // true → no suspend
+}
+
+std::coroutine_handle&lt;&gt; await_suspend(std::coroutine_handle&lt;&gt; h, io_env const* env) {
+    return vt_-&gt;await_suspend(storage_, h, env);
+}
+
+io_result&lt;size_t&gt; await_resume() {
+    auto r = vt_-&gt;await_resume(storage_);
+    vt_-&gt;destroy_awaitable(storage_);
+    awaitable_active_ = false;
+    return r;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_construct_in_await_suspend_any_write_stream"><a class="anchor" href="#_construct_in_await_suspend_any_write_stream"></a>Construct in await_suspend (any_write_stream)</h3>
+<div class="paragraph">
+<p>When the outer awaitable has a short-circuit (empty buffers), construction is deferred to <code>await_suspend</code> so the inner awaitable is never created on the fast path:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">bool await_ready() const noexcept {
+    return buffers_.empty();             // short-circuit, no construct
+}
+
+std::coroutine_handle&lt;&gt; await_suspend(std::coroutine_handle&lt;&gt; h, io_env const* env) {
+    vt_-&gt;construct_awaitable(stream_, storage_, buffers);
+    awaitable_active_ = true;
+    if(vt_-&gt;await_ready(storage_))
+        return h;                        // immediate → resume caller
+    return vt_-&gt;await_suspend(storage_, h, env);
+}
+
+io_result&lt;size_t&gt; await_resume() {
+    if(!awaitable_active_)
+        return {{}, 0};                  // short-circuited
+    auto r = vt_-&gt;await_resume(storage_);
+    vt_-&gt;destroy_awaitable(storage_);
+    awaitable_active_ = false;
+    return r;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Both variants touch the same two cache lines on the hot path.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_multi_operation_split_vtable_with_awaitable_ops"><a class="anchor" href="#_multi_operation_split_vtable_with_awaitable_ops"></a>Multi-Operation: Split Vtable with awaitable_ops</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When a wrapper exposes multiple operations that produce different awaitable types (e.g. <code>any_read_source</code> with <code>read_some</code> and <code>read</code>, or <code>any_write_sink</code> with <code>write_some</code>, <code>write</code>, <code>write_eof(buffers)</code>, and <code>write_eof()</code>), a split layout is required. Each <code>construct</code> call returns a pointer to a <code>static constexpr awaitable_ops</code> matching the awaitable it created.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Per-awaitable dispatch -- 32 bytes
+struct awaitable_ops
+{
+    bool (*await_ready)(void*);
+    std::coroutine_handle&lt;&gt; (*await_suspend)(void*, ...);
+    io_result&lt;size_t&gt; (*await_resume)(void*);
+    void (*destroy)(void*);
+};
+
+// Vtable -- 32 bytes
+struct vtable
+{
+    awaitable_ops const* (*construct_awaitable)(...);
+    size_t awaitable_size;
+    size_t awaitable_align;
+    void (*destroy)(void*);
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The inner awaitable is constructed in <code>await_suspend</code>. Outer <code>await_ready</code> handles short-circuits (e.g. empty buffers) before the inner type is ever created:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">bool await_ready() const noexcept {
+    return buffers_.empty();             // short-circuit
+}
+
+std::coroutine_handle&lt;&gt; await_suspend(std::coroutine_handle&lt;&gt; h, io_env const* env) {
+    active_ops_ = vt_-&gt;construct_awaitable(stream_, storage_, buffers_);
+    if(active_ops_-&gt;await_ready(storage_))
+        return h;                        // immediate → resume caller
+    return active_ops_-&gt;await_suspend(storage_, h, env);
+}
+
+io_result&lt;size_t&gt; await_resume() {
+    if(!active_ops_)
+        return {{}, 0};                  // short-circuited
+    auto r = active_ops_-&gt;await_resume(storage_);
+    active_ops_-&gt;destroy(storage_);
+    active_ops_ = nullptr;
+    return r;
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cache_line_analysis"><a class="anchor" href="#_cache_line_analysis"></a>Cache Line Analysis</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Immediate completion path&#8201;&#8212;&#8201;inner <code>await_ready</code> returns true:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">Flat (any_read_stream, any_write_stream): 2 cache lines
+  LINE 1  object        stream_, vt_, cached_awaitable_, ...
+  LINE 2  vtable        construct → await_ready → await_resume → destroy
+                         (contiguous, sequential access, prefetch-friendly)
+
+Split (any_read_source, any_write_sink):  3 cache lines
+  LINE 1  object        source_, vt_, cached_awaitable_, active_ops_, ...
+  LINE 2  vtable        construct_awaitable
+  LINE 3  awaitable_ops await_ready → await_suspend → await_resume → destroy
+                         (separate .rodata address, defeats spatial prefetch)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The flat layout keeps all per-awaitable function pointers adjacent to <code>construct_awaitable</code> in a single 64-byte structure. The split layout places <code>vtable</code> and <code>awaitable_ops</code> at unrelated addresses in <code>.rodata</code>, adding one cache miss on the hot path.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_when_to_use_which"><a class="anchor" href="#_when_to_use_which"></a>When to Use Which</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Flat vtable</th>
+<th class="tableblock halign-left valign-top">Split vtable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wrapper has exactly one async operation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wrapper has multiple async operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_read_stream</code> (<code>read_some</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_read_source</code> (<code>read_some</code>, <code>read</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_write_stream</code> (<code>write_some</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_write_sink</code> (<code>write_some</code>, <code>write</code>, <code>write_eof(bufs)</code>, <code>write_eof()</code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_the_flat_layout_cannot_scale"><a class="anchor" href="#_why_the_flat_layout_cannot_scale"></a>Why the Flat Layout Cannot Scale</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With multiple operations, each <code>construct</code> call produces a different concrete awaitable type. The per-awaitable function pointers (<code>await_ready</code>, <code>await_suspend</code>, <code>await_resume</code>, <code>destroy</code>) must match the type that was constructed. The split layout solves this by returning the correct <code>awaitable_ops const*</code> from each <code>construct</code> call. The flat layout would require duplicating all four function pointers in the vtable for every operation&#8201;&#8212;&#8201;workable for two operations, unwieldy for four.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/8.design/8i.TypeEraseAwaitable.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="8h.BufferSink.html">BufferSink</a></span>
+        <span class="next"><a href="8j.any_buffer_sink.html">AnyBufferSink</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

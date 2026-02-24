@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Frame Allocators :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/4.coroutines/4g.allocators.html">
+    <link rel="prev" href="4f.composition.html">
+    <link rel="next" href="../5.buffers/5.intro.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="4.intro.html">Coroutines in Capy</a></li>
+    <li><a href="4g.allocators.html">Frame Allocators</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="4f.composition.html">
+      <span class="material-symbols-outlined" title="Previous: Concurrent Composition">arrow_back</span>
+    </a>
+    <a accesskey="u" href="4.intro.html">
+      <span class="material-symbols-outlined" title="Up: Coroutines in Capy">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="../5.buffers/5.intro.html">
+      <span class="material-symbols-outlined" title="Next: Buffer Sequences">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Frame Allocators</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section explains how coroutine frames are allocated and how to customize allocation for performance.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Completed <a href="4f.composition.html" class="xref page">Concurrent Composition</a></p>
+</li>
+<li>
+<p>Understanding of coroutine frame allocation from <a href="../2.cpp20-coroutines/2d.advanced.html" class="xref page">C&#43;&#43;20 Coroutines Tutorial</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_timing_constraint"><a class="anchor" href="#_the_timing_constraint"></a>The Timing Constraint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Coroutine frame allocation has a unique constraint: memory must be allocated <strong>before</strong> the coroutine body begins executing. The standard C&#43;&#43; mechanism—promise type&#8217;s <code>operator new</code>—is called before the promise is constructed.</p>
+</div>
+<div class="paragraph">
+<p>This creates a challenge: how can a coroutine use a custom allocator when the allocator might be passed as a parameter, which is stored <strong>in</strong> the frame?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_thread_local_propagation"><a class="anchor" href="#_thread_local_propagation"></a>Thread-Local Propagation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Capy solves this with thread-local propagation:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Before evaluating the task argument, <code>run_async</code> sets a thread-local allocator</p>
+</li>
+<li>
+<p>The task&#8217;s <code>operator new</code> reads this thread-local allocator</p>
+</li>
+<li>
+<p>The task stores the allocator in its promise for child propagation</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This is why <code>run_async</code> uses two-call syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">run_async(executor)(my_task());
+//        ↑         ↑
+//        1. Sets    2. Task allocated
+//        TLS        using TLS allocator</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_window"><a class="anchor" href="#_the_window"></a>The Window</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The "window" is the interval between setting the thread-local allocator and the coroutine&#8217;s first suspension point. During this window:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The task is allocated using the TLS allocator</p>
+</li>
+<li>
+<p>The task captures the TLS allocator in its promise</p>
+</li>
+<li>
+<p>Child tasks inherit the allocator</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>After the window closes (at the first suspension), the TLS allocator may be restored to a previous value. The task retains its captured allocator regardless.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_frameallocator_concept"><a class="anchor" href="#_the_frameallocator_concept"></a>The FrameAllocator Concept</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Custom allocators must satisfy the <code>FrameAllocator</code> concept, which is compatible with C&#43;&#43; allocator requirements:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename A&gt;
+concept FrameAllocator = requires {
+    typename A::value_type;
+} &amp;&amp; requires(A&amp; a, std::size_t n) {
+    { a.allocate(n) } -&gt; std::same_as&lt;typename A::value_type*&gt;;
+    { a.deallocate(std::declval&lt;typename A::value_type*&gt;(), n) };
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In practice, any standard allocator works.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_custom_allocators"><a class="anchor" href="#_using_custom_allocators"></a>Using Custom Allocators</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_with_run_async"><a class="anchor" href="#_with_run_async"></a>With run_async</h3>
+<div class="paragraph">
+<p>Pass an allocator to <code>run_async</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::pmr::monotonic_buffer_resource resource;
+std::pmr::polymorphic_allocator&lt;std::byte&gt; alloc(&amp;resource);
+
+run_async(executor, alloc)(my_task());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or pass a <code>memory_resource*</code> directly:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::pmr::monotonic_buffer_resource resource;
+run_async(executor, &amp;resource)(my_task());</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_default_allocator"><a class="anchor" href="#_default_allocator"></a>Default Allocator</h3>
+<div class="paragraph">
+<p>When no allocator is specified, <code>run_async</code> uses the execution context&#8217;s default frame allocator, typically a recycling allocator optimized for coroutine frame sizes.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recycling_allocator"><a class="anchor" href="#_recycling_allocator"></a>Recycling Allocator</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Capy provides <code>recycling_memory_resource</code>, a memory resource optimized for coroutine frames:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Maintains freelists by size class</p>
+</li>
+<li>
+<p>Reuses recently freed blocks (cache-friendly)</p>
+</li>
+<li>
+<p>Falls back to upstream allocator for new sizes</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This allocator is used by default for <code>thread_pool</code> and other execution contexts.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_halo_optimization"><a class="anchor" href="#_halo_optimization"></a>HALO Optimization</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Heap Allocation eLision Optimization</strong> (HALO) allows the compiler to allocate coroutine frames on the stack instead of the heap when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The coroutine&#8217;s lifetime is provably contained in the caller&#8217;s</p>
+</li>
+<li>
+<p>The frame size is known at compile time</p>
+</li>
+<li>
+<p>Optimization is enabled</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Capy&#8217;s <code>task&lt;T&gt;</code> uses the <code><a id="clang::coro_await_elidable"></a></code> attribute (when available) to enable HALO:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename T = void&gt;
+struct [[nodiscard]] BOOST_CAPY_CORO_AWAIT_ELIDABLE
+    task
+{
+    // ...
+};</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_when_halo_applies"><a class="anchor" href="#_when_halo_applies"></a>When HALO Applies</h3>
+<div class="paragraph">
+<p>HALO is most effective for immediately-awaited tasks:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// HALO can apply: task is awaited immediately
+int result = co_await compute();
+
+// HALO cannot apply: task escapes to storage
+auto t = compute();
+tasks.push_back(std::move(t));</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_measuring_halo_effectiveness"><a class="anchor" href="#_measuring_halo_effectiveness"></a>Measuring HALO Effectiveness</h3>
+<div class="paragraph">
+<p>Profile your application to see if HALO is taking effect. Look for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Reduced heap allocations</p>
+</li>
+<li>
+<p>Improved cache locality</p>
+</li>
+<li>
+<p>Lower allocation latency</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_best_practices"><a class="anchor" href="#_best_practices"></a>Best Practices</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_use_default_allocators"><a class="anchor" href="#_use_default_allocators"></a>Use Default Allocators</h3>
+<div class="paragraph">
+<p>For most applications, the default recycling allocator provides good performance without configuration.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_consider_memory_resources_for_batched_work"><a class="anchor" href="#_consider_memory_resources_for_batched_work"></a>Consider Memory Resources for Batched Work</h3>
+<div class="paragraph">
+<p>When launching many short-lived tasks together, a monotonic buffer resource can be efficient:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void process_batch(std::vector&lt;item&gt; const&amp; items)
+{
+    std::array&lt;std::byte, 64 * 1024&gt; buffer;
+    std::pmr::monotonic_buffer_resource resource(
+        buffer.data(), buffer.size());
+
+    for (auto const&amp; item : items)
+    {
+        run_async(executor, &amp;resource)(process(item));
+    }
+    // All frames deallocated when resource goes out of scope
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_profile_before_optimizing"><a class="anchor" href="#_profile_before_optimizing"></a>Profile Before Optimizing</h3>
+<div class="paragraph">
+<p>Coroutine frame allocation is rarely the bottleneck. Profile your application before investing in custom allocators.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>Reference</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Header</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/ex/frame_allocator.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frame allocator concept and utilities</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/ex/recycling_memory_resource.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default recycling allocator implementation</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You have now learned how coroutine frame allocation works and how to customize it. This completes the Coroutines in Capy section. Continue to <a href="../5.buffers/5a.overview.html" class="xref page">Buffer Sequences</a> to learn about Capy&#8217;s buffer model.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/4.coroutines/4g.allocators.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="4f.composition.html">Concurrent Composition</a></span>
+        <span class="next"><a href="../5.buffers/5.intro.html">Buffer Sequences</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Part III: Coroutine Machinery :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/2.cpp20-coroutines/2c.machinery.html">
+    <link rel="prev" href="2b.syntax.html">
+    <link rel="next" href="2d.advanced.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a></li>
+    <li><a href="2c.machinery.html">Part III: Coroutine Machinery</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="2b.syntax.html">
+      <span class="material-symbols-outlined" title="Previous: Part II: C&#43;&#43;20 Syntax">arrow_back</span>
+    </a>
+    <a accesskey="u" href="2.intro.html">
+      <span class="material-symbols-outlined" title="Up: Introduction To C&#43;&#43;20 Coroutines">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="2d.advanced.html">
+      <span class="material-symbols-outlined" title="Next: Part IV: Advanced Topics">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Part III: Coroutine Machinery</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section explains the promise type and coroutine handle—the core machinery that controls coroutine behavior. You will build a complete generator type by understanding how these pieces work together.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Completed <a href="2b.syntax.html" class="xref page">Part II: C&#43;&#43;20 Syntax</a></p>
+</li>
+<li>
+<p>Understanding of the three coroutine keywords</p>
+</li>
+<li>
+<p>Familiarity with awaitables and awaiters</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_promise_type"><a class="anchor" href="#_the_promise_type"></a>The Promise Type</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every coroutine has an associated <strong>promise type</strong>. This type acts as a controller for the coroutine, defining how it behaves at key points in its lifecycle. The promise type is not something you pass to the coroutine—it is a nested type inside the coroutine&#8217;s return type that the compiler uses automatically.</p>
+</div>
+<div class="paragraph">
+<p>The compiler expects to find a type named <code>promise_type</code> nested inside your coroutine&#8217;s return type. If your coroutine returns <code>Generator&lt;int&gt;</code>, the compiler looks for <code>Generator&lt;int&gt;::promise_type</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_required_methods"><a class="anchor" href="#_required_methods"></a>Required Methods</h3>
+<div class="paragraph">
+<p>The promise type must provide these methods:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>get_return_object()</code></dt>
+<dd>
+<p>Called to create the object that will be returned to the caller of the coroutine. This happens before the coroutine body begins executing.</p>
+</dd>
+<dt class="hdlist1"><code>initial_suspend()</code></dt>
+<dd>
+<p>Called immediately after <code>get_return_object()</code>. Returns an awaiter that determines whether the coroutine should suspend before running any of its body. Return <code>std::suspend_never{}</code> to start executing immediately, or <code>std::suspend_always{}</code> to suspend before the first statement.</p>
+</dd>
+<dt class="hdlist1"><code>final_suspend()</code></dt>
+<dd>
+<p>Called when the coroutine completes (either normally or via exception). Returns an awaiter that determines whether to suspend one last time or destroy the coroutine state immediately. This method must be <code>noexcept</code>.</p>
+</dd>
+<dt class="hdlist1"><code>return_void()</code> or <code>return_value(v)</code></dt>
+<dd>
+<p>Called when the coroutine executes <code>co_return</code> or falls off the end of its body. Use <code>return_void()</code> if the coroutine does not return a value; use <code>return_value(v)</code> if it does. You must provide exactly one of these, matching how your coroutine returns.</p>
+</dd>
+<dt class="hdlist1"><code>unhandled_exception()</code></dt>
+<dd>
+<p>Called if an exception escapes the coroutine body. Typically you either rethrow the exception, store it for later, or terminate the program.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_compiler_transformation"><a class="anchor" href="#_the_compiler_transformation"></a>The Compiler Transformation</h3>
+<div class="paragraph">
+<p>The compiler transforms your coroutine body into something resembling this pseudocode:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">{
+    promise_type promise;
+    auto return_object = promise.get_return_object();
+
+    co_await promise.initial_suspend();
+
+    try {
+        // your coroutine body goes here
+    }
+    catch (...) {
+        promise.unhandled_exception();
+    }
+
+    co_await promise.final_suspend();
+}
+// coroutine frame is destroyed when control flows off the end</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Important observations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The return object is created before <code>initial_suspend()</code> runs, so it is available even if the coroutine suspends immediately</p>
+</li>
+<li>
+<p><code>final_suspend()</code> determines whether the coroutine frame persists after completion—if it returns <code>suspend_always</code>, you must manually destroy the coroutine; if it returns <code>suspend_never</code>, the frame is destroyed automatically</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tracing_promise_behavior"><a class="anchor" href="#_tracing_promise_behavior"></a>Tracing Promise Behavior</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;coroutine&gt;
+#include &lt;iostream&gt;
+
+struct TracePromise
+{
+    struct promise_type
+    {
+        promise_type()
+        {
+            std::cout &lt;&lt; "promise constructed" &lt;&lt; std::endl;
+        }
+
+        ~promise_type()
+        {
+            std::cout &lt;&lt; "promise destroyed" &lt;&lt; std::endl;
+        }
+
+        TracePromise get_return_object()
+        {
+            std::cout &lt;&lt; "get_return_object called" &lt;&lt; std::endl;
+            return {};
+        }
+
+        std::suspend_never initial_suspend()
+        {
+            std::cout &lt;&lt; "initial_suspend called" &lt;&lt; std::endl;
+            return {};
+        }
+
+        std::suspend_always final_suspend() noexcept
+        {
+            std::cout &lt;&lt; "final_suspend called" &lt;&lt; std::endl;
+            return {};
+        }
+
+        void return_void()
+        {
+            std::cout &lt;&lt; "return_void called" &lt;&lt; std::endl;
+        }
+
+        void unhandled_exception()
+        {
+            std::cout &lt;&lt; "unhandled_exception called" &lt;&lt; std::endl;
+        }
+    };
+};
+
+TracePromise trace_coroutine()
+{
+    std::cout &lt;&lt; "coroutine body begins" &lt;&lt; std::endl;
+    co_return;
+}
+
+int main()
+{
+    std::cout &lt;&lt; "calling coroutine" &lt;&lt; std::endl;
+    auto result = trace_coroutine();
+    std::cout &lt;&lt; "coroutine returned" &lt;&lt; std::endl;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Output:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">calling coroutine
+promise constructed
+get_return_object called
+initial_suspend called
+coroutine body begins
+return_void called
+final_suspend called
+coroutine returned</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that the promise is constructed first, then <code>get_return_object()</code> creates the return value, then <code>initial_suspend()</code> runs. Since <code>initial_suspend()</code> returns <code>suspend_never</code>, the coroutine body executes immediately. After <code>co_return</code>, <code>return_void()</code> is called, followed by <code>final_suspend()</code>. Since <code>final_suspend()</code> returns <code>suspend_always</code>, the coroutine suspends one last time, and the promise is not destroyed until the coroutine handle is explicitly destroyed.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If your coroutine can fall off the end of its body without executing <code>co_return</code>, and your promise type lacks a <code>return_void()</code> method, the behavior is undefined. Always ensure your promise type has <code>return_void()</code> if there is any code path that might reach the end of the coroutine body without an explicit <code>co_return</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_coroutine_handle"><a class="anchor" href="#_coroutine_handle"></a>Coroutine Handle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>std::coroutine_handle&lt;&gt;</code> is a lightweight object that refers to a suspended coroutine. It is similar to a pointer: it does not own the memory it references, and copying it does not copy the coroutine.</p>
+</div>
+<div class="sect2">
+<h3 id="_basic_operations"><a class="anchor" href="#_basic_operations"></a>Basic Operations</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>handle()</code> or <code>handle.resume()</code> — Resume the coroutine</p>
+</li>
+<li>
+<p><code>handle.done()</code> — Returns <code>true</code> if the coroutine has completed</p>
+</li>
+<li>
+<p><code>handle.destroy()</code> — Destroy the coroutine frame (frees memory)</p>
+</li>
+<li>
+<p><code>handle.promise()</code> — Returns a reference to the promise object (typed handles only)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_typed_vs_untyped_handles"><a class="anchor" href="#_typed_vs_untyped_handles"></a>Typed vs Untyped Handles</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>std::coroutine_handle&lt;&gt;</code></dt>
+<dd>
+<p>The most basic form (equivalent to <code>std::coroutine_handle&lt;void&gt;</code>). Can reference any coroutine but provides no access to the promise object.</p>
+</dd>
+<dt class="hdlist1"><code>std::coroutine_handle&lt;PromiseType&gt;</code></dt>
+<dd>
+<p>A typed handle that knows about a particular promise type. Can be converted to the void handle. Provides a <code>promise()</code> method that returns a reference to the promise object.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_handles_from_promises"><a class="anchor" href="#_creating_handles_from_promises"></a>Creating Handles from Promises</h3>
+<div class="paragraph">
+<p>Inside <code>get_return_object()</code>, you can obtain the coroutine handle using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::coroutine_handle&lt;promise_type&gt;::from_promise(*this)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Since <code>get_return_object()</code> is called on the promise object (as <code>this</code>), this method returns a handle to the coroutine containing that promise.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_putting_it_together_building_a_generator"><a class="anchor" href="#_putting_it_together_building_a_generator"></a>Putting It Together: Building a Generator</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <strong>generator</strong> is a function that produces a sequence of values on demand. Instead of computing all values upfront, a generator computes each value when requested using <code>co_yield</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_how_co_yield_works"><a class="anchor" href="#_how_co_yield_works"></a>How co_yield Works</h3>
+<div class="paragraph">
+<p>The expression <code>co_yield value</code> is transformed by the compiler into:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">co_await promise.yield_value(value)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>yield_value</code> method receives the yielded value, stores it somewhere accessible, and returns an awaiter (usually <code>std::suspend_always</code>) to suspend the coroutine.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_complete_generator_implementation"><a class="anchor" href="#_complete_generator_implementation"></a>Complete Generator Implementation</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;coroutine&gt;
+#include &lt;iostream&gt;
+
+struct Generator
+{
+    struct promise_type
+    {
+        int current_value;
+
+        Generator get_return_object()
+        {
+            return Generator{
+                std::coroutine_handle&lt;promise_type&gt;::from_promise(*this)
+            };
+        }
+
+        std::suspend_always initial_suspend() { return {}; }
+        std::suspend_always final_suspend() noexcept { return {}; }
+
+        std::suspend_always yield_value(int value)
+        {
+            current_value = value;
+            return {};
+        }
+
+        void return_void() {}
+        void unhandled_exception() { std::terminate(); }
+    };
+
+    std::coroutine_handle&lt;promise_type&gt; handle;
+
+    Generator(std::coroutine_handle&lt;promise_type&gt; h) : handle(h) {}
+
+    ~Generator()
+    {
+        if (handle)
+            handle.destroy();
+    }
+
+    // Disable copying
+    Generator(Generator const&amp;) = delete;
+    Generator&amp; operator=(Generator const&amp;) = delete;
+
+    // Enable moving
+    Generator(Generator&amp;&amp; other) noexcept
+        : handle(other.handle)
+    {
+        other.handle = nullptr;
+    }
+
+    Generator&amp; operator=(Generator&amp;&amp; other) noexcept
+    {
+        if (this != &amp;other)
+        {
+            if (handle)
+                handle.destroy();
+            handle = other.handle;
+            other.handle = nullptr;
+        }
+        return *this;
+    }
+
+    bool next()
+    {
+        if (!handle || handle.done())
+            return false;
+        handle.resume();
+        return !handle.done();
+    }
+
+    int value() const
+    {
+        return handle.promise().current_value;
+    }
+};
+
+Generator count_to(int n)
+{
+    for (int i = 1; i &lt;= n; ++i)
+    {
+        co_yield i;
+    }
+}
+
+int main()
+{
+    auto gen = count_to(5);
+
+    while (gen.next())
+    {
+        std::cout &lt;&lt; gen.value() &lt;&lt; std::endl;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Output:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">1
+2
+3
+4
+5</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_design_decisions"><a class="anchor" href="#_key_design_decisions"></a>Key Design Decisions</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>initial_suspend()</code> returns <code>suspend_always</code></dt>
+<dd>
+<p>The coroutine suspends before running any user code. This means the first call to <code>next()</code> starts the coroutine running.</p>
+</dd>
+<dt class="hdlist1"><code>final_suspend()</code> returns <code>suspend_always</code></dt>
+<dd>
+<p>The coroutine frame persists after completion. This is necessary because the iterator needs to check <code>handle.done()</code> after the last value.</p>
+</dd>
+<dt class="hdlist1">Generator owns the handle</dt>
+<dd>
+<p>The destructor calls <code>handle.destroy()</code> to free the coroutine frame. Copying is disabled to avoid double-free; moving transfers ownership.</p>
+</dd>
+<dt class="hdlist1"><code>yield_value</code> stores and suspends</dt>
+<dd>
+<p>Stores the yielded value in <code>current_value</code> and returns <code>suspend_always</code> to pause the coroutine after each yield.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fibonacci_generator"><a class="anchor" href="#_fibonacci_generator"></a>Fibonacci Generator</h3>
+<div class="paragraph">
+<p>Here is a more interesting generator that produces the Fibonacci sequence:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">Generator fibonacci()
+{
+    int a = 0, b = 1;
+    while (true)
+    {
+        co_yield a;
+        int next = a + b;
+        a = b;
+        b = next;
+    }
+}
+
+int main()
+{
+    auto fib = fibonacci();
+
+    for (int i = 0; i &lt; 10 &amp;&amp; fib.next(); ++i)
+    {
+        std::cout &lt;&lt; fib.value() &lt;&lt; " ";
+    }
+    std::cout &lt;&lt; std::endl;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Output:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">0 1 1 2 3 5 8 13 21 34</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Fibonacci generator runs an infinite loop internally. It will produce values forever. But because it yields and suspends after each value, the caller controls when (and whether) to ask for more values. The generator only computes values on demand.</p>
+</div>
+<div class="paragraph">
+<p>The variables <code>a</code> and <code>b</code> persist across yields because they live in the coroutine frame on the heap.</p>
+</div>
+<div class="paragraph">
+<p>You have now learned how promise types and coroutine handles work together to create useful abstractions like generators. In the next section, you will explore advanced topics: symmetric transfer, allocation, and exception handling.</p>
+</div>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/2.cpp20-coroutines/2c.machinery.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a></span>
+        <span class="next"><a href="2d.advanced.html">Part IV: Advanced Topics</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

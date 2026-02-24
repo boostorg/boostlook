@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Physical Isolation :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/6.streams/6f.isolation.html">
+    <link rel="prev" href="6e.algorithms.html">
+    <link rel="next" href="../7.examples/7.intro.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="6.intro.html">Stream Concepts</a></li>
+    <li><a href="6f.isolation.html">Physical Isolation</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="6e.algorithms.html">
+      <span class="material-symbols-outlined" title="Previous: Transfer Algorithms">arrow_back</span>
+    </a>
+    <a accesskey="u" href="6.intro.html">
+      <span class="material-symbols-outlined" title="Up: Stream Concepts">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="../7.examples/7.intro.html">
+      <span class="material-symbols-outlined" title="Next: Example Programs">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Physical Isolation</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section explains how type-erased wrappers enable compilation firewalls and transport-independent APIs.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Completed <a href="6e.algorithms.html" class="xref page">Transfer Algorithms</a></p>
+</li>
+<li>
+<p>Understanding of type-erased wrappers</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_compilation_firewall_pattern"><a class="anchor" href="#_the_compilation_firewall_pattern"></a>The Compilation Firewall Pattern</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>C&#43;&#43; templates are powerful but have a cost: every instantiation compiles in every translation unit that uses it. Change a template, and everything that includes it recompiles.</p>
+</div>
+<div class="paragraph">
+<p>Type-erased wrappers break this dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// protocol.hpp - No template dependencies
+#pragma once
+#include &lt;boost/capy/io/any_stream.hpp&gt;
+#include &lt;boost/capy/task.hpp&gt;
+
+// Declaration only - no implementation details
+task&lt;&gt; handle_protocol(any_stream&amp; stream);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// protocol.cpp - Implementation isolated here
+#include "protocol.hpp"
+#include &lt;boost/capy/read.hpp&gt;
+#include &lt;boost/capy/write.hpp&gt;
+
+task&lt;&gt; handle_protocol(any_stream&amp; stream)
+{
+    char buf[1024];
+
+    for (;;)
+    {
+        auto [ec, n] = co_await stream.read_some(mutable_buffer(buf));
+        if (ec.failed())
+            co_return;
+
+        // Process and respond...
+        co_await write(stream, make_buffer(response));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Changes to <code>protocol.cpp</code> only recompile that file. The header is stable.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_build_time_benefits"><a class="anchor" href="#_build_time_benefits"></a>Build Time Benefits</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_before_templates_everywhere"><a class="anchor" href="#_before_templates_everywhere"></a>Before (Templates Everywhere)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Old approach: template propagates everywhere
+template&lt;typename Stream&gt;
+task&lt;&gt; handle_protocol(Stream&amp; stream);
+
+// Every caller instantiates for their stream type
+// Changes force recompilation of all callers</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_after_type_erasure_at_boundary"><a class="anchor" href="#_after_type_erasure_at_boundary"></a>After (Type Erasure at Boundary)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// New approach: concrete signature
+task&lt;&gt; handle_protocol(any_stream&amp; stream);
+
+// Implementation compiles once
+// Callers only depend on the signature</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_measured_impact"><a class="anchor" href="#_measured_impact"></a>Measured Impact</h3>
+<div class="paragraph">
+<p>For a typical project:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Template-heavy design: 10+ seconds incremental rebuild</p>
+</li>
+<li>
+<p>Type-erased boundaries: &lt; 1 second incremental rebuild</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The difference grows with project size.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transport_independence"><a class="anchor" href="#_transport_independence"></a>Transport Independence</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Type erasure decouples your code from specific transport implementations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Your library code
+task&lt;&gt; send_message(any_write_sink&amp; sink, message const&amp; msg)
+{
+    co_await sink.write(make_buffer(msg.header));
+    co_await sink.write(make_buffer(msg.body), true);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Callers provide any conforming implementation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// TCP socket
+tcp::socket socket;
+any_write_sink sink{socket};
+send_message(sink, msg);
+
+// TLS stream
+tls::stream stream;
+any_write_sink sink{stream};
+send_message(sink, msg);
+
+// HTTP chunked encoding
+chunked_sink chunked{underlying};
+any_write_sink sink{chunked};
+send_message(sink, msg);
+
+// Test mock
+test::write_sink mock;
+any_write_sink sink{mock};
+send_message(sink, msg);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Same <code>send_message</code> function, different transports—compile once, use everywhere.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api_design_guidelines"><a class="anchor" href="#_api_design_guidelines"></a>API Design Guidelines</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_accept_type_erased_references"><a class="anchor" href="#_accept_type_erased_references"></a>Accept Type-Erased References</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Good: accepts any stream
+task&lt;&gt; process(any_stream&amp; stream);
+
+// Avoid: forces specific type
+task&lt;&gt; process(tcp::socket&amp; socket);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_wrap_at_call_site"><a class="anchor" href="#_wrap_at_call_site"></a>Wrap at Call Site</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void caller(tcp::socket&amp; socket)
+{
+    any_stream stream{socket};  // Wrap here
+    process(stream);            // Call with erased type
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The wrapper creation is explicit and localized.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_return_concrete_types_usually"><a class="anchor" href="#_return_concrete_types_usually"></a>Return Concrete Types (Usually)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// OK: factory returns concrete type
+tcp::socket create_socket();
+
+// Then caller wraps if needed
+auto socket = create_socket();
+any_stream stream{socket};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returning type-erased values forces heap allocation. Return concrete types when the caller knows what they need.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example_library_api"><a class="anchor" href="#_example_library_api"></a>Example: Library API</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// http_client.hpp
+#pragma once
+#include &lt;boost/capy/io/any_read_source.hpp&gt;
+#include &lt;boost/capy/io/any_write_sink.hpp&gt;
+
+struct http_request
+{
+    std::string method;
+    std::string url;
+    std::map&lt;std::string, std::string&gt; headers;
+};
+
+struct http_response
+{
+    int status_code;
+    std::map&lt;std::string, std::string&gt; headers;
+    any_read_source body;  // Body is a source, not a buffer
+};
+
+// Send request, receive response
+// Works with any transport that provides any_stream
+task&lt;http_response&gt; send_request(any_stream&amp; conn, http_request const&amp; req);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Users don&#8217;t need to know how HTTP is implemented:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// User code
+tcp::socket socket;
+// ... connect ...
+
+any_stream conn{socket};
+auto response = co_await send_request(conn, {
+    .method = "GET",
+    .url = "/api/data"
+});
+
+// Read body through type-erased source
+flat_dynamic_buffer buf;
+co_await read(response.body, buf);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The HTTP library is isolated from transport details. It compiles once. Users bring their own transport.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_wrapper_overhead"><a class="anchor" href="#_wrapper_overhead"></a>Wrapper Overhead</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Type erasure has runtime cost:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Virtual dispatch for each operation</p>
+</li>
+<li>
+<p>Extra indirection through wrapper</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>But the cost is typically negligible compared to I/O latency. A nanosecond of dispatch overhead is invisible next to microsecond network operations.</p>
+</div>
+<div class="paragraph">
+<p>When profiling shows wrapper overhead matters:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Consider batching operations</p>
+</li>
+<li>
+<p>Use concrete types in hot paths</p>
+</li>
+<li>
+<p>Accept the template cost for that code path</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>Reference</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Type-erased wrappers are in <code>&lt;boost/capy/io/&gt;</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>any_stream</code></p>
+</li>
+<li>
+<p><code>any_read_stream</code>, <code>any_write_stream</code></p>
+</li>
+<li>
+<p><code>any_read_source</code>, <code>any_write_sink</code></p>
+</li>
+<li>
+<p><code>any_buffer_source</code>, <code>any_buffer_sink</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You have now completed the Stream Concepts section. These abstractions—streams, sources, sinks, and their type-erased wrappers—form the foundation for Capy&#8217;s I/O model. Continue to <a href="../7.examples/7a.hello-task.html" class="xref page">Example Programs</a> to see complete working examples.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/6.streams/6f.isolation.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="6e.algorithms.html">Transfer Algorithms</a></span>
+        <span class="next"><a href="../7.examples/7.intro.html">Example Programs</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

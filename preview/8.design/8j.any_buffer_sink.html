@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>any_buffer_sink Design :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/8.design/8j.any_buffer_sink.html">
+    <link rel="prev" href="8i.TypeEraseAwaitable.html">
+    <link rel="next" href="8k.Executor.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="8.intro.html">Design</a></li>
+    <li><a href="8j.any_buffer_sink.html">AnyBufferSink</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="8i.TypeEraseAwaitable.html">
+      <span class="material-symbols-outlined" title="Previous: Type-Erasing Awaitables">arrow_back</span>
+    </a>
+    <a accesskey="u" href="8.intro.html">
+      <span class="material-symbols-outlined" title="Up: Design">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="8k.Executor.html">
+      <span class="material-symbols-outlined" title="Next: Executor">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">any_buffer_sink Design</h1>
+  <div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document describes the design of <code>any_buffer_sink</code>, a type-erased wrapper that satisfies both <code>BufferSink</code> and <code>WriteSink</code>. The central design goal is to serve two fundamentally different data-production patterns through a single runtime interface, with no performance compromise for either.</p>
+</div>
+<div class="paragraph">
+<p>Data producers fall into two categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Generators</strong> produce data on demand. They do not hold the data in advance; they compute or serialize it into memory that someone else provides. An HTTP header serializer, a JSON encoder, and a compression engine are generators.</p>
+</li>
+<li>
+<p><strong>Buffered sources</strong> already have data sitting in buffers. A memory-mapped file, a ring buffer that received data from a socket, and a pre-serialized response body are buffered sources.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These two patterns require different buffer ownership models. Generators need writable memory from the sink (the <code>BufferSink</code> pattern). Buffered sources need to hand their existing buffers to the sink (the <code>WriteSink</code> pattern). Forcing either pattern through the other&#8217;s interface introduces an unnecessary copy.</p>
+</div>
+<div class="paragraph">
+<p><code>any_buffer_sink</code> exposes both interfaces. The caller chooses the one that matches how its data is produced. The wrapper dispatches to the underlying concrete sink through the optimal path, achieving zero-copy when the concrete type supports it and falling back to a synthesized path when it does not.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_two_interfaces"><a class="anchor" href="#_the_two_interfaces"></a>The Two Interfaces</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_buffersink_callee_owned_buffers"><a class="anchor" href="#_buffersink_callee_owned_buffers"></a>BufferSink: Callee-Owned Buffers</h3>
+<div class="paragraph">
+<p>The <code>BufferSink</code> interface (<code>prepare</code>, <code>commit</code>, <code>commit_eof</code>) is designed for generators. The sink owns the memory. The generator asks for writable space, fills it, and commits:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">any_buffer_sink abs(concrete_sink{});
+
+mutable_buffer arr[16];
+auto bufs = abs.prepare(arr);
+// serialize directly into bufs
+auto [ec] = co_await abs.commit(bytes_written);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The data lands in the sink&#8217;s internal storage with no intermediate copy. If the concrete sink is backed by a kernel page, a DMA descriptor, or a ring buffer, the bytes go directly to their final destination.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writesink_caller_owned_buffers"><a class="anchor" href="#_writesink_caller_owned_buffers"></a>WriteSink: Caller-Owned Buffers</h3>
+<div class="paragraph">
+<p>The <code>WriteSink</code> interface (<code>write_some</code>, <code>write</code>, <code>write_eof</code>) is designed for buffered sources. The caller already has the data in buffers and passes them to the sink:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">any_buffer_sink abs(concrete_sink{});
+
+// Data already in buffers -- pass them directly
+auto [ec, n] = co_await abs.write(existing_buffers);
+
+// Or atomically write and signal EOF
+auto [ec2, n2] = co_await abs.write_eof(final_buffers);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When the concrete sink natively supports <code>WriteSink</code>, the caller&#8217;s buffers propagate directly through the type-erased boundary. The sink receives the original buffer descriptors pointing to the caller&#8217;s memory. No data is copied into an intermediate staging area.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dispatch_strategy"><a class="anchor" href="#_dispatch_strategy"></a>Dispatch Strategy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The vtable records whether the wrapped concrete type satisfies <code>WriteSink</code> in addition to <code>BufferSink</code>. This determination is made at compile time when the vtable is constructed. At runtime, each <code>WriteSink</code> operation checks a single nullable function pointer to select its path.</p>
+</div>
+<div class="sect2">
+<h3 id="_native_forwarding_buffersink_writesink"><a class="anchor" href="#_native_forwarding_buffersink_writesink"></a>Native Forwarding (BufferSink + WriteSink)</h3>
+<div class="paragraph">
+<p>When the concrete type satisfies both concepts, the <code>WriteSink</code> vtable slots are populated with functions that construct the concrete type&#8217;s own <code>write_some</code>, <code>write</code>, <code>write_eof(buffers)</code>, and <code>write_eof()</code> awaitables in the cached storage. The caller&#8217;s buffer descriptors pass straight through:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">caller buffers → vtable → concrete write(buffers) → I/O</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>No <code>prepare</code>, no <code>buffer_copy</code>, no <code>commit</code>. The concrete type receives the caller&#8217;s buffers and can submit them directly to the operating system, the compression library, or the next pipeline stage.</p>
+</div>
+<div class="paragraph">
+<p>This is the zero-copy path for buffered sources writing to a sink that natively accepts caller-owned buffers.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_synthesized_path_buffersink_only"><a class="anchor" href="#_synthesized_path_buffersink_only"></a>Synthesized Path (BufferSink Only)</h3>
+<div class="paragraph">
+<p>When the concrete type satisfies only <code>BufferSink</code>, the <code>WriteSink</code> vtable slots are null. The wrapper synthesizes the <code>WriteSink</code> operations from the <code>BufferSink</code> primitives:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">caller buffers → prepare → buffer_copy → commit → I/O</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For <code>write_some</code>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call <code>prepare</code> to get writable space from the sink.</p>
+</li>
+<li>
+<p>Copy data from the caller&#8217;s buffers into the prepared space with <code>buffer_copy</code>.</p>
+</li>
+<li>
+<p>Call <code>commit</code> to finalize.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For <code>write</code> and <code>write_eof</code>: the same loop, repeated until all data is consumed. <code>write_eof</code> finishes with <code>commit_eof</code> to signal end-of-stream.</p>
+</div>
+<div class="paragraph">
+<p>This path incurs one buffer copy, which is unavoidable: the concrete sink only knows how to accept data through its own <code>prepare</code>/<code>commit</code> protocol, so the caller&#8217;s buffers must be copied into the sink&#8217;s internal storage.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_this_matters"><a class="anchor" href="#_why_this_matters"></a>Why This Matters</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_no_compromise"><a class="anchor" href="#_no_compromise"></a>No Compromise</h3>
+<div class="paragraph">
+<p>A naive design would pick one interface and synthesize the other unconditionally. If the wrapper only exposed <code>BufferSink</code>, every buffered source would pay a copy to move its data into the sink&#8217;s prepared buffers. If the wrapper only exposed <code>WriteSink</code>, every generator would need to allocate its own intermediate buffer, fill it, then hand it to the sink&#8201;&#8212;&#8201;paying a copy that the <code>BufferSink</code> path avoids.</p>
+</div>
+<div class="paragraph">
+<p><code>any_buffer_sink</code> avoids both penalties. Each data-production pattern uses the interface designed for it. The only copy that occurs is the one that is structurally unavoidable: when a <code>WriteSink</code> operation targets a concrete type that only speaks <code>BufferSink</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_true_zero_copy_for_buffered_sources"><a class="anchor" href="#_true_zero_copy_for_buffered_sources"></a>True Zero-Copy for Buffered Sources</h3>
+<div class="paragraph">
+<p>Consider an HTTP server where the response body is a memory-mapped file. The file&#8217;s pages are already in memory. Through the <code>WriteSink</code> interface, those pages can propagate directly to the underlying transport:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// body_source is a BufferSource backed by mmap pages
+// response_sink wraps a concrete type satisfying both concepts
+
+any_buffer_sink response_sink(&amp;concrete);
+
+const_buffer arr[16];
+for(;;)
+{
+    auto [ec, bufs] = co_await body_source.pull(arr);
+    if(ec == cond::eof)
+    {
+        auto [ec2] = co_await response_sink.write_eof();
+        break;
+    }
+    if(ec)
+        break;
+    // bufs point directly into mmap pages
+    // write() propagates them through the vtable to the concrete sink
+    auto [ec2, n] = co_await response_sink.write(bufs);
+    if(ec2)
+        break;
+    body_source.consume(n);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The mapped pages flow from <code>body_source.pull</code> through <code>response_sink.write</code> to the concrete transport with no intermediate copy. If the concrete sink can scatter-gather those buffers into a <code>writev</code> system call, the data moves from the page cache to the network card without touching user-space memory a second time.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_generators_write_in_place"><a class="anchor" href="#_generators_write_in_place"></a>Generators Write In-Place</h3>
+<div class="paragraph">
+<p>An HTTP header serializer generates bytes on the fly. It does not hold the output in advance. Through the <code>BufferSink</code> interface, it writes directly into whatever memory the concrete sink provides:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;&gt; serialize_headers(
+    any_buffer_sink&amp; sink,
+    response const&amp; resp)
+{
+    mutable_buffer arr[16];
+
+    for(auto const&amp; field : resp.fields())
+    {
+        auto bufs = sink.prepare(arr);
+        // serialize field directly into bufs
+        std::size_t n = format_field(bufs, field);
+        auto [ec] = co_await sink.commit(n);
+        if(ec)
+            co_return;
+    }
+    // headers done; body follows through the same sink
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The serializer never allocates a scratch buffer for the formatted output. The bytes land directly in the sink&#8217;s internal storage, which might be a chunked-encoding buffer, a TLS record buffer, or a circular buffer feeding a socket.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_awaitable_caching"><a class="anchor" href="#_awaitable_caching"></a>Awaitable Caching</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>any_buffer_sink</code> uses the split vtable pattern described in <a href="#8.design/8h.TypeEraseAwaitable.adoc" class="xref unresolved">Type-Erasing Awaitables</a>. Multiple async operations (<code>commit</code>, <code>commit_eof</code>, plus the four <code>WriteSink</code> operations when the concrete type supports them) share a single cached awaitable storage region.</p>
+</div>
+<div class="paragraph">
+<p>The constructor computes the maximum size and alignment across all awaitable types that the concrete type can produce and allocates that storage once. This reserves all virtual address space at construction time, so memory usage is measurable at server startup rather than growing piecemeal as requests arrive.</p>
+</div>
+<div class="paragraph">
+<p>Two separate <code>awaitable_ops</code> structs are used:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>awaitable_ops</code> for operations yielding <code>io_result&lt;&gt;</code> (<code>commit</code>, <code>commit_eof</code>, <code>write_eof()</code>)</p>
+</li>
+<li>
+<p><code>write_awaitable_ops</code> for operations yielding <code>io_result&lt;std::size_t&gt;</code> (<code>write_some</code>, <code>write</code>, <code>write_eof(buffers)</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each <code>construct_*</code> function in the vtable creates the concrete awaitable in the cached storage and returns a pointer to the matching <code>static constexpr</code> ops table. The wrapper stores this pointer as <code>active_ops_</code> or <code>active_write_ops_</code> and uses it for <code>await_ready</code>, <code>await_suspend</code>, <code>await_resume</code>, and destruction.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ownership_modes"><a class="anchor" href="#_ownership_modes"></a>Ownership Modes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_owning"><a class="anchor" href="#_owning"></a>Owning</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">any_buffer_sink abs(my_concrete_sink{args...});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The wrapper allocates storage for the concrete sink and moves it in. The wrapper owns the sink and destroys it in its destructor. The awaitable cache is allocated separately.</p>
+</div>
+<div class="paragraph">
+<p>If either allocation fails, the constructor cleans up via an internal guard and propagates the exception.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_non_owning_reference"><a class="anchor" href="#_non_owning_reference"></a>Non-Owning (Reference)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">my_concrete_sink sink;
+any_buffer_sink abs(&amp;sink);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The wrapper stores a pointer without allocating storage for the sink. The concrete sink must outlive the wrapper. Only the awaitable cache is allocated.</p>
+</div>
+<div class="paragraph">
+<p>This mode is useful when the concrete sink is managed by a higher-level object (e.g., an HTTP connection that owns the transport) and the wrapper is a short-lived handle passed to a body-production function.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_relationship_to_any_buffer_source"><a class="anchor" href="#_relationship_to_any_buffer_source"></a>Relationship to any_buffer_source</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>any_buffer_source</code> is the read-side counterpart, satisfying both <code>BufferSource</code> and <code>ReadSource</code>. The same dual-interface principle applies in mirror image:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Direction</th>
+<th class="tableblock halign-left valign-top">Primary concept</th>
+<th class="tableblock halign-left valign-top">Secondary concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Writing (any_buffer_sink)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSink</code> (callee-owned)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteSink</code> (caller-owned)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reading (any_buffer_source)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSource</code> (callee-owned)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadSource</code> (caller-owned)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Both wrappers enable the same design philosophy: the caller chooses the interface that matches its data-production or data-consumption pattern, and the wrapper dispatches optimally.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_alternatives_considered"><a class="anchor" href="#_alternatives_considered"></a>Alternatives Considered</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_writesink_only_wrapper"><a class="anchor" href="#_writesink_only_wrapper"></a>WriteSink-Only Wrapper</h3>
+<div class="paragraph">
+<p>A design where the type-erased wrapper satisfied only <code>WriteSink</code> was considered. Generators would allocate their own scratch buffer, serialize into it, and call <code>write</code>. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Every generator pays a buffer copy that the <code>BufferSink</code> path avoids. For high-throughput paths (HTTP header serialization, compression output), this copy is measurable.</p>
+</li>
+<li>
+<p>Generators must manage scratch buffer lifetime and sizing. The <code>prepare</code>/<code>commit</code> protocol pushes this responsibility to the sink, which knows its own buffer topology.</p>
+</li>
+<li>
+<p>The <code>commit_eof(n)</code> optimization (coalescing final data with stream termination) is lost. A generator calling <code>write</code> cannot signal that its last write is the final one without a separate <code>write_eof()</code> call, preventing the sink from combining them.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_buffersink_only_wrapper"><a class="anchor" href="#_buffersink_only_wrapper"></a>BufferSink-Only Wrapper</h3>
+<div class="paragraph">
+<p>A design where the wrapper satisfied only <code>BufferSink</code> was considered. Buffered sources would copy their data into the sink&#8217;s prepared buffers via <code>prepare</code> + <code>buffer_copy</code> + <code>commit</code>. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Every buffered source pays a copy that native <code>WriteSink</code> forwarding avoids. When the source is a memory-mapped file and the sink is a socket, this eliminates the zero-copy path entirely.</p>
+</li>
+<li>
+<p>The <code>buffer_copy</code> step becomes the bottleneck for large transfers, dominating what would otherwise be a pure I/O operation.</p>
+</li>
+<li>
+<p>Buffered sources that produce scatter-gather buffer sequences (multiple non-contiguous regions) must copy each region individually into prepared buffers, losing the ability to pass the entire scatter-gather list to a <code>writev</code> system call.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_separate_wrapper_types"><a class="anchor" href="#_separate_wrapper_types"></a>Separate Wrapper Types</h3>
+<div class="paragraph">
+<p>A design with two distinct wrappers (<code>any_buffer_sink</code> satisfying only <code>BufferSink</code> and <code>any_write_sink</code> satisfying only <code>WriteSink</code>) was considered. The caller would choose which wrapper to construct based on its data-production pattern. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The caller and the sink are often decoupled. An HTTP server framework provides the sink; the user provides the body producer. The framework cannot know at compile time whether the user will call <code>prepare</code>/<code>commit</code> or <code>write</code>/<code>write_eof</code>.</p>
+</li>
+<li>
+<p>Requiring two wrapper types forces the framework to either pick one (losing the other pattern) or expose both (complicating the API).</p>
+</li>
+<li>
+<p>A single wrapper that satisfies both concepts lets the framework hand one object to the body producer, which uses whichever interface is natural. No choice is imposed on the framework or the user.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_always_synthesizing_writesink"><a class="anchor" href="#_always_synthesizing_writesink"></a>Always Synthesizing WriteSink</h3>
+<div class="paragraph">
+<p>A design where the <code>WriteSink</code> operations were always synthesized from <code>prepare</code> + <code>buffer_copy</code> + <code>commit</code>, even when the concrete type natively supports <code>WriteSink</code>, was considered. This would simplify the vtable by removing the nullable write-forwarding slots. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The buffer copy is measurable. For a concrete type that can accept caller-owned buffers directly (e.g., a socket wrapper with <code>writev</code> support), the synthesized path adds a copy that native forwarding avoids.</p>
+</li>
+<li>
+<p>The <code>write_eof(buffers)</code> atomicity guarantee is lost. The synthesized path must decompose it into <code>prepare</code> + <code>buffer_copy</code> + <code>commit_eof</code>, which the concrete type cannot distinguish from a non-final commit followed by an empty <code>commit_eof</code>. This prevents optimizations like coalescing the last data chunk with a chunked-encoding terminator.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>any_buffer_sink</code> satisfies both <code>BufferSink</code> and <code>WriteSink</code> behind a single type-erased interface. The dual API lets each data-production pattern use the interface designed for it:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Producer type</th>
+<th class="tableblock halign-left valign-top">Interface</th>
+<th class="tableblock halign-left valign-top">Data path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generator (produces on demand)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>prepare</code> / <code>commit</code> / <code>commit_eof</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Writes directly into sink&#8217;s internal storage. Zero copy.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Buffered source (data already in memory)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write_some</code> / <code>write</code> / <code>write_eof</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Buffers propagate through the vtable. Zero copy when the concrete
+  type natively supports <code>WriteSink</code>. One copy (synthesized) when
+  it does not.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The dispatch is determined at construction time through nullable vtable slots. At runtime, a single pointer check selects the native or synthesized path. Neither pattern pays for the other&#8217;s existence.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/8.design/8j.any_buffer_sink.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a></span>
+        <span class="next"><a href="8k.Executor.html">Executor</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

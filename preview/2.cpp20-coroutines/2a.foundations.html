@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Part I: Foundations :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/2.cpp20-coroutines/2a.foundations.html">
+    <link rel="prev" href="2.intro.html">
+    <link rel="next" href="2b.syntax.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a></li>
+    <li><a href="2a.foundations.html">Part I: Foundations</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="2.intro.html">
+      <span class="material-symbols-outlined" title="Previous: Introduction To C&#43;&#43;20 Coroutines">arrow_back</span>
+    </a>
+    <a accesskey="u" href="2.intro.html">
+      <span class="material-symbols-outlined" title="Up: Introduction To C&#43;&#43;20 Coroutines">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="2b.syntax.html">
+      <span class="material-symbols-outlined" title="Next: Part II: C&#43;&#43;20 Syntax">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Part I: Foundations</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section introduces the fundamental concepts you need before working with C&#43;&#43;20 coroutines. You will learn how normal functions work, what makes coroutines different, and why coroutines exist as a language feature.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before beginning this tutorial, you should have:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A C&#43;&#43; compiler with C&#43;&#43;20 support (GCC 10+, Clang 14+, or MSVC 2019 16.8+)</p>
+</li>
+<li>
+<p>Familiarity with basic C&#43;&#43; concepts: functions, classes, templates, and lambdas</p>
+</li>
+<li>
+<p>Understanding of how function calls work: the call stack, local variables, and return values</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The examples in this tutorial use standard C&#43;&#43;20 features. Compile with:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>GCC: <code>g -std=c20 -fcoroutines your_file.cpp</code></p>
+</li>
+<li>
+<p>Clang: <code>clang -std=c20 your_file.cpp</code></p>
+</li>
+<li>
+<p>MSVC: <code>cl /std:c++20 your_file.cpp</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_functions_and_the_call_stack"><a class="anchor" href="#_functions_and_the_call_stack"></a>Functions and the Call Stack</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you call a regular function, the system allocates space on the <strong>call stack</strong> for the function&#8217;s local variables and parameters. This stack space is called a <strong>stack frame</strong>. When the function returns, this stack space is reclaimed. The function&#8217;s state exists only during the call.</p>
+</div>
+<div class="paragraph">
+<p>Consider this function:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">int compute(int x, int y)
+{
+    int result = x * y + 42;
+    return result;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When <code>compute</code> is called:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A stack frame is allocated containing <code>x</code>, <code>y</code>, and <code>result</code></p>
+</li>
+<li>
+<p>The function body executes</p>
+</li>
+<li>
+<p>The return value is passed back to the caller</p>
+</li>
+<li>
+<p>The stack frame is deallocated</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This model has a fundamental constraint: <strong>run-to-completion</strong>. Once a function starts, it must finish before control returns to the caller. The function cannot pause midway, let other code run, and resume later.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_is_a_coroutine"><a class="anchor" href="#_what_is_a_coroutine"></a>What Is a Coroutine?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <strong>coroutine</strong> is a function that can suspend its execution and resume later from exactly where it left off. Think of it as a bookmark in a book of instructions—instead of reading the entire book in one sitting, you can mark your place, do something else, and return to continue reading.</p>
+</div>
+<div class="paragraph">
+<p>When a coroutine suspends:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Its local variables are preserved</p>
+</li>
+<li>
+<p>The instruction pointer (where you are in the code) is saved</p>
+</li>
+<li>
+<p>Control returns to the caller or some other code</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When a coroutine resumes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Local variables are restored to their previous values</p>
+</li>
+<li>
+<p>Execution continues from the suspension point</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This capability is implemented through a <strong>coroutine frame</strong>—a heap-allocated block of memory that stores the coroutine&#8217;s state. Unlike stack frames, coroutine frames persist across suspension points because they live on the heap rather than the stack.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Conceptual illustration (not real syntax)
+task&lt;int&gt; fetch_and_process()
+{
+    auto data = co_await fetch_from_network();  // suspends here
+    // When resumed, 'data' contains the fetched result
+    return process(data);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The variable <code>data</code> maintains its value even though the function may have suspended and resumed. This is the fundamental capability that coroutines provide.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_coroutines"><a class="anchor" href="#_why_coroutines"></a>Why Coroutines?</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_the_problem_asynchronous_programming_without_coroutines"><a class="anchor" href="#_the_problem_asynchronous_programming_without_coroutines"></a>The Problem: Asynchronous Programming Without Coroutines</h3>
+<div class="paragraph">
+<p>Consider a server application that handles network requests. The server must read a request, query a database, compute a response, and send it back. Each step might take time to complete.</p>
+</div>
+<div class="paragraph">
+<p>In traditional synchronous code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void handle_request(connection&amp; conn)
+{
+    std::string request = conn.read();      // blocks until data arrives
+    auto parsed = parse_request(request);
+    auto data = database.query(parsed.id);  // blocks until database responds
+    auto response = compute_response(data);
+    conn.write(response);                   // blocks until write completes
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This code reads naturally from top to bottom. But while waiting for the network or database, this function blocks the entire thread. If you have thousands of concurrent connections, you would need thousands of threads, each consuming memory and requiring operating system scheduling.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_callback_approach"><a class="anchor" href="#_the_callback_approach"></a>The Callback Approach</h3>
+<div class="paragraph">
+<p>The traditional solution uses callbacks:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void handle_request(connection&amp; conn)
+{
+    conn.async_read([&amp;conn](std::string request) {
+        auto parsed = parse_request(request);
+        database.async_query(parsed.id, [&amp;conn](auto data) {
+            auto response = compute_response(data);
+            conn.async_write(response, [&amp;conn]() {
+                // request complete
+            });
+        });
+    });
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This code does not block. Each operation starts, registers a callback, and returns immediately. When the operation completes, the callback runs.</p>
+</div>
+<div class="paragraph">
+<p>But look what has happened to the code: three levels of nesting, logic scattered across multiple lambda functions, and local variables that cannot be shared between callbacks without careful lifetime management. A single logical operation becomes fragmented across multiple functions.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_coroutine_solution"><a class="anchor" href="#_the_coroutine_solution"></a>The Coroutine Solution</h3>
+<div class="paragraph">
+<p>Coroutines restore linear code structure while maintaining asynchronous behavior:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;void&gt; handle_request(connection&amp; conn)
+{
+    std::string request = co_await conn.async_read();
+    auto parsed = parse_request(request);
+    auto data = co_await database.async_query(parsed.id);
+    auto response = compute_response(data);
+    co_await conn.async_write(response);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This code reads like the original blocking version. Local variables like <code>request</code>, <code>parsed</code>, and <code>data</code> exist naturally in their scope. Yet the function suspends at each <code>co_await</code> point, allowing other work to proceed while waiting.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_beyond_asynchrony"><a class="anchor" href="#_beyond_asynchrony"></a>Beyond Asynchrony</h3>
+<div class="paragraph">
+<p>Coroutines also enable:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Generators</strong> — Functions that produce sequences of values on demand, computing each value only when requested</p>
+</li>
+<li>
+<p><strong>State machines</strong> — Complex control flow expressed as linear code with suspension points</p>
+</li>
+<li>
+<p><strong>Cooperative multitasking</strong> — Multiple logical tasks interleaved on a single thread</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You have now learned what coroutines are and why they exist. In the next section, you will learn the C&#43;&#43;20 syntax for creating coroutines.</p>
+</div>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/2.cpp20-coroutines/2a.foundations.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a></span>
+        <span class="next"><a href="2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Sources and Sinks (Complete I/O) :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/6.streams/6c.sources-sinks.html">
+    <link rel="prev" href="6b.streams.html">
+    <link rel="next" href="6d.buffer-concepts.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="6.intro.html">Stream Concepts</a></li>
+    <li><a href="6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="6b.streams.html">
+      <span class="material-symbols-outlined" title="Previous: Streams (Partial I/O)">arrow_back</span>
+    </a>
+    <a accesskey="u" href="6.intro.html">
+      <span class="material-symbols-outlined" title="Up: Stream Concepts">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="6d.buffer-concepts.html">
+      <span class="material-symbols-outlined" title="Next: Buffer Sources and Sinks">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Sources and Sinks (Complete I/O)</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section explains the <code>ReadSource</code> and <code>WriteSink</code> concepts for complete I/O operations with EOF signaling.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Completed <a href="6b.streams.html" class="xref page">Streams (Partial I/O)</a></p>
+</li>
+<li>
+<p>Understanding of partial I/O with <code>ReadStream</code> and <code>WriteStream</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_readsource"><a class="anchor" href="#_readsource"></a>ReadSource</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>ReadSource</code> provides complete read operations that fill buffers entirely or signal EOF:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename T&gt;
+concept ReadSource =
+    ReadStream&lt;T&gt; &amp;&amp;
+    requires(T&amp; source, mutable_buffer_archetype buffers) {
+        { source.read(buffers) } -&gt; IoAwaitable;
+    };</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_read_semantics"><a class="anchor" href="#_read_semantics"></a>read Semantics</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;MutableBufferSequence Buffers&gt;
+IoAwaitable auto read(Buffers buffers);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns an awaitable yielding <code>(error_code, std::size_t)</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On success: <code>!ec</code>, and <code>n == buffer_size(buffers)</code> (buffer completely filled)</p>
+</li>
+<li>
+<p>On EOF: <code>ec == cond::eof</code>, and <code>n</code> is bytes read before EOF (partial read)</p>
+</li>
+<li>
+<p>On error: <code>ec</code>, and <code>n</code> is bytes read before error</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The key difference from <code>ReadStream</code>: a successful read fills the buffer completely.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_use_cases"><a class="anchor" href="#_use_cases"></a>Use Cases</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Reading fixed-size records</p>
+</li>
+<li>
+<p>Reading message frames with known sizes</p>
+</li>
+<li>
+<p>Filling buffers for batch processing</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example"><a class="anchor" href="#_example"></a>Example</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadSource Source&gt;
+task&lt;std::optional&lt;message&gt;&gt; read_message(Source&amp; source)
+{
+    // Read fixed-size header
+    message_header header;
+    auto [ec, n] = co_await source.read(
+        mutable_buffer(&amp;header, sizeof(header)));
+
+    if (ec == cond::eof &amp;&amp; n == 0)
+        co_return std::nullopt;  // Clean EOF
+
+    if (ec)
+        throw std::system_error(ec);
+
+    // Read variable-size body
+    std::vector&lt;char&gt; body(header.body_size);
+    auto [ec2, n2] = co_await source.read(make_buffer(body));
+
+    if (ec2)
+        throw std::system_error(ec2);
+
+    co_return message{header, std::move(body)};
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_writesink"><a class="anchor" href="#_writesink"></a>WriteSink</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>WriteSink</code> provides complete write operations with explicit EOF signaling:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename T&gt;
+concept WriteSink =
+    WriteStream&lt;T&gt; &amp;&amp;
+    requires(T&amp; sink, const_buffer_archetype buffers) {
+        { sink.write(buffers) } -&gt; IoAwaitable;
+        { sink.write_eof(buffers) } -&gt; IoAwaitable;
+        { sink.write_eof() } -&gt; IoAwaitable;
+    };</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_write_semantics"><a class="anchor" href="#_write_semantics"></a>write Semantics</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Partial write (inherited from WriteStream)
+template&lt;ConstBufferSequence Buffers&gt;
+IoAwaitable auto write_some(Buffers buffers);
+
+// Complete write
+template&lt;ConstBufferSequence Buffers&gt;
+IoAwaitable auto write(Buffers buffers);
+
+// Atomic final write + EOF signal
+template&lt;ConstBufferSequence Buffers&gt;
+IoAwaitable auto write_eof(Buffers buffers);
+
+// Signal EOF without data
+IoAwaitable auto write_eof();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>write</code> consumes the entire buffer sequence before returning. <code>write_eof(buffers)</code> atomically writes the buffer sequence and signals end-of-stream in a single operation, enabling protocol-level optimizations (e.g., HTTP chunked encoding terminal, compression trailers).</p>
+</div>
+<div class="paragraph">
+<p>After calling <code>write_eof(buffers)</code> or <code>write_eof()</code>, no further writes are permitted.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_use_cases_2"><a class="anchor" href="#_use_cases_2"></a>Use Cases</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Writing complete messages</p>
+</li>
+<li>
+<p>HTTP body transmission (content-length or chunked)</p>
+</li>
+<li>
+<p>Protocol framing with explicit termination</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example_2"><a class="anchor" href="#_example_2"></a>Example</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;WriteSink Sink&gt;
+task&lt;&gt; send_response(Sink&amp; sink, response const&amp; resp)
+{
+    // Write headers
+    auto headers = format_headers(resp);
+    auto [ec, n] = co_await sink.write(make_buffer(headers));
+    if (ec)
+        co_return;
+
+    // Write body and signal EOF atomically
+    auto [ec2, n2] = co_await sink.write_eof(make_buffer(resp.body));
+    if (ec2)
+        co_return;
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_type_erasing_wrappers"><a class="anchor" href="#_type_erasing_wrappers"></a>Type-Erasing Wrappers</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_any_read_source"><a class="anchor" href="#_any_read_source"></a>any_read_source</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/capy/io/any_read_source.hpp&gt;
+
+template&lt;ReadSource S&gt;
+any_read_source(S&amp; source);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_any_write_sink"><a class="anchor" href="#_any_write_sink"></a>any_write_sink</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;boost/capy/io/any_write_sink.hpp&gt;
+
+template&lt;WriteSink S&gt;
+any_write_sink(S&amp; sink);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example_http_body_handler"><a class="anchor" href="#_example_http_body_handler"></a>Example: HTTP Body Handler</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The HTTP library uses <code>any_write_sink</code> for body transmission:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// HTTP response handler doesn't know the underlying transport
+task&lt;&gt; send_body(any_write_sink&amp; body, std::string_view data)
+{
+    // Works whether body is:
+    // - Direct socket write (content-length)
+    // - Chunked encoding wrapper
+    // - Compressed stream
+    // - Test mock
+
+    co_await body.write_eof(make_buffer(data));
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The caller decides the concrete implementation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Content-length mode
+content_length_sink cl_sink(socket, data.size());
+any_write_sink body{cl_sink};
+send_body(body, data);
+
+// Chunked mode
+chunked_sink ch_sink(socket);
+any_write_sink body{ch_sink};
+send_body(body, data);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Same <code>send_body</code> function, different transfer encodings—the library handles the difference.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_streams_vs_sourcessinks"><a class="anchor" href="#_streams_vs_sourcessinks"></a>Streams vs Sources/Sinks</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Aspect</th>
+<th class="tableblock halign-left valign-top">Streams</th>
+<th class="tableblock halign-left valign-top">Sources/Sinks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transfer amount</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Partial (whatever is available)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Complete (fill buffer or EOF)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EOF handling</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implicit (read returns 0)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explicit (<code>write_eof()</code>, <code>write_eof(buffers)</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use case</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Raw I/O, incremental processing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message-oriented protocols</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Abstraction level</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lower (closer to OS)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Higher (application-friendly)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>Reference</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Header</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/concept/read_source.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ReadSource concept definition</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/concept/write_sink.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WriteSink concept definition</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/io/any_read_source.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type-erased read source wrapper</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;boost/capy/io/any_write_sink.hpp&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type-erased write sink wrapper</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You have now learned about sources and sinks for complete I/O. Continue to <a href="6d.buffer-concepts.html" class="xref page">Buffer Sources and Sinks</a> to learn about the callee-owns-buffers pattern.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/6.streams/6c.sources-sinks.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="6b.streams.html">Streams (Partial I/O)</a></span>
+        <span class="next"><a href="6d.buffer-concepts.html">Buffer Sources and Sinks</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

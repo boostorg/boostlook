@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Executor Concept Design :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/8.design/8k.Executor.html">
+    <link rel="prev" href="8j.any_buffer_sink.html">
+    <link rel="next" href="8l.RunApi.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="8.intro.html">Design</a></li>
+    <li><a href="8k.Executor.html">Executor</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="8j.any_buffer_sink.html">
+      <span class="material-symbols-outlined" title="Previous: AnyBufferSink">arrow_back</span>
+    </a>
+    <a accesskey="u" href="8.intro.html">
+      <span class="material-symbols-outlined" title="Up: Design">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="8l.RunApi.html">
+      <span class="material-symbols-outlined" title="Next: Run API">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Executor Concept Design</h1>
+  <div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document describes the design of the <code>Executor</code> concept: the interface through which coroutines are scheduled for execution. It explains the relationship to Asio&#8217;s executor model, why <code>dispatch</code> returns <code>void</code>, why <code>defer</code> was dropped, how <code>executor_ref</code> achieves zero-allocation type erasure, and the I/O completion pattern that motivates the entire design.</p>
+</div>
+<div class="paragraph">
+<p>The <code>Executor</code> concept exists to answer one question: when a coroutine is ready to run, <em>where</em> does it run? The concept captures the rules for scheduling coroutine resumption, tracking outstanding work for graceful shutdown, and accessing the execution context that owns the executor. Every I/O awaitable in Corosio&#8201;&#8212;&#8201;sockets, acceptors, timers, resolvers&#8201;&#8212;&#8201;depends on this concept to dispatch completions back to the correct executor.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_definition"><a class="anchor" href="#_definition"></a>Definition</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;class E&gt;
+concept Executor =
+    std::is_nothrow_copy_constructible_v&lt;E&gt; &amp;&amp;
+    std::is_nothrow_move_constructible_v&lt;E&gt; &amp;&amp;
+    requires(E&amp; e, E const&amp; ce, E const&amp; ce2,
+             std::coroutine_handle&lt;&gt; h)
+    {
+        { ce == ce2 } noexcept -&gt; std::convertible_to&lt;bool&gt;;
+        { ce.context() } noexcept;
+        requires std::is_lvalue_reference_v&lt;
+            decltype(ce.context())&gt; &amp;&amp;
+            std::derived_from&lt;
+                std::remove_reference_t&lt;
+                    decltype(ce.context())&gt;,
+                execution_context&gt;;
+        { ce.on_work_started() } noexcept;
+        { ce.on_work_finished() } noexcept;
+
+        { ce.dispatch(h) };
+        { ce.post(h) };
+    };</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An <code>Executor</code> provides exactly two operations on a coroutine handle:</p>
+</div>
+<div class="sect2">
+<h3 id="_dispatchhexecute_if_safe"><a class="anchor" href="#_dispatchhexecute_if_safe"></a><code>dispatch(h)</code>&#8201;&#8212;&#8201;Execute If Safe</h3>
+<div class="paragraph">
+<p>If the executor determines it is safe (e.g., the current thread is already associated with the executor&#8217;s context), resumes the coroutine inline via <code>h.resume()</code>. Otherwise, posts the coroutine for later execution. Returns <code>void</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_posthalways_queue"><a class="anchor" href="#_posthalways_queue"></a><code>post(h)</code>&#8201;&#8212;&#8201;Always Queue</h3>
+<div class="paragraph">
+<p>Queues the coroutine for later execution without ever executing it inline. Never blocks. Use when guaranteed asynchrony is required.</p>
+</div>
+<div class="paragraph">
+<p>The remaining operations support context access, lifecycle management, and identity:</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_contextaccess_the_execution_context"><a class="anchor" href="#_contextaccess_the_execution_context"></a><code>context()</code>&#8201;&#8212;&#8201;Access the Execution Context</h3>
+<div class="paragraph">
+<p>Returns an lvalue reference to the <code>execution_context</code> that created this executor. The context provides service infrastructure, frame allocators, and shutdown coordination.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_on_work_started_on_work_finishedtrack_work"><a class="anchor" href="#_on_work_started_on_work_finishedtrack_work"></a><code>on_work_started()</code> / <code>on_work_finished()</code>&#8201;&#8212;&#8201;Track Work</h3>
+<div class="paragraph">
+<p>Paired calls that track outstanding work. When the count reaches zero, the context&#8217;s event loop (<code>run()</code>) returns. These calls must be balanced: each <code>on_work_started</code> must have a matching <code>on_work_finished</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_operatorequality_comparison"><a class="anchor" href="#_operatorequality_comparison"></a><code>operator==</code>&#8201;&#8212;&#8201;Equality Comparison</h3>
+<div class="paragraph">
+<p>Two executors are equal if they submit work to the same destination. This enables the same-executor optimization: when a completion&#8217;s executor matches the caller&#8217;s, the dispatch can skip the indirection.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_relationship_to_asio"><a class="anchor" href="#_relationship_to_asio"></a>Relationship to Asio</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Kohlhoff&#8217;s Asio library established the executor-as-policy model that Capy inherits. As described in <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0113r0.html">P0113R0</a>:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>An executor is to function execution as an allocator is to
+allocation.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Capy retains the core elements of this model:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Work tracking.</strong> <code>on_work_started</code> / <code>on_work_finished</code> for graceful shutdown.</p>
+</li>
+<li>
+<p><strong><code>dispatch</code> / <code>post</code> duality.</strong> Execute-if-safe versus always-queue.</p>
+</li>
+<li>
+<p><strong><code>execution_context</code> base class.</strong> Service infrastructure and context lifetime management.</p>
+</li>
+<li>
+<p><strong>Equality comparison.</strong> Same-executor optimization.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Capy removes or changes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong><code>defer</code>.</strong> Dropped entirely. See <a href="#why-not-defer">Why Two Operations, Not Three</a>.</p>
+</li>
+<li>
+<p><strong>Function object submission.</strong> Asio executors accept arbitrary callables. Capy executors accept only <code>std::coroutine_handle&lt;&gt;</code>. This removes the need for allocator-aware function erasure and enables a simpler, cheaper type-erased wrapper (<code>executor_ref</code>).</p>
+</li>
+<li>
+<p><strong><code>dispatch</code> return type.</strong> Asio&#8217;s <code>dispatch</code> returns void for the same reason Capy&#8217;s does, but Capy also considered and rejected a <code>coroutine_handle&lt;&gt;</code> return for symmetric transfer. See <a href="#why-dispatch-returns-void">Why <code>dispatch</code> Returns <code>void</code></a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The result is a concept that preserves Asio&#8217;s proven execution model while removing the machinery that a coroutine-native library does not need.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="why-dispatch-returns-void"><a class="anchor" href="#why-dispatch-returns-void"></a>Why <code>dispatch</code> Returns <code>void</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An earlier design had <code>dispatch</code> return <code>std::coroutine_handle&lt;&gt;</code> so that callers could use it for symmetric transfer from <code>await_suspend</code>. This was rejected because it violates a fundamental constraint of the I/O layer.</p>
+</div>
+<div class="sect2">
+<h3 id="_the_problem_synchronous_completion_during_await_suspend"><a class="anchor" href="#_the_problem_synchronous_completion_during_await_suspend"></a>The Problem: Synchronous Completion During <code>await_suspend</code></h3>
+<div class="paragraph">
+<p>When an I/O awaitable initiates an operation inside <code>await_suspend</code>, the I/O might complete immediately. If it does, the completion path would call <code>dispatch(h)</code> while the caller&#8217;s <code>await_suspend</code> is still on the call stack. If <code>dispatch</code> resumed the coroutine inline via <code>h.resume()</code>, the coroutine would execute while <code>await_suspend</code> has not yet returned&#8201;&#8212;&#8201;resuming a coroutine from inside <code>await_suspend</code> before the suspension machinery completes risks undefined behavior.</p>
+</div>
+<div class="paragraph">
+<p>The C&#43;&#43; standard describes the sequencing in <a href="https://eel.is/c++draft/expr.await">[expr.await</a>/5.1]:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>If the result of await-ready is false, the coroutine is
+considered suspended. Then, await-suspend is evaluated.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Although the standard considers the coroutine suspended before <code>await_suspend</code> is called, resuming it from <em>within</em> <code>await_suspend</code> creates a nested resumption on the same call stack. The resumed coroutine runs, potentially suspends again or completes, and then control returns into the middle of <code>await_suspend</code>. If the coroutine was destroyed during resumption, <code>await_suspend</code> returns into a destroyed frame.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_why_io_awaitables_return_void_or_stdnoop_coroutine"><a class="anchor" href="#_why_io_awaitables_return_void_or_stdnoop_coroutine"></a>Why I/O Awaitables Return <code>void</code> or <code>std::noop_coroutine()</code></h3>
+<div class="paragraph">
+<p>To avoid this, all I/O awaitables return <code>void</code> or <code>std::noop_coroutine()</code> from <code>await_suspend</code>. Both forms guarantee that the caller is fully suspended and the call stack has unwound before any completion handler can resume the coroutine. The I/O operation is initiated during <code>await_suspend</code>, but the completion is dispatched later&#8201;&#8212;&#8201;from the event loop, after <code>await_suspend</code> has returned.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0913r1.html">P0913R1</a> introduced the <code>coroutine_handle&lt;Z&gt;</code> return type for symmetric transfer, which is the correct mechanism for coroutine-to-coroutine control transfer (as used by <code>task&lt;T&gt;</code> internally). But I/O awaitables cannot use it because the I/O completion is asynchronous relative to <code>await_suspend</code>&#8201;&#8212;&#8201;it comes from the reactor or proactor, not from the awaitable itself.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_consequence_for_dispatch"><a class="anchor" href="#_consequence_for_dispatch"></a>Consequence for <code>dispatch</code></h3>
+<div class="paragraph">
+<p>Since the primary consumer of <code>dispatch</code> is I/O completion&#8201;&#8212;&#8201;called <em>after</em> the coroutine is suspended, from the event loop&#8201;&#8212;&#8201;<code>dispatch</code> does not need to participate in symmetric transfer. It calls <code>h.resume()</code> inline when safe and returns <code>void</code>. A conforming implementation looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void dispatch(std::coroutine_handle&lt;&gt; h) const
+{
+    if(ctx_.running_in_this_thread())
+        h.resume();
+    else
+        post(h);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After <code>dispatch</code> returns, the state of <code>h</code> is unspecified. The coroutine may have completed, been destroyed, or suspended at a different point. Callers must not use <code>h</code> after calling <code>dispatch</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="why-not-defer"><a class="anchor" href="#why-not-defer"></a>Why Two Operations, Not Three</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Asio provides three submission methods: <code>dispatch</code>, <code>post</code>, and <code>defer</code>. Capy provides only <code>dispatch</code> and <code>post</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_what_defer_does"><a class="anchor" href="#_what_defer_does"></a>What <code>defer</code> Does</h3>
+<div class="paragraph">
+<p><a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0113r0.html">P0113R0</a> describes <code>defer</code>:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A defer operation is similar to a post operation&#8230;&#8203; However, a
+defer operation also implies a relationship between the caller
+and the function object being submitted. It is intended for use
+when submitting a function object that represents a continuation
+of the caller.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>The optimization this enables is thread-local queuing. When the caller is already executing within the executor&#8217;s context, <code>defer</code> saves the continuation to a thread-local queue instead of the shared work queue. From P0113R0:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>If the caller is executing within the thread pool, saves the
+function object to a thread-local queue. Once control returns to
+the thread pool, the function object is scheduled for execution
+as soon as possible.</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_why_coroutines_make_defer_redundant"><a class="anchor" href="#_why_coroutines_make_defer_redundant"></a>Why Coroutines Make <code>defer</code> Redundant</h3>
+<div class="paragraph">
+<p>In a callback-based library, when an asynchronous operation completes, the completion handler must be submitted to the executor as a function object. If the handler is the caller&#8217;s continuation, <code>defer</code> tells the executor "this is my next step; optimize accordingly."</p>
+</div>
+<div class="paragraph">
+<p>In a coroutine-native library, this optimization is provided by the language itself. <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0913r1.html">P0913R1</a> introduced symmetric transfer specifically to eliminate the need for queues and schedulers in coroutine-to-coroutine control transfer:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Currently Coroutines TS only supports asymmetric control transfer
+where suspend always returns control back to the current
+coroutine caller or resumer. In order to emulate symmetric
+coroutine to coroutine control transfer, one needs to build a
+queue and a scheduler.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>When <code>task&lt;T&gt;::await_suspend</code> returns the parent&#8217;s coroutine handle, the compiler performs a tail-call-like transfer directly to the parent. No queue, no executor submission, no <code>defer</code>. The optimization that <code>defer</code> provides through a runtime hint, symmetric transfer provides through a compile-time guarantee.</p>
+</div>
+<div class="paragraph">
+<p>Corosio confirms this in practice: its entire I/O layer&#8201;&#8212;&#8201;sockets, acceptors, timers, resolvers, signals&#8201;&#8212;&#8201;across all three backends (epoll, IOCP, select) uses only <code>dispatch</code> and <code>post</code>. No code path requires <code>defer</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_stdcoroutine_handle_not_typed_handles"><a class="anchor" href="#_why_stdcoroutine_handle_not_typed_handles"></a>Why <code>std::coroutine_handle&lt;&gt;</code>, Not Typed Handles</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The executor accepts <code>std::coroutine_handle&lt;&gt;</code>&#8201;&#8212;&#8201;the type-erased handle&#8201;&#8212;&#8201;rather than <code>std::coroutine_handle&lt;P&gt;</code> for a specific promise type <code>P</code>.</p>
+</div>
+<div class="paragraph">
+<p>This decision has three consequences:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Type erasure is possible.</strong> <code>executor_ref</code> wraps any executor behind a uniform interface. If <code>dispatch</code> and <code>post</code> were templated on the promise type, the vtable would need to be generic over all promise types, making type erasure impractical.</p>
+</li>
+<li>
+<p><strong>Executor implementations are independent of coroutine internals.</strong> An executor schedules resumption. It does not need to know what the coroutine&#8217;s promise type is, what value it produces, or how it handles exceptions. The type-erased handle provides exactly the right interface: <code>resume()</code> and nothing else.</p>
+</li>
+<li>
+<p><strong>I/O operation structures stay simple.</strong> Every pending I/O operation in Corosio stores two fields: <code>std::coroutine_handle&lt;&gt; h</code> (a typedef for <code>std::coroutine_handle&lt;&gt;</code>) and <code>capy::executor_ref ex</code>. Both are type-erased. The operation structure does not need to be templated on the coroutine&#8217;s promise type, which keeps the I/O backend code non-generic and out of headers.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_nothrow_copy_and_move"><a class="anchor" href="#_why_nothrow_copy_and_move"></a>Why Nothrow Copy and Move</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The concept requires <code>std::is_nothrow_copy_constructible_v&lt;E&gt;</code> and <code>std::is_nothrow_move_constructible_v&lt;E&gt;</code>.</p>
+</div>
+<div class="paragraph">
+<p>Executors propagate through coroutine machinery at points where exceptions cannot be handled: inside <code>await_suspend</code>, during promise construction, and through type-erased wrappers like <code>executor_ref</code>. An exception thrown from an executor copy at any of these points would leave the coroutine in an unrecoverable state&#8201;&#8212;&#8201;suspended but with no executor to resume it through.</p>
+</div>
+<div class="paragraph">
+<p>The nothrow requirement eliminates this failure mode entirely. In practice, executors are lightweight handles&#8201;&#8212;&#8201;a pointer to the execution context and perhaps a strand pointer or a priority value. Nothrow copy and move are natural for such types. The requirement does not impose a burden; it documents what is already true of every reasonable executor implementation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_work_tracking_shutdown_and_executor_validity"><a class="anchor" href="#_work_tracking_shutdown_and_executor_validity"></a>Work Tracking, Shutdown, and Executor Validity</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>on_work_started</code> and <code>on_work_finished</code> operations serve three roles.</p>
+</div>
+<div class="sect2">
+<h3 id="_event_loop_lifetime"><a class="anchor" href="#_event_loop_lifetime"></a>Event Loop Lifetime</h3>
+<div class="paragraph">
+<p>Work tracking is the mechanism by which the event loop knows when to stop. When outstanding work reaches zero, <code>run()</code> returns. This is not bookkeeping&#8201;&#8212;&#8201;it is the event loop&#8217;s termination signal.</p>
+</div>
+<div class="paragraph">
+<p>In Corosio, <code>on_work_finished</code> triggers <code>stop()</code> when the atomic work count reaches zero:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void on_work_finished() noexcept
+{
+    if(outstanding_work_.fetch_sub(
+        1, std::memory_order_acq_rel) == 1)
+        stop();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Every <code>run_async</code> call increments the count. When the launched task completes, the count decrements. When no tasks remain, <code>run()</code> returns. Without work tracking in the executor, the event loop would need a separate signaling mechanism or would spin indefinitely.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_public_visibility"><a class="anchor" href="#_public_visibility"></a>Public Visibility</h3>
+<div class="paragraph">
+<p>These operations are public, not private with friendship. The reason is extensibility: <code>work_guard</code> is the library&#8217;s RAII wrapper for work tracking, but users may define their own guards with additional behaviors (logging, metrics, timeout detection). Making work tracking private would require the library to grant friendship to types it cannot anticipate.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_executor_validity"><a class="anchor" href="#_executor_validity"></a>Executor Validity</h3>
+<div class="paragraph">
+<p>An executor becomes invalid when its context&#8217;s <code>shutdown()</code> returns. After shutdown:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>dispatch</code>, <code>post</code>, <code>on_work_started</code>, <code>on_work_finished</code>: undefined behavior.</p>
+</li>
+<li>
+<p>Copy, comparison, <code>context()</code>: valid until the context is destroyed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This two-phase model exists because shutdown drains outstanding work. During the drain, executors must still be copyable (they are stored in pending operations) and comparable (for same-executor checks). Only the work-submission operations become invalid, because the context has stopped accepting new work.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_context_returns_execution_context"><a class="anchor" href="#_why_context_returns_execution_context"></a>Why <code>context()</code> Returns <code>execution_context&amp;</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>context()</code> operation returns a reference to the <code>execution_context</code> base class, not the concrete derived type.</p>
+</div>
+<div class="paragraph">
+<p>This serves two purposes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Type erasure.</strong> <code>executor_ref</code> can wrap any executor without knowing its context type. If <code>context()</code> returned a concrete type, the vtable would need a different return type per executor type.</p>
+</li>
+<li>
+<p><strong>Service lookup.</strong> The <code>execution_context</code> base class provides <code>use_service&lt;T&gt;()</code> and <code>make_service&lt;T&gt;()</code>, which is sufficient for all runtime service discovery. I/O objects do not need the concrete context type to find their services.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Corosio demonstrates this pattern throughout its public API. I/O objects accept any executor and extract the context via the base class reference:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;class Ex&gt;
+    requires capy::Executor&lt;Ex&gt;
+explicit tcp_socket(Ex const&amp; ex)
+    : tcp_socket(ex.context())
+{
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The socket constructor receives <code>execution_context&amp;</code> and looks up the socket service. The concrete context type&#8201;&#8212;&#8201;<code>epoll_context</code>, <code>iocp_context</code>, <code>select_context</code>&#8201;&#8212;&#8201;is irrelevant to the socket.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_executor_ref_design"><a class="anchor" href="#_the_executor_ref_design"></a>The <code>executor_ref</code> Design</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>executor_ref</code> is a non-owning, type-erased wrapper for any executor satisfying the <code>Executor</code> concept. It is the mechanism by which I/O operations store and use executors without templates.</p>
+</div>
+<div class="sect2">
+<h3 id="_two_pointers"><a class="anchor" href="#_two_pointers"></a>Two Pointers</h3>
+<div class="paragraph">
+<p>The entire object is two pointers:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">class executor_ref
+{
+    void const* ex_;                       // pointer to the executor
+    detail::executor_vtable const* vt_;    // pointer to the vtable
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Two pointers fit in two registers. <code>executor_ref</code> can be passed by value as cheaply as passing a pointer. No heap allocation, no small-buffer optimization, no reference counting.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_why_not_stdfunction_or_stdany"><a class="anchor" href="#_why_not_stdfunction_or_stdany"></a>Why Not <code>std::function</code> or <code>std::any</code></h3>
+<div class="paragraph">
+<p><code>std::function</code> and small-buffer-optimized type erasure wrappers have overhead that executor usage cannot tolerate:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Heap allocation.</strong> <code>std::function</code> may allocate when the callable exceeds the SBO threshold. Executor dispatch happens on every I/O completion&#8201;&#8212;&#8201;allocation on the hot path is unacceptable.</p>
+</li>
+<li>
+<p><strong>Reference counting.</strong> <code>std::shared_ptr</code>-based wrappers add atomic reference count operations on every copy. Executors are copied frequently as they propagate through coroutine chains.</p>
+</li>
+<li>
+<p><strong>Indirection.</strong> SBO wrappers store either inline data or a heap pointer, adding a branch on every operation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>executor_ref</code> avoids all three. The vtable pointer goes directly to a <code>static constexpr</code> structure in <code>.rodata</code>. One indirection, no branches, no allocation.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_why_not_c_virtual_functions"><a class="anchor" href="#_why_not_c_virtual_functions"></a>Why Not C&#43;&#43; Virtual Functions</h3>
+<div class="paragraph">
+<p>C&#43;&#43; virtual dispatch places the vtable pointer inside each heap-allocated object. Every virtual call chases a pointer from the object to its vtable, which may reside at an unpredictable address in memory. When objects of different types are interleaved on the heap, their vtable pointers point to different locations in <code>.rodata</code>, defeating spatial prefetch and polluting the instruction cache.</p>
+</div>
+<div class="paragraph">
+<p><code>executor_ref</code> separates the vtable from the object. The vtable is a <code>static constexpr</code> structure&#8201;&#8212;&#8201;one per executor type, shared by all instances of that type. Because most programs use only one or two executor types (a thread pool executor and perhaps a strand), the vtable stays hot in L1 cache. The executor pointer and the vtable pointer sit adjacent in the <code>executor_ref</code> object, so both are loaded in a single cache line.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reference_semantics"><a class="anchor" href="#_reference_semantics"></a>Reference Semantics</h3>
+<div class="paragraph">
+<p><code>executor_ref</code> stores a pointer to the executor, not a copy. The executor must outlive the <code>executor_ref</code>. This matches how executors propagate through coroutine chains: the executor is owned by the execution context (which outlives all coroutines running on it), and <code>executor_ref</code> is a lightweight handle passed through <code>await_suspend</code> and stored in I/O operation structures.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_io_completion_pattern"><a class="anchor" href="#_the_io_completion_pattern"></a>The I/O Completion Pattern</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The executor concept is designed around a single use case: I/O completion dispatch. This pattern is the reason the concept exists.</p>
+</div>
+<div class="sect2">
+<h3 id="_capture_at_initiation"><a class="anchor" href="#_capture_at_initiation"></a>Capture at Initiation</h3>
+<div class="paragraph">
+<p>When a coroutine <code>co_await`s an I/O awaitable, the awaitable&#8217;s `await_suspend</code> receives the caller&#8217;s executor and stores it as <code>executor_ref</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename Ex&gt;
+auto await_suspend(
+    std::coroutine_handle&lt;&gt; h,
+    Ex const&amp; ex) -&gt; std::coroutine_handle&lt;&gt;
+{
+    // ex is captured as executor_ref in the operation
+    return socket_.connect(h, ex, endpoint_, token_, &amp;ec_);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The operation structure stores both the coroutine handle and the executor reference:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">struct io_op : scheduler_op
+{
+    std::coroutine_handle&lt;&gt; h;
+    capy::executor_ref ex;
+    // ... error codes, buffers, etc.
+};</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dispatch_at_completion"><a class="anchor" href="#_dispatch_at_completion"></a>Dispatch at Completion</h3>
+<div class="paragraph">
+<p>When the I/O completes (from the reactor thread for epoll, the completion port for IOCP, or the select loop), the operation uses the stored executor to resume the coroutine:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void operator()() override
+{
+    // ... set error codes ...
+    capy::executor_ref saved_ex(std::move(ex));
+    std::coroutine_handle&lt;&gt; saved_h(std::move(h));
+    impl_ptr.reset();
+    saved_ex.dispatch(saved_h);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>dispatch</code> checks whether the current thread is already running on the executor&#8217;s context. If so, the coroutine resumes inline. If not, the coroutine is posted for later execution on the correct context.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_platform_independence"><a class="anchor" href="#_platform_independence"></a>Platform Independence</h3>
+<div class="paragraph">
+<p>This pattern is identical across all three Corosio backends: epoll (Linux), IOCP (Windows), and select (POSIX fallback). The executor concept and <code>executor_ref</code> provide the abstraction that makes this possible. The backend-specific code deals with I/O readiness or completion notification. The executor-specific code deals with coroutine scheduling. The two concerns are cleanly separated.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_not_stdexecution_p2300"><a class="anchor" href="#_why_not_stdexecution_p2300"></a>Why Not <code>std::execution</code> (P2300)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://wg21.link/P2300">P2300</a> defines a sender/receiver model where execution context flows <em>backward</em> from receiver to sender via queries after <code>connect()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">task&lt;int&gt; async_work();              // Frame allocated NOW
+auto sndr = async_work();
+auto op = connect(sndr, receiver);   // Allocator available NOW
+start(op);                           //   -- too late</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For coroutines, this ordering is fatal. Coroutine frame allocation happens <em>before</em> the coroutine body executes. The compiler calls <code>operator new</code> first, then constructs the promise, then begins execution. Any mechanism that provides the allocator <em>after</em> the coroutine call&#8201;&#8212;&#8201;receiver queries, <code>await_transform</code>, explicit method calls&#8201;&#8212;&#8201;arrives after the frame is already allocated with the wrong (or default) allocator.</p>
+</div>
+<div class="paragraph">
+<p>Capy&#8217;s model flows context <em>forward</em> from launcher to task. The <code>run_async(ex, alloc)(my_task())</code> two-phase invocation sets the thread-local allocator <em>before</em> the task expression is evaluated, so <code>operator new</code> reads it in time. This is described in detail in <a href="8l.RunApi.html" class="xref page">Run API</a>.</p>
+</div>
+<div class="paragraph">
+<p>The same forward-flowing model applies to executors. The launcher binds the executor before the task runs. The task&#8217;s promise stores the executor and propagates it to nested awaitables via <code>await_transform</code>. Context flows from caller to callee at every level, never backward.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conforming_signatures"><a class="anchor" href="#_conforming_signatures"></a>Conforming Signatures</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A minimal executor implementation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">class my_executor
+{
+public:
+    execution_context&amp; context() const noexcept;
+
+    void on_work_started() const noexcept;
+    void on_work_finished() const noexcept;
+
+    void dispatch(std::coroutine_handle&lt;&gt; h) const;
+    void post(std::coroutine_handle&lt;&gt; h) const;
+
+    bool operator==(my_executor const&amp;) const noexcept;
+};</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>Executor</code> concept provides <code>dispatch</code> and <code>post</code> for coroutine scheduling, work tracking for event loop lifetime, and <code>context()</code> for service access. The design descends from Asio&#8217;s executor model but is adapted for coroutines: <code>defer</code> is replaced by symmetric transfer, function objects are replaced by <code>std::coroutine_handle&lt;&gt;</code>, and <code>dispatch</code> returns <code>void</code> because I/O completions are dispatched after suspension, not during it.</p>
+</div>
+<div class="paragraph">
+<p><code>executor_ref</code> type-erases any executor into two pointers, enabling platform-independent I/O completion dispatch with zero allocation and predictable cache behavior. The capture-at-initiation / dispatch-at-completion pattern is the fundamental use case the concept serves.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/8.design/8k.Executor.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="8j.any_buffer_sink.html">AnyBufferSink</a></span>
+        <span class="next"><a href="8l.RunApi.html">Run API</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

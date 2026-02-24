@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>ReadStream Concept Design :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/8.design/8c.ReadStream.html">
+    <link rel="prev" href="8b.Separation.html">
+    <link rel="next" href="8d.ReadSource.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="8.intro.html">Design</a></li>
+    <li><a href="8c.ReadStream.html">ReadStream</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="8b.Separation.html">
+      <span class="material-symbols-outlined" title="Previous: Why Capy Is Separate">arrow_back</span>
+    </a>
+    <a accesskey="u" href="8.intro.html">
+      <span class="material-symbols-outlined" title="Up: Design">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="8d.ReadSource.html">
+      <span class="material-symbols-outlined" title="Next: ReadSource">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">ReadStream Concept Design</h1>
+  <div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document describes the design of the <code>ReadStream</code> concept: the fundamental partial-read primitive in the concept hierarchy. It explains why <code>read_some</code> is the correct building block, how composed algorithms build on top of it, and the relationship to <code>ReadSource</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_definition"><a class="anchor" href="#_definition"></a>Definition</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename T&gt;
+concept ReadStream =
+    requires(T&amp; stream, mutable_buffer_archetype buffers)
+    {
+        { stream.read_some(buffers) } -&gt; IoAwaitable;
+        requires awaitable_decomposes_to&lt;
+            decltype(stream.read_some(buffers)),
+            std::error_code, std::size_t&gt;;
+    };</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A <code>ReadStream</code> provides a single operation:</p>
+</div>
+<div class="sect2">
+<h3 id="_read_somebufferspartial_read"><a class="anchor" href="#_read_somebufferspartial_read"></a><code>read_some(buffers)</code>&#8201;&#8212;&#8201;Partial Read</h3>
+<div class="paragraph">
+<p>Reads one or more bytes from the stream into the buffer sequence. Returns <code>(error_code, std::size_t)</code> where <code>n</code> is the number of bytes read.</p>
+</div>
+<div class="sect3">
+<h4 id="_semantics"><a class="anchor" href="#_semantics"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>On success: <code>!ec</code>, <code>n &gt;= 1</code> and <code>n &lt;= buffer_size(buffers)</code>.</p>
+</li>
+<li>
+<p>On EOF: <code>ec == cond::eof</code>, <code>n == 0</code>.</p>
+</li>
+<li>
+<p>On error: <code>ec</code>, <code>n == 0</code>.</p>
+</li>
+<li>
+<p>If <code>buffer_empty(buffers)</code>: completes immediately, <code>!ec</code>, <code>n == 0</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The caller must not assume the buffer is filled. <code>read_some</code> may return fewer bytes than the buffer can hold. This is the defining property of a partial-read primitive.</p>
+</div>
+<div class="paragraph">
+<p>Once <code>read_some</code> returns an error (including EOF), the caller must not call <code>read_some</code> again. The stream is done. Not all implementations can reproduce a prior error on subsequent calls, so the behavior after an error is undefined.</p>
+</div>
+<div class="paragraph">
+<p>Buffers in the sequence are filled completely before proceeding to the next buffer in the sequence.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_buffer_lifetime"><a class="anchor" href="#_buffer_lifetime"></a>Buffer Lifetime</h4>
+<div class="paragraph">
+<p>The caller must ensure that the memory referenced by <code>buffers</code> remains valid until the <code>co_await</code> expression returns.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_conforming_signatures"><a class="anchor" href="#_conforming_signatures"></a>Conforming Signatures</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;MutableBufferSequence Buffers&gt;
+IoAwaitable auto read_some(Buffers buffers);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Buffer sequences should be accepted by value when the member function is a coroutine, to ensure the sequence lives in the coroutine frame across suspension points.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_concept_hierarchy"><a class="anchor" href="#_concept_hierarchy"></a>Concept Hierarchy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>ReadStream</code> is the base of the read-side hierarchy:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">ReadStream    { read_some }
+    |
+    v
+ReadSource    { read_some, read }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>ReadSource</code> refines <code>ReadStream</code>. Every <code>ReadSource</code> is a <code>ReadStream</code>. Algorithms constrained on <code>ReadStream</code> accept both raw streams and sources. The <code>ReadSource</code> concept adds a complete-read primitive on top of the partial-read primitive.</p>
+</div>
+<div class="paragraph">
+<p>This mirrors the write side:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">WriteStream   { write_some }
+    |
+    v
+WriteSink     { write_some, write, write_eof(buffers), write_eof() }</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_composed_algorithms"><a class="anchor" href="#_composed_algorithms"></a>Composed Algorithms</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Three composed algorithms build on <code>read_some</code>:</p>
+</div>
+<div class="sect2">
+<h3 id="_readstream_buffersfill_a_buffer_sequence"><a class="anchor" href="#_readstream_buffersfill_a_buffer_sequence"></a><code>read(stream, buffers)</code>&#8201;&#8212;&#8201;Fill a Buffer Sequence</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">auto read(ReadStream auto&amp; stream,
+          MutableBufferSequence auto const&amp; buffers)
+    -&gt; io_task&lt;std::size_t&gt;;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Loops <code>read_some</code> until the entire buffer sequence is filled or an error (including EOF) occurs. On success, <code>n == buffer_size(buffers)</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadStream Stream&gt;
+task&lt;&gt; read_header(Stream&amp; stream)
+{
+    char header[16];
+    auto [ec, n] = co_await read(
+        stream, mutable_buffer(header));
+    if(ec == cond::eof)
+        co_return;  // clean shutdown
+    if(ec)
+        co_return;
+    // header contains exactly 16 bytes
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_readstream_dynamic_bufferread_until_eof"><a class="anchor" href="#_readstream_dynamic_bufferread_until_eof"></a><code>read(stream, dynamic_buffer)</code>&#8201;&#8212;&#8201;Read Until EOF</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">auto read(ReadStream auto&amp; stream,
+          DynamicBufferParam auto&amp;&amp; buffers,
+          std::size_t initial_amount = 2048)
+    -&gt; io_task&lt;std::size_t&gt;;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Reads from the stream into a dynamic buffer until EOF is reached. The buffer grows with a 1.5x factor when filled. On success (EOF), <code>ec</code> is clear and <code>n</code> is the total bytes read.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadStream Stream&gt;
+task&lt;std::string&gt; slurp(Stream&amp; stream)
+{
+    std::string body;
+    auto [ec, n] = co_await read(
+        stream, string_dynamic_buffer(&amp;body));
+    if(ec)
+        co_return {};
+    co_return body;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_read_untilstream_dynamic_buffer_matchdelimited_read"><a class="anchor" href="#_read_untilstream_dynamic_buffer_matchdelimited_read"></a><code>read_until(stream, dynamic_buffer, match)</code>&#8201;&#8212;&#8201;Delimited Read</h3>
+<div class="paragraph">
+<p>Reads from the stream into a dynamic buffer until a delimiter or match condition is found. Used for line-oriented protocols and message framing.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadStream Stream&gt;
+task&lt;&gt; read_line(Stream&amp; stream)
+{
+    std::string line;
+    auto [ec, n] = co_await read_until(
+        stream, string_dynamic_buffer(&amp;line), "\r\n");
+    if(ec)
+        co_return;
+    // line contains data up to and including "\r\n"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_cases"><a class="anchor" href="#_use_cases"></a>Use Cases</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_incremental_processing_with_read_some"><a class="anchor" href="#_incremental_processing_with_read_some"></a>Incremental Processing with <code>read_some</code></h3>
+<div class="paragraph">
+<p>When processing data as it arrives without waiting for a full buffer, <code>read_some</code> is the right choice. This is common for real-time data or when the processing can handle partial input.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadStream Stream&gt;
+task&lt;&gt; echo(Stream&amp; stream, WriteStream auto&amp; dest)
+{
+    char buf[4096];
+    for(;;)
+    {
+        auto [ec, n] = co_await stream.read_some(
+            mutable_buffer(buf));
+        if(ec == cond::eof)
+            co_return;
+        if(ec)
+            co_return;
+
+        // Forward whatever we received immediately
+        auto [wec, nw] = co_await dest.write_some(
+            const_buffer(buf, n));
+        if(wec)
+            co_return;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_relaying_from_readstream_to_writestream"><a class="anchor" href="#_relaying_from_readstream_to_writestream"></a>Relaying from ReadStream to WriteStream</h3>
+<div class="paragraph">
+<p>When relaying data from a reader to a writer, <code>read_some</code> feeds <code>write_some</code> directly. This is the fundamental streaming pattern.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadStream Src, WriteStream Dest&gt;
+task&lt;&gt; relay(Src&amp; src, Dest&amp; dest)
+{
+    char storage[65536];
+    circular_dynamic_buffer cb(storage, sizeof(storage));
+
+    for(;;)
+    {
+        // Read into free space
+        auto mb = cb.prepare(cb.capacity());
+        auto [rec, nr] = co_await src.read_some(mb);
+        cb.commit(nr);
+
+        if(rec &amp;&amp; rec != cond::eof)
+            co_return;
+
+        // Drain to destination
+        while(cb.size() &gt; 0)
+        {
+            auto [wec, nw] = co_await dest.write_some(
+                cb.data());
+            if(wec)
+                co_return;
+            cb.consume(nw);
+        }
+
+        if(rec == cond::eof)
+            co_return;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Because <code>ReadSource</code> refines <code>ReadStream</code>, this relay function also accepts <code>ReadSource</code> types. An HTTP body source or a decompressor can be relayed to a <code>WriteStream</code> using the same function.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_relationship_to_the_write_side"><a class="anchor" href="#_relationship_to_the_write_side"></a>Relationship to the Write Side</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Read Side</th>
+<th class="tableblock halign-left valign-top">Write Side</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadStream::read_some</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteStream::write_some</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>read</code> free function (composed)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write_now</code> (composed, eager)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>read_until</code> (composed, delimited)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No write-side equivalent</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadSource::read</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteSink::write</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_design_foundations_why_errors_exclude_data"><a class="anchor" href="#_design_foundations_why_errors_exclude_data"></a>Design Foundations: Why Errors Exclude Data</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>read_some</code> contract requires that <code>n</code> is 0 whenever <code>ec</code> is set. Data and errors are mutually exclusive outcomes. This is the most consequential design decision in the <code>ReadStream</code> concept, with implications for every consumer of <code>read_some</code> in the library. The rule follows Asio&#8217;s established <code>AsyncReadStream</code> contract, is reinforced by the behavior of POSIX and Windows I/O system calls, and produces cleaner consumer code. This section explains the design and its consequences.</p>
+</div>
+<div class="sect2">
+<h3 id="_reconstructing_kohlhoffs_reasoning"><a class="anchor" href="#_reconstructing_kohlhoffs_reasoning"></a>Reconstructing Kohlhoff&#8217;s Reasoning</h3>
+<div class="paragraph">
+<p>Christopher Kohlhoff&#8217;s Asio library defines an <code>AsyncReadStream</code> concept with the identical requirement: on error, <code>bytes_transferred</code> is 0. No design rationale document accompanies this rule. The reasoning presented here was reconstructed from three sources:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>The Asio source code.</strong> The function <code>non_blocking_recv1</code> in <code>socket_ops.ipp</code> explicitly sets <code>bytes_transferred = 0</code> on every error path. The function <code>complete_iocp_recv</code> maps Windows IOCP errors to portable error codes, relying on the operating system&#8217;s guarantee that failed completions report zero bytes. These are deliberate choices, not accidental pass-through of OS behavior.</p>
+</li>
+<li>
+<p><strong>A documentation note Kohlhoff left.</strong> Titled "Why EOF is an error," it gives two reasons: composed operations need EOF-as-error to report contract violations, and EOF-as-error disambiguates the end of a stream from a successful zero-byte read. The note is terse but the implications are deep.</p>
+</li>
+<li>
+<p><strong>Analysis of the underlying system calls.</strong> POSIX <code>recv()</code> and Windows <code>WSARecv()</code> both enforce a binary outcome per call: data or error, never both. This is not because the C&#43;&#43; abstraction copied the OS, but because both levels face the same fundamental constraint.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following sections examine each of these points and their consequences.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_alignment_with_asio"><a class="anchor" href="#_alignment_with_asio"></a>Alignment with Asio</h3>
+<div class="paragraph">
+<p>Asio&#8217;s <code>AsyncReadStream</code> concept has enforced the same rule for over two decades: on error, <code>bytes_transferred</code> is 0. This is a deliberate design choice, not an accident. The Asio source code explicitly zeroes <code>bytes_transferred</code> on every error path, and the underlying system calls (POSIX <code>recv()</code>, Windows IOCP) enforce binary outcomes at the OS level. The <code>read_some</code> contract follows this established practice.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_empty_buffer_rule"><a class="anchor" href="#_the_empty_buffer_rule"></a>The Empty-Buffer Rule</h3>
+<div class="paragraph">
+<p>Every <code>ReadStream</code> must support the following:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<code>read_some(empty_buffer)</code> completes immediately with <code>{success, 0}</code>.
+</blockquote>
+</div>
+<div class="paragraph">
+<p>This is a no-op. The caller passed no buffer space, so no I/O is attempted. The operation does not inspect the stream&#8217;s internal state because that would require a probe capability&#8201;&#8212;&#8201;a way to ask "is there data? is the stream at EOF?"&#8201;&#8212;&#8201;without actually reading. Not every source supports probing. A TCP socket does not know that its peer has closed until it calls <code>recv()</code> and gets 0 back. A pipe does not know it is broken until a read fails. The empty-buffer rule is therefore unconditional: return <code>{success, 0}</code> regardless of the stream&#8217;s state.</p>
+</div>
+<div class="paragraph">
+<p>This rule is a natural consequence of the contract, not a proof of it. When no I/O is attempted, no state is discovered and no error is reported.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_why_eof_is_an_error"><a class="anchor" href="#_why_eof_is_an_error"></a>Why EOF Is an Error</h3>
+<div class="paragraph">
+<p>Kohlhoff&#8217;s documentation note gives two reasons for making EOF an error code rather than a success:</p>
+</div>
+<div class="paragraph">
+<p><strong>Composed operations need EOF-as-error to report contract violations.</strong> The composed <code>read(stream, buffer(buf, 100))</code> promises to fill exactly 100 bytes. If the stream ends after 50, the operation did not fulfill its contract. Reporting <code>{success, 50}</code> would be misleading&#8201;&#8212;&#8201;it suggests the operation completed normally. Reporting <code>{eof, 50}</code> tells the caller both what happened (50 bytes landed in the buffer) and why the operation stopped (the stream ended). EOF-as-error is the mechanism by which composed operations explain early termination.</p>
+</div>
+<div class="paragraph">
+<p><strong>EOF-as-error disambiguates the empty-buffer no-op from the end of a stream.</strong> Without EOF-as-error, both <code>read_some(empty_buffer)</code> on a live stream and <code>read_some(non_empty_buffer)</code> on an exhausted stream would produce <code>{success, 0}</code>. The caller could not distinguish "I passed no buffer" from "the stream is done." Making EOF an error code separates these two cases cleanly.</p>
+</div>
+<div class="paragraph">
+<p>These two reasons reinforce each other. Composed operations need EOF to be an error code so they can report early termination. The empty-buffer rule needs EOF to be an error code so <code>{success, 0}</code> is unambiguously a no-op. Together with the rule that errors exclude data, <code>read_some</code> results form a clean trichotomy: success with data, or an error (including EOF) without data.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_write_side_asymmetry"><a class="anchor" href="#_the_write_side_asymmetry"></a>The Write-Side Asymmetry</h3>
+<div class="paragraph">
+<p>On the write side, <code>WriteSink</code> provides <code>write_eof(buffers)</code> to atomically combine the final data with the EOF signal. A natural question follows: if the write side fuses data with EOF, why does the read side forbid it?</p>
+</div>
+<div class="paragraph">
+<p>The answer is that the two sides of the I/O boundary have different roles. The writer <em>decides</em> when to signal EOF. The reader <em>discovers</em> it. This asymmetry has three consequences:</p>
+</div>
+<div class="paragraph">
+<p><strong><code>write_eof</code> exists for correctness, not convenience.</strong> Protocol framings require the final data and the EOF marker to be emitted together so the peer observes a complete message. HTTP chunked encoding needs the terminal <code>0\r\n\r\n</code> coalesced with the final data chunk. A TLS session needs the close-notify alert coalesced with the final application data. A compressor needs <code>Z_FINISH</code> applied to the final input. These are correctness requirements, not optimizations. On the read side, whether the last bytes arrive with EOF or on a separate call does not change what the reader observes. The data and the order are identical either way.</p>
+</div>
+<div class="paragraph">
+<p><strong><code>write_eof</code> is a separate function the caller explicitly invokes.</strong> <code>write_some</code> never signals EOF. The writer opts into data-plus-EOF by calling a different function. The call site reads <code>write_eof(data)</code> and the intent is unambiguous. If <code>read_some</code> could return data with EOF, every call to <code>read_some</code> would <em>sometimes</em> be a data-only operation and <em>sometimes</em> a data-plus-EOF operation. The stream decides which mode the caller gets, at runtime. Every call site must handle both possibilities. The burden falls on every consumer in the codebase, not on a single call site that opted into the combined behavior.</p>
+</div>
+<div class="paragraph">
+<p><strong>A hypothetical <code>read_eof</code> makes no sense.</strong> On the write side, <code>write_eof</code> exists because the producer signals the end of data. On the read side, the consumer does not tell the stream to end&#8201;&#8212;&#8201;it discovers that the stream has ended. EOF flows from producer to consumer, not the reverse. There is no action the reader can take to "read the EOF." The reader discovers EOF as a side effect of attempting to read.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_a_clean_trichotomy"><a class="anchor" href="#_a_clean_trichotomy"></a>A Clean Trichotomy</h3>
+<div class="paragraph">
+<p>With the current contract, every <code>read_some</code> result falls into exactly one of three mutually exclusive cases:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Success</strong>: <code>!ec</code>, <code>n &gt;= 1</code>&#8201;&#8212;&#8201;data arrived, process it.</p>
+</li>
+<li>
+<p><strong>EOF</strong>: <code>ec == cond::eof</code>, <code>n == 0</code>&#8201;&#8212;&#8201;stream ended, no data.</p>
+</li>
+<li>
+<p><strong>Error</strong>: <code>ec</code>, <code>n == 0</code>&#8201;&#8212;&#8201;failure, no data.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Data is present if and only if the operation succeeded. This invariant&#8201;&#8212;&#8201;<em>data implies success</em>&#8201;&#8212;&#8201;eliminates an entire category of reasoning from every read loop. The common pattern is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">auto [ec, n] = co_await stream.read_some(buf);
+if(ec)
+    break;        // EOF or error -- no data to handle
+process(buf, n);  // only reached on success, n &gt;= 1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If <code>read_some</code> could return <code>n &gt; 0</code> with EOF, the loop becomes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">auto [ec, n] = co_await stream.read_some(buf);
+if(n &gt; 0)
+    process(buf, n);  // must handle data even on EOF
+if(ec)
+    break;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Every consumer pays this tax: an extra branch to handle data accompanying EOF. The branch is easy to forget. Forgetting it silently drops the final bytes of the stream&#8201;&#8212;&#8201;a bug that only manifests when the source delivers EOF with its last data rather than on a separate call. A TCP socket receiving data in one packet and FIN in another will not trigger the bug. A memory source that knows its remaining length will. The non-determinism makes the bug difficult to reproduce and diagnose.</p>
+</div>
+<div class="paragraph">
+<p>The clean trichotomy eliminates this class of bugs entirely.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conforming_sources"><a class="anchor" href="#_conforming_sources"></a>Conforming Sources</h3>
+<div class="paragraph">
+<p>Every concrete <code>ReadStream</code> implementation naturally separates its last data delivery from its EOF signal:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>TCP sockets</strong>: <code>read_some</code> maps to a single <code>recv()</code> or <code>WSARecv()</code> call, returning whatever the kernel has buffered. The kernel delivers bytes on one call and returns 0 on the next. The separation is inherent in the POSIX and Windows APIs.</p>
+</li>
+<li>
+<p><strong>TLS streams</strong>: <code>read_some</code> decrypts and returns one TLS record&#8217;s worth of application data. The close-notify alert arrives as a separate record.</p>
+</li>
+<li>
+<p><strong>HTTP content-length body</strong>: the source delivers bytes up to the content-length limit. Once the limit is reached, the next <code>read_some</code> returns EOF.</p>
+</li>
+<li>
+<p><strong>HTTP chunked body</strong>: the unchunker delivers decoded data from chunks. The terminal <code>0\r\n\r\n</code> is parsed on a separate pass that returns EOF.</p>
+</li>
+<li>
+<p><strong>Compression (inflate)</strong>: the decompressor delivers output bytes. When <code>Z_STREAM_END</code> is detected, the next read returns EOF.</p>
+</li>
+<li>
+<p><strong>Memory source</strong>: returns <code>min(requested, remaining)</code> bytes. When <code>remaining</code> reaches 0, the next call returns EOF.</p>
+</li>
+<li>
+<p><strong>QUIC streams</strong>: <code>read_some</code> returns data from received QUIC frames. Stream FIN is delivered as EOF on a subsequent call.</p>
+</li>
+<li>
+<p><strong>Buffered read streams</strong>: <code>read_some</code> returns data from an internal buffer, refilling from the underlying stream when empty. EOF propagates from the underlying stream.</p>
+</li>
+<li>
+<p><strong>Test mock streams</strong>: <code>read_some</code> returns configurable data and error sequences for testing.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>No source is forced into an unnatural pattern. The <code>read_some</code> call that discovers EOF is the natural result of attempting to read from an exhausted stream&#8201;&#8212;&#8201;not a separate probing step. Once the caller receives EOF, it stops reading.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_composed_operations_and_partial_results"><a class="anchor" href="#_composed_operations_and_partial_results"></a>Composed Operations and Partial Results</h3>
+<div class="paragraph">
+<p>The composed <code>read</code> algorithm (and <code>ReadSource::read</code>) <em>does</em> report <code>n &gt; 0</code> on EOF, because it accumulates data across multiple internal <code>read_some</code> calls. When the underlying stream signals EOF mid-accumulation, discarding the bytes already gathered would be wrong. The caller needs <code>n</code> to know how much valid data landed in the buffer.</p>
+</div>
+<div class="paragraph">
+<p>The design separates concerns cleanly: the single-shot primitive (<code>read_some</code>) delivers unambiguous results with a clean trichotomy. Composed operations that accumulate state (<code>read</code>) report what they accumulated, including partial results on EOF. Callers who need partial-on-EOF semantics get them through the composed layer, while the primitive layer remains clean.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_evidence_from_the_asio_implementation"><a class="anchor" href="#_evidence_from_the_asio_implementation"></a>Evidence from the Asio Implementation</h3>
+<div class="paragraph">
+<p>The Asio source code confirms this design at every level.</p>
+</div>
+<div class="paragraph">
+<p>On POSIX platforms, <code>non_blocking_recv1</code> in <code>socket_ops.ipp</code> calls <code>recv()</code> and branches on the result. If <code>recv()</code> returns a positive value, the bytes are reported as a successful transfer. If <code>recv()</code> returns 0 on a stream socket, EOF is reported. If <code>recv()</code> returns -1, the function explicitly sets <code>bytes_transferred = 0</code> before returning the error. The POSIX <code>recv()</code> system call itself enforces binary outcomes: it returns <code>N &gt; 0</code> on success, <code>0</code> on EOF, or <code>-1</code> on error. A single call never returns both data and an error.</p>
+</div>
+<div class="paragraph">
+<p>On Windows, <code>complete_iocp_recv</code> processes the results from <code>GetQueuedCompletionStatus</code>. It maps <code>ERROR_NETNAME_DELETED</code> to <code>connection_reset</code> and <code>ERROR_PORT_UNREACHABLE</code> to <code>connection_refused</code>. Windows IOCP similarly reports zero <code>bytes_transferred</code> on failed completions. The operating system enforces the same binary outcome per I/O completion.</p>
+</div>
+<div class="paragraph">
+<p>The one edge case is POSIX signal interruption (<code>EINTR</code>). If a signal arrives after <code>recv()</code> has already copied some bytes, the kernel returns the partial byte count as success rather than <code>-1</code>/<code>EINTR</code>. Asio handles this transparently by retrying on <code>EINTR</code>, so the caller never observes it. Even the kernel does not combine data with an error&#8201;&#8212;&#8201;it chooses to report the partial data as success.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_convergent_design_with_posix"><a class="anchor" href="#_convergent_design_with_posix"></a>Convergent Design with POSIX</h3>
+<div class="paragraph">
+<p>POSIX <code>recv()</code> independently enforces the same rule: <code>N &gt; 0</code> on success, <code>-1</code> on error, <code>0</code> on EOF. The kernel never returns "here are your last 5 bytes, and also EOF." It delivers the available bytes on one call and returns 0 on the next. This is not because the C&#43;&#43; abstraction copied POSIX semantics. It is because the kernel faces the same fundamental constraint: state is discovered through the act of I/O. The alignment between <code>read_some</code> and <code>recv()</code> is convergent design, not leaky abstraction.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>ReadStream</code> provides <code>read_some</code> as the single partial-read primitive. This is deliberately minimal:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Algorithms that need to fill a buffer completely use the <code>read</code> composed algorithm.</p>
+</li>
+<li>
+<p>Algorithms that need delimited reads use <code>read_until</code>.</p>
+</li>
+<li>
+<p>Algorithms that need to process data as it arrives use <code>read_some</code> directly.</p>
+</li>
+<li>
+<p><code>ReadSource</code> refines <code>ReadStream</code> by adding <code>read</code> for complete-read semantics.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The contract that errors exclude data follows Asio&#8217;s established <code>AsyncReadStream</code> contract, aligns with POSIX and Windows system call semantics, and produces a clean trichotomy that makes every read loop safe by construction.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/8.design/8c.ReadStream.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="8b.Separation.html">Why Capy Is Separate</a></span>
+        <span class="next"><a href="8d.ReadSource.html">ReadSource</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

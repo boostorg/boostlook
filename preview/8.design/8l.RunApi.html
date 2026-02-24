@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Run API Design :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/8.design/8l.RunApi.html">
+    <link rel="prev" href="8k.Executor.html">
+    <link rel="next" href="8m.WhyNotCobalt.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8k.Executor.html">Executor</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="8.intro.html">Design</a></li>
+    <li><a href="8l.RunApi.html">Run API</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="8k.Executor.html">
+      <span class="material-symbols-outlined" title="Previous: Executor">arrow_back</span>
+    </a>
+    <a accesskey="u" href="8.intro.html">
+      <span class="material-symbols-outlined" title="Up: Design">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="8m.WhyNotCobalt.html">
+      <span class="material-symbols-outlined" title="Next: Why Not Cobalt?">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Run API Design</h1>
+  <div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document explains the naming conventions and call syntax of the two launcher functions: <code>run_async</code> (fire-and-forget from non-coroutine code) and <code>run</code> (awaitable within a coroutine). Both accept any type satisfying <em>IoRunnable</em>&#8201;&#8212;&#8201;not just <code>task&lt;T&gt;</code>&#8201;&#8212;&#8201;and use a deliberate <strong>two-phase invocation</strong> pattern&#8201;&#8212;&#8201;<code>f(context)(task)</code>&#8201;&#8212;&#8201;that exists for a mechanical reason rooted in coroutine frame allocation timing.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_usage"><a class="anchor" href="#_usage"></a>Usage</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_run_asyncfire_and_forget_launch"><a class="anchor" href="#_run_asyncfire_and_forget_launch"></a><code>run_async</code>&#8201;&#8212;&#8201;Fire-and-Forget Launch</h3>
+<div class="paragraph">
+<p><code>run_async</code> launches any <em>IoRunnable</em> from non-coroutine code: <code>main()</code>, callback handlers, event loops. <code>task&lt;T&gt;</code> is the most common conforming type, but any user-defined type satisfying the concept works. The function does not return a value to the caller. Handlers receive the task&#8217;s result or exception after completion.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Executor only (uses default recycling allocator)
+run_async(ex)(my_task());
+
+// With a stop token for cooperative cancellation
+std::stop_source source;
+run_async(ex, source.get_token())(cancellable_task());
+
+// With a custom memory resource
+run_async(ex, my_pool)(my_task());
+
+// With a result handler
+run_async(ex, [](int result) {
+    std::cout &lt;&lt; "Got: " &lt;&lt; result &lt;&lt; "\n";
+})(compute_value());
+
+// With separate success and error handlers
+run_async(ex,
+    [](int result) { std::cout &lt;&lt; "Got: " &lt;&lt; result &lt;&lt; "\n"; },
+    [](std::exception_ptr ep) { /* handle error */ }
+)(compute_value());
+
+// Full: executor, stop_token, allocator, success handler, error handler
+run_async(ex, st, alloc, h1, h2)(my_task());</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_runawaitable_launch_within_a_coroutine"><a class="anchor" href="#_runawaitable_launch_within_a_coroutine"></a><code>run</code>&#8201;&#8212;&#8201;Awaitable Launch Within a Coroutine</h3>
+<div class="paragraph">
+<p><code>run</code> is the coroutine-side counterpart. It binds any <em>IoRunnable</em> to a (possibly different) executor and returns the result to the caller via <code>co_await</code>. It also supports overloads that customize stop token or allocator while inheriting the caller&#8217;s executor.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Switch to a different executor for CPU-bound work
+task&lt;void&gt; parent()
+{
+    int result = co_await run(worker_ex)(compute_on_worker());
+    // Completion returns to parent's executor
+}
+
+// Customize stop token, inherit caller's executor
+task&lt;void&gt; with_timeout()
+{
+    std::stop_source source;
+    co_await run(source.get_token())(subtask());
+}
+
+// Customize allocator, inherit caller's executor
+task&lt;void&gt; with_custom_alloc()
+{
+    co_await run(my_alloc)(subtask());
+}
+
+// Switch executor AND customize allocator
+task&lt;void&gt; full_control()
+{
+    co_await run(worker_ex, my_alloc)(cpu_bound_task());
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_async_on_a_strand"><a class="anchor" href="#_run_async_on_a_strand"></a><code>run_async</code> on a Strand</h3>
+<div class="paragraph">
+<p>A common pattern for launching per-connection coroutines on a strand, ensuring serialized access to connection state:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">void on_accept(tcp::socket sock)
+{
+    strand my_strand(ioc.get_executor());
+    run_async(my_strand)(handle_connection(std::move(sock)));
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_alternatives_considered"><a class="anchor" href="#_alternatives_considered"></a>Alternatives Considered</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Several alternative naming and syntax proposals were evaluated and discarded. The following table shows each rejected form alongside the chosen form.</p>
+</div>
+<div class="sect2">
+<h3 id="_builder_pattern_on_with_spawn_call"><a class="anchor" href="#_builder_pattern_on_with_spawn_call"></a>Builder Pattern: <code>on</code> / <code>with</code> / <code>spawn</code> / <code>call</code></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Rejected</th>
+<th class="tableblock halign-left valign-top">Chosen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>capy::on(ex).spawn(t)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run_async(ex)(t)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>co_await capy::on(ex).call(t)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>co_await run(ex)(t)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>co_await capy::with(st).call(t)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>co_await run(st)(t)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>co_await capy::with(alloc).call(t)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>co_await run(alloc)(t)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>capy::on(ex).block(t)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test::run_blocking(ex)(t)</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>What this looks like in practice:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Rejected: builder pattern
+capy::on(ex).spawn(my_task());
+co_await capy::on(worker_ex).call(compute());
+co_await capy::with(my_alloc).call(subtask());
+
+// Chosen: two-phase invocation
+run_async(ex)(my_task());
+co_await run(worker_ex)(compute());
+co_await run(my_alloc)(subtask());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The builder pattern reads well as English, but it creates problems in C&#43;&#43; practice. See <a href="#why-not-builder">Why Not a Builder Pattern</a> below for the full analysis.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_single_call_with_named_method"><a class="anchor" href="#_single_call_with_named_method"></a>Single-Call with Named Method</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Rejected: single-call
+run_async(ex, my_task());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This fails the allocator timing constraint entirely. The task argument <code>my_task()</code> is evaluated <em>before</em> <code>run_async</code> can set the thread-local allocator. The coroutine frame is allocated with the wrong (or no) allocator. This is not a style preference&#8201;&#8212;&#8201;it is a correctness bug.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_named_method_on_wrapper"><a class="anchor" href="#_named_method_on_wrapper"></a>Named Method on Wrapper</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Rejected: named method instead of operator()
+run_async(ex).spawn(my_task());
+co_await run(ex).call(compute());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This preserves the two-phase timing guarantee and avoids the namespace collision problems of <code>on</code>/<code>with</code>. The objection is minor: <code>.spawn()</code> and <code>.call()</code> add vocabulary without adding clarity. The wrapper already has exactly one purpose&#8201;&#8212;&#8201;accepting a task. A named method implies the wrapper has a richer interface than it does. <code>operator()</code> is the conventional C&#43;&#43; way to express "this object does exactly one thing." That said, this alternative has legs and could be revisited if the <code>()()</code> syntax proves too confusing in practice.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_names"><a class="anchor" href="#_the_names"></a>The Names</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_why_run"><a class="anchor" href="#_why_run"></a>Why <code>run</code></h3>
+<div class="paragraph">
+<p>The <code>run</code> prefix was chosen for several reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Greppability.</strong> Searching for <code>run_async(</code> or <code>run(</code> in a codebase produces unambiguous results. Short, common English words like <code>on</code> or <code>with</code> collide with local variable names, parameter names, and other libraries. A <code>using namespace capy;</code> combined with a local variable named <code>on</code> produces silent shadowing bugs.</p>
+</li>
+<li>
+<p><strong>Verb clarity.</strong> <code>run</code> tells you what happens: something executes. <code>run_async</code> tells you it executes without waiting. <code>run</code> inside a coroutine tells you control transfers and returns. Prepositions like <code>on</code> and <code>with</code> say nothing about the action&#8201;&#8212;&#8201;they are sentence fragments waiting for a verb.</p>
+</li>
+<li>
+<p><strong>Discoverability.</strong> The <code>run_*</code> family groups together in documentation, autocompletion, and alphabetical listings. Users searching for "how do I launch a task" find <code>run_async</code> and <code>run</code> as a coherent pair.</p>
+</li>
+<li>
+<p><strong>Consistency.</strong> The naming follows the established pattern from <code>io_context::run()</code>, <code>std::jthread</code>, and other C&#43;&#43; APIs where <code>run</code> means "begin executing work."</p>
+</li>
+<li>
+<p><strong>No false promises.</strong> A builder-pattern syntax like <code>on(ex).spawn(t)</code> implies composability&#8201;&#8212;&#8201;<code>on(ex).with(alloc).call(t)</code>&#8201;&#8212;&#8201;that the API does not deliver. The <code>f(x)(t)</code> pattern is honest about being exactly two steps, no more. It does not invite users to chain methods that do not exist.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="why-not-builder"><a class="anchor" href="#why-not-builder"></a>Why Not a Builder Pattern</h3>
+<div class="paragraph">
+<p>An alternative proposal suggested replacing the two-call syntax with a builder-style API:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Rejected builder pattern
+capy::on(ex).spawn(my_task());
+co_await capy::on(ex).call(compute());
+co_await capy::with(st).call(subtask());
+co_await capy::with(alloc).call(subtask());
+capy::on(ex).block(my_task());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>While the English readability of <code>on(ex).spawn(t)</code> is genuinely appealing, the approach has practical problems in a Boost library:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Namespace pollution.</strong> <code>on</code> and <code>with</code> are among the most common English words in programming. In a Boost library used alongside dozens of other namespaces, these names invite collisions. Consider what happens with <code>using namespace capy;</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">int on = 42;                  // local variable
+on(ex).spawn(my_task());      // ambiguous: variable or function?
+
+void handle(auto with) {      // parameter name
+    with(alloc).call(sub());  // won't compile
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+ The names <code>run</code> and <code>run_async</code> do not have this problem. No one names their variables <code>run_async</code>.</p>
+</div>
+</li>
+<li>
+<p><strong>Semantic ambiguity.</strong> <code>with(st)</code> versus <code>with(alloc)</code>&#8201;&#8212;&#8201;with <em>what</em>, exactly? The current API uses <code>run(st)</code> and <code>run(alloc)</code> where overload resolution disambiguates naturally because the verb <code>run</code> provides context. A bare preposition provides none.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// What does "with" mean here? Stop token or allocator?
+co_await capy::with(x).call(subtask());
+
+// "run" provides a verb -- the argument type disambiguates
+co_await run(x)(subtask());</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Builder illusion.</strong> Dot-chaining suggests composability that does not exist. Users will naturally try:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// These look reasonable but don't work
+capy::on(ex).with(alloc).call(my_task());
+capy::on(ex).with(st).with(alloc).spawn(my_task(), h1, h2);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+ The current syntax makes the interface boundary explicit: the first call captures <em>all</em> context, the second call accepts the task. There is no dot-chain to extend.</p>
+</div>
+</li>
+<li>
+<p><strong>Erases the test boundary.</strong> <code>run_blocking</code> lives in <code>capy::test</code> deliberately&#8201;&#8212;&#8201;it is a test utility, not a production API. The proposed <code>on(ex).block(t)</code> places it alongside <code>.spawn()</code> and <code>.call()</code> as if it were a first-class production method. That is a promotion this API has not earned.</p>
+</li>
+<li>
+<p><strong>Hidden critical ordering.</strong> The two-phase invocation exists for a mechanical reason (allocator timing, described below). With <code>on(ex).spawn(t)</code>, the critical sequencing guarantee is buried behind what looks like a casual method call. The <code>()()</code> syntax is pedagogically valuable&#8201;&#8212;&#8201;it signals that something important happens in two distinct steps.</p>
+</li>
+<li>
+<p><strong>Overload count does not shrink.</strong> <code>run_async</code> has 18 overloads for good reason (executor x stop_token x allocator x handlers). The builder pattern still needs all those combinations&#8201;&#8212;&#8201;they just move from free function overloads to constructor or method overloads. The complexity does not vanish; it relocates.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_two_phase_invocation"><a class="anchor" href="#_the_two_phase_invocation"></a>The Two-Phase Invocation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_the_problem_allocator_timing"><a class="anchor" href="#_the_problem_allocator_timing"></a>The Problem: Allocator Timing</h3>
+<div class="paragraph">
+<p>Coroutine frame allocation happens <em>before</em> the coroutine body executes. When the compiler encounters a coroutine call, it:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Calls <code>operator new</code> to allocate the frame</p>
+</li>
+<li>
+<p>Constructs the promise object</p>
+</li>
+<li>
+<p>Begins execution of the coroutine body</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Any mechanism that injects the allocator <em>after</em> the call&#8201;&#8212;&#8201;receiver queries, <code>await_transform</code>, explicit method calls&#8201;&#8212;&#8201;arrives too late. The frame is already allocated.</p>
+</div>
+<div class="paragraph">
+<p>This is the fundamental tension identified in D4003 �3.3:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The allocator must be present at invocation. Coroutine frame
+allocation has a fundamental timing constraint: <code>operator new</code>
+executes before the coroutine body. When a coroutine is called,
+the compiler allocates the frame first, then begins execution.
+Any mechanism that injects context later&#8201;&#8212;&#8201;receiver connection,
+<code>await_transform</code>, explicit method calls&#8201;&#8212;&#8201;arrives too late.</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_solution_c17_postfix_evaluation_order"><a class="anchor" href="#_the_solution_c17_postfix_evaluation_order"></a>The Solution: C&#43;&#43;17 Postfix Evaluation Order</h3>
+<div class="paragraph">
+<p>C&#43;&#43;17 guarantees that in a postfix-expression call, the postfix-expression is sequenced before the argument expressions:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The postfix-expression is sequenced before each expression in
+the expression-list and any default argument.&#8201;&#8212;&#8201;[expr.call]</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>In the expression <code>run_async(ex)(my_task())</code>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>run_async(ex)</code> evaluates first. This returns a wrapper object (<code>run_async_wrapper</code>) whose constructor calls <code>set_current_frame_allocator()</code>&#8201;&#8212;&#8201;storing a thread-local pointer to the memory resource.</p>
+</li>
+<li>
+<p><code>my_task()</code> evaluates second. The coroutine&#8217;s <code>operator new</code> reads the thread-local pointer and allocates the frame from it.</p>
+</li>
+<li>
+<p><code>operator()</code> on the wrapper takes ownership of the task and dispatches it to the executor.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Step 1: wrapper constructor sets TLS allocator
+//         v~~~~~~~~~~~~~~v
+   run_async(ex, alloc)    (my_task());
+//                          ^~~~~~~~~^
+// Step 2: task frame allocated using TLS allocator</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This sequencing is not an implementation detail&#8201;&#8212;&#8201;it is the <em>only correct way</em> to inject an allocator into a coroutine&#8217;s frame allocation when the allocator is not known at compile time.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_it_works_in_the_code"><a class="anchor" href="#_how_it_works_in_the_code"></a>How It Works in the Code</h3>
+<div class="paragraph">
+<p>The <code>run_async_wrapper</code> constructor sets the thread-local allocator:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">run_async_wrapper(Ex ex, std::stop_token st, Handlers h, Alloc a)
+    : tr_(detail::make_trampoline&lt;Ex, Handlers, Alloc&gt;(
+        std::move(ex), std::move(h), std::move(a)))
+    , st_(std::move(st))
+{
+    // Set TLS before task argument is evaluated
+    set_current_frame_allocator(tr_.h_.promise().get_resource());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The task&#8217;s <code>operator new</code> reads it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">static void* operator new(std::size_t size)
+{
+    auto* mr = get_current_frame_allocator();
+    if(!mr)
+        mr = std::pmr::get_default_resource();
+    return mr-&gt;allocate(size, alignof(std::max_align_t));
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The wrapper is <code><a id="nodiscard"></a></code> and its <code>operator()</code> is rvalue-ref-qualified, preventing misuse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Correct: wrapper is a temporary, used immediately
+run_async(ex)(my_task());
+
+// Compile error: cannot call operator() on an lvalue
+auto w = run_async(ex);
+w(my_task());  // Error: requires rvalue</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_run_variant"><a class="anchor" href="#_the_run_variant"></a>The <code>run</code> Variant</h3>
+<div class="paragraph">
+<p>The <code>run</code> function uses the same two-phase pattern inside coroutines. An additional subtlety arises: the wrapper is a temporary that dies before <code>co_await</code> suspends the caller. The wrapper&#8217;s <code>frame_memory_resource</code> would be destroyed before the child task executes.</p>
+</div>
+<div class="paragraph">
+<p>The solution is to store a <em>copy</em> of the allocator in the awaitable returned by <code>operator()</code>. Since standard allocator copies are equivalent&#8201;&#8212;&#8201;memory allocated with one copy can be deallocated with another&#8201;&#8212;&#8201;this preserves correctness while keeping the allocator alive for the task&#8217;s duration.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comparison_with_stdexecution"><a class="anchor" href="#_comparison_with_stdexecution"></a>Comparison with <code>std::execution</code></h3>
+<div class="paragraph">
+<p>In <code>std::execution</code> (P2300), context flows <em>backward</em> from receiver to sender via queries <em>after</em> <code>connect()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">task&lt;int&gt; async_work();              // Frame allocated NOW
+auto sndr = async_work();
+auto op = connect(sndr, receiver);   // Allocator available NOW -- too late
+start(op);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the <em>IoAwaitable</em> model, context flows <em>forward</em> from launcher to task:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">1. Set TLS allocator     --&gt;  2. Call task()
+                               3. operator new (uses TLS)
+                               4. await_suspend</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The allocator is ready before the frame is created. No query machinery can retroactively fix an allocation that already happened.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run_async(ctx)(task)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fire-and-forget launch from non-coroutine code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>co_await run(ctx)(task)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Awaitable launch within a coroutine</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The <code>run</code> name is greppable, unambiguous, and won&#8217;t collide with local variables in a namespace-heavy Boost codebase. The <code>f(ctx)(task)</code> syntax exists because coroutine frame allocation requires the allocator to be set <em>before</em> the task expression is evaluated, and C&#43;&#43;17 postfix sequencing guarantees exactly that ordering. The syntax is intentionally explicit about its two steps&#8201;&#8212;&#8201;it tells the reader that something important happens between them.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/8.design/8l.RunApi.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="8k.Executor.html">Executor</a></span>
+        <span class="next"><a href="8m.WhyNotCobalt.html">Why Not Cobalt?</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

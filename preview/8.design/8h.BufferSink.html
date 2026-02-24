@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>BufferSink Concept Design :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/8.design/8h.BufferSink.html">
+    <link rel="prev" href="8g.WriteSink.html">
+    <link rel="next" href="8i.TypeEraseAwaitable.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="8.intro.html">Design</a></li>
+    <li><a href="8h.BufferSink.html">BufferSink</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="8g.WriteSink.html">
+      <span class="material-symbols-outlined" title="Previous: WriteSink">arrow_back</span>
+    </a>
+    <a accesskey="u" href="8.intro.html">
+      <span class="material-symbols-outlined" title="Up: Design">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="8i.TypeEraseAwaitable.html">
+      <span class="material-symbols-outlined" title="Next: Type-Erasing Awaitables">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">BufferSink Concept Design</h1>
+  <div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document describes the design of the <code>BufferSink</code> concept, the rationale behind each member function, and the relationship between <code>BufferSink</code>, <code>WriteSink</code>, and the <code>pull_from</code> algorithm. <code>BufferSink</code> models the "callee owns buffers" pattern: the sink provides writable memory and the caller writes directly into it, enabling zero-copy data transfer.</p>
+</div>
+<div class="paragraph">
+<p>Where <code>WriteSink</code> requires the caller to supply buffer sequences containing the data to be written, <code>BufferSink</code> inverts the ownership: the sink exposes its internal storage and the caller fills it in place. The two concepts are independent&#8201;&#8212;&#8201;neither refines the other&#8201;&#8212;&#8201;but the type-erased wrapper <code>any_buffer_sink</code> satisfies both, bridging the two patterns behind a single runtime interface.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_concept_definition"><a class="anchor" href="#_concept_definition"></a>Concept Definition</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;typename T&gt;
+concept BufferSink =
+    requires(T&amp; sink, std::span&lt;mutable_buffer&gt; dest, std::size_t n)
+    {
+        // Synchronous: get writable buffers from sink's internal storage
+        { sink.prepare(dest) } -&gt; std::same_as&lt;std::span&lt;mutable_buffer&gt;&gt;;
+
+        // Async: commit n bytes written
+        { sink.commit(n) } -&gt; IoAwaitable;
+        requires awaitable_decomposes_to&lt;
+            decltype(sink.commit(n)),
+            std::error_code&gt;;
+
+        // Async: commit n final bytes and signal end of data
+        { sink.commit_eof(n) } -&gt; IoAwaitable;
+        requires awaitable_decomposes_to&lt;
+            decltype(sink.commit_eof(n)),
+            std::error_code&gt;;
+    };</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>BufferSink</code> is a standalone concept. It does not refine <code>WriteSink</code> or <code>WriteStream</code>. The two concept families model different ownership patterns and can coexist on the same concrete type.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_caller_vs_callee_buffer_ownership"><a class="anchor" href="#_caller_vs_callee_buffer_ownership"></a>Caller vs Callee Buffer Ownership</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The library provides two concept families for writing data:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Aspect</th>
+<th class="tableblock halign-left valign-top">WriteSink (caller owns)</th>
+<th class="tableblock halign-left valign-top">BufferSink (callee owns)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Buffer origin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Caller allocates and fills buffers, then passes them to the sink.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sink exposes its internal storage; caller writes into it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Copy cost</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">One copy: caller&#8217;s buffer &#8594; sink&#8217;s internal storage (or I/O submission).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zero copies when the sink&#8217;s internal storage is the final destination
+  (e.g., a ring buffer, kernel page, or DMA region).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API shape</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write_some(buffers)</code>, <code>write(buffers)</code>, <code>write_eof(buffers)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>prepare(dest)</code>, <code>commit(n)</code>, <code>commit_eof(n)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Natural for</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Protocol serializers that produce data into their own buffers, then hand
+  it off.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sinks backed by pre-allocated memory (ring buffers, memory-mapped files,
+  hardware DMA descriptors).</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Both patterns are necessary. A compression sink, for example, naturally owns the output buffer where compressed data lands; the caller feeds uncompressed data and the compressor writes results directly into the ring buffer. Conversely, an HTTP serializer naturally produces header bytes into its own scratch space and then hands the buffer sequence to a <code>WriteSink</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_member_functions"><a class="anchor" href="#_member_functions"></a>Member Functions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_preparedestexpose_writable_buffers"><a class="anchor" href="#_preparedestexpose_writable_buffers"></a><code>prepare(dest)</code>&#8201;&#8212;&#8201;Expose Writable Buffers</h3>
+<div class="paragraph">
+<p>Fills the provided span with mutable buffer descriptors pointing to the sink&#8217;s internal storage. This operation is synchronous.</p>
+</div>
+<div class="sect3">
+<h4 id="_signature"><a class="anchor" href="#_signature"></a>Signature</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">std::span&lt;mutable_buffer&gt; prepare(std::span&lt;mutable_buffer&gt; dest);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_semantics"><a class="anchor" href="#_semantics"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Returns a (possibly empty) subspan of <code>dest</code> populated with buffer descriptors. Each descriptor points to a writable region of the sink&#8217;s internal storage.</p>
+</li>
+<li>
+<p>If the returned span is empty, the sink has no available space. The caller should call <code>commit</code> (possibly with <code>n == 0</code>) to flush buffered data and then retry <code>prepare</code>.</p>
+</li>
+<li>
+<p>The returned buffers remain valid until the next call to <code>prepare</code>, <code>commit</code>, <code>commit_eof</code>, or until the sink is destroyed.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_synchronous"><a class="anchor" href="#_why_synchronous"></a>Why Synchronous</h4>
+<div class="paragraph">
+<p><code>prepare</code> is synchronous because it is a bookkeeping operation: the sink returns pointers into memory it already owns. No I/O or blocking is involved. Making <code>prepare</code> asynchronous would force a coroutine suspension on every iteration of the write loop, adding overhead with no benefit.</p>
+</div>
+<div class="paragraph">
+<p>When the sink has no available space, the correct response is to <code>commit</code> the pending data (which <em>is</em> asynchronous, as it may trigger I/O), then call <code>prepare</code> again. This keeps the synchronous fast path free of unnecessary suspensions.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_a_span_parameter"><a class="anchor" href="#_why_a_span_parameter"></a>Why a Span Parameter</h4>
+<div class="paragraph">
+<p>The caller provides the output span rather than the sink returning a fixed-size container. This lets the caller control the stack allocation and avoids heap allocation for the buffer descriptor array:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">mutable_buffer arr[16];
+auto bufs = sink.prepare(arr);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The sink fills as many descriptors as it can (up to <code>dest.size()</code>) and returns the populated subspan.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_commitnfinalize_written_data"><a class="anchor" href="#_commitnfinalize_written_data"></a><code>commit(n)</code>&#8201;&#8212;&#8201;Finalize Written Data</h3>
+<div class="paragraph">
+<p>Commits <code>n</code> bytes that the caller wrote into the buffers returned by the most recent <code>prepare</code>. Returns <code>(error_code)</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_semantics_2"><a class="anchor" href="#_semantics_2"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>On success: <code>!ec</code>.</p>
+</li>
+<li>
+<p>On error: <code>ec</code>.</p>
+</li>
+<li>
+<p>May trigger underlying I/O (flush to socket, compression pass, etc.).</p>
+</li>
+<li>
+<p>After <code>commit</code>, the buffers returned by the prior <code>prepare</code> are invalidated. The caller must call <code>prepare</code> again before writing more data.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_when_to_use"><a class="anchor" href="#_when_to_use"></a>When to Use</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>After writing data into prepared buffers and needing to continue the transfer.</p>
+</li>
+<li>
+<p>To flush when <code>prepare</code> returns an empty span (call <code>commit(0)</code> to drain the sink&#8217;s internal buffer and free space).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_commit_eofncommit_final_data_and_signal_eof"><a class="anchor" href="#_commit_eofncommit_final_data_and_signal_eof"></a><code>commit_eof(n)</code>&#8201;&#8212;&#8201;Commit Final Data and Signal EOF</h3>
+<div class="paragraph">
+<p>Commits <code>n</code> bytes written to the most recent <code>prepare</code> buffers and signals end-of-stream. Returns <code>(error_code)</code>.</p>
+</div>
+<div class="paragraph">
+<p>After a successful call, no further <code>prepare</code>, <code>commit</code>, or <code>commit_eof</code> operations are permitted.</p>
+</div>
+<div class="sect3">
+<h4 id="_semantics_3"><a class="anchor" href="#_semantics_3"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>On success: <code>!ec</code>. The sink is finalized.</p>
+</li>
+<li>
+<p>On error: <code>ec</code>. The sink state is unspecified.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_commit_eof_takes_a_byte_count"><a class="anchor" href="#_why_commit_eof_takes_a_byte_count"></a>Why <code>commit_eof</code> Takes a Byte Count</h4>
+<div class="paragraph">
+<p>Combining the final commit with the EOF signal in a single operation enables the same optimizations that motivate <code>write_eof(buffers)</code> on the <code>WriteSink</code> side:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>HTTP chunked encoding</strong>: <code>commit_eof(n)</code> can emit the data chunk followed by the terminal <code>0\r\n\r\n</code> in a single system call.</p>
+</li>
+<li>
+<p><strong>Compression (deflate)</strong>: <code>commit_eof(n)</code> can pass <code>Z_FINISH</code> to the final <code>deflate()</code> call, producing the compressed data and the stream trailer together.</p>
+</li>
+<li>
+<p><strong>TLS close-notify</strong>: <code>commit_eof(n)</code> can coalesce the final application data with the TLS close-notify alert.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A separate <code>commit(n)</code> followed by <code>commit_eof(0)</code> would prevent these optimizations because the sink cannot know during <code>commit</code> that no more data will follow.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_relationship_to_pull_from"><a class="anchor" href="#_relationship_to_pull_from"></a>Relationship to <code>pull_from</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>pull_from</code> is a composed algorithm that transfers data from a <code>ReadSource</code> (or <code>ReadStream</code>) into a <code>BufferSink</code>. It is the callee-owns-buffers counterpart to <code>push_to</code>, which transfers from a <code>BufferSource</code> to a <code>WriteSink</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadSource Src, BufferSink Sink&gt;
+io_task&lt;std::size_t&gt;
+pull_from(Src&amp; source, Sink&amp; sink);
+
+template&lt;ReadStream Src, BufferSink Sink&gt;
+io_task&lt;std::size_t&gt;
+pull_from(Src&amp; source, Sink&amp; sink);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The algorithm loops:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call <code>sink.prepare(arr)</code> to get writable buffers.</p>
+</li>
+<li>
+<p>Call <code>source.read(bufs)</code> (or <code>source.read_some(bufs)</code>) to fill them.</p>
+</li>
+<li>
+<p>Call <code>sink.commit(n)</code> to finalize the data.</p>
+</li>
+<li>
+<p>When the source signals EOF, call <code>sink.commit_eof(0)</code> to finalize the sink.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><code>pull_from</code> is the right tool when the data source satisfies <code>ReadSource</code> or <code>ReadStream</code> and the destination satisfies <code>BufferSink</code>. It avoids the intermediate caller-owned buffer that a <code>WriteSink</code>-based transfer would require.</p>
+</div>
+<div class="paragraph">
+<p>The two <code>pull_from</code> overloads differ in how they read from the source:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Overload</th>
+<th class="tableblock halign-left valign-top">Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pull_from(ReadSource, BufferSink)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uses <code>source.read(bufs)</code> for complete reads. Each iteration fills the
+  prepared buffers entirely (or returns EOF/error).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pull_from(ReadStream, BufferSink)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uses <code>source.read_some(bufs)</code> for partial reads. Each iteration
+  commits whatever data was available, providing lower latency.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_relationship_to_writesink"><a class="anchor" href="#_relationship_to_writesink"></a>Relationship to <code>WriteSink</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>BufferSink</code> and <code>WriteSink</code> are independent concepts serving different ownership models. A concrete type may satisfy one, the other, or both.</p>
+</div>
+<div class="paragraph">
+<p>The type-erased wrapper <code>any_buffer_sink</code> satisfies both concepts. When the wrapped type satisfies only <code>BufferSink</code>, the <code>WriteSink</code> operations (<code>write_some</code>, <code>write</code>, <code>write_eof</code>) are synthesized from <code>prepare</code> and <code>commit</code> with a <code>buffer_copy</code> step. When the wrapped type satisfies both <code>BufferSink</code> and <code>WriteSink</code>, the native write operations are forwarded directly through the virtual boundary with no extra copy.</p>
+</div>
+<div class="paragraph">
+<p>This dual-concept bridge lets algorithms constrained on <code>WriteSink</code> work with any <code>BufferSink</code> through <code>any_buffer_sink</code>, and lets algorithms constrained on <code>BufferSink</code> work natively with the callee-owns-buffers pattern.</p>
+</div>
+<div class="sect2">
+<h3 id="_transfer_algorithm_matrix"><a class="anchor" href="#_transfer_algorithm_matrix"></a>Transfer Algorithm Matrix</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Source</th>
+<th class="tableblock halign-left valign-top">Sink</th>
+<th class="tableblock halign-left valign-top">Algorithm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSource</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteSink</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>push_to</code>&#8201;&#8212;&#8201;pulls from source, writes to sink</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSource</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteStream</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>push_to</code>&#8201;&#8212;&#8201;pulls from source, writes partial to stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadSource</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSink</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pull_from</code>&#8201;&#8212;&#8201;prepares sink buffers, reads into them</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadStream</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSink</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pull_from</code>&#8201;&#8212;&#8201;prepares sink buffers, reads partial into them</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_cases"><a class="anchor" href="#_use_cases"></a>Use Cases</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_zero_copy_transfer"><a class="anchor" href="#_zero_copy_transfer"></a>Zero-Copy Transfer</h3>
+<div class="paragraph">
+<p>When the sink&#8217;s internal storage is the final destination (a ring buffer, a kernel page, a DMA region), the caller writes directly into it with no intermediate copy.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;BufferSink Sink&gt;
+task&lt;&gt; fill_sink(Sink&amp; sink, std::string_view data)
+{
+    std::size_t written = 0;
+    while(written &lt; data.size())
+    {
+        mutable_buffer arr[16];
+        auto bufs = sink.prepare(arr);
+        if(bufs.empty())
+        {
+            auto [ec] = co_await sink.commit(0);
+            if(ec)
+                co_return;
+            continue;
+        }
+
+        std::size_t n = buffer_copy(
+            bufs,
+            const_buffer(
+                data.data() + written,
+                data.size() - written));
+        written += n;
+
+        if(written == data.size())
+        {
+            auto [ec] = co_await sink.commit_eof(n);
+            if(ec)
+                co_return;
+        }
+        else
+        {
+            auto [ec] = co_await sink.commit(n);
+            if(ec)
+                co_return;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transferring_from_a_readsource"><a class="anchor" href="#_transferring_from_a_readsource"></a>Transferring from a ReadSource</h3>
+<div class="paragraph">
+<p>The <code>pull_from</code> algorithm reads data directly into the sink&#8217;s buffers, avoiding a caller-owned intermediate buffer entirely.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadSource Source, BufferSink Sink&gt;
+task&lt;&gt; transfer(Source&amp; source, Sink&amp; sink)
+{
+    auto [ec, total] = co_await pull_from(source, sink);
+    if(ec)
+        co_return;
+    // total bytes transferred with zero intermediate copies
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Compare with the <code>WriteSink</code> approach, which requires an intermediate buffer:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadStream Source, WriteSink Sink&gt;
+task&lt;&gt; transfer(Source&amp; source, Sink&amp; sink)
+{
+    char buf[8192];  // intermediate buffer
+    for(;;)
+    {
+        auto [ec, n] = co_await source.read_some(
+            mutable_buffer(buf));
+        if(ec == cond::eof)
+        {
+            auto [wec] = co_await sink.write_eof();
+            co_return;
+        }
+        if(ec)
+            co_return;
+        auto [wec, nw] = co_await sink.write(
+            const_buffer(buf, n));
+        if(wec)
+            co_return;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>BufferSink</code> path eliminates the <code>buf[8192]</code> intermediate buffer.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_body_sink"><a class="anchor" href="#_http_response_body_sink"></a>HTTP Response Body Sink</h3>
+<div class="paragraph">
+<p>An HTTP response body can be consumed through a <code>BufferSink</code> interface. The concrete implementation handles transfer encoding behind the abstraction.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;&gt; receive_body(
+    any_buffer_sink&amp; body,
+    ReadSource auto&amp; source)
+{
+    auto [ec, n] = co_await pull_from(source, body);
+    if(ec)
+        co_return;
+    // Body fully received and committed
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The caller does not know whether the body uses content-length, chunked encoding, or compression. The <code>BufferSink</code> interface handles the difference.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compression_pipeline"><a class="anchor" href="#_compression_pipeline"></a>Compression Pipeline</h3>
+<div class="paragraph">
+<p>A compression sink owns an output ring buffer where compressed data lands. The caller writes uncompressed data into prepared buffers, and <code>commit</code> triggers a compression pass.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;BufferSink Sink&gt;
+task&lt;&gt; compress_input(Sink&amp; sink, std::span&lt;const char&gt; input)
+{
+    std::size_t pos = 0;
+    while(pos &lt; input.size())
+    {
+        mutable_buffer arr[16];
+        auto bufs = sink.prepare(arr);
+        if(bufs.empty())
+        {
+            auto [ec] = co_await sink.commit(0);
+            if(ec)
+                co_return;
+            continue;
+        }
+
+        std::size_t n = buffer_copy(
+            bufs,
+            const_buffer(input.data() + pos,
+                         input.size() - pos));
+        pos += n;
+
+        auto [ec] = co_await sink.commit(n);
+        if(ec)
+            co_return;
+    }
+    auto [ec] = co_await sink.commit_eof(0);
+    if(ec)
+        co_return;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>commit_eof(0)</code> call lets the compression sink pass <code>Z_FINISH</code> to the final deflate call, flushing the compressed stream trailer.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bridging_to_writesink_via_any_buffer_sink"><a class="anchor" href="#_bridging_to_writesink_via_any_buffer_sink"></a>Bridging to WriteSink via <code>any_buffer_sink</code></h3>
+<div class="paragraph">
+<p>When a function is constrained on <code>WriteSink</code> but the concrete type satisfies only <code>BufferSink</code>, <code>any_buffer_sink</code> bridges the gap.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;WriteSink Sink&gt;
+task&lt;&gt; send_message(Sink&amp; sink, std::string_view msg);
+
+// Concrete type satisfies BufferSink only
+my_ring_buffer ring;
+any_buffer_sink abs(ring);
+
+// Works: any_buffer_sink satisfies WriteSink
+co_await send_message(abs, "hello");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When the wrapped type also satisfies <code>WriteSink</code>, <code>any_buffer_sink</code> forwards the native write operations directly, avoiding the synthesized <code>prepare</code> + <code>buffer_copy</code> + <code>commit</code> path.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_alternatives_considered"><a class="anchor" href="#_alternatives_considered"></a>Alternatives Considered</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_combined_prepare_and_commit"><a class="anchor" href="#_combined_prepare_and_commit"></a>Combined Prepare-and-Commit</h3>
+<div class="paragraph">
+<p>An alternative design combined the prepare and commit steps into a single asynchronous operation: <code>write(dest) &#8594; (error_code, span)</code>, where the sink returns writable buffers and the commit happens on the next call. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The synchronous <code>prepare</code> is a pure bookkeeping operation. Making it asynchronous forces a coroutine suspension on every iteration, even when the sink has space available.</p>
+</li>
+<li>
+<p>Separating <code>prepare</code> from <code>commit</code> lets the caller fill multiple prepared buffers before incurring the cost of an asynchronous commit.</p>
+</li>
+<li>
+<p>The two-step protocol makes the buffer lifetime explicit: buffers from <code>prepare</code> are valid until <code>commit</code> or <code>commit_eof</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prepare_returning_a_count_instead_of_a_span"><a class="anchor" href="#_prepare_returning_a_count_instead_of_a_span"></a><code>prepare</code> Returning a Count Instead of a Span</h3>
+<div class="paragraph">
+<p>An earlier design had <code>prepare</code> fill a raw pointer array and return a count (<code>std::size_t prepare(mutable_buffer* arr, std::size_t max)</code>). This was replaced by the span-based interface because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>std::span&lt;mutable_buffer&gt;</code> is self-describing: it carries both the pointer and the size, eliminating a class of off-by-one errors.</p>
+</li>
+<li>
+<p>Returning a subspan of the input span is idiomatic C&#43;&#43; and composes well with range-based code.</p>
+</li>
+<li>
+<p>The raw-pointer interface required two parameters (pointer + count) where the span interface requires one.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_separate_flush_operation"><a class="anchor" href="#_separate_flush_operation"></a>Separate <code>flush</code> Operation</h3>
+<div class="paragraph">
+<p>A design with an explicit <code>flush</code> method (distinct from <code>commit</code>) was considered, where <code>commit</code> would only buffer data and <code>flush</code> would trigger I/O. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It adds a fourth operation to the concept without clear benefit. The <code>commit</code> operation already serves both roles: it finalizes the caller&#8217;s data and may trigger I/O at the sink&#8217;s discretion.</p>
+</li>
+<li>
+<p>A sink that wants to defer I/O can do so internally by accumulating committed data and flushing when its buffer is full. The caller does not need to know when physical I/O occurs.</p>
+</li>
+<li>
+<p>Adding <code>flush</code> would complicate the <code>pull_from</code> algorithm, which would need to decide when to call <code>flush</code> versus <code>commit</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_buffersink_refining_writesink"><a class="anchor" href="#_buffersink_refining_writesink"></a><code>BufferSink</code> Refining <code>WriteSink</code></h3>
+<div class="paragraph">
+<p>A design where <code>BufferSink</code> refined <code>WriteSink</code> (requiring all types to implement both interfaces) was considered. This was rejected because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Many natural <code>BufferSink</code> types (ring buffers, DMA descriptors) have no meaningful <code>write_some</code> primitive. Their data path is prepare-then-commit, not write-from-caller-buffer.</p>
+</li>
+<li>
+<p>Requiring <code>write_some</code>, <code>write</code>, and <code>write_eof</code> on every <code>BufferSink</code> would force implementations to synthesize these operations even when they are never called.</p>
+</li>
+<li>
+<p>The <code>any_buffer_sink</code> wrapper provides the bridge when needed, without burdening every concrete type.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Contract</th>
+<th class="tableblock halign-left valign-top">Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>prepare(dest)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Synchronous. Fills span with writable buffer descriptors from the
+  sink&#8217;s internal storage. Returns empty span if no space is available.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every write iteration: obtain writable memory before filling it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commit(n)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Async. Commits <code>n</code> bytes to the sink. May trigger I/O.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interior iterations of a transfer loop.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commit_eof(n)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Async. Commits <code>n</code> bytes and signals end-of-stream. Finalizes the sink.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Final iteration: deliver last data and close the stream.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>BufferSink</code> is the callee-owns-buffers counterpart to <code>WriteSink</code>. The <code>pull_from</code> algorithm transfers data from a <code>ReadSource</code> or <code>ReadStream</code> into a <code>BufferSink</code>, and <code>any_buffer_sink</code> bridges the two patterns by satisfying both <code>BufferSink</code> and <code>WriteSink</code> behind a single type-erased interface.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/8.design/8h.BufferSink.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="8g.WriteSink.html">WriteSink</a></span>
+        <span class="next"><a href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

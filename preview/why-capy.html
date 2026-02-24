@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>Why Capy? :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/why-capy.html">
+    <link rel="prev" href="index.html">
+    <link rel="next" href="quick-start.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../_/css/boostlook.css">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../_'</script>
+<link rel="icon" href="../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="index.html">Introduction</a>
+        </li>
+              <li class=" is-current-page" data-depth="1">
+            <a class="nav-link" href="why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.design/8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8.design/8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="why-capy.html">Why Capy?</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="index.html">
+      <span class="material-symbols-outlined" title="Previous: Introduction">arrow_back</span>
+    </a>
+    <a class="disabled" accesskey="u" aria-disabled="true" tabindex="-1">
+      <span class="material-symbols-outlined" title="Up:">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="quick-start.html">
+      <span class="material-symbols-outlined" title="Next: Quick Start">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">Why Capy?</h1>
+  <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Boost.Asio is currently the world leader in portable asynchronous I/O. The standard is silent here. The global ecosystem offers nothing comparable.</p>
+</div>
+<div class="paragraph">
+<p><strong>Capy is the first offering which surpasses Boost.Asio in its domain</strong></p>
+</div>
+<div class="paragraph">
+<p>The sections that follow will demonstrate this claim. Each section examines a domain where Capy innovates—not by reinventing what works, but by solving problems that have remained unsolved.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_coroutine_only_stream_concepts"><a class="anchor" href="#_coroutine_only_stream_concepts"></a>Coroutine-Only Stream Concepts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When Asio introduced <code>AsyncReadStream</code> and <code>AsyncWriteStream</code>, it was revolutionary. For the first time, C&#43;&#43; had formal concepts for buffer-oriented I/O. You could write algorithms that worked with any stream—TCP sockets, SSL connections, serial ports—without knowing the concrete type.</p>
+</div>
+<div class="paragraph">
+<p>But Asio made a pragmatic choice: support every continuation style. Callbacks. Futures. Coroutines. This "universal model" meant the same async operation could complete in any of these ways. Flexibility came at a cost. The implementation had to handle all cases. Optimizations specific to one model were off the table.</p>
+</div>
+<div class="paragraph">
+<p>Capy makes a different choice. It commits fully to coroutines. This isn&#8217;t a limitation—it&#8217;s a liberation. When you know the continuation is always a coroutine, you can optimize in ways that hybrid approaches cannot. The frame is always there. The executor context propagates naturally. Cancellation flows downward without ceremony.</p>
+</div>
+<div class="paragraph">
+<p>No other library in existence offers coroutine-only stream concepts. Capy is the first.</p>
+</div>
+<div class="sect2">
+<h3 id="_what_capy_offers"><a class="anchor" href="#_what_capy_offers"></a>What Capy Offers</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ReadStream</code>, <code>WriteStream</code>, <code>Stream</code> — partial I/O (returns what&#8217;s available)</p>
+</li>
+<li>
+<p><code>ReadSource</code>, <code>WriteSink</code> — complete I/O with EOF signaling</p>
+</li>
+<li>
+<p><code>BufferSource</code>, <code>BufferSink</code> — zero-copy callee-owns-buffers pattern</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comparison"><a class="anchor" href="#_comparison"></a>Comparison</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Capy</th>
+<th class="tableblock halign-left valign-top">Asio</th>
+<th class="tableblock halign-left valign-top">std</th>
+<th class="tableblock halign-left valign-top">World</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadStream</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AsyncReadStream</code>*</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteStream</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AsyncWriteStream</code>*</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Stream</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReadSource</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WriteSink</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSource</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BufferSink</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>*Asio&#8217;s concepts are hybrid (callbacks/futures/coroutines), not coroutine-only</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_type_erasing_stream_wrappers"><a class="anchor" href="#_type_erasing_stream_wrappers"></a>Type-Erasing Stream Wrappers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every C&#43;&#43; developer who has worked with Asio knows the pain. You write a function that accepts a stream. But which stream? <code>tcp::socket</code>? <code>ssl::stream&lt;tcp::socket&gt;</code>? <code>websocket::stream&lt;ssl::stream&lt;tcp::socket&gt;&gt;</code>? Each layer wraps the previous one, and the type grows. Your function signature becomes a template. Your header includes explode. Your compile times suffer. Your error messages become novels.</p>
+</div>
+<div class="paragraph">
+<p>Asio does offer type-erasure—but at the wrong level. <code>any_executor</code> erases the executor. <code>any_completion_handler</code> erases the callback. These help, but they don&#8217;t address the fundamental problem: the stream type itself propagates everywhere.</p>
+</div>
+<div class="paragraph">
+<p>Why hasn&#8217;t anyone type-erased the stream? Because with callbacks and futures, it&#8217;s expensive. The completion handler type is part of the stream&#8217;s operation signature. Erasing it means virtual calls on the hot path—for every continuation, not just every I/O operation.</p>
+</div>
+<div class="paragraph">
+<p>Coroutines change this equation. A coroutine&#8217;s continuation is always the same thing: a handle to resume. The caller doesn&#8217;t need to know what type will resume it. This is structural type-erasure—built into the language. Capy exploits this. Type-erasing a stream costs one virtual call per I/O operation. That&#8217;s it. No per-callback overhead. No template instantiation cascades.</p>
+</div>
+<div class="paragraph">
+<p>Write <code>any_stream&amp;</code> and accept any stream. Your function compiles once. It links anywhere. Your build times drop. Your binaries shrink. Your error messages become readable. And because coroutines are ordinary functions (not templates), you get natural ABI stability. Link against a new stream implementation without recompiling your code.</p>
+</div>
+<div class="paragraph">
+<p>No other library in the world does this. Boost would be first.</p>
+</div>
+<div class="sect2">
+<h3 id="_what_capy_offers_2"><a class="anchor" href="#_what_capy_offers_2"></a>What Capy Offers</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>any_read_stream</code>, <code>any_write_stream</code>, <code>any_stream</code> — type-erased partial I/O</p>
+</li>
+<li>
+<p><code>any_read_source</code>, <code>any_write_sink</code> — type-erased complete I/O</p>
+</li>
+<li>
+<p><code>any_buffer_source</code>, <code>any_buffer_sink</code> — type-erased zero-copy</p>
+</li>
+<li>
+<p><code>read</code>, <code>write</code>, <code>read_until</code>, <code>push_to</code>, <code>pull_from</code> — algorithms that work with erased or concrete streams</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comparison_2"><a class="anchor" href="#_comparison_2"></a>Comparison</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Capy</th>
+<th class="tableblock halign-left valign-top">Asio</th>
+<th class="tableblock halign-left valign-top">std</th>
+<th class="tableblock halign-left valign-top">World</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_read_stream</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_write_stream</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_stream</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_read_source</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_write_sink</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_buffer_source</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_buffer_sink</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>read</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>async_read</code>*</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>async_write</code>*</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>read_until</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>async_read_until</code>*</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>push_to</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pull_from</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>*Asio&#8217;s algorithms only support <code>AsyncReadStream</code> and <code>AsyncWriteStream</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_buffer_sequences"><a class="anchor" href="#_buffer_sequences"></a>Buffer Sequences</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Asio got buffer sequences right. The concept-driven approach—<code>ConstBufferSequence</code>, <code>MutableBufferSequence</code>—enables scatter/gather I/O without allocation. You can combine buffers from different sources and pass them to a single write call. The operating system handles them as one logical transfer. This is how high-performance networking works.</p>
+</div>
+<div class="paragraph">
+<p>Capy doesn&#8217;t reinvent this. We adopt Asio&#8217;s buffer sequence model because it works.</p>
+</div>
+<div class="paragraph">
+<p>But we improve on it. Asio provides the basics; Capy extends them. Need to trim bytes from the front of a buffer sequence? Asio makes you work for it. Capy provides <code>slice</code>, <code>front</code>, <code>consuming_buffers</code>—customization points for efficient byte-level manipulation. Need a circular buffer for protocol parsing? Capy has <code>circular_dynamic_buffer</code>. Need to compose two buffers without copying? <code>buffer_pair</code>.</p>
+</div>
+<div class="paragraph">
+<p>And then there&#8217;s the <code>DynamicBuffer</code> mess. If you&#8217;ve used Asio, you&#8217;ve encountered the confusing split between <code>DynamicBuffer_v1</code> and <code>DynamicBuffer_v2</code>. This exists because of a fundamental problem: when an async operation takes a buffer by value and completes via callback, who owns the buffer? The original design had flaws. The "fix" created two incompatible versions. (See <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1100r0.html">P1100R0</a> for the full story.)</p>
+</div>
+<div class="paragraph">
+<p>Coroutines eliminate this problem entirely. The coroutine frame owns the buffer. There&#8217;s no decay-copy. There&#8217;s no ownership transfer. The buffer lives in the frame until the coroutine completes. Capy has one <code>DynamicBuffer</code> concept. It works.</p>
+</div>
+<div class="paragraph">
+<p>One more thing: <code>std::ranges</code> cannot help here. <code>ranges::size</code> returns the number of buffers, not the total bytes. Range views can drop entire elements, but buffer sequences need byte-level trimming. The abstractions don&#8217;t match. Buffer sequences need their own concepts.</p>
+</div>
+<div class="sect2">
+<h3 id="_what_capy_offers_3"><a class="anchor" href="#_what_capy_offers_3"></a>What Capy Offers</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ConstBufferSequence</code>, <code>MutableBufferSequence</code>, <code>DynamicBuffer</code> — core concepts (Asio-compatible)</p>
+</li>
+<li>
+<p><code>flat_dynamic_buffer</code>, <code>circular_dynamic_buffer</code>, <code>buffer_pair</code> — additional concrete types</p>
+</li>
+<li>
+<p><code>slice</code>, <code>front</code>, <code>buffer_array</code>, <code>consuming_buffers</code> — byte-level manipulation utilities</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comparison_3"><a class="anchor" href="#_comparison_3"></a>Comparison</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Capy</th>
+<th class="tableblock halign-left valign-top">Asio</th>
+<th class="tableblock halign-left valign-top">std</th>
+<th class="tableblock halign-left valign-top">World</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConstBufferSequence</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConstBufferSequence</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MutableBufferSequence</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MutableBufferSequence</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DynamicBuffer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DynamicBuffer_v1</code>/<code>v2</code>*</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>const_buffer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>const_buffer</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mutable_buffer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mutable_buffer</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>flat_dynamic_buffer</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>circular_dynamic_buffer</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vector_dynamic_buffer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dynamic_vector_buffer</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>string_dynamic_buffer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dynamic_string_buffer</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>buffer_pair</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>consuming_buffers</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>slice</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>front</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>buffer_array</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>buffer_copy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>buffer_copy</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Byte-level trimming</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>*Asio has confusing v1/v2 split due to callback composition problems</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_coroutine_execution_model"><a class="anchor" href="#_coroutine_execution_model"></a>Coroutine Execution Model</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you write a coroutine, three questions arise immediately. Where does it run? How do you cancel it? How is its frame allocated?</p>
+</div>
+<div class="paragraph">
+<p>These seem like simple questions. They are not. The answers determine whether your coroutine system is usable in production.</p>
+</div>
+<div class="paragraph">
+<p><strong>Where does it run?</strong> A coroutine needs an executor—something that schedules its resumption. When coroutine A awaits coroutine B, B needs to know A&#8217;s executor so completions dispatch to the right place. This context must flow downward through the call chain. Pass it explicitly to every function? Your APIs become cluttered. Query it from the caller&#8217;s promise? Your awaitables become tightly coupled to specific promise types.</p>
+</div>
+<div class="paragraph">
+<p><strong>How do you cancel it?</strong> A user clicks Cancel. A timeout expires. The server is shutting down. Your coroutine needs to stop—gracefully, without leaking resources. C&#43;&#43;20 gives us <code>std::stop_token</code>, a beautiful one-shot notification mechanism. But how does a nested coroutine receive the token? Pass it explicitly? More API clutter. And what about pending I/O operations—can they be cancelled at the OS level, or do you wait for them to complete naturally?</p>
+</div>
+<div class="paragraph">
+<p><strong>How is its frame allocated?</strong> Coroutine frames live on the heap by default. For high-throughput servers handling thousands of concurrent operations, allocation overhead matters. You want to reuse frames. You want custom allocators. But here&#8217;s the catch: the frame is allocated before the coroutine body runs. The allocator can&#8217;t be a parameter—parameters live in the frame. How do you pass an allocator to something that allocates before it can receive parameters?</p>
+</div>
+<div class="paragraph">
+<p>Asio has answers to these questions, but they&#8217;re constrained. Asio must support callbacks and futures alongside coroutines. It cannot assume the continuation is always a coroutine. It cannot build an execution model optimized for coroutines alone. And it bundles everything together—execution model, networking, timers, platform abstractions—in one monolithic library.</p>
+</div>
+<div class="paragraph">
+<p>The standard has <code>std::execution</code> (P2300), the sender/receiver model. It&#8217;s powerful and general. It&#8217;s also complex, academic, and not designed for coroutines first. It has the "late binding problem"—allocators flow backward, determined at the point of connection rather than at the point of creation. Ergonomic allocator control is difficult. P3552R3 proposes a <code>task</code> type, but it&#8217;s built on sender/receiver and inherits its limitations.</p>
+</div>
+<div class="paragraph">
+<p>Capy takes a different path. It builds an execution model purpose-built for coroutines and I/O.</p>
+</div>
+<div class="paragraph">
+<p>The <strong>IoAwaitable protocol</strong> solves context propagation. When you <code>co_await</code>, the caller passes its executor and stop token to the child through an extended <code>await_suspend</code> signature. No explicit parameters. No promise coupling. Context flows forward, naturally.</p>
+</div>
+<div class="paragraph">
+<p><strong>Stop tokens propagate automatically.</strong> Cancel at the top of your coroutine tree, and every nested operation receives the signal. Capy integrates with OS-level cancellation—<code>CancelIoEx</code> on Windows, <code>IORING_OP_ASYNC_CANCEL</code> on Linux. Pending I/O operations cancel immediately.</p>
+</div>
+<div class="paragraph">
+<p><strong>Frame allocation uses forward flow.</strong> The two-call syntax of <code>run_async(executor)(my_task())</code> sets a thread-local allocator before the task is evaluated. The task&#8217;s <code>operator new</code> reads it. No late binding. No backward flow. Ergonomic control over where every frame is allocated.</p>
+</div>
+<div class="paragraph">
+<p>And Capy <strong>separates execution from platform</strong>. The execution model—executors, cancellation, allocation—lives in Capy. Platform abstractions—sockets, <code>io_uring</code>, IOCP—live in Corosio. Clean boundaries. Testable components. You can use Capy&#8217;s execution model with a different I/O backend if you choose.</p>
+</div>
+<div class="paragraph">
+<p>Most importantly, Capy defines a <strong>taxonomy of awaitables</strong>. <code>IoAwaitable</code> is the base protocol for any type that participates in context propagation. <code>IoRunnable</code> refines it with the launch interface needed by <code>run_async</code> and <code>run</code>. This hierarchy means you can write your own task types that integrate with Capy&#8217;s execution model. Asio&#8217;s <code>awaitable&lt;T&gt;</code> is a concrete type, not a concept. You use it or you don&#8217;t. Capy gives you building blocks.</p>
+</div>
+<div class="paragraph">
+<p>No other solution like this exists. Not Asio. Not <code>std::execution</code>. Not anywhere in the global ecosystem. Capy is the first.</p>
+</div>
+<div class="sect2">
+<h3 id="_what_capy_offers_4"><a class="anchor" href="#_what_capy_offers_4"></a>What Capy Offers</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>IoAwaitable</code>, <code>IoRunnable</code> — taxonomy of awaitable concepts</p>
+</li>
+<li>
+<p><code>task&lt;T&gt;</code> — concrete task type implementing the protocol (user-defined tasks also supported)</p>
+</li>
+<li>
+<p><code>run</code>, <code>run_async</code> — launch functions with forward-flow allocator control</p>
+</li>
+<li>
+<p><code>strand</code>, <code>thread_pool</code>, <code>async_mutex</code>, <code>async_event</code> — concurrency primitives</p>
+</li>
+<li>
+<p><code>frame_allocator</code>, <code>recycling_memory_resource</code> — coroutine-optimized allocation</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comparison_4"><a class="anchor" href="#_comparison_4"></a>Comparison</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Capy</th>
+<th class="tableblock halign-left valign-top">Asio</th>
+<th class="tableblock halign-left valign-top">std</th>
+<th class="tableblock halign-left valign-top">World</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IoAwaitable</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IoRunnable</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>io_awaitable_promise_base</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>task&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>awaitable&lt;T&gt;</code>*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P3552R3**</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run_async</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>co_spawn</code>*</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>strand</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>strand</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>executor_ref</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>any_executor</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>thread_pool</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>thread_pool</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>static_thread_pool</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>execution_context</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>execution_context</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>frame_allocator</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>recycling_memory_resource</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>async_mutex</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>async_event</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stop_token</code> propagation</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stop_token</code><strong>*</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User-defined task types</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Execution/platform isolation</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Forward-flow allocator control</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>*Asio&#8217;s are not extensible, no concept taxonomy</p>
+</div>
+<div class="paragraph">
+<p>**P3552R3 is sender/receiver based, has allocator timing issue</p>
+</div>
+<div class="paragraph">
+<p>***std has the token but no automatic propagation</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_road_ahead"><a class="anchor" href="#_the_road_ahead"></a>The Road Ahead</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For twenty five years, Boost.Asio has stood alone. It defined what portable asynchronous I/O looks like in C&#43;&#43;. No serious competitor offering its depth of offerings has appeared. It defined the promising Networking TS. Asio earned its place through years of production use, careful evolution, and relentless focus on real problems faced by real developers.</p>
+</div>
+<div class="paragraph">
+<p>Capy builds on Asio&#8217;s foundation—the buffer sequences, the executor model, the hard-won lessons about what works. But where Asio must preserve compatibility with over decades of existing code, Capy is free to commit fully to the future. C&#43;&#43;20 coroutines are not an afterthought here. They are the foundation.</p>
+</div>
+<div class="paragraph">
+<p>The result is something new. Stream concepts designed for coroutines alone. Type-erasure at the level where it matters most. A simple execution model discovered through use-case-first design. Clean separation between execution and platform. A taxonomy of awaitables that invites extension rather than mandating a single concrete type.</p>
+</div>
+<div class="paragraph">
+<p>Meanwhile, the C&#43;&#43; standards committee has produced <code>std::execution</code>—a sender/receiver model of considerable theoretical elegance. It is general. It is powerful. It is also complex, and its relationship to the I/O problems that most C&#43;&#43; developers face daily remains unclear. The community watches, waits, and wonders when the abstractions will connect to the work they need to accomplish.</p>
+</div>
+<div class="paragraph">
+<p>Boost has always been where the practical meets the principled. Where real-world feedback shapes design. Where code ships before papers standardize. Capy continues this tradition.</p>
+</div>
+<div class="paragraph">
+<p>If you are reading this as a Boost contributor, know what you are part of. This is the first library to advance beyond Asio in the domains where they overlap. Not by abandoning what works, but by building on it. Not by chasing theoretical purity, but by solving the problems that have frustrated C&#43;&#43; developers for years: template explosion, compile-time costs, error message novels, ergonomic concurrency, and more.</p>
+</div>
+<div class="paragraph">
+<p>The coroutine era has arrived. And Boost, as it has so many times before, is leading the way.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/why-capy.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="index.html">Introduction</a></span>
+        <span class="next"><a href="quick-start.html">Quick Start</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+<script async src="../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>

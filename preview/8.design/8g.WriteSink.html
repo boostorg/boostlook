@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>html.fonts-loading{visibility:hidden;opacity:0}</style>
+<script>document.documentElement.classList.add('fonts-loading');</script>
+
+<link rel="preload" href="../../_/font/NotoSansDisplay.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/NotoSansDisplay-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceNeon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="../../_/font/MonaspaceXenon-Var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+<script>
+(function() {
+  'use strict';
+  
+  var revealed = false;
+  
+  var reveal = function() {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove('fonts-loading');
+  };
+  
+  setTimeout(reveal, 3000);
+  
+  if (!('FontFace' in window) || !('fonts' in document)) {
+    setTimeout(reveal, 100);
+    return;
+  }
+  
+  var uiRoot = '../../_';
+  var fonts = [
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay.woff2',
+      descriptors: { style: 'normal', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Noto Sans', 
+      url: uiRoot + '/font/NotoSansDisplay-Italic.woff2',
+      descriptors: { style: 'italic', weight: '100 900', stretch: '62.5% 100%' }
+    },
+    { 
+      family: 'Monaspace Neon', 
+      url: uiRoot + '/font/MonaspaceNeon-Var.woff2',
+      descriptors: { style: 'normal', weight: '400' }
+    },
+    { 
+      family: 'Monaspace Xenon', 
+      url: uiRoot + '/font/MonaspaceXenon-Var.woff2',
+      descriptors: { style: 'italic', weight: '400' }
+    }
+  ];
+  
+  var loadPromises = fonts.map(function(f) {
+    try {
+      var face = new FontFace(f.family, 'url("' + f.url + '")', f.descriptors);
+      return face.load().then(function(loaded) {
+        document.fonts.add(loaded);
+        return loaded;
+      }).catch(function() {
+        return null;
+      });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  });
+  
+  Promise.all(loadPromises)
+    .then(function() {
+      return document.fonts.ready;
+    })
+    .then(reveal)
+    .catch(reveal);
+})();
+</script>    <title>WriteSink Concept Design :: Boost Libraries Documentation</title>
+  <link rel="canonical" href="https://antora.cppalliance.org/develop/lib/doc/capy/8.design/8g.WriteSink.html">
+    <link rel="prev" href="8f.WriteStream.html">
+    <link rel="next" href="8h.BufferSink.html">
+  <meta name="generator" content="Antora 3.1.14">
+    <link rel="stylesheet" href="../../_/css/boostlook.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/vendor/tabs.css">
+    <script>
+    (function() {
+      if (window.self !== window.top) return;
+      var theme = localStorage.getItem('antora-theme');
+      if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+    </script>
+    <script>var uiRootPath = '../../_'</script>
+<link rel="icon" href="../../_/img/favicons/favicon.ico" type="image/x-icon">
+    <!-- Favicon configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../_/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../_/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../_/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../../_/img/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="../../_/img/favicons/favicon.ico">
+  </head>
+  <body class="article toc2 toc-left">
+    <div class="boostlook">
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; mermaid.initialize({"startOnLoad":true});</script> <div id="header">
+      <div id="toc" class="nav-container toc2" data-component="capy" data-version="">
+  <aside class="nav">
+    <button class="nav-close"></button>
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+      <div class="title-row">
+        <h3 class="title"><a href="../index.html">Boost.Capy</a></h3>
+        <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" style="display:none">
+  <i class="fas fa-sun theme-icon-light"></i>
+  <i class="fas fa-moon theme-icon-dark"></i>
+</button>      </div>
+      <ul class="nav-list">
+        <ul class="nav-list">
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../index.html">Introduction</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../why-capy.html">Why Capy?</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../quick-start.html">Quick Start</a>
+        </li>
+              <li class="" data-depth="1">
+            <a class="nav-link" href="../2.cpp20-coroutines/2.intro.html">Introduction To C&#43;&#43;20 Coroutines</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2b.syntax.html">Part II: C&#43;&#43;20 Syntax</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2c.machinery.html">Part III: Coroutine Machinery</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../2.cpp20-coroutines/2d.advanced.html">Part IV: Advanced Topics</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../3.concurrency/3.intro.html">Introduction to Concurrency</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3a.foundations.html">Part I: Foundations</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3b.synchronization.html">Part II: Synchronization</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3c.advanced.html">Part III: Advanced Primitives</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../3.concurrency/3d.patterns.html">Part IV: Communication &amp; Patterns</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../4.coroutines/4.intro.html">Coroutines in Capy</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4a.tasks.html">The task Type</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4b.launching.html">Launching Coroutines</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4c.executors.html">Executors and Execution Contexts</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4d.io-awaitable.html">The IoAwaitable Protocol</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4e.cancellation.html">Stop Tokens and Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4f.composition.html">Concurrent Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../4.coroutines/4g.allocators.html">Frame Allocators</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../5.buffers/5.intro.html">Buffer Sequences</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5a.overview.html">Why Concepts, Not Spans</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5b.types.html">Buffer Types</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5c.sequences.html">Buffer Sequences</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5d.system-io.html">System I/O Integration</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5e.algorithms.html">Buffer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../5.buffers/5f.dynamic.html">Dynamic Buffers</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../6.streams/6.intro.html">Stream Concepts</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6a.overview.html">Overview</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6b.streams.html">Streams (Partial I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6c.sources-sinks.html">Sources and Sinks (Complete I/O)</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6d.buffer-concepts.html">Buffer Sources and Sinks</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6e.algorithms.html">Transfer Algorithms</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../6.streams/6f.isolation.html">Physical Isolation</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../7.examples/7.intro.html">Example Programs</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7a.hello-task.html">Hello Task</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7b.producer-consumer.html">Producer-Consumer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7c.buffer-composition.html">Buffer Composition</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7d.mock-stream-testing.html">Mock Stream Testing</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7e.type-erased-echo.html">Type-Erased Echo</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7f.timeout-cancellation.html">Timeout with Cancellation</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7g.parallel-fetch.html">Parallel Fetch</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7h.custom-dynamic-buffer.html">Custom Dynamic Buffer</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7i.echo-server-corosio.html">Echo Server with Corosio</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="../7.examples/7j.stream-pipeline.html">Stream Pipeline</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="8.intro.html">Design</a>
+        </li>
+        <ul class="nav-list">
+        <li class="" data-depth="2">
+            <a class="nav-link" href="8a.CapyLayering.html">Layered Abstractions</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8b.Separation.html">Why Capy Is Separate</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8c.ReadStream.html">ReadStream</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8d.ReadSource.html">ReadSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8e.BufferSource.html">BufferSource</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8f.WriteStream.html">WriteStream</a>
+        </li>
+              <li class=" is-current-page" data-depth="2">
+            <a class="nav-link" href="8g.WriteSink.html">WriteSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8h.BufferSink.html">BufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8i.TypeEraseAwaitable.html">Type-Erasing Awaitables</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8j.any_buffer_sink.html">AnyBufferSink</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8k.Executor.html">Executor</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8l.RunApi.html">Run API</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8m.WhyNotCobalt.html">Why Not Cobalt?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8n.WhyNotCobaltConcepts.html">Why Not Cobalt Concepts?</a>
+        </li>
+              <li class="" data-depth="2">
+            <a class="nav-link" href="8o.WhyNotTMC.html">Why Not TooManyCooks?</a>
+        </li>
+        </ul>
+        <li class="" data-depth="1">
+            <a class="nav-link" href="../reference/boost/capy.html">Reference</a>
+        </li>
+        </ul>
+  </ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+  </div>  <div id="content">
+    <article class="doc max-width-reset">
+  <div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="../index.html" aria-label="Home: Boost.Capy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 -960 960 960" fill="#000000" aria-hidden="true"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+      </a>
+    </li>
+    <li><a href="8.intro.html">Design</a></li>
+    <li><a href="8g.WriteSink.html">WriteSink</a></li>
+  </ul>
+</nav>
+<div class="spirit-nav">
+    <a accesskey="p" href="8f.WriteStream.html">
+      <span class="material-symbols-outlined" title="Previous: WriteStream">arrow_back</span>
+    </a>
+    <a accesskey="u" href="8.intro.html">
+      <span class="material-symbols-outlined" title="Up: Design">arrow_upward</span>
+    </a>
+    <a accesskey="n" href="8h.BufferSink.html">
+      <span class="material-symbols-outlined" title="Next: BufferSink">arrow_forward</span>
+    </a>
+</div></div>
+    <h1 class="page">WriteSink Concept Design</h1>
+  <div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document describes the design of the <code>WriteSink</code> concept, the rationale behind each member function, and the relationship between <code>WriteSink</code>, <code>WriteStream</code>, and the <code>write_now</code> algorithm. The design was arrived at through deliberation over several alternative approaches, each of which is discussed here with its trade-offs.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_concept_hierarchy"><a class="anchor" href="#_concept_hierarchy"></a>Concept Hierarchy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The write-side concept hierarchy consists of two concepts:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Partial write primitive
+template&lt;typename T&gt;
+concept WriteStream =
+    requires(T&amp; stream, const_buffer_archetype buffers)
+    {
+        { stream.write_some(buffers) } -&gt; IoAwaitable;
+        requires awaitable_decomposes_to&lt;
+            decltype(stream.write_some(buffers)),
+            std::error_code, std::size_t&gt;;
+    };
+
+// Complete write with EOF signaling
+template&lt;typename T&gt;
+concept WriteSink =
+    WriteStream&lt;T&gt; &amp;&amp;
+    requires(T&amp; sink, const_buffer_archetype buffers)
+    {
+        { sink.write(buffers) } -&gt; IoAwaitable;
+        requires awaitable_decomposes_to&lt;
+            decltype(sink.write(buffers)),
+            std::error_code, std::size_t&gt;;
+        { sink.write_eof(buffers) } -&gt; IoAwaitable;
+        requires awaitable_decomposes_to&lt;
+            decltype(sink.write_eof(buffers)),
+            std::error_code, std::size_t&gt;;
+        { sink.write_eof() } -&gt; IoAwaitable;
+        requires awaitable_decomposes_to&lt;
+            decltype(sink.write_eof()),
+            std::error_code&gt;;
+    };</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>WriteSink</code> refines <code>WriteStream</code>. Every <code>WriteSink</code> is a <code>WriteStream</code>. Algorithms constrained on <code>WriteStream</code> accept both raw streams and sinks.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_member_functions"><a class="anchor" href="#_member_functions"></a>Member Functions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_write_somebufferspartial_write"><a class="anchor" href="#_write_somebufferspartial_write"></a><code>write_some(buffers)</code>&#8201;&#8212;&#8201;Partial Write</h3>
+<div class="paragraph">
+<p>Writes one or more bytes from the buffer sequence. May consume less than the full sequence. Returns <code>(error_code, std::size_t)</code> where <code>n</code> is the number of bytes written.</p>
+</div>
+<div class="paragraph">
+<p>This is the low-level primitive inherited from <code>WriteStream</code>. It is appropriate when the caller manages its own consumption loop or when forwarding data incrementally without needing a complete-write guarantee.</p>
+</div>
+<div class="sect3">
+<h4 id="_semantics"><a class="anchor" href="#_semantics"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>On success: <code>!ec</code>, <code>n &gt;= 1</code>.</p>
+</li>
+<li>
+<p>On error: <code>ec</code>, <code>n == 0</code>.</p>
+</li>
+<li>
+<p>If <code>buffer_empty(buffers)</code>: completes immediately, <code>!ec</code>, <code>n == 0</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_when_to_use"><a class="anchor" href="#_when_to_use"></a>When to Use</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Relay interiors: forwarding chunks of data as they arrive without waiting for the entire payload to be consumed.</p>
+</li>
+<li>
+<p>Backpressure-aware pipelines: writing what the destination can accept and returning control to the caller.</p>
+</li>
+<li>
+<p>Implementing <code>write</code> or <code>write_now</code> on top of the primitive.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writebufferscomplete_write"><a class="anchor" href="#_writebufferscomplete_write"></a><code>write(buffers)</code>&#8201;&#8212;&#8201;Complete Write</h3>
+<div class="paragraph">
+<p>Writes the entire buffer sequence. All bytes are consumed before the operation completes. Returns <code>(error_code, std::size_t)</code> where <code>n</code> is the number of bytes written.</p>
+</div>
+<div class="sect3">
+<h4 id="_semantics_2"><a class="anchor" href="#_semantics_2"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>On success: <code>!ec</code>, <code>n == buffer_size(buffers)</code>.</p>
+</li>
+<li>
+<p>On error: <code>ec</code>, <code>n</code> is the number of bytes written before the error occurred.</p>
+</li>
+<li>
+<p>If <code>buffer_empty(buffers)</code>: completes immediately, <code>!ec</code>, <code>n == 0</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_when_to_use_2"><a class="anchor" href="#_when_to_use_2"></a>When to Use</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Writing complete protocol messages or frames.</p>
+</li>
+<li>
+<p>Serializing structured data where each fragment must be fully delivered before producing the next.</p>
+</li>
+<li>
+<p>Any context where partial delivery is not meaningful.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_write_belongs_in_the_concept"><a class="anchor" href="#_why_write_belongs_in_the_concept"></a>Why <code>write</code> Belongs in the Concept</h4>
+<div class="paragraph">
+<p>For many concrete types, <code>write</code> is the natural primitive, not a loop over <code>write_some</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>File sinks</strong>: the OS <code>write</code> call is the primitive. <code>write_some</code> would simply delegate to <code>write</code>.</p>
+</li>
+<li>
+<p><strong>Buffered writers</strong>: <code>write</code> is a <code>memcpy</code> into the circular buffer (or drain-then-copy). It is not a loop over <code>write_some</code>.</p>
+</li>
+<li>
+<p><strong>Compression sinks</strong> (deflate, zstd): <code>write</code> feeds data to the compressor and flushes the output. The internal operation is a single compression call, not iterated partial writes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Requiring <code>write</code> in the concept lets each type implement the operation in the way that is natural and efficient for that type.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_write_eofbuffersatomic_final_write"><a class="anchor" href="#_write_eofbuffersatomic_final_write"></a><code>write_eof(buffers)</code>&#8201;&#8212;&#8201;Atomic Final Write</h3>
+<div class="paragraph">
+<p>Writes the entire buffer sequence and then signals end-of-stream, as a single atomic operation. Returns <code>(error_code, std::size_t)</code> where <code>n</code> is the number of bytes written.</p>
+</div>
+<div class="paragraph">
+<p>After a successful call, no further writes or EOF signals are permitted.</p>
+</div>
+<div class="sect3">
+<h4 id="_semantics_3"><a class="anchor" href="#_semantics_3"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>On success: <code>!ec</code>, <code>n == buffer_size(buffers)</code>. The sink is finalized.</p>
+</li>
+<li>
+<p>On error: <code>ec</code>, <code>n</code> is bytes written before the error. The sink state is unspecified.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_atomicity_matters"><a class="anchor" href="#_why_atomicity_matters"></a>Why Atomicity Matters</h4>
+<div class="paragraph">
+<p>Combining the final write with the EOF signal in a single operation enables optimizations that two separate calls cannot:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>HTTP chunked encoding</strong>: <code>write_eof(data)</code> can emit the data chunk followed by the terminal <code>0\r\n\r\n</code> in a single system call. Calling <code>write(data)</code> then <code>write_eof()</code> separately forces two calls and may result in two TCP segments.</p>
+</li>
+<li>
+<p><strong>Compression (deflate)</strong>: <code>write_eof(data)</code> can pass <code>Z_FINISH</code> to the final <code>deflate()</code> call, producing the compressed data and the stream trailer together. Separate <code>write</code> + <code>write_eof</code> would require an extra flush.</p>
+</li>
+<li>
+<p><strong>TLS close-notify</strong>: <code>write_eof(data)</code> can coalesce the final application data with the TLS close-notify alert.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This optimization cannot be achieved by splitting the operation into <code>write(data)</code> followed by <code>write_eof()</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_write_eofbare_eof_signal"><a class="anchor" href="#_write_eofbare_eof_signal"></a><code>write_eof()</code>&#8201;&#8212;&#8201;Bare EOF Signal</h3>
+<div class="paragraph">
+<p>Signals end-of-stream without writing any data. Returns <code>(error_code)</code>.</p>
+</div>
+<div class="paragraph">
+<p>After a successful call, no further writes or EOF signals are permitted.</p>
+</div>
+<div class="sect3">
+<h4 id="_semantics_4"><a class="anchor" href="#_semantics_4"></a>Semantics</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>On success: <code>!ec</code>. The sink is finalized.</p>
+</li>
+<li>
+<p>On error: <code>ec</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_when_to_use_3"><a class="anchor" href="#_when_to_use_3"></a>When to Use</h4>
+<div class="paragraph">
+<p>When the final data has already been written via <code>write</code> or <code>write_some</code> and only the EOF signal remains. This is less common than <code>write_eof(buffers)</code> but necessary when the data and EOF are produced at different times.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_relationship_to_write_now"><a class="anchor" href="#_relationship_to_write_now"></a>Relationship to <code>write_now</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>write_now</code> is a composed algorithm that operates on any <code>WriteStream</code>. It loops <code>write_some</code> until the entire buffer sequence is consumed. It has two properties that a plain <code>write_some</code> loop does not:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Eager completion</strong>: if every <code>write_some</code> call completes synchronously (returns <code>true</code> from <code>await_ready</code>), the entire <code>write_now</code> operation completes in <code>await_ready</code> with zero coroutine suspensions.</p>
+</li>
+<li>
+<p><strong>Frame caching</strong>: the internal coroutine frame is cached and reused across calls, eliminating repeated allocation.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><code>write_now</code> is the right tool for code constrained on <code>WriteStream</code> alone (for example, writing to a raw TCP socket). Code constrained on <code>WriteSink</code> should use <code>write</code> directly, because the concrete type&#8217;s <code>write</code> may be more efficient than looping <code>write_some</code>, and because <code>write_now</code> cannot replicate the atomic <code>write_eof(buffers)</code> operation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_cases"><a class="anchor" href="#_use_cases"></a>Use Cases</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_serializing_structured_data"><a class="anchor" href="#_serializing_structured_data"></a>Serializing Structured Data</h3>
+<div class="paragraph">
+<p>When producing output fragment by fragment (e.g., JSON serialization), each fragment must be fully consumed before the next is produced. The final fragment signals EOF.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;WriteSink Sink&gt;
+task&lt;&gt; serialize_json(Sink&amp; sink, json::value const&amp; jv)
+{
+    auto [ec1, n1] = co_await sink.write(make_buffer("{"));
+    if(ec1)
+        co_return;
+
+    auto body = serialize_fields(jv);
+    auto [ec2, n2] = co_await sink.write(make_buffer(body));
+    if(ec2)
+        co_return;
+
+    auto [ec3, n3] = co_await sink.write_eof(make_buffer("}"));
+    if(ec3)
+        co_return;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here <code>write</code> guarantees each fragment is fully delivered, and <code>write_eof</code> atomically writes the closing brace and finalizes the sink.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_relaying_a_streaming_body"><a class="anchor" href="#_relaying_a_streaming_body"></a>Relaying a Streaming Body</h3>
+<div class="paragraph">
+<p>When forwarding data from a source to a sink, the interior chunks use <code>write_some</code> for incremental progress. The final chunk uses <code>write_eof</code> for atomic delivery plus EOF.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;ReadStream Source, WriteSink Sink&gt;
+task&lt;&gt; relay(Source&amp; src, Sink&amp; dest)
+{
+    char buf[8192];
+    for(;;)
+    {
+        auto [ec, n] = co_await src.read_some(
+            mutable_buffer(buf));
+        if(ec == cond::eof)
+        {
+            // Signal EOF to the destination
+            auto [ec2] = co_await dest.write_eof();
+            co_return;
+        }
+        if(ec)
+            co_return;
+
+        // Interior: partial write is acceptable
+        std::size_t written = 0;
+        while(written &lt; n)
+        {
+            auto [ec2, n2] = co_await dest.write_some(
+                const_buffer(buf + written, n - written));
+            if(ec2)
+                co_return;
+            written += n2;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The interior loop uses <code>write_some</code> because the relay does not need complete-write guarantees for intermediate data. When <code>read_some</code> returns EOF, <code>n</code> is 0 (per the <code>ReadStream</code> contract), so the relay signals EOF via <code>write_eof()</code> with no data.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writing_complete_messages"><a class="anchor" href="#_writing_complete_messages"></a>Writing Complete Messages</h3>
+<div class="paragraph">
+<p>When sending discrete messages where each must be fully delivered, <code>write</code> is the natural choice.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;WriteSink Sink&gt;
+task&lt;&gt; send_messages(Sink&amp; sink, std::span&lt;std::string&gt; messages)
+{
+    for(auto const&amp; msg : messages)
+    {
+        auto [ec, n] = co_await sink.write(make_buffer(msg));
+        if(ec)
+            co_return;
+    }
+    auto [ec] = co_await sink.write_eof();
+    if(ec)
+        co_return;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_body"><a class="anchor" href="#_http_response_body"></a>HTTP Response Body</h3>
+<div class="paragraph">
+<p>An HTTP response handler writes the body through a type-erased sink. The concrete implementation handles transfer encoding (content-length, chunked, compressed) behind the <code>WriteSink</code> interface.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">task&lt;&gt; send_response(any_write_sink&amp; body, response const&amp; resp)
+{
+    // Write headers portion of body
+    auto headers = format_headers(resp);
+    auto [ec1, n1] = co_await body.write(make_buffer(headers));
+    if(ec1)
+        co_return;
+
+    // Write body with EOF
+    auto [ec2, n2] = co_await body.write_eof(
+        make_buffer(resp.body));
+    if(ec2)
+        co_return;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The caller does not know whether the body is content-length, chunked, or compressed. The <code>WriteSink</code> interface handles the difference.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compression_pipeline"><a class="anchor" href="#_compression_pipeline"></a>Compression Pipeline</h3>
+<div class="paragraph">
+<p>A deflate sink wraps an underlying <code>WriteStream</code> and compresses data on the fly. <code>write_eof</code> sets <code>Z_FINISH</code> on the final deflate call.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;WriteSink Sink&gt;
+task&lt;&gt; compress_and_send(Sink&amp; sink, std::string_view data)
+{
+    // Write compressed data
+    auto [ec, n] = co_await sink.write_eof(make_buffer(data));
+    if(ec)
+        co_return;
+    // sink.write_eof triggered Z_FINISH internally,
+    // flushing the final compressed block and trailer
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_buffered_writer"><a class="anchor" href="#_buffered_writer"></a>Buffered Writer</h3>
+<div class="paragraph">
+<p>A buffered writer interposes a buffer between the caller and the underlying stream. <code>write_some</code> appends to the buffer without draining. <code>write</code> ensures all data is buffered (draining if necessary). <code>write_eof</code> flushes the buffer and signals EOF to the underlying stream.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;WriteSink Sink&gt;
+task&lt;&gt; buffered_output(Sink&amp; sink)
+{
+    // Small writes accumulate in the buffer
+    auto [ec1, n1] = co_await sink.write(make_buffer("key: "));
+    if(ec1)
+        co_return;
+
+    auto [ec2, n2] = co_await sink.write(make_buffer("value\r\n"));
+    if(ec2)
+        co_return;
+
+    // Final write flushes buffer + signals EOF
+    auto [ec3, n3] = co_await sink.write_eof(
+        make_buffer("end\r\n"));
+    if(ec3)
+        co_return;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_raw_stream_with_write_now"><a class="anchor" href="#_raw_stream_with_write_now"></a>Raw Stream with <code>write_now</code></h3>
+<div class="paragraph">
+<p>When only a <code>WriteStream</code> is available (no EOF signaling needed), the <code>write_now</code> algorithm provides complete-write behavior with eager completion and frame caching.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">template&lt;WriteStream Stream&gt;
+task&lt;&gt; send_data(Stream&amp; stream)
+{
+    write_now wn(stream);
+
+    auto [ec1, n1] = co_await wn(make_buffer("hello"));
+    if(ec1)
+        co_return;
+
+    // Frame is cached; no allocation on second call
+    auto [ec2, n2] = co_await wn(make_buffer("world"));
+    if(ec2)
+        co_return;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Because <code>WriteSink</code> refines <code>WriteStream</code>, <code>write_now</code> also works on sinks. This can be useful when a function is generic over <code>WriteStream</code> and does not need EOF signaling.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_alternatives_considered"><a class="anchor" href="#_alternatives_considered"></a>Alternatives Considered</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_writesink_with_only_write_and_write_eof"><a class="anchor" href="#_writesink_with_only_write_and_write_eof"></a>WriteSink with Only <code>write</code> and <code>write_eof</code></h3>
+<div class="paragraph">
+<p>The initial design had <code>WriteSink</code> require only <code>write(buffers)</code>, <code>write(buffers, bool eof)</code>, and <code>write_eof()</code>, with no <code>write_some</code>. This made <code>WriteSink</code> disjoint from <code>WriteStream</code>: a function constrained on <code>WriteStream</code> (using <code>write_some</code>) could not accept a <code>WriteSink</code>, and vice versa.</p>
+</div>
+<div class="paragraph">
+<p>This was rejected because it prevents generic algorithms from working across both streams and sinks. The refinement relationship (<code>WriteSink</code> refines <code>WriteStream</code>) is strictly more useful.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writesink_with_only_write_some_and_write_eof"><a class="anchor" href="#_writesink_with_only_write_some_and_write_eof"></a>WriteSink with Only <code>write_some</code> and <code>write_eof</code></h3>
+<div class="paragraph">
+<p>A minimal design was considered where <code>WriteSink</code> required only <code>write_some</code> and <code>write_eof</code>, with callers using <code>write_now</code> for complete-write behavior. This approach has three problems:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>No atomic final write</strong>: <code>write_now</code> over <code>write_some</code> followed by <code>write_eof()</code> is two operations. This prevents concrete types from coalescing the final data with the EOF signal (chunked encoding, compression trailers, TLS close-notify).</p>
+</li>
+<li>
+<p><strong><code>write</code> is the natural primitive for many types</strong>: files, buffered writers, and compression sinks implement <code>write</code> directly, not as a loop over <code>write_some</code>. Forcing these types to express complete-write semantics through a function called <code>write_some</code> is semantically misleading.</p>
+</li>
+<li>
+<p><strong>Implementation burden on callers</strong>: every caller that needs complete-write behavior must construct a <code>write_now</code> object and manage it, rather than calling <code>sink.write(buffers)</code> directly.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writebuffers_bool_eof_instead_of_write_eofbuffers"><a class="anchor" href="#_writebuffers_bool_eof_instead_of_write_eofbuffers"></a><code>write(buffers, bool eof)</code> Instead of <code>write_eof(buffers)</code></h3>
+<div class="paragraph">
+<p>An earlier version used <code>write(buffers, bool eof)</code> to combine data writing with optional EOF signaling. This was replaced by <code>write_eof(buffers)</code> because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Boolean parameters are opaque at the call site. <code>write(data, true)</code> does not convey intent as clearly as <code>write_eof(data)</code>.</p>
+</li>
+<li>
+<p><code>write_eof</code> is self-documenting: the name states that EOF is signaled.</p>
+</li>
+<li>
+<p>No risk of accidentally passing the wrong boolean value.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_three_concept_hierarchy_writestream_writecloser_writesink"><a class="anchor" href="#_three_concept_hierarchy_writestream_writecloser_writesink"></a>Three-Concept Hierarchy (<code>WriteStream</code> / <code>WriteCloser</code> / <code>WriteSink</code>)</h3>
+<div class="paragraph">
+<p>A three-level hierarchy was considered, with an intermediate concept (<code>WriteCloser</code> or similar) requiring <code>write_some</code> + <code>write_eof</code> but not <code>write</code>. This was rejected because the intermediate concept serves no practical purpose: any concrete type that has <code>write_some</code> and <code>write_eof</code> can and should provide <code>write</code>. There is no use case where a type offers partial writes and EOF signaling but cannot offer complete writes.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Contract</th>
+<th class="tableblock halign-left valign-top">Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write_some(buffers)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Writes one or more bytes. May consume less than the full sequence.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Relay interiors, backpressure, implementing composed algorithms.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write(buffers)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Writes the entire buffer sequence.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Protocol messages, serialization, structured output.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write_eof(buffers)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Writes the entire buffer sequence and signals EOF atomically.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Final chunk of a relay, last fragment of serialized output.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>write_eof()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signals EOF without data.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When the final data was already written separately.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>WriteSink</code> refines <code>WriteStream</code>. The <code>write_now</code> algorithm operates on any <code>WriteStream</code> and provides complete-write behavior with eager completion and frame caching, but it cannot replicate the atomic <code>write_eof(buffers)</code> that <code>WriteSink</code> enables.</p>
+</div>
+</div>
+</div>
+  <div class="edit-this-page">
+      <a href="https://github.com/cppalliance/capy/edit/develop/doc/modules/ROOT/pages/8.design/8g.WriteSink.adoc">Edit this Page</a>
+      </div>
+      <nav class="pagination">
+        <span class="prev"><a href="8f.WriteStream.html">WriteStream</a></span>
+        <span class="next"><a href="8h.BufferSink.html">BufferSink</a></span>
+    </nav>
+</article>
+</div>
+  <div id="footer">
+  <script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+<script async src="../../_/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+</div>
+</div>
+  </body>
+</html>
