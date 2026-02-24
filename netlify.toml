@@ -1,3 +1,3 @@
 [build]
   publish = "preview/"
-  command = "echo 'Static site — no build needed'"
+  command = "cp boostlook-v3.css preview/_/css/boostlook.css"
