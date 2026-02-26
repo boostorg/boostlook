@@ -100,7 +100,14 @@ div.source-docs-antora.boostlook:not(:has(article.doc)):not(:has(> .boostlook)) 
 .boostlook #toc > ul.sectlevel1 li:has(> ul) a,
 .boostlook:not(:has(.doc)) div.toc dt {
   position: relative;
-  padding: var(--leftbar-paddings-leftbar-padding-4xs, 0.125rem) var(--leftbar-paddings-leftbar-padding-3xs, 0.25rem);
+  padding: var(--leftbar-paddings-leftbar-padding-3xs, 0.25rem) var(--leftbar-paddings-leftbar-padding-3xs, 0.25rem);
+}
+
+.boostlook .nav-menu .nav-list .nav-link {
+  display: inline-block;
+  font-size: var(--typography-font-size-xs);
+  color: var(--text-main-text-body-secondary, #494d50);
+  text-decoration: none;
 }
 
 .boostlook .nav-menu .nav-list li:has(.nav-text),
@@ -109,12 +116,21 @@ div.source-docs-antora.boostlook:not(:has(article.doc)):not(:has(> .boostlook)) 
 }
 
 .boostlook .nav-text,
-.boostlook #toc > ul.sectlevel1 li:has(> ul) > a {
-  color: var(--text-main-text-body-quaternary, #949a9e);
-  font-size: var(--typography-font-size-2xs, 0.75rem);
-  font-variation-settings: "wght" 500, "wdth" 87.5;
+.boostlook #toc > ul.sectlevel1 li:has(> ul) > a,
+.boostlook .nav-menu .nav-item:has(> .nav-item-toggle) > .nav-link {
+  color: var(--text-main-text-primary, #18191b);
+  font-size: var(--typography-font-size-xs);
+  font-variation-settings: "wght" 600, "wdth" 87.5;
   line-height: var(--typography-line-height-sm, 1rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
+}
+
+/* Section separator lines */
+.boostlook .nav-menu .nav-item:has(> .nav-text),
+.boostlook .nav-menu .nav-item:has(> .nav-item-toggle) {
+  border-top: 1px solid var(--border-border-primary, #e4e7ea);
+  margin-top: var(--leftbar-paddings-leftbar-padding-xs, 0.75rem);
+  padding-top: var(--leftbar-paddings-leftbar-padding-xs, 0.75rem);
 }
 
 /* Table of Contents Links */
@@ -136,6 +152,12 @@ div.source-docs-antora.boostlook:not(:has(article.doc)):not(:has(> .boostlook)) 
   color: var(--text-main-text-link-blue-secondary, #0284c7);
   text-decoration: none;
 }
+
+.boostlook .nav-menu .nav-link:hover,
+.boostlook .nav-menu .nav-link:focus {
+  color: var(--text-main-text-primary, #18191b);
+}
+
 /*
 .boostlook #toc .nav-link:visited:not(:hover),
 .boostlook #toc .sectlevel1 li:not(:has(> ul)) a:visited:not(:hover),
@@ -148,19 +170,6 @@ div.source-docs-antora.boostlook:not(:has(article.doc)):not(:has(> .boostlook)) 
 .boostlook #toc > ul.sectlevel1 ul[class*="sectlevel"] > li,
 .boostlook:not(:has(.doc)) div.toc dd dt {
   margin-left: calc(var(--leftbar-paddings-leftbar-padding-2xs) * -1);
-  padding-left: calc(var(--padding-padding-sm, 1rem) + var(--leftbar-paddings-leftbar-padding-2xs));
-}
-
-.boostlook .nav-list li[data-depth]:not([data-depth="1"])::before,
-.boostlook #toc > ul.sectlevel1 ul[class*="sectlevel"] > li::before,
-.boostlook:not(:has(.doc)) div.toc dd dt:before {
-  content: "";
-  position: absolute;
-  left: var(--leftbar-paddings-leftbar-padding-2xs);
-  top: 0;
-  width: 1px;
-  height: 100%;
-  background: var(--border-border-secondary, #d5d7d9);
 }
 
 .boostlook .nav-list li[data-depth]:not([data-depth="1"]):hover::before,
@@ -176,7 +185,7 @@ div.source-docs-antora.boostlook:not(:has(article.doc)):not(:has(> .boostlook)) 
 .boostlook .nav-menu h3.title {
   padding: var(--leftbar-paddings-leftbar-padding-3xs, 0.25rem);
   color: var(--text-main-text-primary, #18191b);
-  font-size: var(--typography-font-size-2xs, 0.75rem);
+  font-size: var(--typography-font-size-sm, 0.875rem);
   line-height: var(--typography-line-height-sm, 1rem);
   letter-spacing: var(--spacing-size-size-0, 0rem);
   font-variation-settings: "wght" 600, "wdth" 87.5;

@@ -2,7 +2,7 @@
 # Build preview site from website-v2-docs and swap in boostlook-v3.css
 #
 # Usage:
-#   ./build-preview.sh            # build lib docs + site docs, sync into preview/
+#   ./build-preview.sh            # build everything and sync into preview/
 #   ./build-preview.sh --css-only # just rebuild CSS and swap it in
 #   ./build-preview.sh --serve    # just start the local server
 
@@ -32,6 +32,14 @@ if [ "$1" = "--serve" ]; then
   exit 0
 fi
 
+if [ "$1" = "--css-only" ]; then
+  echo "Building boostlook-v3.css..."
+  sh "$SCRIPT_DIR/build-css.sh"
+  css_swap
+  echo "Done (CSS only)."
+  exit 0
+fi
+
 if [ ! -d "$DOCS_DIR" ]; then
   echo "Error: website-v2-docs not found at $DOCS_DIR"
   exit 1
@@ -45,12 +53,6 @@ fi
 # Rebuild CSS from sources
 echo "Building boostlook-v3.css..."
 sh "$SCRIPT_DIR/build-css.sh"
-
-if [ "$1" = "--css-only" ]; then
-  css_swap
-  echo "Done (CSS only)."
-  exit 0
-fi
 
 # Build library docs
 echo "Building library docs..."
@@ -86,10 +88,7 @@ cd "$BOOST_DIR/libs/charconv/doc"
 mkdir -p "$PREVIEW_DIR/charconv"
 cp "$BOOST_DIR/libs/charconv/doc/html/charconv.html" "$PREVIEW_DIR/charconv/index.html"
 
-# Swap in our CSS
+# Swap in our CSS (after syncing UI assets which may overwrite it)
 css_swap
 
 echo "Done. Preview ready at preview/"
-
-# Start local server
-serve
