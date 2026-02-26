@@ -196,7 +196,7 @@ div.source-docs-antora.boostlook:not(:has(.doc)):not(:has(> .boostlook)) > #cont
 /* Table of Contents */
 .boostlook:not(:has(.doc)) div.toc {
   color: var(--text-main-text-body-secondary, #494d50);
-  font-family: var(--font-family-body, "Noto Sans");
+  font-family: var(--font-family-body, "Mona Sans");
   font-size: var(--typography-font-size-xs, 0.875rem);
   font-style: normal;
   line-height: var(--typography-line-height-md, 1.25rem);

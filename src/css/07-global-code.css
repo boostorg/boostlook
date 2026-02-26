@@ -147,7 +147,7 @@ html.dark .boostlook .listingblock > .content > pre {
   align-items: center;
   gap: var(--spacing-size-2xs, 0.5rem);
   color: var(--text-main-text-body-tetriary, #62676b);
-  font-family: "Noto Sans";
+  font-family: "Mona Sans";
   font-size: var(--typography-font-size-2xs, 0.75rem);
   font-style: normal;
   line-height: var(--typography-line-height-sm, 1rem);
@@ -258,7 +258,7 @@ html.dark .boostlook .listingblock > .content > pre {
 .boostlook .content:has(> pre):has(> .source-toolbox) .source-lang {
   color: var(--text-main-text-body-quaternary, #949a9e);
   text-align: right;
-  font-family: "Noto Sans";
+  font-family: "Mona Sans";
   font-size: var(--typography-font-size-2xs, 0.75rem);
   font-style: normal;
   font-variation-settings: "wght" 500, "wdth" 87.5;

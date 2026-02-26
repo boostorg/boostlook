@@ -17,7 +17,7 @@
 
 /* Base Container */
 .boostlook {
-  font-family: var(--font-family-body, "Noto Sans") !important;
+  font-family: var(--font-family-body, "Mona Sans") !important;
   font-variation-settings: "wght" 400, "wdth" 95;
   line-height: 120%;
   letter-spacing: -0.01em;
@@ -43,7 +43,7 @@
 .boostlook .doc h6 {
   color: var(--text-main-text-primary, #050816);
   display: block;
-  font-family: var(--font-family-body, "Noto Sans");
+  font-family: var(--font-family-body, "Mona Sans");
   line-height: 100%;
   margin-top: var(--padding-padding-lg, 1.5rem);
   margin-bottom: 0.5rem;
