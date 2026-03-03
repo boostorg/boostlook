@@ -552,9 +552,26 @@ html.dark .boostlook .listingblock > .content > pre {
   color: var(--text-code-green, #289D30);
 }
 
-/* Numbers, punctuation, attributes → Yellow */
-.boostlook .hljs-number {
+/* Numbers → Yellow */
+.boostlook .hljs-number,
+.boostlook pre span.mi,
+.boostlook pre span.mf,
+.boostlook pre span.mb,
+.boostlook pre span.mh,
+.boostlook pre span.mo,
+.boostlook pre span.il {
   color: var(--text-code-yellow, #A3A38C);
+}
+
+/* Operators → Red */
+.boostlook pre span.o,
+.boostlook pre span.ow {
+  color: var(--text-code-red, #e45649);
+}
+
+/* Punctuation → neutral (match surrounding code) */
+.boostlook pre span.p {
+  color: var(--text-main-text-body-primary, #2a2c30);
 }
 
 /* Preprocessor / meta → Pink */
@@ -619,8 +636,23 @@ html.dark .boostlook .hljs-addition {
 html.dark .boostlook .hljs-number,
 html.dark .boostlook .hljs-literal,
 html.dark .boostlook .hljs-variable,
-html.dark .boostlook .hljs-template-variable {
+html.dark .boostlook .hljs-template-variable,
+html.dark .boostlook pre span.mi,
+html.dark .boostlook pre span.mf,
+html.dark .boostlook pre span.mb,
+html.dark .boostlook pre span.mh,
+html.dark .boostlook pre span.mo,
+html.dark .boostlook pre span.il {
   color: var(--text-code-yellow, #FFF173);
+}
+
+html.dark .boostlook pre span.o,
+html.dark .boostlook pre span.ow {
+  color: var(--text-code-red, #e06c75);
+}
+
+html.dark .boostlook pre span.p {
+  color: var(--text-main-text-primary, #f5f6f8);
 }
 
 html.dark .boostlook .hljs-meta {
