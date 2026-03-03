@@ -3753,6 +3753,76 @@ html.is-clipped--nav:has(.boostlook) div#content {
     margin-left: var(--main-max-width-leftbar);
   } */
 }
+/* TOC Collapsible Sections (Asciidoctor) */
+
+/* Section separator lines for collapsible items */
+.boostlook #toc > ul.sectlevel1 > li:has(> ul) {
+  border-top: 1px solid var(--border-border-primary, #e4e7ea);
+  margin-top: var(--leftbar-paddings-leftbar-padding-xs, 0.75rem);
+  padding-top: var(--leftbar-paddings-leftbar-padding-xs, 0.75rem);
+}
+
+.boostlook #toc > ul.sectlevel1 > li:has(> ul):first-child {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Flex layout for items with toggle */
+.boostlook #toc li.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* Nested list takes full width below header */
+.boostlook #toc li.nav-item > ul {
+  flex-basis: 100%;
+  order: 2;
+}
+
+/* Toggle button styling */
+.boostlook #toc .nav-item-toggle {
+  background: none;
+  border: none;
+  outline: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  position: static;
+  margin-left: 0;
+  margin-top: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  order: 1;
+  transform: none;
+}
+
+/* Down-pointing caret (collapsed) */
+.boostlook #toc .nav-item-toggle::after {
+  content: "";
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  background-color: var(--text-main-text-body-secondary, #494d50);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M13 16h-2v-2h2v2Zm-2-2H9v-2h2v2Zm4 0h-2v-2h2v2Zm-6-2H7v-2h2v2Zm8 0h-2v-2h2v2ZM7 10H5V8h2v2Zm12 0h-2V8h2v2Z'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M13 16h-2v-2h2v2Zm-2-2H9v-2h2v2Zm4 0h-2v-2h2v2Zm-6-2H7v-2h2v2Zm8 0h-2v-2h2v2ZM7 10H5V8h2v2Zm12 0h-2V8h2v2Z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* Up-pointing caret (expanded) */
+.boostlook #toc li.nav-item.is-active > .nav-item-toggle::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M13 10h-2V8h2v2ZM11 12H9v-2h2v2Zm4 0h-2v-2h2v2ZM9 14H7v-2h2v2Zm8 0h-2v-2h2v2ZM7 16H5v-2h2v2Zm12 0h-2v-2h2v2Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M13 10h-2V8h2v2ZM11 12H9v-2h2v2Zm4 0h-2v-2h2v2ZM9 14H7v-2h2v2Zm8 0h-2v-2h2v2ZM7 16H5v-2h2v2Zm12 0h-2v-2h2v2Z'/%3E%3C/svg%3E");
+}
+
+/* Collapsed state — hide child list */
+.boostlook #toc li.nav-item:not(.is-active) > ul {
+  display: none;
+}
+
 /* TOC Common End */
 
 /*----------------- Styles specific to AsciiDoctor content start -----------------*/
@@ -3883,6 +3953,10 @@ html.is-clipped--nav:has(.boostlook) div#content {
   width: fit-content;
 }
 
+.dark .boostlook .nav-list .is-current-page.is-active > .nav-link {
+  background: var(--colors-primary-700, #444651);
+}
+
 .boostlook #toc .nav-list .is-current-page.is-active > .nav-link {
   color: var(--text-main-text-primary, #18191b);
 }
@@ -3890,6 +3964,10 @@ html.is-clipped--nav:has(.boostlook) div#content {
 /* Hover background on nav link items */
 .boostlook .nav-menu .nav-list li:not(.nav-item) > .nav-link:hover {
   background: var(--colors-primary-100, #EFEFF1);
+}
+
+.dark .boostlook .nav-menu .nav-list li:not(.nav-item) > .nav-link:hover {
+  background: var(--colors-primary-700, #444651);
 }
 
 /* Section header layout — toggle + text inline */

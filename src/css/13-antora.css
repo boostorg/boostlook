@@ -61,6 +61,10 @@
   width: fit-content;
 }
 
+.dark .boostlook .nav-list .is-current-page.is-active > .nav-link {
+  background: var(--colors-primary-700, #444651);
+}
+
 .boostlook #toc .nav-list .is-current-page.is-active > .nav-link {
   color: var(--text-main-text-primary, #18191b);
 }
@@ -68,6 +72,10 @@
 /* Hover background on nav link items */
 .boostlook .nav-menu .nav-list li:not(.nav-item) > .nav-link:hover {
   background: var(--colors-primary-100, #EFEFF1);
+}
+
+.dark .boostlook .nav-menu .nav-list li:not(.nav-item) > .nav-link:hover {
+  background: var(--colors-primary-700, #444651);
 }
 
 /* Section header layout — toggle + text inline */
