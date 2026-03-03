@@ -263,9 +263,13 @@
 
 .boostlook .breadcrumbs ul li a {
   font: inherit;
-  color: var(--text-main-text-link-blue-secondary, #0284c7);
+  color: var(--text-main-text-body-tetriary, #62676b);
   text-decoration: none;
   position: relative;
+}
+
+.boostlook .breadcrumbs ul li:last-of-type a {
+  color: var(--text-main-text-link-blue-secondary, #0284c7);
 }
 
 .boostlook .breadcrumbs ul li a:hover {
@@ -279,8 +283,8 @@
   margin-right: var(--padding-padding-xs, 0.75rem);
   gap: var(--spacing-size-2xs, 0.5rem);
   border-radius: var(--spacing-size-2xs, 0.5rem);
-  border: 1px solid var(--border-border-primary, #e4e7ea);
-  background: var(--surface-background-main-surface-primary, #f5f6f8);
+  border: none;
+  background: none;
 }
 
 .boostlook .breadcrumbs ul li:first-of-type::after {
@@ -301,8 +305,8 @@
   display: inline-block;
   flex-shrink: 0;
   flex-grow: 0;
-  width: 2px;
-  height: 2px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
   background: var(--surface-icons-icon-tetriary, #949a9e);
   padding: 0;

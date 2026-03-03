@@ -67,6 +67,15 @@ Asciidoctor::Extensions.register do
               return true;
             }
 
+            function highlightActiveLink() {
+              var prev = toc.querySelector('a.is-active-link');
+              if (prev) prev.classList.remove('is-active-link');
+              var hash = window.location.hash;
+              if (!hash) return;
+              var target = toc.querySelector('a[href="' + hash + '"]');
+              if (target) target.classList.add('is-active-link');
+            }
+
             function expandForHash() {
               var hash = window.location.hash;
               if (!hash) return;
@@ -77,6 +86,7 @@ Asciidoctor::Extensions.register do
                 parent.classList.add('is-active');
                 parent = parent.parentElement.closest('li.nav-item');
               }
+              highlightActiveLink();
             }
 
             // Inject toggle buttons and set up click handlers
@@ -105,17 +115,60 @@ Asciidoctor::Extensions.register do
             expandForHash();
             // If no saved state and no hash, leave all collapsed (default)
 
-            // Re-expand on hash change
+            // Re-expand and highlight on hash change
             window.addEventListener('hashchange', function() {
               expandForHash();
               saveState();
             });
+
+            // Theme toggle
+            var toggleBtn = document.querySelector('.theme-toggle');
+            if (toggleBtn) {
+              toggleBtn.addEventListener('click', function() {
+                var isDark = document.documentElement.classList.contains('dark');
+                var newTheme = isDark ? 'light' : 'dark';
+                if (newTheme === 'dark') {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+                try { localStorage.setItem('antora-theme', newTheme); } catch(e) {}
+              });
+            }
           });
         })();
         </script>
       SCRIPT
 
       output = output.sub('</body>', "#{script_tag}</body>")
+
+      # Early dark-class script — prevents flash of white on dark-mode pages
+      dark_script = <<~DARK
+        <script>
+        (function() {
+          var theme = localStorage.getItem('antora-theme');
+          if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = 'dark';
+          }
+          if (theme === 'dark') document.documentElement.classList.add('dark');
+        })();
+        </script>
+      DARK
+      output = output.sub('</head>', "#{dark_script}</head>")
+
+      # FontAwesome for theme toggle icons (match Antora)
+      fa_link = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">'
+      output = output.sub('</head>', "#{fa_link}</head>")
+
+      # Theme toggle button in TOC header (match Antora's FA icons)
+      toggle_btn = '<button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">' \
+                   '<i class="fas fa-sun theme-icon-light"></i>' \
+                   '<i class="fas fa-moon theme-icon-dark"></i>' \
+                   '</button>'
+      output = output.sub(%r{(<div id="toctitle">)(.*?)(</div>)}m) do |_|
+        m = Regexp.last_match
+        "#{m[1]}#{m[2]}#{toggle_btn}#{m[3]}"
+      end
 
       output
     end
