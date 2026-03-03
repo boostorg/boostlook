@@ -10,61 +10,107 @@ Asciidoctor::Extensions.register do
       script_tag = <<~SCRIPT
         <script>
         (function() {
-          const html = document.documentElement;
+          var html = document.documentElement;
           // Always show TOC - no toggle functionality needed
           html.classList.add('toc-visible');
           html.classList.add('toc-pinned');
           html.classList.remove('toc-hidden');
 
-          // Comment out toggle functionality since TOC should always be visible
-          /*
-          const isPinned = localStorage.getItem('tocPinned') === 'true';
+          document.addEventListener("DOMContentLoaded", function() {
+            // Collapsible TOC sections
+            var toc = document.getElementById('toc');
+            if (!toc) return;
+            // Only apply to Asciidoctor TOC (has sectlevel lists, no nav-container)
+            if (toc.classList.contains('nav-container')) return;
 
-          html.classList.add('toc-hidden');
-          if (isPinned) {
-            html.classList.add('toc-pinned');
-            html.classList.add('toc-visible');
-            html.classList.remove('toc-hidden');
-          }
+            var items = toc.querySelectorAll('li');
+            var collapsibleItems = [];
+            for (var i = 0; i < items.length; i++) {
+              var childUl = items[i].querySelector(':scope > ul');
+              if (childUl) collapsibleItems.push(items[i]);
+            }
+            if (collapsibleItems.length === 0) return;
 
-          document.addEventListener("DOMContentLoaded", () => {
-            const tocButton = document.getElementById("toggle-toc");
-            const toc = document.getElementById("toc");
+            // Build storage key from page title
+            var tocTitle = document.getElementById('toctitle');
+            var storageKey = 'boostlook-toc-state:' + (tocTitle ? tocTitle.textContent.trim() : document.title);
 
-            if (!tocButton || !toc) return;
-
-            let isPinned = localStorage.getItem('tocPinned') === 'true';
-
-            function updateTocVisibility(visible) {
-              html.classList.toggle("toc-visible", visible);
-              html.classList.toggle("toc-hidden", !visible);
-              tocButton.setAttribute("aria-expanded", visible);
-              tocButton.textContent = visible ? "×" : "☰";
-              tocButton.setAttribute("title", visible ? "Hide Table of Contents" : "Show Table of Contents");
+            function getItemLabel(li) {
+              var a = li.querySelector(':scope > a');
+              return a ? a.textContent.trim() : '';
             }
 
-            tocButton.addEventListener("click", () => {
-              isPinned = !isPinned;
-              localStorage.setItem('tocPinned', isPinned);
-              html.classList.toggle('toc-pinned', isPinned);
-              updateTocVisibility(isPinned);
-            });
-
-            tocButton.addEventListener("mouseenter", () => {
-              if (!isPinned) {
-                updateTocVisibility(true);
+            function saveState() {
+              var activeLabels = [];
+              for (var i = 0; i < collapsibleItems.length; i++) {
+                if (collapsibleItems[i].classList.contains('is-active')) {
+                  activeLabels.push(getItemLabel(collapsibleItems[i]));
+                }
               }
-            });
+              try {
+                localStorage.setItem(storageKey, JSON.stringify(activeLabels));
+              } catch(e) {}
+            }
 
-            toc.addEventListener("mouseleave", () => {
-              if (!isPinned) {
-                updateTocVisibility(false);
+            function restoreState() {
+              var saved;
+              try {
+                saved = JSON.parse(localStorage.getItem(storageKey));
+              } catch(e) { return false; }
+              if (!saved || !Array.isArray(saved)) return false;
+              for (var i = 0; i < collapsibleItems.length; i++) {
+                var label = getItemLabel(collapsibleItems[i]);
+                if (saved.indexOf(label) !== -1) {
+                  collapsibleItems[i].classList.add('is-active');
+                }
               }
-            });
+              return true;
+            }
 
-            updateTocVisibility(isPinned);
+            function expandForHash() {
+              var hash = window.location.hash;
+              if (!hash) return;
+              var target = toc.querySelector('a[href="' + hash + '"]');
+              if (!target) return;
+              var parent = target.closest('li.nav-item');
+              while (parent) {
+                parent.classList.add('is-active');
+                parent = parent.parentElement.closest('li.nav-item');
+              }
+            }
+
+            // Inject toggle buttons and set up click handlers
+            for (var i = 0; i < collapsibleItems.length; i++) {
+              (function(li) {
+                var btn = document.createElement('button');
+                btn.className = 'nav-item-toggle';
+                btn.setAttribute('aria-label', 'Toggle section');
+                li.insertBefore(btn, li.firstChild);
+                li.classList.add('nav-item');
+                li.style.cursor = 'pointer';
+
+                li.addEventListener('click', function(e) {
+                  if (e.target.closest('a')) return;
+                  var childUl = li.querySelector(':scope > ul');
+                  if (childUl && childUl.contains(e.target)) return;
+                  li.classList.toggle('is-active');
+                  saveState();
+                });
+              })(collapsibleItems[i]);
+            }
+
+            // Restore saved state, or use defaults (all collapsed)
+            var hadSaved = restoreState();
+            // Always expand section matching current hash
+            expandForHash();
+            // If no saved state and no hash, leave all collapsed (default)
+
+            // Re-expand on hash change
+            window.addEventListener('hashchange', function() {
+              expandForHash();
+              saveState();
+            });
           });
-          */
         })();
         </script>
       SCRIPT

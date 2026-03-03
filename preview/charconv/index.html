@@ -3534,6 +3534,8 @@ div.source-docs-antora.boostlook:not(:has(article.doc)):not(:has(> .boostlook)) 
   font-size: var(--typography-font-size-xs);
   color: var(--text-main-text-body-secondary, #494d50);
   text-decoration: none;
+  padding: var(--leftbar-paddings-leftbar-padding-3xs, 0.25rem) var(--leftbar-paddings-leftbar-padding-2xs, 0.5rem);
+  border-radius: var(--padding-padding-3xs, 0.25rem);
 }
 
 .boostlook .nav-menu .nav-list li:has(.nav-text),
@@ -3552,11 +3554,18 @@ div.source-docs-antora.boostlook:not(:has(article.doc)):not(:has(> .boostlook)) 
 }
 
 /* Section separator lines */
+.boostlook .nav-menu > .nav-list > .nav-item,
 .boostlook .nav-menu .nav-item:has(> .nav-text),
 .boostlook .nav-menu .nav-item:has(> .nav-item-toggle) {
   border-top: 1px solid var(--border-border-primary, #e4e7ea);
   margin-top: var(--leftbar-paddings-leftbar-padding-xs, 0.75rem);
   padding-top: var(--leftbar-paddings-leftbar-padding-xs, 0.75rem);
+}
+
+.boostlook .nav-menu > .nav-list > .nav-item:first-child {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 /* Table of Contents Links */
@@ -3754,6 +3763,76 @@ html.is-clipped--nav:has(.boostlook) div#content {
     margin-left: var(--main-max-width-leftbar);
   } */
 }
+/* TOC Collapsible Sections (Asciidoctor) */
+
+/* Section separator lines for collapsible items */
+.boostlook #toc > ul.sectlevel1 > li:has(> ul) {
+  border-top: 1px solid var(--border-border-primary, #e4e7ea);
+  margin-top: var(--leftbar-paddings-leftbar-padding-xs, 0.75rem);
+  padding-top: var(--leftbar-paddings-leftbar-padding-xs, 0.75rem);
+}
+
+.boostlook #toc > ul.sectlevel1 > li:has(> ul):first-child {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Flex layout for items with toggle */
+.boostlook #toc li.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* Nested list takes full width below header */
+.boostlook #toc li.nav-item > ul {
+  flex-basis: 100%;
+  order: 2;
+}
+
+/* Toggle button styling */
+.boostlook #toc .nav-item-toggle {
+  background: none;
+  border: none;
+  outline: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  position: static;
+  margin-left: 0;
+  margin-top: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  order: 1;
+  transform: none;
+}
+
+/* Down-pointing caret (collapsed) */
+.boostlook #toc .nav-item-toggle::after {
+  content: "";
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  background-color: var(--text-main-text-body-secondary, #494d50);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M13 16h-2v-2h2v2Zm-2-2H9v-2h2v2Zm4 0h-2v-2h2v2Zm-6-2H7v-2h2v2Zm8 0h-2v-2h2v2ZM7 10H5V8h2v2Zm12 0h-2V8h2v2Z'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M13 16h-2v-2h2v2Zm-2-2H9v-2h2v2Zm4 0h-2v-2h2v2Zm-6-2H7v-2h2v2Zm8 0h-2v-2h2v2ZM7 10H5V8h2v2Zm12 0h-2V8h2v2Z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* Up-pointing caret (expanded) */
+.boostlook #toc li.nav-item.is-active > .nav-item-toggle::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M13 10h-2V8h2v2ZM11 12H9v-2h2v2Zm4 0h-2v-2h2v2ZM9 14H7v-2h2v2Zm8 0h-2v-2h2v2ZM7 16H5v-2h2v2Zm12 0h-2v-2h2v2Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M13 10h-2V8h2v2ZM11 12H9v-2h2v2Zm4 0h-2v-2h2v2ZM9 14H7v-2h2v2Zm8 0h-2v-2h2v2ZM7 16H5v-2h2v2Zm12 0h-2v-2h2v2Z'/%3E%3C/svg%3E");
+}
+
+/* Collapsed state — hide child list */
+.boostlook #toc li.nav-item:not(.is-active) > ul {
+  display: none;
+}
+
 /* TOC Common End */
 
 /*----------------- Styles specific to AsciiDoctor content start -----------------*/
@@ -3880,7 +3959,6 @@ html.is-clipped--nav:has(.boostlook) div#content {
 }
 
 .boostlook .nav-list .is-current-page.is-active > .nav-link {
-  border-radius: var(--padding-padding-3xs, 0.25rem);
   background: var(--colors-primary-100, #EFEFF1);
   width: fit-content;
 }
@@ -3891,7 +3969,6 @@ html.is-clipped--nav:has(.boostlook) div#content {
 
 /* Hover background on nav link items */
 .boostlook .nav-menu .nav-list li:not(.nav-item) > .nav-link:hover {
-  border-radius: var(--padding-padding-3xs, 0.25rem);
   background: var(--colors-primary-100, #EFEFF1);
 }
 
@@ -6981,61 +7058,107 @@ Last updated 2026-02-13 09:08:50 -0500
 </style>
 </div><script>
 (function() {
-  const html = document.documentElement;
+  var html = document.documentElement;
   // Always show TOC - no toggle functionality needed
   html.classList.add('toc-visible');
   html.classList.add('toc-pinned');
   html.classList.remove('toc-hidden');
 
-  // Comment out toggle functionality since TOC should always be visible
-  /*
-  const isPinned = localStorage.getItem('tocPinned') === 'true';
+  document.addEventListener("DOMContentLoaded", function() {
+    // Collapsible TOC sections
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // Only apply to Asciidoctor TOC (has sectlevel lists, no nav-container)
+    if (toc.classList.contains('nav-container')) return;
 
-  html.classList.add('toc-hidden');
-  if (isPinned) {
-    html.classList.add('toc-pinned');
-    html.classList.add('toc-visible');
-    html.classList.remove('toc-hidden');
-  }
+    var items = toc.querySelectorAll('li');
+    var collapsibleItems = [];
+    for (var i = 0; i < items.length; i++) {
+      var childUl = items[i].querySelector(':scope > ul');
+      if (childUl) collapsibleItems.push(items[i]);
+    }
+    if (collapsibleItems.length === 0) return;
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const tocButton = document.getElementById("toggle-toc");
-    const toc = document.getElementById("toc");
+    // Build storage key from page title
+    var tocTitle = document.getElementById('toctitle');
+    var storageKey = 'boostlook-toc-state:' + (tocTitle ? tocTitle.textContent.trim() : document.title);
 
-    if (!tocButton || !toc) return;
-
-    let isPinned = localStorage.getItem('tocPinned') === 'true';
-
-    function updateTocVisibility(visible) {
-      html.classList.toggle("toc-visible", visible);
-      html.classList.toggle("toc-hidden", !visible);
-      tocButton.setAttribute("aria-expanded", visible);
-      tocButton.textContent = visible ? "×" : "☰";
-      tocButton.setAttribute("title", visible ? "Hide Table of Contents" : "Show Table of Contents");
+    function getItemLabel(li) {
+      var a = li.querySelector(':scope > a');
+      return a ? a.textContent.trim() : '';
     }
 
-    tocButton.addEventListener("click", () => {
-      isPinned = !isPinned;
-      localStorage.setItem('tocPinned', isPinned);
-      html.classList.toggle('toc-pinned', isPinned);
-      updateTocVisibility(isPinned);
-    });
-
-    tocButton.addEventListener("mouseenter", () => {
-      if (!isPinned) {
-        updateTocVisibility(true);
+    function saveState() {
+      var activeLabels = [];
+      for (var i = 0; i < collapsibleItems.length; i++) {
+        if (collapsibleItems[i].classList.contains('is-active')) {
+          activeLabels.push(getItemLabel(collapsibleItems[i]));
+        }
       }
-    });
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(activeLabels));
+      } catch(e) {}
+    }
 
-    toc.addEventListener("mouseleave", () => {
-      if (!isPinned) {
-        updateTocVisibility(false);
+    function restoreState() {
+      var saved;
+      try {
+        saved = JSON.parse(localStorage.getItem(storageKey));
+      } catch(e) { return false; }
+      if (!saved || !Array.isArray(saved)) return false;
+      for (var i = 0; i < collapsibleItems.length; i++) {
+        var label = getItemLabel(collapsibleItems[i]);
+        if (saved.indexOf(label) !== -1) {
+          collapsibleItems[i].classList.add('is-active');
+        }
       }
-    });
+      return true;
+    }
 
-    updateTocVisibility(isPinned);
+    function expandForHash() {
+      var hash = window.location.hash;
+      if (!hash) return;
+      var target = toc.querySelector('a[href="' + hash + '"]');
+      if (!target) return;
+      var parent = target.closest('li.nav-item');
+      while (parent) {
+        parent.classList.add('is-active');
+        parent = parent.parentElement.closest('li.nav-item');
+      }
+    }
+
+    // Inject toggle buttons and set up click handlers
+    for (var i = 0; i < collapsibleItems.length; i++) {
+      (function(li) {
+        var btn = document.createElement('button');
+        btn.className = 'nav-item-toggle';
+        btn.setAttribute('aria-label', 'Toggle section');
+        li.insertBefore(btn, li.firstChild);
+        li.classList.add('nav-item');
+        li.style.cursor = 'pointer';
+
+        li.addEventListener('click', function(e) {
+          if (e.target.closest('a')) return;
+          var childUl = li.querySelector(':scope > ul');
+          if (childUl && childUl.contains(e.target)) return;
+          li.classList.toggle('is-active');
+          saveState();
+        });
+      })(collapsibleItems[i]);
+    }
+
+    // Restore saved state, or use defaults (all collapsed)
+    var hadSaved = restoreState();
+    // Always expand section matching current hash
+    expandForHash();
+    // If no saved state and no hash, leave all collapsed (default)
+
+    // Re-expand on hash change
+    window.addEventListener('hashchange', function() {
+      expandForHash();
+      saveState();
+    });
   });
-  */
 })();
 </script>
 </body>
