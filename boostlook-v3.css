@@ -517,6 +517,7 @@
 
 /* Light Theme (Default) Configuration */
 html {
+  color-scheme: light;
   /*----------------- New Look Variables Start -----------------*/
   --icon-anchor: var(--icon-anchor-light);
   --icon-arrow-left: var(--icon-arrow-left-light);
@@ -586,6 +587,7 @@ html {
 
   --surface-page: #F7FDFE;
   --surface-background-main-base-primary: var(--surface-page);
+  background-color: var(--surface-page);
   --surface-background-main-surface-primary: var(--colors-primary-50);
   --surface-background-main-surface-secondary: var(--colors-primary-100);
   --surface-background-main-surface-tetriary: var(--colors-primary-150);
@@ -652,6 +654,7 @@ html {
 
 /* Dark Theme Configuration */
 html.dark {
+  color-scheme: dark;
   /*----------------- New Look Variables Dark Mode Start -----------------*/
   --icon-anchor: var(--icon-anchor-dark);
   --icon-arrow-left: var(--icon-arrow-left-dark);
@@ -721,6 +724,7 @@ html.dark {
 
   --surface-page: var(--colors-primary-950);
   --surface-background-main-base-primary: var(--surface-page);
+  background-color: var(--surface-page);
   --surface-background-main-surface-primary: var(--colors-primary-850);
   --surface-background-main-surface-secondary: var(--colors-primary-800);
   --surface-background-main-surface-tetriary: var(--colors-primary-700);
