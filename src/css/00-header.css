@@ -1,9 +1,9 @@
 /**
- * Boost Look v3 — Development Build
- * New design and development for the Boost C++ Libraries website (boost.io),
- * in collaboration with MetaLab.
+ * Boost Look 2.0
+ * The stylesheet for the Boost C++ Libraries website (boost.io) and for library
+ * documentation, in collaboration with MetaLab.
  * Built from modular sources in src/css/ via build-css.sh
- * Note: boostlook.css remains the current production stylesheet.
+ * Note: this file is generated. Edit the modules in src/css/, not this file.
  * License: BSL-1.0
  */
 
@@ -26,6 +26,7 @@
  * 14-quickbook.css       - Quickbook legacy wrapper, titles, TOC, tables, footer
  * 15-readme.css          - Library README styles
  * 16-responsive-toc.css  - AsciiDoctor responsive TOC layout (768px → 1920px)
+ * 17-site-components.css - Site-specific components (markdown content, post detail)
  */
 
 /**

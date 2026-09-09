@@ -1,5 +1,5 @@
 #!/bin/sh
-# Concatenate CSS modules into boostlook-v3.css
+# Concatenate CSS modules into boostlook.css
 cat \
   src/css/00-header.css \
   src/css/01-variables.css \
@@ -19,4 +19,4 @@ cat \
   src/css/15-readme.css \
   src/css/16-responsive-toc.css \
   src/css/17-site-components.css \
-  > boostlook-v3.css
+  > boostlook.css
