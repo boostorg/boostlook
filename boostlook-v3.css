@@ -4683,6 +4683,12 @@ html.dark .boostlook #toctitle .theme-toggle .theme-icon-dark { display: none; }
   content: var(--icon-home);
 }
 
+/* Collapsible block title. Antora's site.css colors .doc black in both themes,
+   and summary inherits it; the triangle uses currentColor (#193). */
+.boostlook .doc details > summary {
+  color: var(--text-main-text-body-primary, #2a2c30);
+}
+
 /* Tabs Elements */
 .boostlook .tabs {
   margin-bottom: 0;
